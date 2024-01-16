@@ -1,0 +1,15 @@
+E:\CapStoneFPT\ConsoleApp1\bin\Debug\net6.0\ConsoleApp1.exe
+E:\CapStoneFPT\ConsoleApp1\bin\Debug\net6.0\ConsoleApp1.deps.json
+E:\CapStoneFPT\ConsoleApp1\bin\Debug\net6.0\ConsoleApp1.runtimeconfig.json
+E:\CapStoneFPT\ConsoleApp1\bin\Debug\net6.0\ConsoleApp1.dll
+E:\CapStoneFPT\ConsoleApp1\bin\Debug\net6.0\ConsoleApp1.pdb
+E:\CapStoneFPT\ConsoleApp1\obj\Debug\net6.0\ConsoleApp1.csproj.AssemblyReference.cache
+E:\CapStoneFPT\ConsoleApp1\obj\Debug\net6.0\ConsoleApp1.GeneratedMSBuildEditorConfig.editorconfig
+E:\CapStoneFPT\ConsoleApp1\obj\Debug\net6.0\ConsoleApp1.AssemblyInfoInputs.cache
+E:\CapStoneFPT\ConsoleApp1\obj\Debug\net6.0\ConsoleApp1.AssemblyInfo.cs
+E:\CapStoneFPT\ConsoleApp1\obj\Debug\net6.0\ConsoleApp1.csproj.CoreCompileInputs.cache
+E:\CapStoneFPT\ConsoleApp1\obj\Debug\net6.0\ConsoleApp1.dll
+E:\CapStoneFPT\ConsoleApp1\obj\Debug\net6.0\refint\ConsoleApp1.dll
+E:\CapStoneFPT\ConsoleApp1\obj\Debug\net6.0\ConsoleApp1.pdb
+E:\CapStoneFPT\ConsoleApp1\obj\Debug\net6.0\ConsoleApp1.genruntimeconfig.cache
+E:\CapStoneFPT\ConsoleApp1\obj\Debug\net6.0\ref\ConsoleApp1.dll

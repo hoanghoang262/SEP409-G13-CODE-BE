@@ -1,0 +1,82 @@
+name: dockercompose5748721274408080591
+services:
+  authenticate:
+    build:
+      context: C:\Users\fpt\Desktop\fpt-cms-main1
+      dockerfile: Authenticated/Dockerfile
+    depends_on:
+      sqlserverdb:
+        condition: service_started
+        required: true
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+      ASPNETCORE_URLS: http://+:80
+      ConnectionStrings:DefaultConnection: server=sqlserverdb;database=ProductTest;uid=sa;pwd=PassW0rd!;TrustServerCertificate=True
+    image: authenticated
+    networks:
+      default: null
+    ports:
+      - mode: ingress
+        target: 80
+        published: "6001"
+        protocol: tcp
+    restart: always
+    volumes:
+      - type: bind
+        source: C:\Users\fpt\AppData\Roaming/Microsoft/UserSecrets
+        target: /root/.microsoft/usersecrets
+        read_only: true
+        bind:
+          create_host_path: true
+  rabbitmq:
+    container_name: rabbitmq
+    environment:
+      RABBITMQ_DEFAULT_PASS: guest
+      RABBITMQ_DEFAULT_USER: guest
+    image: rabbitmq:3.12.11-management-alpine
+    networks:
+      default: null
+    ports:
+      - mode: ingress
+        target: 5672
+        published: "5672"
+        protocol: tcp
+      - mode: ingress
+        target: 15672
+        published: "15672"
+        protocol: tcp
+    restart: always
+  sqlserverdb:
+    container_name: sqlserverdb
+    environment:
+      ACCEPT_EULA: "Y"
+      SA_PASSWORD: PassW0rd!
+    image: mcr.microsoft.com/mssql/server:2019-latest
+    networks:
+      default: null
+    ports:
+      - mode: ingress
+        target: 1433
+        published: "1435"
+        protocol: tcp
+    restart: always
+    volumes:
+      - type: bind
+        source: C:\Users\fpt\Desktop\fpt-cms-main1\data
+        target: /var/opt/mssql/data
+        bind:
+          create_host_path: true
+      - type: bind
+        source: C:\Users\fpt\Desktop\fpt-cms-main1\log
+        target: /var/opt/mssql/log
+        bind:
+          create_host_path: true
+      - type: bind
+        source: C:\Users\fpt\Desktop\fpt-cms-main1\secrets
+        target: /var/opt/mssql/secrets
+        bind:
+          create_host_path: true
+networks:
+  default:
+    name: CMS
+    driver: bridge

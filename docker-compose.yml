@@ -1,0 +1,56 @@
+version: '3.4'
+
+services:
+  #db-section
+  sqlserverdb:
+    image:  mcr.microsoft.com/mssql/server:2019-latest
+    container_name: sqlserverdb
+    environment:
+       SA_PASSWORD: "PassW0rd!"
+       ACCEPT_EULA: "Y"
+    restart: always
+    volumes:
+     - ./data:/var/opt/mssql/data
+     - ./log:/var/opt/mssql/log
+     - ./secrets:/var/opt/mssql/secrets
+    ports:
+     - "1435:1433"
+
+ #api-section
+  authenticate:
+    image: ${DOCKER_REGISTRY-}authenticated
+    build:
+      context: .
+      dockerfile: Authenticated/Dockerfile
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://+:80
+      - ConnectionStrings:DefaultConnection=server=sqlserverdb;database=ProductTest;uid=sa;pwd=PassW0rd!;TrustServerCertificate=True
+    ports:
+      - "6001:80"
+    depends_on:
+      - sqlserverdb
+    restart: always
+    volumes:
+      - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
+
+  rabbitmq:
+     image: rabbitmq:3.12.11-management-alpine
+     container_name: rabbitmq
+     restart: always
+     ports:
+      - "5672:5672"
+      - "15672:15672"
+     environment:
+      - RABBITMQ_DEFAULT_USER=guest
+      - RABBITMQ_DEFAULT_PASS=guest
+
+  
+networks:
+   default:
+     name: CMS
+     driver: bridge
+     
+
+
+

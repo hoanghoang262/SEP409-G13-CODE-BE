@@ -1,0 +1,12 @@
+C:\Users\fpt\Desktop\fpt-cms-main1\Contract\bin\Debug\net6.0\Contract.deps.json
+C:\Users\fpt\Desktop\fpt-cms-main1\Contract\bin\Debug\net6.0\Contract.dll
+C:\Users\fpt\Desktop\fpt-cms-main1\Contract\bin\Debug\net6.0\Contract.pdb
+C:\Users\fpt\Desktop\fpt-cms-main1\Contract\obj\Debug\net6.0\Contract.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\fpt\Desktop\fpt-cms-main1\Contract\obj\Debug\net6.0\Contract.AssemblyInfoInputs.cache
+C:\Users\fpt\Desktop\fpt-cms-main1\Contract\obj\Debug\net6.0\Contract.AssemblyInfo.cs
+C:\Users\fpt\Desktop\fpt-cms-main1\Contract\obj\Debug\net6.0\Contract.csproj.CoreCompileInputs.cache
+C:\Users\fpt\Desktop\fpt-cms-main1\Contract\obj\Debug\net6.0\Contract.sourcelink.json
+C:\Users\fpt\Desktop\fpt-cms-main1\Contract\obj\Debug\net6.0\Contract.dll
+C:\Users\fpt\Desktop\fpt-cms-main1\Contract\obj\Debug\net6.0\refint\Contract.dll
+C:\Users\fpt\Desktop\fpt-cms-main1\Contract\obj\Debug\net6.0\Contract.pdb
+C:\Users\fpt\Desktop\fpt-cms-main1\Contract\obj\Debug\net6.0\ref\Contract.dll
