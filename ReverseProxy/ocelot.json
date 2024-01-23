@@ -1,4 +1,7 @@
-  {
+{
+  "GlobalConfiguration": {
+    "BaseURL": "http://localhost:5000"
+  },
   "Routes": [
     {
       "DownstreamPathTemplate": "/api/{controller}/{action}",
@@ -44,6 +47,6 @@
 
   ],
   "GlobalConfiguration": {
-   "BaseURL": "http://localhost:800"
+    "BaseURL": "http://localhost:800"
   }
 }

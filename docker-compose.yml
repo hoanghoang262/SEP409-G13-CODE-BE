@@ -1,4 +1,4 @@
-version: '3.4'
+version: '3.8'
 
 services:
   #db-section
@@ -21,18 +21,22 @@ services:
     image: ${DOCKER_REGISTRY-}authenticated
     build:
       context: .
-      dockerfile: Authenticated/Dockerfile
+      dockerfile: Authenticate_Service/Dockerfile
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=http://+:80
       - ConnectionStrings:DefaultConnection=server=sqlserverdb;database=ProductTest;uid=sa;pwd=PassW0rd!;TrustServerCertificate=True
+      - "EventBusSetting:HostAddress=amqp://guest:guest@rabbitmq:5672"
     ports:
       - "6001:80"
     depends_on:
       - sqlserverdb
+      - rabbitmq
     restart: always
     volumes:
       - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
+
+ 
 
   rabbitmq:
      image: rabbitmq:3.12.11-management-alpine
@@ -41,16 +45,41 @@ services:
      ports:
       - "5672:5672"
       - "15672:15672"
-     environment:
-      - RABBITMQ_DEFAULT_USER=guest
-      - RABBITMQ_DEFAULT_PASS=guest
+     
 
+       
   
+  course:
+    image: ${DOCKER_REGISTRY-}course
+    build:
+      context: .
+      dockerfile: Course.API/Dockerfile
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://+:80
+      - ConnectionStrings:DefaultConnection=server=sqlserverdb;database=ProductTest;uid=sa;pwd=PassW0rd!;TrustServerCertificate=True
+      - "EventBusSetting:HostAddress=amqp://guest:guest@rabbitmq:5672"
+    ports:
+      - "6002:80"
+    depends_on:
+      - sqlserverdb
+      - rabbitmq
+    restart: always
+    volumes:
+      - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
+
+
+
+ 
+
 networks:
    default:
      name: CMS
      driver: bridge
      
+
+
+
 
 
 

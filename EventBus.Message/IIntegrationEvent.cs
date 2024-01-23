@@ -8,7 +8,7 @@ namespace EventBus.Message
 {
     public interface IIntegrationEvent
     {
-        public DateTime CreationDate { get; } 
+        public DateTime CreationDate { get; set; } 
         public Guid Id { get; set; }
     }
 }

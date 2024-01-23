@@ -3,7 +3,7 @@ services:
   authenticate:
     build:
       context: C:\Users\fpt\Desktop\fpt-cms-main1
-      dockerfile: Authenticated/Dockerfile
+      dockerfile: Authenticate_Service/Dockerfile
     depends_on:
       sqlserverdb:
         condition: service_started
@@ -19,6 +19,34 @@ services:
       - mode: ingress
         target: 80
         published: "6001"
+        protocol: tcp
+    restart: always
+    volumes:
+      - type: bind
+        source: C:\Users\fpt\AppData\Roaming/Microsoft/UserSecrets
+        target: /root/.microsoft/usersecrets
+        read_only: true
+        bind:
+          create_host_path: true
+  course:
+    build:
+      context: C:\Users\fpt\Desktop\fpt-cms-main1
+      dockerfile: Course.API/Dockerfile
+    depends_on:
+      sqlserverdb:
+        condition: service_started
+        required: true
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+      ASPNETCORE_URLS: http://+:80
+      ConnectionStrings:DefaultConnection: server=sqlserverdb;database=ProductTest;uid=sa;pwd=PassW0rd!;TrustServerCertificate=True
+    image: course
+    networks:
+      default: null
+    ports:
+      - mode: ingress
+        target: 80
+        published: "6002"
         protocol: tcp
     restart: always
     volumes:

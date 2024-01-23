@@ -5,7 +5,9 @@
       "commandVersion": "1.0",
       "serviceActions": {
         "authenticated": "StartDebugging",
-        "course": "StartDebugging"
+        "course": "StartDebugging",
+        "authenticate_service": "StartDebugging",
+        "course.api": "StartDebugging"
       }
     }
   }
