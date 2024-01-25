@@ -5,7 +5,7 @@
 
 
 using Authenticate_Service;
-using Authenticated.Models;
+using Authenticate_Service.Models;
 using EventBus.Message.IntegrationEvent.Event;
 using EventBus.Message.IntegrationEvent.Interfaces;
 using Infrastructures;
@@ -48,7 +48,7 @@ namespace Authenticated
             builder.Services.AddSwaggerGen();
             builder.Services.AddAutoMapper(cfg=>cfg.AddProfile(new MappingProfile()));
             builder.Services.AddScoped<IMessageProducer, RabbitMQProducer>();
-            builder.Services.AddDbContext<ProductTestContext>(
+            builder.Services.AddDbContext<AuthenticationContext>(
     oprions => oprions.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"))
     );
 

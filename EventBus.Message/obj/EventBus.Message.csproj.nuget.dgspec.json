@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\fpt\\Desktop\\fpt-cms-main1\\EventBus.Message\\EventBus.Message.csproj": {}
+    "C:\\Users\\fpt\\Desktop\\HappyLearning\\SEP490-G13-CODE-BE\\EventBus.Message\\EventBus.Message.csproj": {}
   },
   "projects": {
-    "C:\\Users\\fpt\\Desktop\\fpt-cms-main1\\EventBus.Message\\EventBus.Message.csproj": {
+    "C:\\Users\\fpt\\Desktop\\HappyLearning\\SEP490-G13-CODE-BE\\EventBus.Message\\EventBus.Message.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\fpt\\Desktop\\fpt-cms-main1\\EventBus.Message\\EventBus.Message.csproj",
+        "projectUniqueName": "C:\\Users\\fpt\\Desktop\\HappyLearning\\SEP490-G13-CODE-BE\\EventBus.Message\\EventBus.Message.csproj",
         "projectName": "EventBus.Message",
-        "projectPath": "C:\\Users\\fpt\\Desktop\\fpt-cms-main1\\EventBus.Message\\EventBus.Message.csproj",
+        "projectPath": "C:\\Users\\fpt\\Desktop\\HappyLearning\\SEP490-G13-CODE-BE\\EventBus.Message\\EventBus.Message.csproj",
         "packagesPath": "C:\\Users\\fpt\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\fpt\\Desktop\\fpt-cms-main1\\EventBus.Message\\obj\\",
+        "outputPath": "C:\\Users\\fpt\\Desktop\\HappyLearning\\SEP490-G13-CODE-BE\\EventBus.Message\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\fpt\\AppData\\Roaming\\NuGet\\NuGet.Config",

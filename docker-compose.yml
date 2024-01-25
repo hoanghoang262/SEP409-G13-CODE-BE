@@ -25,13 +25,14 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=http://+:80
-      - ConnectionStrings:DefaultConnection=server=sqlserverdb;database=ProductTest;uid=sa;pwd=PassW0rd!;TrustServerCertificate=True
+      - "ConnectionStrings:DefaultConnection=server=sqlserverdb;database=Authentication;uid=sa;pwd=PassW0rd!;TrustServerCertificate=True"
       - "EventBusSetting:HostAddress=amqp://guest:guest@rabbitmq:5672"
     ports:
       - "6001:80"
     depends_on:
       - sqlserverdb
       - rabbitmq
+     
     restart: always
     volumes:
       - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
@@ -57,7 +58,7 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=http://+:80
-      - ConnectionStrings:DefaultConnection=server=sqlserverdb;database=ProductTest;uid=sa;pwd=PassW0rd!;TrustServerCertificate=True
+      - ConnectionStrings:DefaultConnection=server=sqlserverdb;database=Course;uid=sa;pwd=PassW0rd!;TrustServerCertificate=True
       - "EventBusSetting:HostAddress=amqp://guest:guest@rabbitmq:5672"
     ports:
       - "6002:80"
@@ -69,14 +70,30 @@ services:
       - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
 
 
-
- 
+  reverseproxy:
+    image: ${DOCKER_REGISTRY-}reverseproxy
+    build:
+      context: .
+      dockerfile: ReverseProxy/Dockerfile
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Local
+      - ASPNETCORE_URLS=http://+:80
+      - GlobalConfiguration:BaseURL= http://reverseproxy
+    depends_on:
+      - course
+      - authenticate
+    ports:
+      - "6000:80"
+    restart: always
+    volumes:
+      - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
 
 networks:
    default:
      name: CMS
      driver: bridge
      
+
 
 
 

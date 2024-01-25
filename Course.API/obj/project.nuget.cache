@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "FuuTe5nTmOxB321AmsrtRtH+fGkXf50gIdtsSrKVnYLizHDwfBDYSovnJoqqu8ZwHftfQmN2eh9FQa1QLUtSzQ==",
+  "dgSpecHash": "b630RmrHvuKxP3u+PBm4yGX9ux8wvYqWVTjZRg5nZKnkJqTVaKVvl39gMZb8glN3+n0zj7fx9aikHTsDRL+vhw==",
   "success": true,
-  "projectFilePath": "C:\\Users\\fpt\\Desktop\\fpt-cms-main1\\Course.API\\Course.API.csproj",
+  "projectFilePath": "C:\\Users\\fpt\\Desktop\\HappyLearning\\SEP490-G13-CODE-BE\\Course.API\\Course.API.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\fpt\\.nuget\\packages\\automapper\\12.0.1\\automapper.12.0.1.nupkg.sha512",
     "C:\\Users\\fpt\\.nuget\\packages\\automapper.extensions.microsoft.dependencyinjection\\12.0.1\\automapper.extensions.microsoft.dependencyinjection.12.0.1.nupkg.sha512",

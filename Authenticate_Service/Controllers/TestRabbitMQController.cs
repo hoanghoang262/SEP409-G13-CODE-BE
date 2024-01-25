@@ -1,6 +1,6 @@
 ﻿
 using Account.API.Model;
-using Authenticated.Models;
+
 using AutoMapper;
 using EventBus.Message.IntegrationEvent.Event;
 using Infrastructures;
@@ -17,15 +17,15 @@ namespace Authenticated.Controllers
        
        
 
-        private readonly ProductTestContext _context;
+        //private readonly ProductTestContext _context;
         private readonly IPublishEndpoint _publishEndpoint;
         private readonly IMapper _mapper;
 
 
-        public TestRabbitMQController(ProductTestContext context, IPublishEndpoint publishEndpoint,IMapper mapper)
+        public TestRabbitMQController( IPublishEndpoint publishEndpoint,IMapper mapper)
         {
             
-            _context = context;
+            
             _publishEndpoint = publishEndpoint;
             _mapper=mapper;
 
@@ -41,14 +41,14 @@ namespace Authenticated.Controllers
 
             return Ok();
         }
-        [HttpGet]
-        public IActionResult ProductTest()
-        {
-            var product = _context.ProductTests.ToList();
+        //[HttpGet]
+        //public IActionResult ProductTest()
+        //{
+        //    var product = _context.ProductTests.ToList();
 
 
-            return Ok(product);
-        }
+        //    return Ok(product);
+        //}
 
     }
 }

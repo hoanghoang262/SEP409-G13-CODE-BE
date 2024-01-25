@@ -1,10 +1,13 @@
-name: dockercompose5748721274408080591
+name: dockercompose1650305889615981457
 services:
   authenticate:
     build:
-      context: C:\Users\fpt\Desktop\fpt-cms-main1
+      context: C:\Users\fpt\Desktop\HappyLearning\SEP490-G13-CODE-BE
       dockerfile: Authenticate_Service/Dockerfile
     depends_on:
+      rabbitmq:
+        condition: service_started
+        required: true
       sqlserverdb:
         condition: service_started
         required: true
@@ -12,6 +15,7 @@ services:
       ASPNETCORE_ENVIRONMENT: Development
       ASPNETCORE_URLS: http://+:80
       ConnectionStrings:DefaultConnection: server=sqlserverdb;database=ProductTest;uid=sa;pwd=PassW0rd!;TrustServerCertificate=True
+      EventBusSetting:HostAddress: amqp://guest:guest@rabbitmq:5672
     image: authenticated
     networks:
       default: null
@@ -30,9 +34,12 @@ services:
           create_host_path: true
   course:
     build:
-      context: C:\Users\fpt\Desktop\fpt-cms-main1
+      context: C:\Users\fpt\Desktop\HappyLearning\SEP490-G13-CODE-BE
       dockerfile: Course.API/Dockerfile
     depends_on:
+      rabbitmq:
+        condition: service_started
+        required: true
       sqlserverdb:
         condition: service_started
         required: true
@@ -40,6 +47,7 @@ services:
       ASPNETCORE_ENVIRONMENT: Development
       ASPNETCORE_URLS: http://+:80
       ConnectionStrings:DefaultConnection: server=sqlserverdb;database=ProductTest;uid=sa;pwd=PassW0rd!;TrustServerCertificate=True
+      EventBusSetting:HostAddress: amqp://guest:guest@rabbitmq:5672
     image: course
     networks:
       default: null
@@ -58,9 +66,6 @@ services:
           create_host_path: true
   rabbitmq:
     container_name: rabbitmq
-    environment:
-      RABBITMQ_DEFAULT_PASS: guest
-      RABBITMQ_DEFAULT_USER: guest
     image: rabbitmq:3.12.11-management-alpine
     networks:
       default: null
@@ -74,6 +79,37 @@ services:
         published: "15672"
         protocol: tcp
     restart: always
+  reverseproxy:
+    build:
+      context: C:\Users\fpt\Desktop\HappyLearning\SEP490-G13-CODE-BE
+      dockerfile: ReverseProxy/Dockerfile
+    depends_on:
+      authenticate:
+        condition: service_started
+        required: true
+      course:
+        condition: service_started
+        required: true
+    environment:
+      ASPNETCORE_ENVIRONMENT: Local
+      ASPNETCORE_URLS: http://+:80
+      GlobalConfiguration:BaseURL: ' http://reverseproxy'
+    image: reverseproxy
+    networks:
+      default: null
+    ports:
+      - mode: ingress
+        target: 80
+        published: "6000"
+        protocol: tcp
+    restart: always
+    volumes:
+      - type: bind
+        source: C:\Users\fpt\AppData\Roaming/Microsoft/UserSecrets
+        target: /root/.microsoft/usersecrets
+        read_only: true
+        bind:
+          create_host_path: true
   sqlserverdb:
     container_name: sqlserverdb
     environment:
@@ -90,17 +126,17 @@ services:
     restart: always
     volumes:
       - type: bind
-        source: C:\Users\fpt\Desktop\fpt-cms-main1\data
+        source: C:\Users\fpt\Desktop\HappyLearning\SEP490-G13-CODE-BE\data
         target: /var/opt/mssql/data
         bind:
           create_host_path: true
       - type: bind
-        source: C:\Users\fpt\Desktop\fpt-cms-main1\log
+        source: C:\Users\fpt\Desktop\HappyLearning\SEP490-G13-CODE-BE\log
         target: /var/opt/mssql/log
         bind:
           create_host_path: true
       - type: bind
-        source: C:\Users\fpt\Desktop\fpt-cms-main1\secrets
+        source: C:\Users\fpt\Desktop\HappyLearning\SEP490-G13-CODE-BE\secrets
         target: /var/opt/mssql/secrets
         bind:
           create_host_path: true

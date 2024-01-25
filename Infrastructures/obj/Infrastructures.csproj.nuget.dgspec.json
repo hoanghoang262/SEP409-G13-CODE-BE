@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\fpt\\Desktop\\fpt-cms-main1\\Infrastructures\\Infrastructures.csproj": {}
+    "C:\\Users\\fpt\\Desktop\\HappyLearning\\SEP490-G13-CODE-BE\\Infrastructures\\Infrastructures.csproj": {}
   },
   "projects": {
-    "C:\\Users\\fpt\\Desktop\\fpt-cms-main1\\Contract\\Contract.csproj": {
+    "C:\\Users\\fpt\\Desktop\\HappyLearning\\SEP490-G13-CODE-BE\\Contract\\Contract.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\fpt\\Desktop\\fpt-cms-main1\\Contract\\Contract.csproj",
+        "projectUniqueName": "C:\\Users\\fpt\\Desktop\\HappyLearning\\SEP490-G13-CODE-BE\\Contract\\Contract.csproj",
         "projectName": "Contract",
-        "projectPath": "C:\\Users\\fpt\\Desktop\\fpt-cms-main1\\Contract\\Contract.csproj",
+        "projectPath": "C:\\Users\\fpt\\Desktop\\HappyLearning\\SEP490-G13-CODE-BE\\Contract\\Contract.csproj",
         "packagesPath": "C:\\Users\\fpt\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\fpt\\Desktop\\fpt-cms-main1\\Contract\\obj\\",
+        "outputPath": "C:\\Users\\fpt\\Desktop\\HappyLearning\\SEP490-G13-CODE-BE\\Contract\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\fpt\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -59,14 +59,14 @@
         }
       }
     },
-    "C:\\Users\\fpt\\Desktop\\fpt-cms-main1\\Infrastructures\\Infrastructures.csproj": {
+    "C:\\Users\\fpt\\Desktop\\HappyLearning\\SEP490-G13-CODE-BE\\Infrastructures\\Infrastructures.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\fpt\\Desktop\\fpt-cms-main1\\Infrastructures\\Infrastructures.csproj",
+        "projectUniqueName": "C:\\Users\\fpt\\Desktop\\HappyLearning\\SEP490-G13-CODE-BE\\Infrastructures\\Infrastructures.csproj",
         "projectName": "Infrastructures",
-        "projectPath": "C:\\Users\\fpt\\Desktop\\fpt-cms-main1\\Infrastructures\\Infrastructures.csproj",
+        "projectPath": "C:\\Users\\fpt\\Desktop\\HappyLearning\\SEP490-G13-CODE-BE\\Infrastructures\\Infrastructures.csproj",
         "packagesPath": "C:\\Users\\fpt\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\fpt\\Desktop\\fpt-cms-main1\\Infrastructures\\obj\\",
+        "outputPath": "C:\\Users\\fpt\\Desktop\\HappyLearning\\SEP490-G13-CODE-BE\\Infrastructures\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\fpt\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -83,8 +83,8 @@
           "net6.0": {
             "targetAlias": "net6.0",
             "projectReferences": {
-              "C:\\Users\\fpt\\Desktop\\fpt-cms-main1\\Contract\\Contract.csproj": {
-                "projectPath": "C:\\Users\\fpt\\Desktop\\fpt-cms-main1\\Contract\\Contract.csproj"
+              "C:\\Users\\fpt\\Desktop\\HappyLearning\\SEP490-G13-CODE-BE\\Contract\\Contract.csproj": {
+                "projectPath": "C:\\Users\\fpt\\Desktop\\HappyLearning\\SEP490-G13-CODE-BE\\Contract\\Contract.csproj"
               }
             }
           }
