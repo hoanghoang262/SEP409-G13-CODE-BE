@@ -83,6 +83,10 @@ namespace Course
             app.UseAuthorization();
             app.UseCors("AllowSpecificOrigin");
 
+            app.MapControllerRoute(
+               name: "default",
+               pattern: "{controller=Home}/{action=Index}/{id?}");
+
 
 
             app.MapControllers();

@@ -1,0 +1,52 @@
+{
+  "GlobalConfiguration": {
+    "BaseURL": "http://localhost:5000"
+  },
+  "Routes": [
+    {
+      "DownstreamPathTemplate": "/api/{controller}/{action}",
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer",
+        "AllowedScopes": []
+      },
+      "RouteClaimsRequirement": {
+        "Role": "Administrator"
+      },
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          //duong dan docker
+          "Port": 32769
+        }
+      ],
+      "UpstreamPathTemplate": "/course-gateway/{controller}/{action}",
+      "UpstreamHttpMethod": [ "POST", "PUT", "GET" ]
+
+    },
+
+
+    {
+      "DownstreamPathTemplate": "/api/{controller}/{action}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          //duong dan docker
+          "Port": 32770
+        }
+      ],
+      "UpstreamPathTemplate": "/authen-gateway/{controller}/{action}",
+      "UpstreamHttpMethod": [ "POST", "PUT", "GET" ]
+      //"AuthenticationOptions": {
+      //  "AuthenticationProviderKey": "IdentityApiKey",
+      //  "AllowedScopes": []
+      //}
+
+    }
+
+  ],
+  "GlobalConfiguration": {
+    "BaseURL": "http://localhost:800"
+  }
+}

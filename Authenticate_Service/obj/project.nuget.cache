@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "irbfaeotdorVLBrerrJj4yTht58itBWbMirhAoxJV3Yv5p0x7g3dQ6pfiPEAtRVBF9sx7Suuntk9yvvXC8H8mg==",
+  "dgSpecHash": "Y77pyeraqoCPA70jfDNCyO0El3FPYwaY4QxgkUFYosWIrc03I69/sMJzeVuW1aYgWTc0OeG0cpXVycsIu8d7dw==",
   "success": true,
-  "projectFilePath": "C:\\Users\\fpt\\Desktop\\fpt-cms-main1\\Authenticate_Service\\Authenticate_Service.csproj",
+  "projectFilePath": "C:\\Users\\fpt\\Desktop\\HappyLearning\\SEP490-G13-CODE-BE\\Authenticate_Service\\Authenticate_Service.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\fpt\\.nuget\\packages\\automapper\\12.0.1\\automapper.12.0.1.nupkg.sha512",
     "C:\\Users\\fpt\\.nuget\\packages\\automapper.extensions.microsoft.dependencyinjection\\12.0.1\\automapper.extensions.microsoft.dependencyinjection.12.0.1.nupkg.sha512",

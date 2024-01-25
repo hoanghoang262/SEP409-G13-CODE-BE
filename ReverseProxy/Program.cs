@@ -46,7 +46,10 @@ namespace ReverseProxy
                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["JWT:Secret"]))
                 };
             });
+         
+
             builder.Configuration.SetBasePath(builder.Environment.ContentRootPath).
+                AddJsonFile("ocelot_Local.json", optional: false, reloadOnChange: true).
                 AddJsonFile("ocelot.json", optional: false, reloadOnChange: true).AddEnvironmentVariables();
             builder.Services.AddOcelot(builder.Configuration);
             var app = builder.Build();

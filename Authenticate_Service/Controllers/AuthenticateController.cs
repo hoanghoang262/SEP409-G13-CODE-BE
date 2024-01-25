@@ -1,5 +1,6 @@
 ﻿using Account.API;
 using Account.API.Model;
+using Authenticate_Service.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
@@ -15,23 +16,22 @@ namespace Authenticated.Controllers
     {
 
         private readonly IConfiguration _configuration;
+        private readonly AuthenticationContext context;
 
 
-        public AuthenticateController(IConfiguration configuration)
+        public AuthenticateController(IConfiguration configuration,AuthenticationContext _context)
         {
 
             _configuration = configuration;
+            context = _context;
         }
-        private readonly List<User> _users = new()
-    {
-        new("admin", "aDm1n", "Administrator"),
-        new("user01", "user01", "User")
-    };
+       
+   
         [HttpPost]
         public async Task<IActionResult> Login([FromBody] LoginModels model)
         {
-            var user = _users.FirstOrDefault(u => u.UserName == model.Username
-                                                && u.Pass == model.Password);
+            var user = context.Users.FirstOrDefault(u => u.Email == model.Username
+                                                && u.Password == model.Password);
 
 
             if (user != null)
@@ -40,7 +40,7 @@ namespace Authenticated.Controllers
 
                 var authClaims = new List<Claim>
                 {
-                    new Claim(ClaimTypes.Name, user.UserName),
+                    new Claim(ClaimTypes.Email, user.Email),
 
                     new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
                 };
@@ -51,7 +51,7 @@ namespace Authenticated.Controllers
                 //{
 
                 //}
-                authClaims.Add(new Claim("Role", userRoles));
+               // authClaims.Add(new Claim("Role", userRoles));
 
 
                 var authSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["JWT:Secret"]));
@@ -71,6 +71,14 @@ namespace Authenticated.Controllers
                 });
             }
             return Unauthorized();
+        }
+
+        [HttpGet]
+
+        public IActionResult getUser()
+        {
+            var user = context.Users.ToList();
+            return Ok(user);
         }
 
     }

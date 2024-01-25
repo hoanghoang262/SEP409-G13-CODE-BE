@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\fpt\\Desktop\\fpt-cms-main1\\ReverseProxy\\ReverseProxy.csproj": {}
+    "C:\\Users\\fpt\\Desktop\\HappyLearning\\SEP490-G13-CODE-BE\\ReverseProxy\\ReverseProxy.csproj": {}
   },
   "projects": {
-    "C:\\Users\\fpt\\Desktop\\fpt-cms-main1\\ReverseProxy\\ReverseProxy.csproj": {
+    "C:\\Users\\fpt\\Desktop\\HappyLearning\\SEP490-G13-CODE-BE\\ReverseProxy\\ReverseProxy.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\fpt\\Desktop\\fpt-cms-main1\\ReverseProxy\\ReverseProxy.csproj",
+        "projectUniqueName": "C:\\Users\\fpt\\Desktop\\HappyLearning\\SEP490-G13-CODE-BE\\ReverseProxy\\ReverseProxy.csproj",
         "projectName": "ReverseProxy",
-        "projectPath": "C:\\Users\\fpt\\Desktop\\fpt-cms-main1\\ReverseProxy\\ReverseProxy.csproj",
+        "projectPath": "C:\\Users\\fpt\\Desktop\\HappyLearning\\SEP490-G13-CODE-BE\\ReverseProxy\\ReverseProxy.csproj",
         "packagesPath": "C:\\Users\\fpt\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\fpt\\Desktop\\fpt-cms-main1\\ReverseProxy\\obj\\",
+        "outputPath": "C:\\Users\\fpt\\Desktop\\HappyLearning\\SEP490-G13-CODE-BE\\ReverseProxy\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\fpt\\AppData\\Roaming\\NuGet\\NuGet.Config",

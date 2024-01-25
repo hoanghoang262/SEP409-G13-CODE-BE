@@ -13,11 +13,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\fpt\\Desktop\\fpt-cms-main1\\Contract\\Contract.csproj",
+      "projectUniqueName": "C:\\Users\\fpt\\Desktop\\HappyLearning\\SEP490-G13-CODE-BE\\Contract\\Contract.csproj",
       "projectName": "Contract",
-      "projectPath": "C:\\Users\\fpt\\Desktop\\fpt-cms-main1\\Contract\\Contract.csproj",
+      "projectPath": "C:\\Users\\fpt\\Desktop\\HappyLearning\\SEP490-G13-CODE-BE\\Contract\\Contract.csproj",
       "packagesPath": "C:\\Users\\fpt\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\fpt\\Desktop\\fpt-cms-main1\\Contract\\obj\\",
+      "outputPath": "C:\\Users\\fpt\\Desktop\\HappyLearning\\SEP490-G13-CODE-BE\\Contract\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\fpt\\AppData\\Roaming\\NuGet\\NuGet.Config",

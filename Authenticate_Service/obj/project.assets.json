@@ -3579,11 +3579,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\fpt\\Desktop\\fpt-cms-main1\\Authenticate_Service\\Authenticate_Service.csproj",
+      "projectUniqueName": "C:\\Users\\fpt\\Desktop\\HappyLearning\\SEP490-G13-CODE-BE\\Authenticate_Service\\Authenticate_Service.csproj",
       "projectName": "Authenticate_Service",
-      "projectPath": "C:\\Users\\fpt\\Desktop\\fpt-cms-main1\\Authenticate_Service\\Authenticate_Service.csproj",
+      "projectPath": "C:\\Users\\fpt\\Desktop\\HappyLearning\\SEP490-G13-CODE-BE\\Authenticate_Service\\Authenticate_Service.csproj",
       "packagesPath": "C:\\Users\\fpt\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\fpt\\Desktop\\fpt-cms-main1\\Authenticate_Service\\obj\\",
+      "outputPath": "C:\\Users\\fpt\\Desktop\\HappyLearning\\SEP490-G13-CODE-BE\\Authenticate_Service\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\fpt\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -3600,14 +3600,14 @@
         "net6.0": {
           "targetAlias": "net6.0",
           "projectReferences": {
-            "C:\\Users\\fpt\\Desktop\\fpt-cms-main1\\Contract\\Contract.csproj": {
-              "projectPath": "C:\\Users\\fpt\\Desktop\\fpt-cms-main1\\Contract\\Contract.csproj"
+            "C:\\Users\\fpt\\Desktop\\HappyLearning\\SEP490-G13-CODE-BE\\Contract\\Contract.csproj": {
+              "projectPath": "C:\\Users\\fpt\\Desktop\\HappyLearning\\SEP490-G13-CODE-BE\\Contract\\Contract.csproj"
             },
-            "C:\\Users\\fpt\\Desktop\\fpt-cms-main1\\EventBus.Message\\EventBus.Message.csproj": {
-              "projectPath": "C:\\Users\\fpt\\Desktop\\fpt-cms-main1\\EventBus.Message\\EventBus.Message.csproj"
+            "C:\\Users\\fpt\\Desktop\\HappyLearning\\SEP490-G13-CODE-BE\\EventBus.Message\\EventBus.Message.csproj": {
+              "projectPath": "C:\\Users\\fpt\\Desktop\\HappyLearning\\SEP490-G13-CODE-BE\\EventBus.Message\\EventBus.Message.csproj"
             },
-            "C:\\Users\\fpt\\Desktop\\fpt-cms-main1\\Infrastructures\\Infrastructures.csproj": {
-              "projectPath": "C:\\Users\\fpt\\Desktop\\fpt-cms-main1\\Infrastructures\\Infrastructures.csproj"
+            "C:\\Users\\fpt\\Desktop\\HappyLearning\\SEP490-G13-CODE-BE\\Infrastructures\\Infrastructures.csproj": {
+              "projectPath": "C:\\Users\\fpt\\Desktop\\HappyLearning\\SEP490-G13-CODE-BE\\Infrastructures\\Infrastructures.csproj"
             }
           }
         }
