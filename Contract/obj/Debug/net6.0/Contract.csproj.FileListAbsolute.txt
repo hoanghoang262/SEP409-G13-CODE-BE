@@ -34,3 +34,15 @@ C:\Users\fpt\Desktop\HappyLearning\SEP490-G13-CODE-BE\Contract\obj\Debug\net6.0\
 C:\Users\fpt\Desktop\HappyLearning\SEP490-G13-CODE-BE\Contract\obj\Debug\net6.0\refint\Contract.dll
 C:\Users\fpt\Desktop\HappyLearning\SEP490-G13-CODE-BE\Contract\obj\Debug\net6.0\Contract.pdb
 C:\Users\fpt\Desktop\HappyLearning\SEP490-G13-CODE-BE\Contract\obj\Debug\net6.0\ref\Contract.dll
+C:\Users\binhp\Downloads\SEP490\Backup\SEP490-G13-CODE-BE\Contract\bin\Debug\net6.0\Contract.deps.json
+C:\Users\binhp\Downloads\SEP490\Backup\SEP490-G13-CODE-BE\Contract\bin\Debug\net6.0\Contract.dll
+C:\Users\binhp\Downloads\SEP490\Backup\SEP490-G13-CODE-BE\Contract\bin\Debug\net6.0\Contract.pdb
+C:\Users\binhp\Downloads\SEP490\Backup\SEP490-G13-CODE-BE\Contract\obj\Debug\net6.0\Contract.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\binhp\Downloads\SEP490\Backup\SEP490-G13-CODE-BE\Contract\obj\Debug\net6.0\Contract.AssemblyInfoInputs.cache
+C:\Users\binhp\Downloads\SEP490\Backup\SEP490-G13-CODE-BE\Contract\obj\Debug\net6.0\Contract.AssemblyInfo.cs
+C:\Users\binhp\Downloads\SEP490\Backup\SEP490-G13-CODE-BE\Contract\obj\Debug\net6.0\Contract.csproj.CoreCompileInputs.cache
+C:\Users\binhp\Downloads\SEP490\Backup\SEP490-G13-CODE-BE\Contract\obj\Debug\net6.0\Contract.sourcelink.json
+C:\Users\binhp\Downloads\SEP490\Backup\SEP490-G13-CODE-BE\Contract\obj\Debug\net6.0\Contract.dll
+C:\Users\binhp\Downloads\SEP490\Backup\SEP490-G13-CODE-BE\Contract\obj\Debug\net6.0\refint\Contract.dll
+C:\Users\binhp\Downloads\SEP490\Backup\SEP490-G13-CODE-BE\Contract\obj\Debug\net6.0\Contract.pdb
+C:\Users\binhp\Downloads\SEP490\Backup\SEP490-G13-CODE-BE\Contract\obj\Debug\net6.0\ref\Contract.dll

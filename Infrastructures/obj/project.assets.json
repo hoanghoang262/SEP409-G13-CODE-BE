@@ -139,19 +139,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\fpt\\.nuget\\packages\\": {}
+    "C:\\Users\\binhp\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\fpt\\Desktop\\HappyLearning\\SEP490-G13-CODE-BE\\Infrastructures\\Infrastructures.csproj",
+      "projectUniqueName": "C:\\Users\\binhp\\Downloads\\SEP490\\Backup\\SEP490-G13-CODE-BE\\Infrastructures\\Infrastructures.csproj",
       "projectName": "Infrastructures",
-      "projectPath": "C:\\Users\\fpt\\Desktop\\HappyLearning\\SEP490-G13-CODE-BE\\Infrastructures\\Infrastructures.csproj",
-      "packagesPath": "C:\\Users\\fpt\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\fpt\\Desktop\\HappyLearning\\SEP490-G13-CODE-BE\\Infrastructures\\obj\\",
+      "projectPath": "C:\\Users\\binhp\\Downloads\\SEP490\\Backup\\SEP490-G13-CODE-BE\\Infrastructures\\Infrastructures.csproj",
+      "packagesPath": "C:\\Users\\binhp\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\binhp\\Downloads\\SEP490\\Backup\\SEP490-G13-CODE-BE\\Infrastructures\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\fpt\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\binhp\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -165,8 +165,8 @@
         "net6.0": {
           "targetAlias": "net6.0",
           "projectReferences": {
-            "C:\\Users\\fpt\\Desktop\\HappyLearning\\SEP490-G13-CODE-BE\\Contract\\Contract.csproj": {
-              "projectPath": "C:\\Users\\fpt\\Desktop\\HappyLearning\\SEP490-G13-CODE-BE\\Contract\\Contract.csproj"
+            "C:\\Users\\binhp\\Downloads\\SEP490\\Backup\\SEP490-G13-CODE-BE\\Contract\\Contract.csproj": {
+              "projectPath": "C:\\Users\\binhp\\Downloads\\SEP490\\Backup\\SEP490-G13-CODE-BE\\Contract\\Contract.csproj"
             }
           }
         }

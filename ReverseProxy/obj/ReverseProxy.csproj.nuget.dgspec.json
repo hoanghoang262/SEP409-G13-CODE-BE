@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\fpt\\Desktop\\HappyLearning\\SEP490-G13-CODE-BE\\ReverseProxy\\ReverseProxy.csproj": {}
+    "C:\\Users\\binhp\\Downloads\\SEP490\\Backup\\SEP490-G13-CODE-BE\\ReverseProxy\\ReverseProxy.csproj": {}
   },
   "projects": {
-    "C:\\Users\\fpt\\Desktop\\HappyLearning\\SEP490-G13-CODE-BE\\ReverseProxy\\ReverseProxy.csproj": {
+    "C:\\Users\\binhp\\Downloads\\SEP490\\Backup\\SEP490-G13-CODE-BE\\ReverseProxy\\ReverseProxy.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\fpt\\Desktop\\HappyLearning\\SEP490-G13-CODE-BE\\ReverseProxy\\ReverseProxy.csproj",
+        "projectUniqueName": "C:\\Users\\binhp\\Downloads\\SEP490\\Backup\\SEP490-G13-CODE-BE\\ReverseProxy\\ReverseProxy.csproj",
         "projectName": "ReverseProxy",
-        "projectPath": "C:\\Users\\fpt\\Desktop\\HappyLearning\\SEP490-G13-CODE-BE\\ReverseProxy\\ReverseProxy.csproj",
-        "packagesPath": "C:\\Users\\fpt\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\fpt\\Desktop\\HappyLearning\\SEP490-G13-CODE-BE\\ReverseProxy\\obj\\",
+        "projectPath": "C:\\Users\\binhp\\Downloads\\SEP490\\Backup\\SEP490-G13-CODE-BE\\ReverseProxy\\ReverseProxy.csproj",
+        "packagesPath": "C:\\Users\\binhp\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\binhp\\Downloads\\SEP490\\Backup\\SEP490-G13-CODE-BE\\ReverseProxy\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\fpt\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\binhp\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [

@@ -8,19 +8,19 @@
     "net6.0": []
   },
   "packageFolders": {
-    "C:\\Users\\fpt\\.nuget\\packages\\": {}
+    "C:\\Users\\binhp\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\fpt\\Desktop\\HappyLearning\\SEP490-G13-CODE-BE\\EventBus.Message\\EventBus.Message.csproj",
+      "projectUniqueName": "C:\\Users\\binhp\\Downloads\\SEP490\\Backup\\SEP490-G13-CODE-BE\\EventBus.Message\\EventBus.Message.csproj",
       "projectName": "EventBus.Message",
-      "projectPath": "C:\\Users\\fpt\\Desktop\\HappyLearning\\SEP490-G13-CODE-BE\\EventBus.Message\\EventBus.Message.csproj",
-      "packagesPath": "C:\\Users\\fpt\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\fpt\\Desktop\\HappyLearning\\SEP490-G13-CODE-BE\\EventBus.Message\\obj\\",
+      "projectPath": "C:\\Users\\binhp\\Downloads\\SEP490\\Backup\\SEP490-G13-CODE-BE\\EventBus.Message\\EventBus.Message.csproj",
+      "packagesPath": "C:\\Users\\binhp\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\binhp\\Downloads\\SEP490\\Backup\\SEP490-G13-CODE-BE\\EventBus.Message\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\fpt\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\binhp\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
