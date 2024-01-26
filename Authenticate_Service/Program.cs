@@ -8,6 +8,8 @@ using Authenticate_Service;
 using Authenticate_Service.Models;
 using EventBus.Message.IntegrationEvent.Event;
 using EventBus.Message.IntegrationEvent.Interfaces;
+using FirebaseAdmin;
+using Google.Apis.Auth.OAuth2;
 using Infrastructures;
 using MassTransit;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -70,6 +72,10 @@ namespace Authenticated
                     ValidIssuer = builder.Configuration["JWT:ValidIssuer"],
                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["JWT:Secret"]))
                 };
+            });
+            FirebaseApp.Create(new AppOptions()
+            {
+                Credential = GoogleCredential.FromFile("firebase.json"),
             });
 
             var app = builder.Build();
