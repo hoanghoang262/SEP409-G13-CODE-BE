@@ -262,3 +262,13 @@ C:\Users\fpt\Desktop\HappyLearning\SEP490-G13-CODE-BE\Authenticate_Service\obj\D
 C:\Users\fpt\Desktop\HappyLearning\SEP490-G13-CODE-BE\Authenticate_Service\obj\Debug\net6.0\Authenticate_Service.pdb
 C:\Users\fpt\Desktop\HappyLearning\SEP490-G13-CODE-BE\Authenticate_Service\obj\Debug\net6.0\Authenticate_Service.genruntimeconfig.cache
 C:\Users\fpt\Desktop\HappyLearning\SEP490-G13-CODE-BE\Authenticate_Service\obj\Debug\net6.0\ref\Authenticate_Service.dll
+C:\Users\fpt\Desktop\HappyLearning\SEP490-G13-CODE-BE\Authenticate_Service\bin\Debug\net6.0\FirebaseAdmin.dll
+C:\Users\fpt\Desktop\HappyLearning\SEP490-G13-CODE-BE\Authenticate_Service\bin\Debug\net6.0\Google.Api.Gax.dll
+C:\Users\fpt\Desktop\HappyLearning\SEP490-G13-CODE-BE\Authenticate_Service\bin\Debug\net6.0\Google.Api.Gax.Rest.dll
+C:\Users\fpt\Desktop\HappyLearning\SEP490-G13-CODE-BE\Authenticate_Service\bin\Debug\net6.0\Google.Apis.dll
+C:\Users\fpt\Desktop\HappyLearning\SEP490-G13-CODE-BE\Authenticate_Service\bin\Debug\net6.0\Google.Apis.Auth.PlatformServices.dll
+C:\Users\fpt\Desktop\HappyLearning\SEP490-G13-CODE-BE\Authenticate_Service\bin\Debug\net6.0\Google.Apis.Auth.dll
+C:\Users\fpt\Desktop\HappyLearning\SEP490-G13-CODE-BE\Authenticate_Service\bin\Debug\net6.0\Google.Apis.Core.dll
+C:\Users\fpt\Desktop\HappyLearning\SEP490-G13-CODE-BE\Authenticate_Service\bin\Debug\net6.0\Microsoft.Bcl.AsyncInterfaces.dll
+C:\Users\fpt\Desktop\HappyLearning\SEP490-G13-CODE-BE\Authenticate_Service\bin\Debug\net6.0\Newtonsoft.Json.dll
+C:\Users\fpt\Desktop\HappyLearning\SEP490-G13-CODE-BE\Authenticate_Service\bin\Debug\net6.0\firebase.json
