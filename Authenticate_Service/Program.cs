@@ -1,23 +1,19 @@
-
-
-
-
-
-
 using Authenticate_Service;
 using Authenticate_Service.Models;
-using EventBus.Message.IntegrationEvent.Event;
 using EventBus.Message.IntegrationEvent.Interfaces;
 using FirebaseAdmin;
 using Google.Apis.Auth.OAuth2;
 using Infrastructures;
 using MassTransit;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
-using RabbitMQ.Client;
+using System.Reflection;
 using System.Text;
+using Authenticate_Service.Service;
+using Authenticate_Service.Service.Configuration;
+
 
 namespace Authenticated
 {
@@ -26,6 +22,7 @@ namespace Authenticated
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
+            //config RabbitMQ
             var configuration = builder.Configuration.GetSection("EventBusSetting:HostAddress").Value;
 
             var mqConnection = new Uri(configuration);
@@ -39,22 +36,22 @@ namespace Authenticated
                 config.AddRequestClient<ILoginEvent>();
 
             });
-
-
-
-            // Add services to the container.
-
-            builder.Services.AddControllers();
-            // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-            builder.Services.AddEndpointsApiExplorer();
-            builder.Services.AddSwaggerGen();
+            //Config email
+            builder.Services.Configure<SmtpEmailSetting>(builder.Configuration.GetSection("SMTPEmailSetting"));
+            builder.Services.AddTransient<IEmailService, SMTPEmailService>();
+            //Config autoMapper
             builder.Services.AddAutoMapper(cfg=>cfg.AddProfile(new MappingProfile()));
-            builder.Services.AddScoped<IMessageProducer, RabbitMQProducer>();
+            //Config MediatR
+            builder.Services.AddMediatR(cfg=>cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly()));
+           
+   
+            //Config context
             builder.Services.AddDbContext<AuthenticationContext>(
     oprions => oprions.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"))
     );
 
             // builder.Services.AddScoped<IMessageProducer,RabbitMQProducer>();
+            //Config Jwt
             builder.Services.AddAuthentication(options =>
             {
                 options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -73,10 +70,16 @@ namespace Authenticated
                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["JWT:Secret"]))
                 };
             });
+            //Config FireBase
             FirebaseApp.Create(new AppOptions()
             {
                 Credential = GoogleCredential.FromFile("firebase.json"),
             });
+
+            builder.Services.AddControllers();
+            builder.Services.AddEndpointsApiExplorer();
+            builder.Services.AddSwaggerGen();
+           
 
             var app = builder.Build();
 
@@ -90,12 +93,13 @@ namespace Authenticated
             app.UseHttpsRedirection();
 
             app.UseAuthorization();
-
+            app.UseAuthentication();
 
 
             app.MapControllerRoute(
                 name: "default",
                 pattern: "{controller=Home}/{action=Index}/{id?}");
+            app.MapControllers();
 
             app.Run();
         }

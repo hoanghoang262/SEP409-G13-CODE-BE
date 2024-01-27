@@ -1,17 +1,14 @@
-﻿using Account.API;
-using Account.API.Model;
+﻿    using Account.API.Model;
 using Authenticate_Service.Models;
 using FirebaseAdmin.Auth;
-using FirebaseAdmin;
-using Google.Apis.Auth.OAuth2;
-using Microsoft.AspNetCore.Builder.Extensions;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
-using Authenticate_Service.Common;
+using Authenticate_Service.Feature.AuthenticateFearture.LoginGoogle;
+using Authenticate_Service.Feature.AuthenticateFearture.Command;
+
 
 namespace Authenticated.Controllers
 {
@@ -22,17 +19,24 @@ namespace Authenticated.Controllers
 
         private readonly IConfiguration _configuration;
         private readonly AuthenticationContext context;
-        private readonly GenerateJwtToken generateJwtToken =new GenerateJwtToken() ;
+        //private readonly GenerateJwtToken generateJwtToken =new GenerateJwtToken() ;
+        private readonly MediatR.IMediator _mediator;
 
 
-        public AuthenticateController(IConfiguration configuration, AuthenticationContext _context)
+        public AuthenticateController(MediatR.IMediator mediator, IConfiguration configuration, AuthenticationContext _context)
         {
 
             _configuration = configuration;
             context = _context;
-            
-        }
+            _mediator = mediator;
 
+
+        }
+        [HttpPost]
+        public async Task<IActionResult> LoginGoogle(LoginGoogleCommand command)
+        {
+            return Ok(await _mediator.Send(command));
+        }
 
         [HttpPost]
         public async Task<IActionResult> Login([FromBody] LoginModels model)
@@ -79,58 +83,5 @@ namespace Authenticated.Controllers
             return Unauthorized();
         }
 
-        [HttpGet]
-
-        public IActionResult getUser()
-        {
-            var user = context.Users.ToList();
-            return Ok(user);
-        }
-
-        [HttpPost]
-        public async Task<IActionResult> LoginGoogle([FromBody] string idToken)
-        {
-            try
-            {
-                var decodedToken = await FirebaseAuth.DefaultInstance.VerifyIdTokenAsync(idToken);
-                
-                var uid = decodedToken.Uid;
-                var email = decodedToken.Claims["email"].ToString();
-
-                
-                var authClaims = new List<Claim>
-                {
-                    new Claim(ClaimTypes.Email, email),
-
-                    new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
-                };
-              
-                 authClaims.Add(new Claim("Role", "Student"));
-
-                var authSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["JWT:Secret"]));
-
-                var token = new JwtSecurityToken(
-                    issuer: _configuration["JWT:ValidIssuer"],
-                    audience: _configuration["JWT:ValidAudience"],
-                    expires: DateTime.Now.AddHours(3),
-                    claims: authClaims,
-                    signingCredentials: new SigningCredentials(authSigningKey, SecurityAlgorithms.HmacSha256)
-                    );
-
-
-                return Ok(new
-                {
-                    token = new JwtSecurityTokenHandler().WriteToken(token),
-                    expiration = token.ValidTo
-                });
-            }
-            catch (FirebaseAuthException)
-            {
-                return Unauthorized();
-            }
-        }
-
     }
-   
-
-}
+ }

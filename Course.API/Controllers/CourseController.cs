@@ -38,10 +38,10 @@ namespace CourseService.Controllers
             return Ok();
         }
         [HttpPost]
-        public async Task<ActionResult<Course>> AddCourse(CreateCourseCommand command)
+        public async Task<ActionResult> AddCourse(CreateCourseCommand command)
         {
-            var course = await _mediator.Send(command);
-            return Ok(course);
+           
+            return Ok(await _mediator.Send(command));
         }
         [HttpPost]
         public IActionResult UploadVideo( IFormFile video)

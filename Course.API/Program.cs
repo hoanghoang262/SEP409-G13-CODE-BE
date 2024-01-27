@@ -7,9 +7,7 @@ using CourseService;
 using CourseService.API;
 using CourseService.API.IntegrationEvent.EvenHandles;
 using MassTransit;
-using MediatR;
 using Microsoft.EntityFrameworkCore;
-using System;
 using System.Reflection;
 
 namespace Course
@@ -61,8 +59,8 @@ namespace Course
     oprions => oprions.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"))
     );
             builder.Services.AddAutoMapper(cfg => cfg.AddProfile(new MappingProfile()));
-            builder.Services.AddMediatR(cfg =>
-            cfg.RegisterServicesFromAssemblies(Assembly.GetExecutingAssembly()));
+
+            builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly()));
 
 
             builder.Services.AddSingleton(new CloudinaryService("dcduktpij", "592561579458269", "rriM4lqd8uNQ9FtUd11NjTq50ac"));

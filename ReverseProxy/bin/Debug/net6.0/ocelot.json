@@ -1,6 +1,6 @@
 {
   "GlobalConfiguration": {
-    "BaseURL": "http://localhost:5000"
+    "BaseURL": "http://reverseproxy"
   },
   "Routes": [
     {
@@ -15,9 +15,9 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
+          "Host": "host.docker.internal",
           //duong dan docker
-          "Port": 32769
+          "Port": 6002
         }
       ],
       "UpstreamPathTemplate": "/course-gateway/{controller}/{action}",
@@ -31,9 +31,9 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
+          "Host": "host.docker.internal",
           //duong dan docker
-          "Port": 32770
+          "Port": 6001
         }
       ],
       "UpstreamPathTemplate": "/authen-gateway/{controller}/{action}",
@@ -45,8 +45,5 @@
 
     }
 
-  ],
-  "GlobalConfiguration": {
-    "BaseURL": "http://localhost:800"
-  }
+  ]
 }

@@ -196,3 +196,4 @@ C:\Users\fpt\Desktop\HappyLearning\SEP490-G13-CODE-BE\ReverseProxy\obj\Debug\net
 C:\Users\fpt\Desktop\HappyLearning\SEP490-G13-CODE-BE\ReverseProxy\obj\Debug\net6.0\ReverseProxy.pdb
 C:\Users\fpt\Desktop\HappyLearning\SEP490-G13-CODE-BE\ReverseProxy\obj\Debug\net6.0\ReverseProxy.genruntimeconfig.cache
 C:\Users\fpt\Desktop\HappyLearning\SEP490-G13-CODE-BE\ReverseProxy\obj\Debug\net6.0\ref\ReverseProxy.dll
+C:\Users\fpt\Desktop\HappyLearning\SEP490-G13-CODE-BE\ReverseProxy\bin\Debug\net6.0\ocelot_Local.json
