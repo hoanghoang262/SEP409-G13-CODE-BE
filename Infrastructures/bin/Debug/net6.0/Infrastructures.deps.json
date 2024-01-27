@@ -8,7 +8,6 @@
     ".NETCoreApp,Version=v6.0": {
       "Infrastructures/1.0.0": {
         "dependencies": {
-          "Contract": "1.0.0",
           "RabbitMQ.Client": "6.8.1"
         },
         "runtime": {
@@ -34,11 +33,6 @@
             "assemblyVersion": "7.0.0.0",
             "fileVersion": "7.0.22.51805"
           }
-        }
-      },
-      "Contract/1.0.0": {
-        "runtime": {
-          "Contract.dll": {}
         }
       }
     }
@@ -69,11 +63,6 @@
       "sha512": "sha512-qmeeYNROMsONF6ndEZcIQ+VxR4Q/TX/7uIVLJqtwIWL7dDWeh0l1UIqgo4wYyjG//5lUNhwkLDSFl+pAWO6oiA==",
       "path": "system.threading.channels/7.0.0",
       "hashPath": "system.threading.channels.7.0.0.nupkg.sha512"
-    },
-    "Contract/1.0.0": {
-      "type": "project",
-      "serviceable": false,
-      "sha512": ""
     }
   }
 }
