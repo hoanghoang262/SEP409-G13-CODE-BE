@@ -11,8 +11,10 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System.Reflection;
 using System.Text;
-using Authenticate_Service.Service;
-using Authenticate_Service.Service.Configuration;
+
+using Contract.Service.Configuration;
+using Contract.Service;
+
 
 
 namespace Authenticated
@@ -37,8 +39,9 @@ namespace Authenticated
 
             });
             //Config email
-            builder.Services.Configure<SmtpEmailSetting>(builder.Configuration.GetSection("SMTPEmailSetting"));
-            builder.Services.AddTransient<IEmailService, SMTPEmailService>();
+            var email=builder.Configuration.GetSection(nameof(SmtpEmailSetting)).Get<SmtpEmailSetting>();
+            builder.Services.AddSingleton(email);
+            builder.Services.AddScoped<IEmailService<MailRequest>, SMTPEmailService>();
             //Config autoMapper
             builder.Services.AddAutoMapper(cfg=>cfg.AddProfile(new MappingProfile()));
             //Config MediatR
