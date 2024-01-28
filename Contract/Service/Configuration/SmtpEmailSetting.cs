@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Authenticate_Service.Service.Configuration
+namespace Contract.Service.Configuration
 {
     public class SmtpEmailSetting 
     {

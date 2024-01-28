@@ -514,7 +514,8 @@
   "projectFileDependencyGroups": {
     "net6.0": [
       "MailKit >= 4.3.0",
-      "Microsoft.AspNetCore.Http.Abstractions >= 2.1.1"
+      "Microsoft.AspNetCore.Http.Abstractions >= 2.1.1",
+      "MimeKit >= 4.3.0"
     ]
   },
   "packageFolders": {
@@ -563,6 +564,10 @@
           "Microsoft.AspNetCore.Http.Abstractions": {
             "target": "Package",
             "version": "[2.1.1, )"
+          },
+          "MimeKit": {
+            "target": "Package",
+            "version": "[4.3.0, )"
           }
         },
         "imports": [

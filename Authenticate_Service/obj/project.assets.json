@@ -1483,7 +1483,8 @@
         "framework": ".NETCoreApp,Version=v6.0",
         "dependencies": {
           "MailKit": "4.3.0",
-          "Microsoft.AspNetCore.Http.Abstractions": "2.1.1"
+          "Microsoft.AspNetCore.Http.Abstractions": "2.1.1",
+          "MimeKit": "4.3.0"
         },
         "compile": {
           "bin/placeholder/Contract.dll": {}

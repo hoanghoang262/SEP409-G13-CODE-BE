@@ -1,27 +1,22 @@
 ﻿
-using Authenticate_Service.Service.Configuration;
+
+using Contract.Service.Configuration;
 using MailKit.Net.Smtp;
-using Microsoft.Extensions.Options;
+
 using MimeKit;
-using Org.BouncyCastle.Crypto.Macs;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
 
-using System.Text;
-using System.Threading.Tasks;
 
-namespace Authenticate_Service.Service
+
+namespace Contract.Service
 {
-    public class SMTPEmailService : IEmailService
+    public class SMTPEmailService : IEmailService<MailRequest>
     {
       
         private readonly SmtpEmailSetting _setting;
-        public SMTPEmailService(IOptions<SmtpEmailSetting> options)
+        public SMTPEmailService( SmtpEmailSetting options)
         {
              
-           this._setting = options.Value;
+           _setting = options;
         }
 
         public async Task SendEmailAsync(MailRequest request, CancellationToken cancellationToken = default)
