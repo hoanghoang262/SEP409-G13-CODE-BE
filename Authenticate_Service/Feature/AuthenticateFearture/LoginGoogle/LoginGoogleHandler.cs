@@ -1,5 +1,7 @@
-﻿using Authenticate_Service.Models;
+﻿using Authenticate_Service.Common;
+using Authenticate_Service.Models;
 using FirebaseAdmin.Auth;
+using Google.Apis.Auth;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
@@ -28,37 +30,36 @@ namespace Authenticate_Service.Feature.AuthenticateFearture.LoginGoogle
             {
                 try
                 {
-                    var decodedToken = await FirebaseAuth.DefaultInstance.VerifyIdTokenAsync(request.IdToken);
+                    string googleIdToken = request.IdToken;
 
-                    var email = decodedToken.Claims["email"].ToString();
-                    var userExist = _context.Users.FirstOrDefault(x => x.Email.Equals(email));
+                    GoogleJsonWebSignature.ValidationSettings validationSettings = new GoogleJsonWebSignature.ValidationSettings
+                    {
+                        Audience = new[] { "597795403161-d1i3etbsgv2stk0ktoge8mi3amt0euiu.apps.googleusercontent.com" } // Replace with your Google API client ID
+                    };
 
-                    if (userExist == null)
+                    var payload = await GoogleJsonWebSignature.ValidateAsync(googleIdToken, validationSettings);
+
+                    // The token is valid. You can access user information from the payload.
+                    string userId = payload.Subject;
+                    string userEmail = payload.Email;
+                    string userName = payload.GivenName;
+
+                    var checkUser = CheckUserExist(userEmail);
+
+                    if (checkUser == false)
                     {
                         var userLoginGoogle = new User
                         {
-                            Email = email
+                            Email = userEmail
                         };
                         _context.Users.Add(userLoginGoogle);
                         await _context.SaveChangesAsync();
                     }
+                    var getUserId= _context.Users.FirstOrDefault(x => x.Email.Equals(userEmail)).Id;
 
-                    var authClaims = new List<Claim>
-            {
-                new Claim(ClaimTypes.Email, email),
-                new Claim("Role", "Student"),
-                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
-            };
+                    var tokenGenerator = new GenerateJwtToken(_configuration);
 
-                    var authSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["JWT:Secret"]));
-
-                    var token = new JwtSecurityToken(
-                        issuer: _configuration["JWT:ValidIssuer"],
-                        audience: _configuration["JWT:ValidAudience"],
-                        expires: DateTime.Now.AddHours(3),
-                        claims: authClaims,
-                        signingCredentials: new SigningCredentials(authSigningKey, SecurityAlgorithms.HmacSha256)
-                    );
+                    var token = tokenGenerator.GenerateToken(getUserId,userEmail, new List<string> { "Student" });
 
                     return new OkObjectResult(new
                     {
@@ -71,8 +72,19 @@ namespace Authenticate_Service.Feature.AuthenticateFearture.LoginGoogle
                 {
                     return new UnauthorizedResult();
                 }
+            }
+
+            public bool CheckUserExist(string email)
+            {
+                var userExist = _context.Users.FirstOrDefault(x => x.Email.Equals(email));
+                if(userExist == null)
+                {
+                    return false;
+                }
+                return true;
 
             }
         }
-    }
+    } 
+    
 }

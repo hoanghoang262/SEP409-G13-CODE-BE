@@ -197,3 +197,5 @@ C:\Users\fpt\Desktop\HappyLearning\SEP490-G13-CODE-BE\bin\Debug\System.Formats.A
 C:\Users\fpt\Desktop\HappyLearning\SEP490-G13-CODE-BE\bin\Debug\Contract.dll
 C:\Users\fpt\Desktop\HappyLearning\SEP490-G13-CODE-BE\bin\Debug\MailKit.dll
 C:\Users\fpt\Desktop\HappyLearning\SEP490-G13-CODE-BE\bin\Debug\Contract.pdb
+C:\Users\fpt\Desktop\HappyLearning\SEP490-G13-CODE-BE\bin\Debug\System.Management.dll
+C:\Users\fpt\Desktop\HappyLearning\SEP490-G13-CODE-BE\bin\Debug\System.CodeDom.dll

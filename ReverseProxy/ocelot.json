@@ -10,6 +10,27 @@
         "AllowedScopes": []
       },
       "RouteClaimsRequirement": {
+        "Role": "Admin Bussiness,Admin System"
+      },
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "host.docker.internal",
+          //duong dan docker
+          "Port": 6002
+        }
+      ],
+      "UpstreamPathTemplate": "/course-gateway/{controller}/{action}",
+      "UpstreamHttpMethod": [ "POST", "PUT" ]
+
+    },
+    {
+      "DownstreamPathTemplate": "/api/{controller}/{action}",
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer",
+        "AllowedScopes": []
+      },
+      "RouteClaimsRequirement": {
         "Role": "Administrator"
       },
       "DownstreamScheme": "http",
@@ -21,8 +42,7 @@
         }
       ],
       "UpstreamPathTemplate": "/course-gateway/{controller}/{action}",
-      "UpstreamHttpMethod": [ "POST", "PUT", "GET" ]
-
+      "UpstreamHttpMethod": [ "GET" ]
     },
 
 

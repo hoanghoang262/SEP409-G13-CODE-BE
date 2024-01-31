@@ -14,6 +14,7 @@ using System.Text;
 
 using Contract.Service.Configuration;
 using Contract.Service;
+using EventBus.Message.IntegrationEvent.Event;
 
 
 
@@ -35,7 +36,7 @@ namespace Authenticated
                 {
                     cfg.Host(mqConnection);
                 });
-                config.AddRequestClient<ILoginEvent>();
+                config.AddRequestClient<UserIdMessage>();
 
             });
             //Config email
