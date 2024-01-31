@@ -52,26 +52,12 @@ namespace CourseService.API.Feartures.CourseFearture.Command.CreateCourse
                         ChapterId= chapter.Id,
                         Description=lessonDto.Description,
                         Duration=lessonDto.Duration
-
-                      
                     };
                     _context.Lessons.Add(lesson);
                     await _context.SaveChangesAsync(cancellationToken);
-
                 }
-
-              
             }
-
-           
-           
-
-            // Ánh xạ từ entity Course sang CourseDTO
-            // Trả về CourseDTO với thông tin đầy đủ
             return null;
-
-
-
         }
     }
 }

@@ -18,13 +18,7 @@ namespace Authenticate_Service.Controllers
         [HttpGet]
         public async Task<IActionResult> TestEmail(string Email)
         {
-            var message = new MailRequest
-            {
-                Body = "<h1>hello</h1>",
-                Subject = "test",
-                ToAddress = Email,
-            };
-            await _emailService.SendEmailAsync(message);  
+
             return Ok();
         }
     }

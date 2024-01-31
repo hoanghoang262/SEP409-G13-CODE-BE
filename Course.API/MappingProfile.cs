@@ -5,12 +5,12 @@ using CourseService.API.Feartures.CourseFearture.Queries;
 using EventBus.Message.IntegrationEvent.Event;
 
 
-namespace CourseService.API
+namespace Course.API
 {
     public class MappingProfile :Profile
     {
         public MappingProfile() {
-            CreateMap<MessageCommand, LoginEvent>().ReverseMap();
+            CreateMap<MessageCommand, UserIdMessage>().ReverseMap();
           
         }
     }

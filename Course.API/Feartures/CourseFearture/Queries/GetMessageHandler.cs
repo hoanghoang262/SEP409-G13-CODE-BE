@@ -1,31 +1,46 @@
 ﻿
 
 
+using AutoMapper;
 using EventBus.Message.IntegrationEvent.Event;
-using MediatR;
+using MassTransit;
 
+using MediatR;
 using System.Globalization;
 
 namespace CourseService.API.Feartures.CourseFearture.Queries
 {
 
-    public class GetMessageHandler : IRequestHandler<MessageCommand, LoginEvent>
+    public class GetMessageHandler : IRequestHandler<MessageCommand, UserIdMessage>, IConsumer<UserIdMessage>
     {
+        private readonly IMediator mediator;
+        private readonly IMapper _mapper;
+       
+        public GetMessageHandler(IMediator _mediator, IMapper mapper)
+        {
 
-        public async Task<LoginEvent> Handle(MessageCommand request, CancellationToken cancellation)
+            mediator = _mediator;
+            _mapper = mapper;
+           
+        }
+        public async Task Consume(ConsumeContext<UserIdMessage> context)
+        {
+            var command = _mapper.Map<MessageCommand>(context.Message);
+            var result = await mediator.Send(command);
+        }
+
+        public async Task<UserIdMessage> Handle(MessageCommand request, CancellationToken cancellation)
         {
             if (request == null)
             {
                 return null;
             }
-            LoginEvent loginModels = new LoginEvent();
+            UserIdMessage idMessage = null;
 
-            // Giả sử rằng bạn lấy dữ liệu từ một nguồn nào đó, ví dụ: cơ sở dữ liệu, API,...
-            // Đây là một ví dụ giả định:
-            loginModels.UserName = request.UserName;
-            loginModels.PassWord = request.PassWord;
 
-            return loginModels;
+
+
+            return idMessage;
 
         }
 

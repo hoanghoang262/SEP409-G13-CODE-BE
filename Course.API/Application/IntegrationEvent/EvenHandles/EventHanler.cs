@@ -10,21 +10,25 @@ using MediatR;
 
 namespace CourseService.API.IntegrationEvent.EvenHandles
 {
-    public class EventHanler : IConsumer<LoginEvent>
+    public class EventHanler : IConsumer<UserIdMessage>
     {
        
         private readonly IMediator mediator;
         private readonly IMapper _mapper;
-        public EventHanler( IMediator _mediator, IMapper mapper)
+        private readonly ILogger<EventHandler> logger;
+        public EventHanler(ILogger<EventHandler>_logger, IMediator _mediator, IMapper mapper)
         {
            
             mediator = _mediator;
             _mapper = mapper;
+            logger = _logger;
         }
-        public async Task Consume(ConsumeContext<LoginEvent> context)
+
+        public async Task Consume(ConsumeContext<UserIdMessage> context)
         {
             var command = _mapper.Map<MessageCommand>(context.Message);
-            var result = await mediator.Send(command);
+            var result =  await mediator.Send(command);
+            
         }
     }
 }

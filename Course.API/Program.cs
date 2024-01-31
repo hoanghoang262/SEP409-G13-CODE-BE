@@ -3,9 +3,12 @@
 
 
 using CloudinaryDotNet;
+using Course.API;
 using CourseService;
-using CourseService.API;
+
+using CourseService.API.Feartures.CourseFearture.Queries;
 using CourseService.API.IntegrationEvent.EvenHandles;
+using EventBus.Message.IntegrationEvent.Event;
 using MassTransit;
 using Microsoft.EntityFrameworkCore;
 using System.Reflection;
@@ -25,17 +28,13 @@ namespace Course
 
             builder.Services.AddMassTransit(config =>
             {
-                config.AddConsumer<EventHanler>();
+                config.AddConsumersFromNamespaceContaining<EventHanler>();
 
                 config.UsingRabbitMq((ctx, cfg) =>
                 {
                     cfg.Host(mqConnection);
-                    cfg.ReceiveEndpoint("LoginEvent", c =>
-                    {
-                        c.ConfigureConsumer<EventHanler>(ctx);
-                    });
-
-
+                    cfg.ConfigureEndpoints(ctx);
+                    
                 });
 
             });

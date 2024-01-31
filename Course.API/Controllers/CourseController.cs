@@ -27,8 +27,8 @@ namespace CourseService.Controllers
         }
 
 
-        [HttpPost]
-        public  async Task<IActionResult> GetMess()
+        [HttpGet]
+        public async Task<IActionResult> GetMess()
         {
             return Ok(await _mediator.Send(new MessageCommand()));
         }
