@@ -56,6 +56,10 @@
               "target": "Package",
               "version": "[1.25.0, )"
             },
+            "Grpc.AspNetCore": {
+              "target": "Package",
+              "version": "[2.60.0, )"
+            },
             "MassTransit.RabbitMQ": {
               "target": "Package",
               "version": "[8.1.3, )"

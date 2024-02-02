@@ -10,6 +10,7 @@ using MassTransit;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Course.API.Feartures.CourseFearture.Queries;
 
 namespace CourseService.Controllers
 {
@@ -31,6 +32,11 @@ namespace CourseService.Controllers
         public async Task<IActionResult> GetMess()
         {
             return Ok(await _mediator.Send(new MessageCommand()));
+        }
+        [HttpGet]
+        public async Task<IActionResult> GetCourseByUser(int Id)
+        {
+            return Ok(await _mediator.Send(new GetCourseByUser{UserId=Id}));
         }
         [HttpPost]
         public async Task<IActionResult> GetMesaaas(IFormFile video)

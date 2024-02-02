@@ -1,6 +1,7 @@
 ﻿using Authenticate_Service.Common;
 using Authenticate_Service.Models;
 using FirebaseAdmin.Auth;
+using Google;
 using Google.Apis.Auth;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -34,7 +35,7 @@ namespace Authenticate_Service.Feature.AuthenticateFearture.LoginGoogle
 
                     GoogleJsonWebSignature.ValidationSettings validationSettings = new GoogleJsonWebSignature.ValidationSettings
                     {
-                        Audience = new[] { "597795403161-d1i3etbsgv2stk0ktoge8mi3amt0euiu.apps.googleusercontent.com" } // Replace with your Google API client ID
+                        Audience = new[] { "1023076690970-a2q73p8f7ub5ddrdjt3td5udre4j3e7l.apps.googleusercontent.com" } 
                     };
 
                     var payload = await GoogleJsonWebSignature.ValidateAsync(googleIdToken, validationSettings);
@@ -68,9 +69,10 @@ namespace Authenticate_Service.Feature.AuthenticateFearture.LoginGoogle
                     });
 
                 }
-                catch (FirebaseAuthException)
+                catch (GoogleApiException)
                 {
-                    return new UnauthorizedResult();
+     
+                    return new StatusCodeResult(StatusCodes.Status503ServiceUnavailable);
                 }
             }
 

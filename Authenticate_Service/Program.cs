@@ -39,6 +39,11 @@ namespace Authenticated
                 config.AddRequestClient<UserIdMessage>();
 
             });
+            //gRPC
+            var config = builder.Configuration.GetSection("GrpcSetting:UserUrl").Value;
+            builder.Services.AddSingleton(config);
+            builder.Services.AddGrpcClient<UserIdMessage>(x=>x.Address = new Uri(config));
+           
             //Config email
             var email=builder.Configuration.GetSection(nameof(SmtpEmailSetting)).Get<SmtpEmailSetting>();
             builder.Services.AddSingleton(email);

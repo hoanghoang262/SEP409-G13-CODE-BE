@@ -1,0 +1,11 @@
+{
+  "Version": 1,
+  "Hash": "iMtajzvsBHAiFq4aAaB4oXMSR5qCX662ZXQL/0UCeZQ=",
+  "Source": "User.gRPC",
+  "BasePath": "_content/User.gRPC",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": []
+}

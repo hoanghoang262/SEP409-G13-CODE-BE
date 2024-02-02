@@ -172,3 +172,10 @@ C:\Users\fpt\Desktop\HappyLearning\SEP490-G13-CODE-BE\Course.API\obj\Debug\net6.
 C:\Users\fpt\Desktop\HappyLearning\SEP490-G13-CODE-BE\Course.API\obj\Debug\net6.0\Course.API.pdb
 C:\Users\fpt\Desktop\HappyLearning\SEP490-G13-CODE-BE\Course.API\obj\Debug\net6.0\Course.API.genruntimeconfig.cache
 C:\Users\fpt\Desktop\HappyLearning\SEP490-G13-CODE-BE\Course.API\obj\Debug\net6.0\ref\Course.API.dll
+C:\Users\fpt\Desktop\HappyLearning\SEP490-G13-CODE-BE\Course.API\bin\Debug\net6.0\Google.Protobuf.dll
+C:\Users\fpt\Desktop\HappyLearning\SEP490-G13-CODE-BE\Course.API\bin\Debug\net6.0\Grpc.AspNetCore.Server.dll
+C:\Users\fpt\Desktop\HappyLearning\SEP490-G13-CODE-BE\Course.API\bin\Debug\net6.0\Grpc.AspNetCore.Server.ClientFactory.dll
+C:\Users\fpt\Desktop\HappyLearning\SEP490-G13-CODE-BE\Course.API\bin\Debug\net6.0\Grpc.Core.Api.dll
+C:\Users\fpt\Desktop\HappyLearning\SEP490-G13-CODE-BE\Course.API\bin\Debug\net6.0\Grpc.Net.Client.dll
+C:\Users\fpt\Desktop\HappyLearning\SEP490-G13-CODE-BE\Course.API\bin\Debug\net6.0\Grpc.Net.ClientFactory.dll
+C:\Users\fpt\Desktop\HappyLearning\SEP490-G13-CODE-BE\Course.API\bin\Debug\net6.0\Grpc.Net.Common.dll

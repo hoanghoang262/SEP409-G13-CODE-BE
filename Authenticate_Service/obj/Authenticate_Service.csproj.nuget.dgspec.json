@@ -62,6 +62,10 @@
               "target": "Package",
               "version": "[1.66.0, )"
             },
+            "Grpc.AspNetCore": {
+              "target": "Package",
+              "version": "[2.60.0, )"
+            },
             "MailKit": {
               "target": "Package",
               "version": "[4.3.0, )"
