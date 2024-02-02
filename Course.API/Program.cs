@@ -4,6 +4,7 @@
 
 using CloudinaryDotNet;
 using Course.API;
+using Course.API.GrpcServices;
 using CourseService;
 
 using CourseService.API.Feartures.CourseFearture.Queries;
@@ -12,6 +13,7 @@ using EventBus.Message.IntegrationEvent.Event;
 using MassTransit;
 using Microsoft.EntityFrameworkCore;
 using System.Reflection;
+using User.gRPC;
 
 namespace Course
 {
@@ -21,7 +23,7 @@ namespace Course
         {
             var builder = WebApplication.CreateBuilder(args);
 
-            // Add services to the container.
+            // rabbitMQ
             var configuration = builder.Configuration.GetSection("EventBusSetting:HostAddress").Value;
 
             var mqConnection = new Uri(configuration);
@@ -38,7 +40,9 @@ namespace Course
                 });
 
             });
-            var cloudinaryConfig = new Account(
+          
+
+        var cloudinaryConfig = new Account(
         builder.Configuration["Cloudinary:CloudName"],
         builder.Configuration["Cloudinary:ApiKey"],
         builder.Configuration["Cloudinary:ApiSecret"]
@@ -54,14 +58,20 @@ namespace Course
                                         .AllowAnyMethod()
                                         .AllowAnyHeader());
             });
+            //grpc
+            var config = builder.Configuration.GetSection("GrpcSetting:UserUrl").Value;
+            builder.Services.AddSingleton(config);
+            builder.Services.AddGrpcClient<UserCourseService.UserCourseServiceClient>(x => x.Address = new Uri(config));
+            builder.Services.AddScoped<UserIdCourseGrpcService>();
+            //dbContext
             builder.Services.AddDbContext<CourseContext>(
     oprions => oprions.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"))
-    );
+    );      //mapper
             builder.Services.AddAutoMapper(cfg => cfg.AddProfile(new MappingProfile()));
-
+            //mediatR
             builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly()));
 
-
+            //Cloudinary
             builder.Services.AddSingleton(new CloudinaryService("dcduktpij", "592561579458269", "rriM4lqd8uNQ9FtUd11NjTq50ac"));
             builder.Services.AddControllers();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

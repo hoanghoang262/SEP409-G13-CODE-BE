@@ -9,9 +9,14 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Protos\user.proto" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="AutoMapper" Version="12.0.1" />
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.1" />
     <PackageReference Include="CloudinaryDotNet" Version="1.25.0" />
+    <PackageReference Include="Grpc.AspNetCore" Version="2.60.0" />
     <PackageReference Include="MassTransit.RabbitMQ" Version="8.1.3" />
     <PackageReference Include="MediatR" Version="12.2.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="6.0.26">
@@ -29,6 +34,17 @@
 
   <ItemGroup>
     <ProjectReference Include="..\EventBus.Message\EventBus.Message.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Application\Configuration\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Protobuf Include="Protos\user.proto">
+      <GrpcServices>Client</GrpcServices>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Protobuf>
   </ItemGroup>
 
 </Project>
