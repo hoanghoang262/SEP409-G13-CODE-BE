@@ -60,6 +60,7 @@ services:
       - ASPNETCORE_URLS=http://+:80
       - ConnectionStrings:DefaultConnection=server=sqlserverdb;database=Course;uid=sa;pwd=PassW0rd!;TrustServerCertificate=True
       - "EventBusSetting:HostAddress=amqp://guest:guest@rabbitmq:5672"
+      - "GrpcSetting:UserUrl=http://usergrpc"
     ports:
       - "6002:80"
     depends_on:
@@ -88,11 +89,34 @@ services:
     volumes:
       - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
 
+#gRPC
+ 
+  usergrpc:
+    image: ${DOCKER_REGISTRY-}usergrpc
+    build:
+      context: .
+      dockerfile: GrpcService1/Dockerfile
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://+:80
+      -  ConnectionStrings:DefaultConnection=server=sqlserverdb;database=Authentication;uid=sa;pwd=PassW0rd!;TrustServerCertificate=True
+    ports:
+      - "5001:80"
+    depends_on:
+      - sqlserverdb
+    volumes:
+      - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
+      - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
+
 networks:
-   default:
+   default: 
      name: CMS
      driver: bridge
      
+
+     
+
+
 
 
 

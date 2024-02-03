@@ -4,16 +4,17 @@
 
 using CloudinaryDotNet;
 using Course.API;
-using Course.API.GrpcServices;
-using CourseService;
 
+using CourseService;
+using CourseService.API.Common.Mapping;
 using CourseService.API.Feartures.CourseFearture.Queries;
 using CourseService.API.IntegrationEvent.EvenHandles;
 using EventBus.Message.IntegrationEvent.Event;
+using GrpcServices;
 using MassTransit;
 using Microsoft.EntityFrameworkCore;
 using System.Reflection;
-using User.gRPC;
+using UserGrpc;
 
 namespace Course
 {

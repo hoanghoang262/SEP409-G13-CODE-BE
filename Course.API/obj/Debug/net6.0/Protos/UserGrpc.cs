@@ -7,7 +7,7 @@
 
 using grpc = global::Grpc.Core;
 
-namespace User.gRPC {
+namespace UserGrpc {
   public static partial class UserCourseService
   {
     static readonly string __ServiceName = "user.UserCourseService";
@@ -46,12 +46,12 @@ namespace User.gRPC {
     }
 
     [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
-    static readonly grpc::Marshaller<global::User.gRPC.GetUserCourseRequest> __Marshaller_user_GetUserCourseRequest = grpc::Marshallers.Create(__Helper_SerializeMessage, context => __Helper_DeserializeMessage(context, global::User.gRPC.GetUserCourseRequest.Parser));
+    static readonly grpc::Marshaller<global::UserGrpc.GetUserCourseRequest> __Marshaller_user_GetUserCourseRequest = grpc::Marshallers.Create(__Helper_SerializeMessage, context => __Helper_DeserializeMessage(context, global::UserGrpc.GetUserCourseRequest.Parser));
     [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
-    static readonly grpc::Marshaller<global::User.gRPC.GetUserCoursesResponse> __Marshaller_user_GetUserCoursesResponse = grpc::Marshallers.Create(__Helper_SerializeMessage, context => __Helper_DeserializeMessage(context, global::User.gRPC.GetUserCoursesResponse.Parser));
+    static readonly grpc::Marshaller<global::UserGrpc.GetUserCoursesResponse> __Marshaller_user_GetUserCoursesResponse = grpc::Marshallers.Create(__Helper_SerializeMessage, context => __Helper_DeserializeMessage(context, global::UserGrpc.GetUserCoursesResponse.Parser));
 
     [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
-    static readonly grpc::Method<global::User.gRPC.GetUserCourseRequest, global::User.gRPC.GetUserCoursesResponse> __Method_GetUserCourses = new grpc::Method<global::User.gRPC.GetUserCourseRequest, global::User.gRPC.GetUserCoursesResponse>(
+    static readonly grpc::Method<global::UserGrpc.GetUserCourseRequest, global::UserGrpc.GetUserCoursesResponse> __Method_GetUserCourses = new grpc::Method<global::UserGrpc.GetUserCourseRequest, global::UserGrpc.GetUserCoursesResponse>(
         grpc::MethodType.Unary,
         __ServiceName,
         "GetUserCourses",
@@ -61,7 +61,7 @@ namespace User.gRPC {
     /// <summary>Service descriptor</summary>
     public static global::Google.Protobuf.Reflection.ServiceDescriptor Descriptor
     {
-      get { return global::User.gRPC.UserReflection.Descriptor.Services[0]; }
+      get { return global::UserGrpc.UserReflection.Descriptor.Services[0]; }
     }
 
     /// <summary>Client for UserCourseService</summary>
@@ -92,22 +92,22 @@ namespace User.gRPC {
       }
 
       [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
-      public virtual global::User.gRPC.GetUserCoursesResponse GetUserCourses(global::User.gRPC.GetUserCourseRequest request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
+      public virtual global::UserGrpc.GetUserCoursesResponse GetUserCourses(global::UserGrpc.GetUserCourseRequest request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
       {
         return GetUserCourses(request, new grpc::CallOptions(headers, deadline, cancellationToken));
       }
       [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
-      public virtual global::User.gRPC.GetUserCoursesResponse GetUserCourses(global::User.gRPC.GetUserCourseRequest request, grpc::CallOptions options)
+      public virtual global::UserGrpc.GetUserCoursesResponse GetUserCourses(global::UserGrpc.GetUserCourseRequest request, grpc::CallOptions options)
       {
         return CallInvoker.BlockingUnaryCall(__Method_GetUserCourses, null, options, request);
       }
       [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
-      public virtual grpc::AsyncUnaryCall<global::User.gRPC.GetUserCoursesResponse> GetUserCoursesAsync(global::User.gRPC.GetUserCourseRequest request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
+      public virtual grpc::AsyncUnaryCall<global::UserGrpc.GetUserCoursesResponse> GetUserCoursesAsync(global::UserGrpc.GetUserCourseRequest request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
       {
         return GetUserCoursesAsync(request, new grpc::CallOptions(headers, deadline, cancellationToken));
       }
       [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
-      public virtual grpc::AsyncUnaryCall<global::User.gRPC.GetUserCoursesResponse> GetUserCoursesAsync(global::User.gRPC.GetUserCourseRequest request, grpc::CallOptions options)
+      public virtual grpc::AsyncUnaryCall<global::UserGrpc.GetUserCoursesResponse> GetUserCoursesAsync(global::UserGrpc.GetUserCourseRequest request, grpc::CallOptions options)
       {
         return CallInvoker.AsyncUnaryCall(__Method_GetUserCourses, null, options, request);
       }

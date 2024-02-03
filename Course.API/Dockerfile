@@ -7,18 +7,18 @@ EXPOSE 80
 FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
-COPY ["Course.API/Course.API.csproj", "Course.API/"]
+COPY ["Course.API/CourseService.API.csproj", "Course.API/"]
 COPY ["EventBus.Message/EventBus.Message.csproj", "EventBus.Message/"]
-RUN dotnet restore "./Course.API/./Course.API.csproj"
+RUN dotnet restore "./Course.API/./CourseService.API.csproj"
 COPY . .
 WORKDIR "/src/Course.API"
-RUN dotnet build "./Course.API.csproj" -c $BUILD_CONFIGURATION -o /app/build
+RUN dotnet build "./CourseService.API.csproj" -c $BUILD_CONFIGURATION -o /app/build
 
 FROM build AS publish
 ARG BUILD_CONFIGURATION=Release
-RUN dotnet publish "./Course.API.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
+RUN dotnet publish "./CourseService.API.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
 
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
-ENTRYPOINT ["dotnet", "Course.API.dll"]
+ENTRYPOINT ["dotnet", "CourseService.API.dll"]
