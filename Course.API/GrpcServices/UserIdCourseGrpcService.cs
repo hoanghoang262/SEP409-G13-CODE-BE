@@ -1,6 +1,6 @@
-﻿using User.gRPC;
-
-namespace Course.API.GrpcServices
+﻿
+using UserGrpc;
+namespace GrpcServices
 {
     public class UserIdCourseGrpcService 
     {

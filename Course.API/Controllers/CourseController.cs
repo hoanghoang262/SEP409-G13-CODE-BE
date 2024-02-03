@@ -10,7 +10,8 @@ using MassTransit;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Course.API.Feartures.CourseFearture.Queries;
+using API.Feartures.CourseFearture.Queries;
+
 
 namespace CourseService.Controllers
 {

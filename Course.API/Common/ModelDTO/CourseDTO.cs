@@ -16,6 +16,7 @@ namespace CourseService.API.Common.ModelDTO
         public string? Picture { get; set; }
         public string? Tag { get; set; }
         public int? UserId { get; set; }
+        public string? UserName { get; set; }
 
         public virtual ICollection<ChapterDTO> Chapters { get; set; }
     }
