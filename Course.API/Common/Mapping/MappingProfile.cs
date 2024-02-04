@@ -6,10 +6,9 @@ namespace CourseService.API.Common.Mapping
     {
         public MappingProfile()
         {
-
+            ApplyMappingFromAssembly(Assembly.GetExecutingAssembly());
 
         }
-
         private void ApplyMappingFromAssembly(Assembly assembly)
         {
             var mapFromType = typeof(IMapFrom<>);
@@ -31,9 +30,9 @@ namespace CourseService.API.Common.Mapping
                 {
                     var interfaces = type.GetInterfaces().Where(HasInterface).ToList();
                     if (interfaces.Count <= 0) continue;
-                    foreach (var inter in interfaces)
+                    foreach (var @interface in interfaces)
                     {
-                        var interfaceMethodInfo = inter.GetMethod(mappingMethodName, argumentTypes);
+                        var interfaceMethodInfo = @interface.GetMethod(mappingMethodName, argumentTypes);
                         interfaceMethodInfo?.Invoke(instance, new object[] { this });
 
                     }
