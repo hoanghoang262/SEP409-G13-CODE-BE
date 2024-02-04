@@ -18,7 +18,7 @@ namespace Authenticate_Service.Controllers
         [HttpGet]
         public async Task<IActionResult> TestEmail(string Email)
         {
-
+            
             return Ok();
         }
     }

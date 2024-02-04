@@ -24,7 +24,7 @@ namespace Authenticate_Service.Models
             if (!optionsBuilder.IsConfigured)
             {
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-                optionsBuilder.UseSqlServer("server=localhost\\sqlserverdb,1435;database=Authentication;uid=sa;pwd=PassW0rd!;TrustServerCertificate=True");
+                optionsBuilder.UseSqlServer("server=localhost\\sqlserverdb,1435;database=Authentication;uid=sa;pwd=PassW0rd!;TrustServerCertificate=true");
             }
         }
 
@@ -52,6 +52,8 @@ namespace Authenticate_Service.Models
                 entity.Property(e => e.ProfilePict).HasColumnName("Profile_Pict");
 
                 entity.Property(e => e.RoleId).HasColumnName("Role_Id");
+
+                entity.Property(e => e.UserName).HasMaxLength(50);
 
                 entity.HasOne(d => d.Role)
                     .WithMany(p => p.Users)

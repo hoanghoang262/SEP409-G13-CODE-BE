@@ -79,7 +79,7 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Local
       - ASPNETCORE_URLS=http://+:80
-      - GlobalConfiguration:BaseURL= http://reverseproxy
+      - GlobalConfiguration:BaseURL=http://reverseproxy
     depends_on:
       - course
       - authenticate

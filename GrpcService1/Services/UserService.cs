@@ -22,7 +22,7 @@ namespace UserGrpc.Services
             var result = new GetUserCoursesResponse()
             {
                 Id = response.Id,
-                Name = response.Email,
+                Name = response.UserName,
 
             };
 

@@ -3,13 +3,12 @@
 
 
 using CloudinaryDotNet;
-using Course.API;
+
 
 using CourseService;
 using CourseService.API.Common.Mapping;
-using CourseService.API.Feartures.CourseFearture.Queries;
 using CourseService.API.IntegrationEvent.EvenHandles;
-using EventBus.Message.IntegrationEvent.Event;
+
 using GrpcServices;
 using MassTransit;
 using Microsoft.EntityFrameworkCore;
@@ -68,7 +67,7 @@ namespace Course
             builder.Services.AddDbContext<CourseContext>(
     oprions => oprions.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"))
     );      //mapper
-            builder.Services.AddAutoMapper(cfg => cfg.AddProfile(new MappingProfile()));
+            builder.Services.AddAutoMapper(Assembly.GetExecutingAssembly());
             //mediatR
             builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly()));
 
