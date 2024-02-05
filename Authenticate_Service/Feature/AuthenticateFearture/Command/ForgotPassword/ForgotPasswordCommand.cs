@@ -29,11 +29,51 @@ namespace Authenticate_Service.Feature.AuthenticateFearture.Command.ForgotPasswo
                 await _context.SaveChangesAsync();
                 var message = new MailRequest
                 {
-                    Body = "<h1>your verfication code is :" + verificationCode,
+                    Body = $@"
+<html>
+<head>
+<style>
+    body {{
+        font-family: 'Arial', sans-serif;
+        color: #333;
+        background-color: #f4f4f4;
+        padding: 20px;
+    }}
+    .container {{
+        max-width: 600px;
+        margin: auto;
+        background: white;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }}
+    h1 {{
+        color: #007bff;
+        text-align: center;
+    }}
+    .code {{
+        font-size: 24px;
+        font-weight: bold;
+        text-align: center;
+        margin: 20px 0;
+        padding: 10px;
+        background-color: #eee;
+        border-radius: 4px;
+    }}
+</style>
+</head>
+<body>
+    <div class='container'>
+        <h1>Your Verification Code Is:</h1>
+        <div class='code'>{verificationCode}</div>
+        <p>Please enter this code to verify your email address.</p>
+    </div>
+</body>
+</html>",
                     ToAddress = request.Email,
                     Subject = "Verify Code"
                 };
-              await  _emailService.SendEmailAsync(message);
+                await  _emailService.SendEmailAsync(message);
 
                 return new OkObjectResult("We have sent the confirmation code to your email: "+request.Email);
 
