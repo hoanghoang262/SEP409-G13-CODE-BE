@@ -55,6 +55,10 @@ namespace Authenticate_Service.Models
 
                 entity.Property(e => e.UserName).HasMaxLength(50);
 
+                entity.Property(e => e.VerificationCode)
+                    .HasMaxLength(50)
+                    .HasColumnName("Verification_Code");
+
                 entity.HasOne(d => d.Role)
                     .WithMany(p => p.Users)
                     .HasForeignKey(d => d.RoleId)

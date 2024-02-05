@@ -65,8 +65,9 @@ namespace Authenticate_Service.Feature.AuthenticateFearture.Command.Login
                         var userLoginGoogle = new User
                         {
                             Email = request.Email,
-                            UserName = request.Email.Split('@')[0],                         
-                            RoleId = 1
+                            UserName = request.Email.Split('@')[0],
+                            RoleId = 1,
+                            EmailConfirmed = true
                         };
                         _context.Users.Add(userLoginGoogle);
                         await _context.SaveChangesAsync();

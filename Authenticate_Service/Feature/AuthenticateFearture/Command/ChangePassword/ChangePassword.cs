@@ -30,7 +30,7 @@ namespace Authenticate_Service.Feature.AuthenticateFearture.Command.ChangePasswo
 
                 await _context.SaveChangesAsync();
 
-                return new OkObjectResult("Mật khẩu đã được thay đổi thành công.");
+                return new OkObjectResult("Your password has been successfully changed " );
             }
         }
     }
