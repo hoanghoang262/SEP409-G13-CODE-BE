@@ -292,3 +292,5 @@ C:\Users\fpt\Desktop\HappyLearning\SEP490-G13-CODE-BE\Authenticate_Service\bin\D
 C:\Users\fpt\Desktop\HappyLearning\SEP490-G13-CODE-BE\Authenticate_Service\bin\Debug\net6.0\Grpc.Net.Client.dll
 C:\Users\fpt\Desktop\HappyLearning\SEP490-G13-CODE-BE\Authenticate_Service\bin\Debug\net6.0\Grpc.Net.ClientFactory.dll
 C:\Users\fpt\Desktop\HappyLearning\SEP490-G13-CODE-BE\Authenticate_Service\bin\Debug\net6.0\Grpc.Net.Common.dll
+C:\Users\fpt\Desktop\HappyLearning\SEP490-G13-CODE-BE\Authenticate_Service\obj\Debug\net6.0\Authenticate_Service.RazorAssemblyInfo.cache
+C:\Users\fpt\Desktop\HappyLearning\SEP490-G13-CODE-BE\Authenticate_Service\obj\Debug\net6.0\Authenticate_Service.RazorAssemblyInfo.cs

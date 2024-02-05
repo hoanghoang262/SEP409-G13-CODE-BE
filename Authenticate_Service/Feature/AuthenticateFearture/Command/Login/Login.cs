@@ -28,7 +28,8 @@ namespace Authenticate_Service.Feature.AuthenticateFearture.Command.Login
                 try
                 {
                     var user = _context.Users.FirstOrDefault(u => u.UserName == request.UserName
-                                                 && u.Password == request.Password);
+                                                 && u.Password == request.Password
+                                                 );
 
                     if (user != null)
                     {
