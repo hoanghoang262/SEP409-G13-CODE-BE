@@ -7,8 +7,6 @@ namespace Authenticate_Service.Feature.AuthenticateFearture.Command.ForgotPasswo
     public class ForgotPasswordCommand : IRequest<IActionResult>
     {
         public string Email { get; set; }
-
-
         public class ForgotPasswordHandler : IRequestHandler<ForgotPasswordCommand, IActionResult>
         {
             private readonly IEmailService<MailRequest> _emailService;
@@ -24,12 +22,10 @@ namespace Authenticate_Service.Feature.AuthenticateFearture.Command.ForgotPasswo
                     Body = "<h1>your verfication code is :" + verificationCode,
                     ToAddress = request.Email,
                     Subject = "Verify Code"
-
-
                 };
-                await _emailService.SendEmailAsync(message);
+               
 
-                return null;
+                return new OkObjectResult(message);
 
             }
         }

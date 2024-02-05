@@ -14,7 +14,7 @@ namespace Authenticate_Service.Feature.AuthenticateFearture.Command.Login
 {
     public class LoginGoogleCommand : IRequest<IActionResult>
     {
-        public string? Email { get; set; }
+        public string Email { get; set; }
         
 
 
@@ -43,12 +43,16 @@ namespace Authenticate_Service.Feature.AuthenticateFearture.Command.Login
 
                     //var payload = await GoogleJsonWebSignature.ValidateAsync(googleIdToken, validationSettings);
 
-                    //// The token is valid. You can access user information from the payload.
+                    //The token is valid.You can access user information from the payload.
                     //string userId = payload.Subject;
                     //string userEmail = payload.Email;
                     //string userName = payload.GivenName;
 
-                   
+                    if (String.IsNullOrEmpty(request.Email))
+                    {
+                        return new  BadRequestObjectResult("Not found email");
+
+                    }
                     var user = _context.Users.FirstOrDefault(x => x.Email.Equals(request.Email));
 
                     if (user != null && user.Password !=null)
@@ -61,16 +65,12 @@ namespace Authenticate_Service.Feature.AuthenticateFearture.Command.Login
                         var userLoginGoogle = new User
                         {
                             Email = request.Email,
-                            UserName = request.Email.Split('@')[0],
-                            Password = Guid.NewGuid().ToString(),
+                            UserName = request.Email.Split('@')[0],                         
                             RoleId = 1
-
                         };
                         _context.Users.Add(userLoginGoogle);
                         await _context.SaveChangesAsync();
-
                     }
-                   
                     var getUserId = _context.Users.FirstOrDefault(x => x.Email.Equals(request.Email)).Id;
 
                     var tokenGenerator = new GenerateJwtToken(_configuration);
@@ -83,8 +83,6 @@ namespace Authenticate_Service.Feature.AuthenticateFearture.Command.Login
                         token = new JwtSecurityTokenHandler().WriteToken(token),
                         expiration = token.ValidTo
                     });
-
-
                 }
                 catch (GoogleApiException)
                 {
@@ -92,9 +90,6 @@ namespace Authenticate_Service.Feature.AuthenticateFearture.Command.Login
                     return new StatusCodeResult(StatusCodes.Status503ServiceUnavailable);
                 }
             }
-
-
         }
     }
-
 }

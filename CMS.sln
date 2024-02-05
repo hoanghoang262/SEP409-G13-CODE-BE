@@ -31,7 +31,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CourseService.API", "Course
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "gRPC", "gRPC", "{2F4E02BB-F47C-47F6-8311-A224D73C5BE1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UserGrpc", "GrpcService1\UserGrpc.csproj", "{25D3F5E6-EF3A-4CF0-8216-17D6897A2652}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UserGrpc", "GrpcService1\UserGrpc.csproj", "{25D3F5E6-EF3A-4CF0-8216-17D6897A2652}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

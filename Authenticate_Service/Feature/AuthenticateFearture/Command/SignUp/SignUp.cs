@@ -1,10 +1,13 @@
 ﻿using Authenticate_Service.Models;
 using MediatR;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Routing;
+using Newtonsoft.Json.Linq;
 
 namespace Authenticate_Service.Feature.AuthenticateFearture.Command.SignUp
 {
-    public class SignUpCommand : IRequest<IActionResult>
+    public class SignUpCommand :  IRequest<IActionResult>
     {
         public string? Email { get; set; }
         public string? Password { get; set; }
@@ -13,31 +16,18 @@ namespace Authenticate_Service.Feature.AuthenticateFearture.Command.SignUp
         public class SignUpCommandHandler : IRequestHandler<SignUpCommand, IActionResult>
         {
             private readonly AuthenticationContext context;
+            private readonly IHttpContextAccessor _httpContextAccessor;
 
-            public SignUpCommandHandler(AuthenticationContext _context)
+
+            public SignUpCommandHandler(AuthenticationContext _context, IHttpContextAccessor httpContextAccessor)
             {
-                context= _context;
+                context = _context;
+                _httpContextAccessor = httpContextAccessor;
             }
 
             public async Task<IActionResult> Handle(SignUpCommand request, CancellationToken cancellationToken)
             {
-                if (context.Users.Any(u => u.Email == request.Email))
-                {
-                    return new BadRequestObjectResult("A user is already registered with this e-mail address.");
-                }
-                if (context.Users.Any(u => u.UserName == request.UserName))
-                {
-                    return new BadRequestObjectResult("A user is already registered with this username.");
-                }
-                var newUser = new User { Email = request.Email, UserName = request.UserName,Password=request.Password,RoleId=1 };
-                
-
-               
-                context.Users.Add(newUser);
-                await context.SaveChangesAsync();
-
-               
-                return new OkObjectResult("Đăng ký thành công.");
+                return null;
 
             }
         }
