@@ -13,8 +13,9 @@ using Authenticate_Service.Common;
 using MassTransit;
 using EventBus.Message.IntegrationEvent.Event;
 using Authenticate_Service.Feature.AuthenticateFearture.Command.Login;
-using Authenticate_Service.Feature.AuthenticateFearture.Command.SignUp;
+
 using Contract.Service;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 
 
@@ -49,6 +50,7 @@ namespace Authenticated.Controllers
         [HttpPost]
         public async Task<IActionResult> SignUp(string Email, string UserName,string Password)
         {
+           
             if (context.Users.Any(u => u.Email == Email))
             {
                 return new BadRequestObjectResult("A user is already registered with this e-mail address.");
@@ -63,10 +65,10 @@ namespace Authenticated.Controllers
                 context.Users.Add(newUser);
                 await context.SaveChangesAsync();
 
-                var callbackUrl = Url.Action(
-                       "ConfirmEmail",
-                           "Authenticate",
-                      new { userId = newUser.Id },
+                var callbackUrl = Url.Page(
+                          "/ConfirmEmail",
+                           pageHandler : null,
+                          new { userId = newUser.Id },
                          protocol:Request.Scheme);
 
                 var message = new MailRequest
@@ -90,26 +92,11 @@ namespace Authenticated.Controllers
                 };
                 await _emailService.SendEmailAsync(message);
 
-                return new OkObjectResult("Đăng ký thành công.");
+                return new OkObjectResult("Please confirm the email that have sent to you");
 
             }
            
         }
-        [HttpGet]
-
-        public async Task<IActionResult> ConfirmEmail(int userId)
-        {
-            
-            var user = await context.Users.FindAsync(userId);
-            if (user == null)
-            {
-                throw new ApplicationException($"Unable to load user with ID '{userId}'.");
-            }
-             user.EmailConfirmed = true;
-            await context.SaveChangesAsync();
-            //var result = await _userManager.ConfirmEmailAsync(user, code);
-            //return View(result.Succeeded ? "ConfirmEmail" : "Error");
-            return Ok(user);
-        }
+       
     }
  }

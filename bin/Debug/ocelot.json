@@ -1,0 +1,69 @@
+{
+  "GlobalConfiguration": {
+    "BaseURL": "http://reverseproxy"
+  },
+  "Routes": [
+    {
+      "DownstreamPathTemplate": "/api/{controller}/{action}",
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer",
+        "AllowedScopes": []
+      },
+      "RouteClaimsRequirement": {
+        "Role": "Admin Bussiness,Admin System"
+      },
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "host.docker.internal",
+          //duong dan docker
+          "Port": 6002
+        }
+      ],
+      "UpstreamPathTemplate": "/course-gateway/{controller}/{action}",
+      "UpstreamHttpMethod": [ "POST", "PUT" ]
+
+    },
+    {
+      "DownstreamPathTemplate": "/api/{controller}/{action}",
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer",
+        "AllowedScopes": []
+      },
+      "RouteClaimsRequirement": {
+        "Role": "Administrator"
+      },
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "host.docker.internal",
+          //duong dan docker
+          "Port": 6002
+        }
+      ],
+      "UpstreamPathTemplate": "/course-gateway/{controller}/{action}",
+      "UpstreamHttpMethod": [ "GET" ]
+    },
+
+
+    {
+      "DownstreamPathTemplate": "/api/{controller}/{action}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "host.docker.internal",
+          //duong dan docker
+          "Port": 6001
+        }
+      ],
+      "UpstreamPathTemplate": "/authen-gateway/{controller}/{action}",
+      "UpstreamHttpMethod": [ "POST", "PUT", "GET" ]
+      //"AuthenticationOptions": {
+      //  "AuthenticationProviderKey": "IdentityApiKey",
+      //  "AllowedScopes": []
+      //}
+
+    }
+
+  ]
+}
