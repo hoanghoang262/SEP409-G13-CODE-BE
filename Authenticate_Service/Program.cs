@@ -1,4 +1,4 @@
-using Authenticate_Service;
+﻿using Authenticate_Service;
 using Authenticate_Service.Models;
 using EventBus.Message.IntegrationEvent.Interfaces;
 using FirebaseAdmin;
@@ -15,6 +15,7 @@ using System.Text;
 using Contract.Service.Configuration;
 using Contract.Service;
 using EventBus.Message.IntegrationEvent.Event;
+using Microsoft.Extensions.FileProviders;
 
 
 
@@ -25,6 +26,7 @@ namespace Authenticated
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
+            builder.Services.AddControllersWithViews();
             //config RabbitMQ
             var configuration = builder.Configuration.GetSection("EventBusSetting:HostAddress").Value;
 
@@ -52,8 +54,8 @@ namespace Authenticated
             builder.Services.AddAutoMapper(cfg=>cfg.AddProfile(new MappingProfile()));
             //Config MediatR
             builder.Services.AddMediatR(cfg=>cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly()));
-           
-   
+
+            builder.Services.AddRazorPages();
             //Config context
             builder.Services.AddDbContext<AuthenticationContext>(
     oprions => oprions.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"))
@@ -103,11 +105,20 @@ namespace Authenticated
 
             app.UseAuthorization();
             app.UseAuthentication();
+            app.UseRouting();
+            app.UseStaticFiles();
 
+            app.UseFileServer(new FileServerOptions
+            {
+                FileProvider = new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(), "Pages")),
+                RequestPath = "/Pages",
+                EnableDefaultFiles = true
+            });
+            app.MapRazorPages();
 
             app.MapControllerRoute(
-                name: "default",
-                pattern: "{controller=Home}/{action=Index}/{id?}");
+              name: "default",
+              pattern: "{controller=Home}/{action=Index}/{id?}");
             app.MapControllers();
 
             app.Run();

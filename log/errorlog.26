@@ -1,93 +1,93 @@
-2024-02-02 16:46:19.75 Server      Microsoft SQL Server 2019 (RTM-CU24) (KB5031908) - 15.0.4345.5 (X64) 
+2024-02-02 17:15:07.44 Server      Microsoft SQL Server 2019 (RTM-CU24) (KB5031908) - 15.0.4345.5 (X64) 
 	Dec  4 2023 14:44:16 
 	Copyright (C) 2019 Microsoft Corporation
 	Developer Edition (64-bit) on Linux (Ubuntu 20.04.6 LTS) <X64>
-2024-02-02 16:46:19.76 Server      UTC adjustment: 0:00
-2024-02-02 16:46:19.76 Server      (c) Microsoft Corporation.
-2024-02-02 16:46:19.76 Server      All rights reserved.
-2024-02-02 16:46:19.76 Server      Server process ID is 368.
-2024-02-02 16:46:19.76 Server      Logging SQL Server messages in file '/var/opt/mssql/log/errorlog'.
-2024-02-02 16:46:19.76 Server      Registry startup parameters: 
+2024-02-02 17:15:07.44 Server      UTC adjustment: 0:00
+2024-02-02 17:15:07.44 Server      (c) Microsoft Corporation.
+2024-02-02 17:15:07.45 Server      All rights reserved.
+2024-02-02 17:15:07.45 Server      Server process ID is 368.
+2024-02-02 17:15:07.45 Server      Logging SQL Server messages in file '/var/opt/mssql/log/errorlog'.
+2024-02-02 17:15:07.45 Server      Registry startup parameters: 
 	 -d /var/opt/mssql/data/master.mdf
 	 -l /var/opt/mssql/data/mastlog.ldf
 	 -e /var/opt/mssql/log/errorlog
-2024-02-02 16:46:19.79 Server      SQL Server detected 1 sockets with 4 cores per socket and 8 logical processors per socket, 8 total logical processors; using 8 logical processors based on SQL Server licensing. This is an informational message; no user action is required.
-2024-02-02 16:46:19.80 Server      SQL Server is starting at normal priority base (=7). This is an informational message only. No user action is required.
-2024-02-02 16:46:19.80 Server      Detected 2304 MB of RAM. This is an informational message; no user action is required.
-2024-02-02 16:46:19.81 Server      Using conventional memory in the memory manager.
-2024-02-02 16:46:19.82 Server      Page exclusion bitmap is enabled.
-2024-02-02 16:46:20.10 Server      Buffer pool extension is not supported on Linux platform.
-2024-02-02 16:46:20.10 Server      Buffer Pool: Allocating 262144 bytes for 205492 hashPages.
-2024-02-02 16:46:20.44 Server      Buffer pool extension is already disabled. No action is necessary.
-2024-02-02 16:46:21.36 Server      Successfully initialized the TLS configuration. Allowed TLS protocol versions are ['1.0 1.1 1.2']. Allowed TLS ciphers are ['ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-ECDSA-AES256-GCM-SHA384:ECDHE-RSA-AES128-GCM-SHA256:ECDHE-RSA-AES256-GCM-SHA384:ECDHE-ECDSA-AES128-SHA256:ECDHE-ECDSA-AES256-SHA384:ECDHE-ECDSA-AES256-SHA:ECDHE-ECDSA-AES128-SHA:AES256-GCM-SHA384:AES128-GCM-SHA256:AES256-SHA256:AES128-SHA256:AES256-SHA:AES128-SHA:!DHE-RSA-AES256-GCM-SHA384:!DHE-RSA-AES128-GCM-SHA256:!DHE-RSA-AES256-SHA:!DHE-RSA-AES128-SHA'].
-2024-02-02 16:46:21.73 Server      Query Store settings initialized with enabled = 1, 
-2024-02-02 16:46:21.84 Server      The maximum number of dedicated administrator connections for this instance is '1'
-2024-02-02 16:46:21.88 Server      Node configuration: node 0: CPU mask: 0x00000000000000ff:0 Active CPU mask: 0x00000000000000ff:0. This message provides a description of the NUMA configuration for this computer. This is an informational message only. No user action is required.
-2024-02-02 16:46:21.97 Server      Using dynamic lock allocation.  Initial allocation of 2500 Lock blocks and 5000 Lock Owner blocks per node.  This is an informational message only.  No user action is required.
-2024-02-02 16:46:22.11 Server      In-Memory OLTP initialized on lowend machine.
-2024-02-02 16:46:23.39 Server      CLR version v4.0.30319 loaded.
-2024-02-02 16:46:23.94 Server      [INFO] Created Extended Events session 'hkenginexesession'
-2024-02-02 16:46:23.96 Server      Database Instant File Initialization: enabled. For security and performance considerations see the topic 'Database Instant File Initialization' in SQL Server Books Online. This is an informational message only. No user action is required.
-2024-02-02 16:46:24.16 Server      Total Log Writer threads: 2. This is an informational message; no user action is required.
-2024-02-02 16:46:24.25 Server      clflushopt is selected for pmem flush operation.
-2024-02-02 16:46:24.28 Server      Software Usage Metrics is disabled.
-2024-02-02 16:46:24.50 spid10s     [1]. Feature Status: PVS: 0. CTR: 0. ConcurrentPFSUpdate: 1.
-2024-02-02 16:46:24.52 spid10s     Starting up database 'master'.
-2024-02-02 16:46:25.90 Server      Common language runtime (CLR) functionality initialized.
-2024-02-02 16:46:26.90 spid10s     28 transactions rolled forward in database 'master' (1:0). This is an informational message only. No user action is required.
-2024-02-02 16:46:26.99 spid10s     0 transactions rolled back in database 'master' (1:0). This is an informational message only. No user action is required.
-2024-02-02 16:46:27.00 spid10s     Recovery is writing a checkpoint in database 'master' (1). This is an informational message only. No user action is required.
-2024-02-02 16:46:27.64 spid10s     Resource governor reconfiguration succeeded.
-2024-02-02 16:46:27.64 spid10s     SQL Server Audit is starting the audits. This is an informational message. No user action is required.
-2024-02-02 16:46:27.66 spid10s     SQL Server Audit has started the audits. This is an informational message. No user action is required.
-2024-02-02 16:46:29.05 spid10s     SQL Trace ID 1 was started by login "sa".
-2024-02-02 16:46:29.10 spid10s     Server name is '247dfa047586'. This is an informational message only. No user action is required.
-2024-02-02 16:46:29.29 spid42s     A self-generated certificate was successfully loaded for encryption.
-2024-02-02 16:46:29.37 spid42s     Server is listening on [ 'any' <ipv6> 1433].
-2024-02-02 16:46:29.37 spid42s     Server is listening on [ 'any' <ipv4> 1433].
-2024-02-02 16:46:29.40 spid48s     Always On: The availability replica manager is starting. This is an informational message only. No user action is required.
-2024-02-02 16:46:29.40 Server      Server is listening on [ ::1 <ipv6> 1434].
-2024-02-02 16:46:29.41 Server      Server is listening on [ 127.0.0.1 <ipv4> 1434].
-2024-02-02 16:46:29.42 Server      Dedicated admin connection support was established for listening locally on port 1434.
-2024-02-02 16:46:29.44 spid48s     Always On: The availability replica manager is waiting for the instance of SQL Server to allow client connections. This is an informational message only. No user action is required.
-2024-02-02 16:46:29.45 spid43s     [4]. Feature Status: PVS: 0. CTR: 0. ConcurrentPFSUpdate: 1.
-2024-02-02 16:46:29.46 spid44s     [5]. Feature Status: PVS: 0. CTR: 0. ConcurrentPFSUpdate: 1.
-2024-02-02 16:46:29.48 spid49s     [7]. Feature Status: PVS: 0. CTR: 0. ConcurrentPFSUpdate: 1.
-2024-02-02 16:46:29.49 spid47s     [6]. Feature Status: PVS: 0. CTR: 0. ConcurrentPFSUpdate: 1.
-2024-02-02 16:46:29.49 spid43s     Starting up database 'msdb'.
-2024-02-02 16:46:29.50 spid12s     [32767]. Feature Status: PVS: 0. CTR: 0. ConcurrentPFSUpdate: 1.
-2024-02-02 16:46:29.50 spid44s     Starting up database 'ProductTest'.
-2024-02-02 16:46:29.50 spid42s     Server is listening on [ ::1 <ipv6> 1431].
-2024-02-02 16:46:29.51 spid47s     Starting up database 'Authentication'.
-2024-02-02 16:46:29.52 spid49s     Starting up database 'Course'.
-2024-02-02 16:46:29.52 spid42s     Server is listening on [ 127.0.0.1 <ipv4> 1431].
-2024-02-02 16:46:29.53 spid12s     Starting up database 'mssqlsystemresource'.
-2024-02-02 16:46:29.54 spid42s     SQL Server is now ready for client connections. This is an informational message; no user action is required.
-2024-02-02 16:46:29.59 spid12s     The resource database build version is 15.00.4345. This is an informational message only. No user action is required.
-2024-02-02 16:46:29.86 spid12s     [3]. Feature Status: PVS: 0. CTR: 0. ConcurrentPFSUpdate: 1.
-2024-02-02 16:46:29.87 spid12s     Starting up database 'model'.
-2024-02-02 16:46:33.32 spid43s     1 transactions rolled forward in database 'msdb' (4:0). This is an informational message only. No user action is required.
-2024-02-02 16:46:33.71 spid10s     0 transactions rolled back in database 'msdb' (4:0). This is an informational message only. No user action is required.
-2024-02-02 16:46:33.71 spid10s     Recovery is writing a checkpoint in database 'msdb' (4). This is an informational message only. No user action is required.
-2024-02-02 16:46:33.99 spid44s     Parallel redo is started for database 'ProductTest' with worker pool size [4].
-2024-02-02 16:46:34.03 spid47s     Parallel redo is started for database 'Authentication' with worker pool size [4].
-2024-02-02 16:46:34.11 spid12s     Clearing tempdb database.
-2024-02-02 16:46:34.21 spid49s     Parallel redo is started for database 'Course' with worker pool size [4].
-2024-02-02 16:46:34.47 spid10s     Recovery completed for database Authentication (database ID 6) in 2 second(s) (analysis 188 ms, redo 18 ms, undo 135 ms [system undo 0 ms, regular undo 0 ms].) This is an informational message only. No user action is required.
-2024-02-02 16:46:34.48 spid10s     Parallel redo is shutdown for database 'Authentication' with worker pool size [4].
-2024-02-02 16:46:34.56 spid43s     Recovery completed for database ProductTest (database ID 5) in 2 second(s) (analysis 175 ms, redo 23 ms, undo 238 ms [system undo 0 ms, regular undo 0 ms].) This is an informational message only. No user action is required.
-2024-02-02 16:46:34.58 spid43s     Parallel redo is shutdown for database 'ProductTest' with worker pool size [4].
-2024-02-02 16:46:34.59 spid43s     Recovery completed for database Course (database ID 7) in 2 second(s) (analysis 110 ms, redo 10 ms, undo 131 ms [system undo 0 ms, regular undo 0 ms].) This is an informational message only. No user action is required.
-2024-02-02 16:46:34.61 spid43s     Parallel redo is shutdown for database 'Course' with worker pool size [4].
-2024-02-02 16:46:40.28 spid12s     [2]. Feature Status: PVS: 0. CTR: 0. ConcurrentPFSUpdate: 1.
-2024-02-02 16:46:40.33 spid12s     Starting up database 'tempdb'.
-2024-02-02 16:46:56.19 spid12s     The tempdb database has 8 data file(s).
-2024-02-02 16:46:56.22 spid39s     The Service Broker endpoint is in disabled or stopped state.
-2024-02-02 16:46:56.22 spid39s     The Database Mirroring endpoint is in disabled or stopped state.
-2024-02-02 16:46:56.29 spid39s     Service Broker manager has started.
-2024-02-02 16:46:56.30 spid10s     Recovery is complete. This is an informational message only. No user action is required.
-2024-02-02 16:50:07.87 spid10s     Always On: The availability replica manager is going offline because SQL Server is shutting down. This is an informational message only. No user action is required.
-2024-02-02 16:50:07.95 spid10s     SQL Server is terminating in response to a 'stop' request from Service Control Manager. This is an informational message only. No user action is required.
-2024-02-02 16:50:08.49 spid39s     Service Broker manager has shut down.
-2024-02-02 16:50:08.86 spid10s     .NET Framework runtime has been stopped.
-2024-02-02 16:50:10.68 spid10s     SQL Trace was stopped due to server shutdown. Trace ID = '1'. This is an informational message only; no user action is required.
+2024-02-02 17:15:07.48 Server      SQL Server detected 1 sockets with 4 cores per socket and 8 logical processors per socket, 8 total logical processors; using 8 logical processors based on SQL Server licensing. This is an informational message; no user action is required.
+2024-02-02 17:15:07.49 Server      SQL Server is starting at normal priority base (=7). This is an informational message only. No user action is required.
+2024-02-02 17:15:07.49 Server      Detected 2304 MB of RAM. This is an informational message; no user action is required.
+2024-02-02 17:15:07.49 Server      Using conventional memory in the memory manager.
+2024-02-02 17:15:07.51 Server      Page exclusion bitmap is enabled.
+2024-02-02 17:15:07.97 Server      Buffer pool extension is not supported on Linux platform.
+2024-02-02 17:15:07.97 Server      Buffer Pool: Allocating 262144 bytes for 207441 hashPages.
+2024-02-02 17:15:08.80 Server      Buffer pool extension is already disabled. No action is necessary.
+2024-02-02 17:15:10.81 Server      Successfully initialized the TLS configuration. Allowed TLS protocol versions are ['1.0 1.1 1.2']. Allowed TLS ciphers are ['ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-ECDSA-AES256-GCM-SHA384:ECDHE-RSA-AES128-GCM-SHA256:ECDHE-RSA-AES256-GCM-SHA384:ECDHE-ECDSA-AES128-SHA256:ECDHE-ECDSA-AES256-SHA384:ECDHE-ECDSA-AES256-SHA:ECDHE-ECDSA-AES128-SHA:AES256-GCM-SHA384:AES128-GCM-SHA256:AES256-SHA256:AES128-SHA256:AES256-SHA:AES128-SHA:!DHE-RSA-AES256-GCM-SHA384:!DHE-RSA-AES128-GCM-SHA256:!DHE-RSA-AES256-SHA:!DHE-RSA-AES128-SHA'].
+2024-02-02 17:15:11.33 Server      Query Store settings initialized with enabled = 1, 
+2024-02-02 17:15:11.56 Server      The maximum number of dedicated administrator connections for this instance is '1'
+2024-02-02 17:15:11.60 Server      Node configuration: node 0: CPU mask: 0x00000000000000ff:0 Active CPU mask: 0x00000000000000ff:0. This message provides a description of the NUMA configuration for this computer. This is an informational message only. No user action is required.
+2024-02-02 17:15:11.85 Server      Using dynamic lock allocation.  Initial allocation of 2500 Lock blocks and 5000 Lock Owner blocks per node.  This is an informational message only.  No user action is required.
+2024-02-02 17:15:12.25 Server      In-Memory OLTP initialized on lowend machine.
+2024-02-02 17:15:15.44 Server      [INFO] Created Extended Events session 'hkenginexesession'
+2024-02-02 17:15:15.45 Server      Database Instant File Initialization: enabled. For security and performance considerations see the topic 'Database Instant File Initialization' in SQL Server Books Online. This is an informational message only. No user action is required.
+2024-02-02 17:15:15.53 Server      CLR version v4.0.30319 loaded.
+2024-02-02 17:15:15.56 Server      Total Log Writer threads: 2. This is an informational message; no user action is required.
+2024-02-02 17:15:15.67 Server      clflushopt is selected for pmem flush operation.
+2024-02-02 17:15:15.68 Server      Software Usage Metrics is disabled.
+2024-02-02 17:15:16.11 spid9s      [1]. Feature Status: PVS: 0. CTR: 0. ConcurrentPFSUpdate: 1.
+2024-02-02 17:15:16.17 spid9s      Starting up database 'master'.
+2024-02-02 17:15:18.43 Server      Common language runtime (CLR) functionality initialized.
+2024-02-02 17:15:19.04 spid9s      Resource governor reconfiguration succeeded.
+2024-02-02 17:15:19.04 spid9s      SQL Server Audit is starting the audits. This is an informational message. No user action is required.
+2024-02-02 17:15:19.06 spid9s      SQL Server Audit has started the audits. This is an informational message. No user action is required.
+2024-02-02 17:15:19.84 spid9s      SQL Trace ID 1 was started by login "sa".
+2024-02-02 17:15:19.96 spid9s      Server name is '247dfa047586'. This is an informational message only. No user action is required.
+2024-02-02 17:15:20.24 spid42s     A self-generated certificate was successfully loaded for encryption.
+2024-02-02 17:15:20.30 spid42s     Server is listening on [ 'any' <ipv6> 1433].
+2024-02-02 17:15:20.30 spid42s     Server is listening on [ 'any' <ipv4> 1433].
+2024-02-02 17:15:20.33 Server      Server is listening on [ ::1 <ipv6> 1434].
+2024-02-02 17:15:20.35 Server      Server is listening on [ 127.0.0.1 <ipv4> 1434].
+2024-02-02 17:15:20.37 Server      Dedicated admin connection support was established for listening locally on port 1434.
+2024-02-02 17:15:20.37 spid45s     Always On: The availability replica manager is starting. This is an informational message only. No user action is required.
+2024-02-02 17:15:20.41 spid12s     [32767]. Feature Status: PVS: 0. CTR: 0. ConcurrentPFSUpdate: 1.
+2024-02-02 17:15:20.41 spid45s     Always On: The availability replica manager is waiting for the instance of SQL Server to allow client connections. This is an informational message only. No user action is required.
+2024-02-02 17:15:20.45 spid44s     [4]. Feature Status: PVS: 0. CTR: 0. ConcurrentPFSUpdate: 1.
+2024-02-02 17:15:20.50 spid49s     [6]. Feature Status: PVS: 0. CTR: 0. ConcurrentPFSUpdate: 1.
+2024-02-02 17:15:20.51 spid42s     Server is listening on [ ::1 <ipv6> 1431].
+2024-02-02 17:15:20.51 spid48s     [7]. Feature Status: PVS: 0. CTR: 0. ConcurrentPFSUpdate: 1.
+2024-02-02 17:15:20.55 spid12s     Starting up database 'mssqlsystemresource'.
+2024-02-02 17:15:20.55 spid47s     [5]. Feature Status: PVS: 0. CTR: 0. ConcurrentPFSUpdate: 1.
+2024-02-02 17:15:20.56 spid44s     Starting up database 'msdb'.
+2024-02-02 17:15:20.57 spid42s     Server is listening on [ 127.0.0.1 <ipv4> 1431].
+2024-02-02 17:15:20.57 spid42s     SQL Server is now ready for client connections. This is an informational message; no user action is required.
+2024-02-02 17:15:20.57 spid49s     Starting up database 'Authentication'.
+2024-02-02 17:15:20.57 spid48s     Starting up database 'Course'.
+2024-02-02 17:15:20.59 spid12s     The resource database build version is 15.00.4345. This is an informational message only. No user action is required.
+2024-02-02 17:15:20.59 spid47s     Starting up database 'ProductTest'.
+2024-02-02 17:15:21.01 spid12s     [3]. Feature Status: PVS: 0. CTR: 0. ConcurrentPFSUpdate: 1.
+2024-02-02 17:15:21.01 spid12s     Starting up database 'model'.
+2024-02-02 17:15:24.99 spid12s     Clearing tempdb database.
+2024-02-02 17:15:25.21 spid47s     Parallel redo is started for database 'ProductTest' with worker pool size [4].
+2024-02-02 17:15:25.27 spid48s     Parallel redo is started for database 'Course' with worker pool size [4].
+2024-02-02 17:15:25.36 spid49s     Parallel redo is started for database 'Authentication' with worker pool size [4].
+2024-02-02 17:15:25.87 spid9s      Recovery completed for database Course (database ID 7) in 2 second(s) (analysis 238 ms, redo 9 ms, undo 224 ms [system undo 0 ms, regular undo 0 ms].) This is an informational message only. No user action is required.
+2024-02-02 17:15:25.89 spid9s      Parallel redo is shutdown for database 'Course' with worker pool size [4].
+2024-02-02 17:15:25.95 spid44s     Recovery completed for database ProductTest (database ID 5) in 2 second(s) (analysis 269 ms, redo 8 ms, undo 310 ms [system undo 0 ms, regular undo 0 ms].) This is an informational message only. No user action is required.
+2024-02-02 17:15:25.97 spid9s      Recovery completed for database Authentication (database ID 6) in 2 second(s) (analysis 278 ms, redo 19 ms, undo 254 ms [system undo 0 ms, regular undo 0 ms].) This is an informational message only. No user action is required.
+2024-02-02 17:15:25.98 spid44s     Parallel redo is shutdown for database 'ProductTest' with worker pool size [4].
+2024-02-02 17:15:26.01 spid9s      Parallel redo is shutdown for database 'Authentication' with worker pool size [4].
+2024-02-02 17:15:28.90 spid12s     [2]. Feature Status: PVS: 0. CTR: 0. ConcurrentPFSUpdate: 1.
+2024-02-02 17:15:28.90 spid12s     Starting up database 'tempdb'.
+2024-02-02 17:15:45.77 spid12s     The tempdb database has 8 data file(s).
+2024-02-02 17:15:45.83 spid44s     The Service Broker endpoint is in disabled or stopped state.
+2024-02-02 17:15:45.83 spid44s     The Database Mirroring endpoint is in disabled or stopped state.
+2024-02-02 17:15:45.92 spid44s     Service Broker manager has started.
+2024-02-02 17:15:45.93 spid9s      Recovery is complete. This is an informational message only. No user action is required.
+2024-02-02 17:20:38.66 spid51      Attempting to load library 'xplog70.dll' into memory. This is an informational message only. No user action is required.
+2024-02-02 17:20:39.14 spid51      Using 'xplog70.dll' version '2019.150.4345' to execute extended stored procedure 'xp_msver'. This is an informational message only; no user action is required.
+2024-02-02 17:26:51.20 spid9s      Always On: The availability replica manager is going offline because SQL Server is shutting down. This is an informational message only. No user action is required.
+2024-02-02 17:26:51.29 spid9s      SQL Server is terminating in response to a 'stop' request from Service Control Manager. This is an informational message only. No user action is required.
+2024-02-02 17:26:52.42 spid44s     Service Broker manager has shut down.
+2024-02-02 17:26:52.93 spid9s      .NET Framework runtime has been stopped.
+2024-02-02 17:26:54.85 Logon       Error: 18456, Severity: 14, State: 23.
+2024-02-02 17:26:54.85 Logon       Login failed for user 'NT AUTHORITY\SYSTEM'. Reason: Access to server validation failed while revalidating the login on the connection. [CLIENT: 127.0.0.1]
+2024-02-02 17:26:54.90 spid51      Error: 18056, Severity: 20, State: 23.
+2024-02-02 17:26:54.90 spid51      The client was unable to reuse a session with SPID 51, which had been reset for connection pooling. The failure ID is 23. This error may have been caused by an earlier operation failing. Check the error logs for failed operations immediately before this error message.
+2024-02-02 17:26:55.79 spid9s      SQL Trace was stopped due to server shutdown. Trace ID = '1'. This is an informational message only; no user action is required.
