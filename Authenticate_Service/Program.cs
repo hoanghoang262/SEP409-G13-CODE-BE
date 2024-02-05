@@ -106,14 +106,7 @@ namespace Authenticated
             app.UseAuthorization();
             app.UseAuthentication();
             app.UseRouting();
-            app.UseStaticFiles();
-
-            app.UseFileServer(new FileServerOptions
-            {
-                FileProvider = new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(), "Pages")),
-                RequestPath = "/Pages",
-                EnableDefaultFiles = true
-            });
+           
             app.MapRazorPages();
 
             app.MapControllerRoute(

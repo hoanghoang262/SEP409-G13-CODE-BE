@@ -16,6 +16,7 @@ using Authenticate_Service.Feature.AuthenticateFearture.Command.Login;
 
 using Contract.Service;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using Authenticate_Service.LoginModel;
 
 
 
@@ -48,20 +49,20 @@ namespace Authenticated.Controllers
             return Ok(await _mediator.Send(command));
         }
         [HttpPost]
-        public async Task<IActionResult> SignUp(string Email, string UserName,string Password)
+        public async Task<IActionResult> SignUp(SignUpModel request)
         {
            
-            if (context.Users.Any(u => u.Email == Email))
+            if (context.Users.Any(u => u.Email == request.Email))
             {
                 return new BadRequestObjectResult("A user is already registered with this e-mail address.");
             }
-            if (context.Users.Any(u => u.UserName == UserName))
+            if (context.Users.Any(u => u.UserName == request.UserName))
             {
                 return new BadRequestObjectResult("A user is already registered with this username.");
             }
             else
             {
-                var newUser = new User { Email = Email, UserName = UserName, Password = Password, RoleId = 1 };
+                var newUser = new User { Email = request.Email, UserName = request.UserName, Password = request.Password, RoleId = 1 };
                 context.Users.Add(newUser);
                 await context.SaveChangesAsync();
 
@@ -77,7 +78,7 @@ namespace Authenticated.Controllers
 <html>
     <body>
         <div style='font-family: Arial, sans-serif; color: #333;'>
-            <h2 style='color: #0056b3;'>Welcome to Happy Learning, {UserName}!</h2>
+            <h2 style='color: #0056b3;'>Welcome to Happy Learning, {request.UserName}!</h2>
             <p>Thank you for signing up. Please confirm your email address to activate your account.</p>
             <p style='margin: 20px 0;'>
                 <a href='{callbackUrl}' style='background-color: #0056b3; color: #ffffff; padding: 10px 20px; text-decoration: none; border-radius: 5px;'>Confirm Email</a>
@@ -87,7 +88,7 @@ namespace Authenticated.Controllers
     </body>
 </html>",
                     
-                    ToAddress = Email,
+                    ToAddress = request.Email,
                     Subject = "Confirm Your Email "
                 };
                 await _emailService.SendEmailAsync(message);
