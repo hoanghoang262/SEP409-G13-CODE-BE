@@ -39,11 +39,8 @@ namespace CourseService.Controllers
         {
             return Ok(await _mediator.Send(new GetCourseByUser{UserId=Id}));
         }
-        [HttpPost]
-        public async Task<IActionResult> GetMesaaas(IFormFile video)
-        {
-            return Ok();
-        }
+        
+       
         [HttpPost]
         public async Task<ActionResult> AddCourse(CreateCourseCommand command)
         {

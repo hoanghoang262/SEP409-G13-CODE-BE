@@ -101,7 +101,7 @@ services:
       - ASPNETCORE_URLS=http://+:80
       -  ConnectionStrings:DefaultConnection=server=sqlserverdb;database=Authentication;uid=sa;pwd=PassW0rd!;TrustServerCertificate=True
     ports:
-      - "5001:80"
+      - "6003:80"
     depends_on:
       - sqlserverdb
     volumes:

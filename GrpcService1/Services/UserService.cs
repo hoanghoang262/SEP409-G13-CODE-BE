@@ -1,4 +1,5 @@
 ﻿using Grpc.Core;
+using Microsoft.EntityFrameworkCore;
 using UserGrpc;
 using UserGrpc.Models;
 
@@ -7,26 +8,24 @@ namespace UserGrpc.Services
 {
     public class UserService : UserCourseService.UserCourseServiceBase
     {
-        private readonly ILogger<UserService> _logger;
+       
         private readonly AuthenticationContext _context;
-        public UserService(ILogger<UserService> logger, AuthenticationContext context)
+        public UserService( AuthenticationContext context)
         {
-            _logger = logger;
+           
             _context = context;
         }
 
         public override async Task<GetUserCoursesResponse> GetUserCourses(GetUserCourseRequest request, ServerCallContext context)
         {
-            var response = _context.Users.Find(request.UserId);
+            var response = await _context.Users.FirstOrDefaultAsync(u=>u.Id.Equals(request.UserId));
 
-            var result = new GetUserCoursesResponse()
+            return await Task.FromResult(new GetUserCoursesResponse()
             {
                 Id = response.Id,
                 Name = response.UserName,
 
-            };
-
-            return result;
+            });
         }
 
     }

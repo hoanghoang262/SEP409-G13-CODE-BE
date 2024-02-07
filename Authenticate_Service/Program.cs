@@ -38,13 +38,13 @@ namespace Authenticated
                 {
                     cfg.Host(mqConnection);
                 });
-                config.AddRequestClient<UserIdMessage>();
+                config.AddRequestClient<CourseMessage>();
 
             });
             //gRPC
             var config = builder.Configuration.GetSection("GrpcSetting:UserUrl").Value;
             builder.Services.AddSingleton(config);
-            builder.Services.AddGrpcClient<UserIdMessage>(x=>x.Address = new Uri(config));
+            builder.Services.AddGrpcClient<CourseMessage>(x=>x.Address = new Uri(config));
            
             //Config email
             var email=builder.Configuration.GetSection(nameof(SmtpEmailSetting)).Get<SmtpEmailSetting>();

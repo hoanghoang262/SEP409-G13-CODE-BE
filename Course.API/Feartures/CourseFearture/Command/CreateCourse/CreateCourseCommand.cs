@@ -14,7 +14,7 @@ namespace CourseService.API.Feartures.CourseFearture.Command.CreateCourse
         public string Description { get; set; }
         public string Picture { get; set; }
 
-        public IFormFile PictureByte { get; set; }
+  
         public string Tag { get; set; }
         public int UserId { get; set; }
 
