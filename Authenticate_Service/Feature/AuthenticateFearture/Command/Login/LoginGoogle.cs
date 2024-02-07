@@ -15,6 +15,7 @@ namespace Authenticate_Service.Feature.AuthenticateFearture.Command.Login
     public class LoginGoogleCommand : IRequest<IActionResult>
     {
         public string Email { get; set; }
+        public string PhotoURL { get; set; }
         
 
 
@@ -33,20 +34,6 @@ namespace Authenticate_Service.Feature.AuthenticateFearture.Command.Login
             {
                 try
                 {
-                    //string googleIdToken = request.IdToken;
-
-                    //GoogleJsonWebSignature.ValidationSettings validationSettings = new GoogleJsonWebSignature.ValidationSettings
-                    //{
-                    //    Audience = new[] { "1023076690970-a2q73p8f7ub5ddrdjt3td5udre4j3e7l.apps.googleusercontent.com" }
-
-                    //};
-
-                    //var payload = await GoogleJsonWebSignature.ValidateAsync(googleIdToken, validationSettings);
-
-                    //The token is valid.You can access user information from the payload.
-                    //string userId = payload.Subject;
-                    //string userEmail = payload.Email;
-                    //string userName = payload.GivenName;
 
                     if (String.IsNullOrEmpty(request.Email))
                     {
@@ -67,7 +54,8 @@ namespace Authenticate_Service.Feature.AuthenticateFearture.Command.Login
                             Email = request.Email,
                             UserName = request.Email.Split('@')[0],
                             RoleId = 1,
-                            EmailConfirmed = true
+                            EmailConfirmed = true,
+                            ProfilePict=request.PhotoURL
                         };
                         _context.Users.Add(userLoginGoogle);
                         await _context.SaveChangesAsync();

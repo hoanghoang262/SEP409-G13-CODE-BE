@@ -33,13 +33,13 @@ namespace Authenticated.Controllers
 
 
         [HttpPost]
-        public IActionResult SendMessage(LoginEvent models)
+        public async Task<IActionResult> SendMessage(CourseMessage models)
         {
 
             var eventMessage = models;
-            _publishEndpoint.Publish(eventMessage);
+           await _publishEndpoint.Publish(eventMessage);
 
-            return Ok();
+            return Ok(eventMessage);
         }
         //[HttpGet]
         //public IActionResult ProductTest()

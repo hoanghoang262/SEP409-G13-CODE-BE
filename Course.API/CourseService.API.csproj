@@ -43,7 +43,7 @@
   <ItemGroup>
     <Protobuf Include="Protos\user.proto">
       <GrpcServices>Client</GrpcServices>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      
     </Protobuf>
   </ItemGroup>
 

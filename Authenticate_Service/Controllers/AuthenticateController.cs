@@ -17,6 +17,7 @@ using Authenticate_Service.Feature.AuthenticateFearture.Command.Login;
 using Contract.Service;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Authenticate_Service.LoginModel;
+using Microsoft.EntityFrameworkCore;
 
 
 
@@ -97,6 +98,14 @@ namespace Authenticated.Controllers
 
             }
            
+        }
+        [HttpGet]
+        public async Task<IActionResult> GetUser(int id)
+        {
+
+            var user= await context.Users.FirstOrDefaultAsync(u => u.Id.Equals(id));
+
+            return Ok(user);    
         }
        
     }
