@@ -1,21 +1,16 @@
 ﻿
-
-
-
 using CloudinaryDotNet;
-
-
 using CourseService;
-using CourseService.API.Common.Mapping;
+using CourseService.API.Application.ConsumeMessage.EvenHandles;
 using CourseService.API.IntegrationEvent.EvenHandles;
-
+using CourseService.API.Models;
 using GrpcServices;
 using MassTransit;
 using Microsoft.EntityFrameworkCore;
 using System.Reflection;
 using UserGrpc;
 
-namespace Course
+namespace CourseService
 {
     public class Program
     {
@@ -30,7 +25,9 @@ namespace Course
 
             builder.Services.AddMassTransit(config =>
             {
-                config.AddConsumersFromNamespaceContaining<EventHanler>();
+                config.AddConsumersFromNamespaceContaining<EventCourseHandler>();
+                config.AddConsumersFromNamespaceContaining<EventChapterHandler>();
+                config.AddConsumersFromNamespaceContaining<EventLessonHandler>();
 
                 config.UsingRabbitMq((ctx, cfg) =>
                 {

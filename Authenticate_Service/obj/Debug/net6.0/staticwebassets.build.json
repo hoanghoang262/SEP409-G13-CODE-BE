@@ -1,8 +1,8 @@
 {
   "Version": 1,
-  "Hash": "fOEeG+02RP3NFX4KqNdEkmIS+1rBi1T4fjZe5Mn4OYY=",
-  "Source": "Authenticate_Service",
-  "BasePath": "_content/Authenticate_Service",
+  "Hash": "C1CVBn7apDcFaWstxaxri9Q7VW+ccn5Ys2xfAxKeEgc=",
+  "Source": "AuthenticateService.API",
+  "BasePath": "_content/AuthenticateService.API",
   "Mode": "Default",
   "ManifestType": "Build",
   "ReferencedProjectsConfiguration": [],

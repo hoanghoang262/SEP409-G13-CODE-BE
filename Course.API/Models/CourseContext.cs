@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 
-namespace CourseService
+namespace CourseService.API.Models
 {
     public partial class CourseContext : DbContext
     {
@@ -19,6 +19,7 @@ namespace CourseService
         public virtual DbSet<Chapter> Chapters { get; set; } = null!;
         public virtual DbSet<Comment> Comments { get; set; } = null!;
         public virtual DbSet<Course> Courses { get; set; } = null!;
+        public virtual DbSet<Enrollment> Enrollments { get; set; } = null!;
         public virtual DbSet<Lesson> Lessons { get; set; } = null!;
         public virtual DbSet<Question> Questions { get; set; } = null!;
         public virtual DbSet<UserCourseProgress> UserCourseProgresses { get; set; } = null!;
@@ -28,7 +29,7 @@ namespace CourseService
             if (!optionsBuilder.IsConfigured)
             {
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-                optionsBuilder.UseSqlServer("server=localhost\\sqlserverdb,1435;database=Course;uid=sa;pwd=PassW0rd!;TrustServerCertificate=True");
+                optionsBuilder.UseSqlServer("server=localhost\\sqlserverdb,1435;database=Course;uid=sa;pwd=PassW0rd!;TrustServerCertificate=true");
             }
         }
 
@@ -75,9 +76,27 @@ namespace CourseService
             {
                 entity.ToTable("Course");
 
+                entity.Property(e => e.CreatedAt)
+                    .HasColumnType("datetime")
+                    .HasColumnName("Created_At");
+
+                entity.Property(e => e.CreatedBy).HasColumnName("Created_By");
+
                 entity.Property(e => e.Tag).HasMaxLength(50);
+            });
+
+            modelBuilder.Entity<Enrollment>(entity =>
+            {
+                entity.ToTable("Enrollment");
+
+                entity.Property(e => e.CourseId).HasColumnName("Course_Id");
 
                 entity.Property(e => e.UserId).HasColumnName("User_Id");
+
+                entity.HasOne(d => d.Course)
+                    .WithMany(p => p.Enrollments)
+                    .HasForeignKey(d => d.CourseId)
+                    .HasConstraintName("FK_Enrollment_Course");
             });
 
             modelBuilder.Entity<Lesson>(entity =>

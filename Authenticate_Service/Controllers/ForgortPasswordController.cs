@@ -1,6 +1,7 @@
 ﻿
 using Authenticate_Service.Feature.AuthenticateFearture.Command.ForgotPassword;
 using Contract.Service;
+using Contract.Service.Configuration;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;

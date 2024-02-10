@@ -61,7 +61,6 @@ namespace Authenticated
     oprions => oprions.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"))
     );
 
-            // builder.Services.AddScoped<IMessageProducer,RabbitMQProducer>();
             //Config Jwt
             builder.Services.AddAuthentication(options =>
             {

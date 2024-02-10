@@ -1,5 +1,5 @@
-﻿
-using CourseService.API.Common.Mapping;
+﻿using CourseService.API.Common.Mapping;
+using CourseService.API.Models;
 
 namespace CourseService.API.Common.ModelDTO
 {
@@ -44,7 +44,6 @@ namespace CourseService.API.Common.ModelDTO
         public int Id { get; set; }
         public string? Title { get; set; }
         public string? VideoUrl { get; set; }
-        public IFormFile? VideoByte { get; set; }
         public int? ChapterId { get; set; }
         public string? Description { get; set; }
         public long? Duration { get; set; }
