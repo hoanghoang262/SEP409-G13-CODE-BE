@@ -18,6 +18,7 @@ using Contract.Service;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Authenticate_Service.LoginModel;
 using Microsoft.EntityFrameworkCore;
+using Contract.Service.Configuration;
 
 
 

@@ -1,13 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace CourseService
+namespace CourseService.API.Models
 {
-    public class Course
+    public partial class Course
     {
         public Course()
         {
             Chapters = new HashSet<Chapter>();
+            Enrollments = new HashSet<Enrollment>();
         }
 
         public int Id { get; set; }
@@ -15,8 +16,10 @@ namespace CourseService
         public string? Description { get; set; }
         public string? Picture { get; set; }
         public string? Tag { get; set; }
-        public int? UserId { get; set; }
+        public int? CreatedBy { get; set; }
+        public DateTime? CreatedAt { get; set; }
 
         public virtual ICollection<Chapter> Chapters { get; set; }
+        public virtual ICollection<Enrollment> Enrollments { get; set; }
     }
 }

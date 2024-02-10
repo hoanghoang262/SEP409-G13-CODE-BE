@@ -46,7 +46,13 @@ services:
      ports:
       - "5672:5672"
       - "15672:15672"
-     
+  
+  redisdb:
+     image: "redis:alpine"
+     container_name: redisdb
+     restart: always
+     ports:
+       - "6379:6379"
 
        
   
@@ -108,6 +114,26 @@ services:
       - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
       - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
 
+  moderationservice.api:
+    image: ${DOCKER_REGISTRY-}moderationserviceapi
+    build:
+      context: .
+      dockerfile: ModerationService.API/Dockerfile
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://+:80
+      - ConnectionStrings:DefaultConnection=server=sqlserverdb;database=Content_Moderation;uid=sa;pwd=PassW0rd!;TrustServerCertificate=True
+      - "EventBusSetting:HostAddress=amqp://guest:guest@rabbitmq:5672"
+    ports:
+      - "6004:80"
+    depends_on:
+      - sqlserverdb
+      - rabbitmq
+    restart: always
+    volumes:
+      - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
+
+
 networks:
    default: 
      name: CMS
@@ -115,6 +141,7 @@ networks:
      
 
      
+
 
 
 

@@ -4771,9 +4771,9 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\fpt\\Desktop\\HappyLearning\\SEP490-G13-CODE-BE\\Authenticate_Service\\Authenticate_Service.csproj",
-      "projectName": "Authenticate_Service",
-      "projectPath": "C:\\Users\\fpt\\Desktop\\HappyLearning\\SEP490-G13-CODE-BE\\Authenticate_Service\\Authenticate_Service.csproj",
+      "projectUniqueName": "C:\\Users\\fpt\\Desktop\\HappyLearning\\SEP490-G13-CODE-BE\\Authenticate_Service\\AuthenticateService.API.csproj",
+      "projectName": "AuthenticateService.API",
+      "projectPath": "C:\\Users\\fpt\\Desktop\\HappyLearning\\SEP490-G13-CODE-BE\\Authenticate_Service\\AuthenticateService.API.csproj",
       "packagesPath": "C:\\Users\\fpt\\.nuget\\packages\\",
       "outputPath": "C:\\Users\\fpt\\Desktop\\HappyLearning\\SEP490-G13-CODE-BE\\Authenticate_Service\\obj\\",
       "projectStyle": "PackageReference",

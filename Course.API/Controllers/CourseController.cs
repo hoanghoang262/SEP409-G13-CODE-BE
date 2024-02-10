@@ -1,14 +1,12 @@
 ﻿
 
-
-using CloudinaryDotNet.Actions;
 using CloudinaryDotNet;
-using CourseService.API.Common.ModelDTO;
+
 using CourseService.API.Feartures.CourseFearture.Command.CreateCourse;
 using CourseService.API.Feartures.CourseFearture.Queries;
-using MassTransit;
+
 using MediatR;
-using Microsoft.AspNetCore.Http;
+
 using Microsoft.AspNetCore.Mvc;
 using API.Feartures.CourseFearture.Queries;
 
@@ -30,38 +28,17 @@ namespace CourseService.Controllers
 
 
         [HttpGet]
-        public async Task<IActionResult> GetMess()
+        public async Task<IActionResult> GetAllCourses()
         {
-            return Ok(await _mediator.Send(new MessageCommand()));
+            return Ok(await _mediator.Send(new GetAllCourseQuerry()));
         }
         [HttpGet]
         public async Task<IActionResult> GetCourseByUser(int Id)
         {
-            return Ok(await _mediator.Send(new GetCourseByUser{UserId=Id}));
+            return Ok(await _mediator.Send(new GetCourseByUserIdQuerry{UserId=Id}));
         }
         
        
-        [HttpPost]
-        public async Task<ActionResult> AddCourse(CreateCourseCommand command)
-        {
-           
-            return Ok(await _mediator.Send(command));
-        }
-        [HttpPost]
-        public IActionResult UploadVideo( IFormFile video)
-        {
-            var uploadParams = new VideoUploadParams
-            {
-                File = new FileDescription(video.FileName, video.OpenReadStream()),
-                // Các tham số tải lên khác nếu cần
-            };
 
-            var uploadResult = _cloudinary.Upload(uploadParams);
-
-            // Process uploadResult as needed
-            var videoUrl = uploadResult.Url;
-
-            return Ok(new { VideoUrl = videoUrl });
-        }
     }
 }

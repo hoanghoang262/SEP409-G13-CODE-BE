@@ -10,7 +10,8 @@
         "course.api": "StartDebugging",
         "reverseproxy": "StartDebugging",
         "user.grpc": "StartDebugging",
-        "usergrpc": "StartDebugging"
+        "usergrpc": "StartDebugging",
+        "moderationservice.api": "StartDebugging"
       }
     }
   }

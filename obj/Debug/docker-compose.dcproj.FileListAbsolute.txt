@@ -115,14 +115,10 @@ C:\Users\fpt\Desktop\fpt-cms-main1\bin\Debug\Course.API.dll
 C:\Users\fpt\Desktop\fpt-cms-main1\bin\Debug\Course.API.pdb
 C:\Users\fpt\Desktop\HappyLearning\SEP490-G13-CODE-BE\bin\Debug\appsettings.Development.json
 C:\Users\fpt\Desktop\HappyLearning\SEP490-G13-CODE-BE\bin\Debug\appsettings.json
-C:\Users\fpt\Desktop\HappyLearning\SEP490-G13-CODE-BE\bin\Debug\Authenticate_Service.deps.json
-C:\Users\fpt\Desktop\HappyLearning\SEP490-G13-CODE-BE\bin\Debug\Authenticate_Service.runtimeconfig.json
-C:\Users\fpt\Desktop\HappyLearning\SEP490-G13-CODE-BE\bin\Debug\Authenticate_Service.exe
 C:\Users\fpt\Desktop\HappyLearning\SEP490-G13-CODE-BE\bin\Debug\ReverseProxy.deps.json
 C:\Users\fpt\Desktop\HappyLearning\SEP490-G13-CODE-BE\bin\Debug\ReverseProxy.runtimeconfig.json
 C:\Users\fpt\Desktop\HappyLearning\SEP490-G13-CODE-BE\bin\Debug\ocelot.json
 C:\Users\fpt\Desktop\HappyLearning\SEP490-G13-CODE-BE\bin\Debug\ReverseProxy.exe
-C:\Users\fpt\Desktop\HappyLearning\SEP490-G13-CODE-BE\bin\Debug\Authenticate_Service.dll
 C:\Users\fpt\Desktop\HappyLearning\SEP490-G13-CODE-BE\bin\Debug\ReverseProxy.dll
 C:\Users\fpt\Desktop\HappyLearning\SEP490-G13-CODE-BE\bin\Debug\AutoMapper.dll
 C:\Users\fpt\Desktop\HappyLearning\SEP490-G13-CODE-BE\bin\Debug\MassTransit.dll
@@ -165,7 +161,6 @@ C:\Users\fpt\Desktop\HappyLearning\SEP490-G13-CODE-BE\bin\Debug\Microsoft.Identi
 C:\Users\fpt\Desktop\HappyLearning\SEP490-G13-CODE-BE\bin\Debug\Microsoft.Identity.Client.dll
 C:\Users\fpt\Desktop\HappyLearning\SEP490-G13-CODE-BE\bin\Debug\Microsoft.AspNetCore.JsonPatch.dll
 C:\Users\fpt\Desktop\HappyLearning\SEP490-G13-CODE-BE\bin\Debug\Newtonsoft.Json.Bson.dll
-C:\Users\fpt\Desktop\HappyLearning\SEP490-G13-CODE-BE\bin\Debug\Authenticate_Service.pdb
 C:\Users\fpt\Desktop\HappyLearning\SEP490-G13-CODE-BE\bin\Debug\ReverseProxy.pdb
 C:\Users\fpt\Desktop\HappyLearning\SEP490-G13-CODE-BE\bin\Debug\EventBus.Message.pdb
 C:\Users\fpt\Desktop\HappyLearning\SEP490-G13-CODE-BE\obj\Debug\docker-compose.dcproj.AssemblyReference.cache
@@ -210,3 +205,13 @@ C:\Users\fpt\Desktop\HappyLearning\SEP490-G13-CODE-BE\bin\Debug\System.Diagnosti
 C:\Users\fpt\Desktop\HappyLearning\SEP490-G13-CODE-BE\bin\Debug\Microsoft.Extensions.DependencyInjection.dll
 C:\Users\fpt\Desktop\HappyLearning\SEP490-G13-CODE-BE\bin\Debug\Microsoft.Extensions.Caching.Memory.dll
 C:\Users\fpt\Desktop\HappyLearning\SEP490-G13-CODE-BE\bin\Debug\UserGrpc.pdb
+C:\Users\fpt\Desktop\HappyLearning\SEP490-G13-CODE-BE\bin\Debug\AuthenticateService.API.deps.json
+C:\Users\fpt\Desktop\HappyLearning\SEP490-G13-CODE-BE\bin\Debug\AuthenticateService.API.runtimeconfig.json
+C:\Users\fpt\Desktop\HappyLearning\SEP490-G13-CODE-BE\bin\Debug\AuthenticateService.API.exe
+C:\Users\fpt\Desktop\HappyLearning\SEP490-G13-CODE-BE\bin\Debug\AuthenticateService.API.dll
+C:\Users\fpt\Desktop\HappyLearning\SEP490-G13-CODE-BE\bin\Debug\AuthenticateService.API.pdb
+C:\Users\fpt\Desktop\HappyLearning\SEP490-G13-CODE-BE\bin\Debug\ModerationService.API.deps.json
+C:\Users\fpt\Desktop\HappyLearning\SEP490-G13-CODE-BE\bin\Debug\ModerationService.API.runtimeconfig.json
+C:\Users\fpt\Desktop\HappyLearning\SEP490-G13-CODE-BE\bin\Debug\ModerationService.API.exe
+C:\Users\fpt\Desktop\HappyLearning\SEP490-G13-CODE-BE\bin\Debug\ModerationService.API.dll
+C:\Users\fpt\Desktop\HappyLearning\SEP490-G13-CODE-BE\bin\Debug\ModerationService.API.pdb
