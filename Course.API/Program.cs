@@ -28,6 +28,7 @@ namespace CourseService
                 config.AddConsumersFromNamespaceContaining<EventCourseHandler>();
                 config.AddConsumersFromNamespaceContaining<EventChapterHandler>();
                 config.AddConsumersFromNamespaceContaining<EventLessonHandler>();
+                config.AddConsumersFromNamespaceContaining<EventQuestionHandler>();
 
                 config.UsingRabbitMq((ctx, cfg) =>
                 {
