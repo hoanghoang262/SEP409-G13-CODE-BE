@@ -1,4 +1,5 @@
 ﻿using CourseService.API.Common.ModelDTO;
+using MassTransit.Contracts;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -18,8 +19,8 @@ namespace CourseService.API.Feartures.CourseFearture.Command.CreateCourse
         public string? Description { get; set; }
         public string? Picture { get; set; }
         public string? Tag { get; set; }
-        public int? UserId { get; set; }
-        public DateTime? CreatedAt { get; set; }
+        public int? CreatedBy { get; set; }
+        public DateTime? CreatedAt { get; set; } = DateTime.UtcNow;
 
         public List<ChapterDTO> Chapters { get; set; }
 
@@ -42,65 +43,116 @@ namespace CourseService.API.Feartures.CourseFearture.Command.CreateCourse
 
                 if (existingCourse == null)
                 {
-                    return new NotFoundResult(); // Trả về mã lỗi 404 nếu không tìm thấy khóa học
+                    return new NotFoundResult(); 
                 }
 
-                // Cập nhật thông tin của khóa học
+              
                 existingCourse.Name = request.Name;
                 existingCourse.Description = request.Description;
                 existingCourse.Picture = request.Picture;
                 existingCourse.Tag = request.Tag;
-                existingCourse.CreatedBy = request.UserId;
+                existingCourse.CreatedBy = request.CreatedBy;
 
-                // Xóa tất cả các chương, bài học và câu hỏi hiện có liên quan đến khóa học
-                _context.Questions.RemoveRange(existingCourse.Chapters.SelectMany(ch => ch.Lessons.SelectMany(les => les.Questions)));
-                _context.Lessons.RemoveRange(existingCourse.Chapters.SelectMany(ch => ch.Lessons));
-                _context.Chapters.RemoveRange(existingCourse.Chapters);
 
-                // Thêm các chương, bài học và câu hỏi mới
                 foreach (var chapterDto in request.Chapters)
                 {
-                    var newChapter = new Chapter
+                    var existingChapter = existingCourse.Chapters.FirstOrDefault(ch => ch.Id == chapterDto.Id);
+                    if (existingChapter != null)
                     {
-                        Name = chapterDto.Name,
-                        Part = chapterDto.Part,
-                        IsNew = chapterDto.IsNew
-                    };
-
-                    existingCourse.Chapters.Add(newChapter);
+                      
+                        existingChapter.Name = chapterDto.Name;
+                        existingChapter.Part = chapterDto.Part;
+                        existingChapter.IsNew = chapterDto.IsNew;
+                    }
+                    else
+                    {
+                       
+                        var newChapter = new Chapter
+                        {
+                            Name = chapterDto.Name,
+                            Part = chapterDto.Part,
+                            IsNew = chapterDto.IsNew
+                        };
+                        existingCourse.Chapters.Add(newChapter);
+                    }
 
                     foreach (var lessonDto in chapterDto.Lessons)
                     {
-                        var newLesson = new Lesson
+                        var existingLesson = existingChapter.Lessons.FirstOrDefault(les => les.Id == lessonDto.Id);
+                        if (existingLesson != null)
                         {
-                            Title = lessonDto.Title,
-                            VideoUrl = lessonDto.VideoUrl,
-                            Description = lessonDto.Description,
-                            Duration = lessonDto.Duration
-                        };
-
-                        newChapter.Lessons.Add(newLesson);
+                            
+                            existingLesson.Title = lessonDto.Title;
+                            existingLesson.VideoUrl = lessonDto.VideoUrl;
+                            existingLesson.Description = lessonDto.Description;
+                            existingLesson.Duration = lessonDto.Duration;
+                        }
+                        else
+                        {
+                            
+                            var newLesson = new Lesson
+                            {
+                                Title = lessonDto.Title,
+                                VideoUrl = lessonDto.VideoUrl,
+                                Description = lessonDto.Description,
+                                Duration = lessonDto.Duration
+                            };
+                            existingChapter.Lessons.Add(newLesson);
+                        }
 
                         foreach (var questionDto in lessonDto.Questions)
                         {
-                            var newQuestion = new Question
+                            var existingQuestion = existingLesson.Questions.FirstOrDefault(q => q.Id == questionDto.Id);
+                            if (existingQuestion != null)
                             {
-                                ContentQuestion = questionDto.ContentQuestion,
-                                AnswerA = questionDto.AnswerA,
-                                AnswerB = questionDto.AnswerB,
-                                AnswerC = questionDto.AnswerC,
-                                AnswerD = questionDto.AnswerD,
-                                CorrectAnswer = questionDto.CorrectAnswer,
-                                Time = questionDto.Time
-                            };
-
-                            newLesson.Questions.Add(newQuestion);
+                                
+                                existingQuestion.ContentQuestion = questionDto.ContentQuestion;
+                                existingQuestion.AnswerA = questionDto.AnswerA;
+                                existingQuestion.AnswerB = questionDto.AnswerB;
+                                existingQuestion.AnswerC = questionDto.AnswerC;
+                                existingQuestion.AnswerD = questionDto.AnswerD;
+                                existingQuestion.CorrectAnswer = questionDto.CorrectAnswer;
+                                existingQuestion.Time = questionDto.Time;
+                            }
+                            else
+                            {
+                              
+                                var newQuestion = new Question
+                                {
+                                    ContentQuestion = questionDto.ContentQuestion,
+                                    AnswerA = questionDto.AnswerA,
+                                    AnswerB = questionDto.AnswerB,
+                                    AnswerC = questionDto.AnswerC,
+                                    AnswerD = questionDto.AnswerD,
+                                    CorrectAnswer = questionDto.CorrectAnswer,
+                                    Time = questionDto.Time
+                                };
+                                existingLesson.Questions.Add(newQuestion);
+                            }
                         }
                     }
                 }
+                var querry = await _context.Moderations.FirstOrDefaultAsync(c => c.CourseId.Equals(existingCourse.Id));
+                if (querry == null)
+                {
+                    var moderation = new Moderation
+                    {
+                        CourseId = existingCourse.Id,
+                        ChangeType = "Modified",
+                        CreatedBy = existingCourse.Name,
+                        ApprovedContent = "Modified the course",
+                        Status = "Pending",
+                        CreatedAt = existingCourse.CreatedAt
+                    };
+                    await _context.Moderations.AddAsync(moderation);
+                }
+                else
+                {
+                    querry.CreatedAt = DateTime.Now;
+                }
+               
 
                 await _context.SaveChangesAsync(cancellationToken);
-
                 return new OkObjectResult("Your course has been updated successfully.");
             }
         }

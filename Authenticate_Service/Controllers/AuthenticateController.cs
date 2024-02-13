@@ -93,7 +93,7 @@ namespace Authenticated.Controllers
                     ToAddress = request.Email,
                     Subject = "Confirm Your Email "
                 };
-                await _emailService.SendEmailAsync(message);
+                await _emailService.SendEmailasync(message);
 
                 return new OkObjectResult("Please confirm the email that have sent to you");
 

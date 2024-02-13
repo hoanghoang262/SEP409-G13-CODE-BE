@@ -33,7 +33,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UserGrpc", "GrpcService1\Us
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ModerationService", "ModerationService", "{B9886CE7-8F8D-4544-832B-1C609062E420}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModerationService.API", "ModerationService.API\ModerationService.API.csproj", "{2CE445E1-BF18-47D1-B800-E86830E94589}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ModerationService.API", "ModerationService.API\ModerationService.API.csproj", "{2CE445E1-BF18-47D1-B800-E86830E94589}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

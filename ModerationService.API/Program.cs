@@ -1,9 +1,11 @@
 
+using GrpcServices;
 using MassTransit;
 using Microsoft.EntityFrameworkCore;
 using ModerationService.API.Common.PublishEvent;
 using ModerationService.API.Models;
 using System.Reflection;
+using UserGrpc;
 
 namespace ModerationService.API
 {
@@ -30,6 +32,11 @@ namespace ModerationService.API
                 config.AddRequestClient<CourseEvent>();
 
             });
+            //gRPC
+            var config = builder.Configuration.GetSection("GrpcSetting:UserUrl").Value;
+            builder.Services.AddSingleton(config);
+            builder.Services.AddGrpcClient<UserCourseService.UserCourseServiceClient>(x => x.Address = new Uri(config));
+            builder.Services.AddScoped<UserIdCourseGrpcService>();
             //mapper
             builder.Services.AddAutoMapper(Assembly.GetExecutingAssembly());
             //mediatR

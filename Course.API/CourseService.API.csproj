@@ -38,10 +38,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Application\Configuration\" />
-    <Folder Include="Feartures\CourseFearture\Command\UpdateCourse\Lesson\" />
-    <Folder Include="Feartures\CourseFearture\Command\UpdateCourse\Courses\" />
-    <Folder Include="Feartures\CourseFearture\Command\UpdateCourse\Question\" />
     <Folder Include="Feartures\EnrollmentFeature\Command\" />
     <Folder Include="Feartures\EnrollmentFeature\Queries\" />
   </ItemGroup>
@@ -49,7 +45,6 @@
   <ItemGroup>
     <Protobuf Include="Protos\user.proto">
       <GrpcServices>Client</GrpcServices>
-      
     </Protobuf>
   </ItemGroup>
 

@@ -8,6 +8,7 @@ namespace ModerationService.API.Models
         public Course()
         {
             Chapters = new HashSet<Chapter>();
+            Moderations = new HashSet<Moderation>();
         }
 
         public int Id { get; set; }
@@ -19,5 +20,6 @@ namespace ModerationService.API.Models
         public DateTime? CreatedAt { get; set; }
 
         public virtual ICollection<Chapter> Chapters { get; set; }
+        public virtual ICollection<Moderation> Moderations { get; set; }
     }
 }

@@ -19,6 +19,7 @@ namespace ModerationService.API.Models
         public virtual DbSet<Chapter> Chapters { get; set; } = null!;
         public virtual DbSet<Course> Courses { get; set; } = null!;
         public virtual DbSet<Lesson> Lessons { get; set; } = null!;
+        public virtual DbSet<Moderation> Moderations { get; set; } = null!;
         public virtual DbSet<Question> Questions { get; set; } = null!;
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -75,6 +76,34 @@ namespace ModerationService.API.Models
                     .WithMany(p => p.Lessons)
                     .HasForeignKey(d => d.ChapterId)
                     .HasConstraintName("FK_Videos_Chapter");
+            });
+
+            modelBuilder.Entity<Moderation>(entity =>
+            {
+                entity.ToTable("Moderation");
+
+                entity.Property(e => e.ApprovedContent).HasColumnName("Approved_Content");
+
+                entity.Property(e => e.ChangeType)
+                    .HasMaxLength(50)
+                    .HasColumnName("Change_Type");
+
+                entity.Property(e => e.CourseId).HasColumnName("Course_Id");
+
+                entity.Property(e => e.CreatedAt)
+                    .HasColumnType("datetime")
+                    .HasColumnName("Created_At");
+
+                entity.Property(e => e.CreatedBy)
+                    .HasMaxLength(50)
+                    .HasColumnName("Created_By");
+
+                entity.Property(e => e.Status).HasMaxLength(50);
+
+                entity.HasOne(d => d.Course)
+                    .WithMany(p => p.Moderations)
+                    .HasForeignKey(d => d.CourseId)
+                    .HasConstraintName("FK_Moderation_Course");
             });
 
             modelBuilder.Entity<Question>(entity =>

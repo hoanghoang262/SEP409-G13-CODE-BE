@@ -15,7 +15,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("UserGrpc")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+327b32d8faf06bdc1605d92cadbae577c7d1810e")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+f2d5f4466161ede83afbe33b84d1f4fd2278a29a")]
 [assembly: System.Reflection.AssemblyProductAttribute("UserGrpc")]
 [assembly: System.Reflection.AssemblyTitleAttribute("UserGrpc")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

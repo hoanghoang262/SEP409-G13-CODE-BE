@@ -1,5 +1,6 @@
 ﻿
 using CourseService.API.Common.ModelDTO;
+using GrpcServices;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using ModerationService.API.Models;
@@ -8,13 +9,13 @@ namespace CourseService.API.Feartures.CourseFearture.Command.CreateCourse
 {
     public class CreateCourseCommand : IRequest<IActionResult>
     {
-
+         
         public string? Name { get; set; }
         public string? Description { get; set; }
         public string? Picture { get; set; }
         public string? Tag { get; set; }
-        public int? UserId { get; set; }
-        public DateTime? CreatedAt { get; set; }
+        public int CreateBy { get; set; }
+        public DateTime? CreatedAt { get; set; }=DateTime.Now;
 
         public List<ChapterDTO> Chapters { get; set; }
 
@@ -22,21 +23,25 @@ namespace CourseService.API.Feartures.CourseFearture.Command.CreateCourse
         {
             private readonly Content_ModerationContext _context;
 
+            private readonly UserIdCourseGrpcService service;
 
-            public CreateCourseHandler(Content_ModerationContext context)
+
+            public CreateCourseHandler(Content_ModerationContext context,UserIdCourseGrpcService _service)
             {
                 _context = context;
+                service = _service;
             }
             public async Task<IActionResult> Handle(CreateCourseCommand request, CancellationToken cancellationToken)
             {
-
+                var user = await service.SendUserId(request.CreateBy);
                 var newCourse = new Course
                 {
                     Name = request.Name,
                     Description = request.Description,
                     Picture = request.Picture,
                     Tag = request.Tag,
-                    CreatedBy = request.UserId,
+                    CreatedBy = request.CreateBy,
+                    CreatedAt= request.CreatedAt,
 
 
                 };
@@ -69,16 +74,13 @@ namespace CourseService.API.Feartures.CourseFearture.Command.CreateCourse
                             Description = lessonDto.Description,
                             Duration = lessonDto.Duration,
                             ChapterId = newChapter.Id
-                            // Phần comments và questions sẽ được xử lý sau khi Lesson được thêm vào cơ sở dữ liệu
+                           
                         };
 
                         _context.Lessons.Add(newLesson);
                         await _context.SaveChangesAsync(cancellationToken);
 
-                        // Thêm các comment cho bài học mới
-
-
-                        // Thêm các câu hỏi cho bài học mới
+                        
                         foreach (var questionDto in lessonDto.Questions)
                         {
                             var newQuestion = new Question
@@ -98,6 +100,21 @@ namespace CourseService.API.Feartures.CourseFearture.Command.CreateCourse
                         }
                     }
                 }
+                var moderation = new Moderation
+                {
+                    CourseId= newCourse.Id,
+                    ChangeType="Add",
+                    CreatedBy=user.Name,
+                    ApprovedContent="Add a new course",
+                    Status="Pending",
+                    CreatedAt=newCourse.CreatedAt
+                    
+
+                };
+                await _context.Moderations.AddAsync(moderation);
+                await _context.SaveChangesAsync(cancellationToken); 
+
+
 
 
                 return new OkObjectResult("Your course will be sent to Admin for moderation");

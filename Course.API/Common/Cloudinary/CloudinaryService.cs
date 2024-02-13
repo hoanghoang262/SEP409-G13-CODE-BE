@@ -14,23 +14,23 @@ namespace CourseService
 
         }
 
-        public async Task<string> UploadImageAsync(IFormFile imageFile)
-        {
-            if (imageFile?.Length > 0)
-            {
-                var uploadParams = new ImageUploadParams
-                {
-                    File = new FileDescription(imageFile.FileName, imageFile.OpenReadStream()),
-                    // Các cài đặt khác nếu cần
-                };
+        //public async Task<string> UploadImageasync(IFormFile imageFile)
+        //{
+        //    if (imageFile?.Length > 0)
+        //    {
+        //        var uploadParams = new ImageUploadParams
+        //        {
+        //            File = new FileDescription(imageFile.FileName, imageFile.OpenReadStream()),
+        //            // Các cài đặt khác nếu cần
+        //        };
 
-                var uploadResult = await _cloudinary.UploadAsync(uploadParams);
-                return uploadResult.SecureUrl?.AbsoluteUri;
-            }
+        //        var uploadResult = await _cloudinary.Uploadasync(uploadParams);
+        //        return uploadResult.SecureUrl?.AbsoluteUri;
+        //    }
 
-            return null;
-        }
-         public async Task<string> UploadVideoAsync(IFormFile videoFile)
+        //    return null;
+        //}
+         public async Task<string> UploadVideoasync(IFormFile videoFile)
        {
         if (videoFile?.Length > 0)
         {

@@ -13,7 +13,7 @@ namespace Authenticate_Service.Pages
             _context = context;
         }
         
-        public async Task<IActionResult> OnGetAsync(int userId)
+        public async Task<IActionResult> OnGetasync(int userId)
         {
 
             var user = await _context.Users.FindAsync(userId);

@@ -83,7 +83,7 @@ namespace ModerationService.API.Fearture.Command.Moderation
                         }
                     }
                 }
-                return new OkObjectResult("Sync success");
+                return new OkObjectResult("async success");
             }
         }
     }

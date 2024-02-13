@@ -8,7 +8,7 @@ using CourseService.API.Feartures.CourseFearture.Queries;
 using MediatR;
 
 using Microsoft.AspNetCore.Mvc;
-using API.Feartures.CourseFearture.Queries;
+
 
 
 namespace CourseService.Controllers
@@ -37,8 +37,14 @@ namespace CourseService.Controllers
         {
             return Ok(await _mediator.Send(new GetCourseByUserIdQuerry{UserId=Id}));
         }
-        
-       
+
+        [HttpGet]
+        public async Task<IActionResult> GetCourseByCourseId(int Id)
+        {
+            return Ok(await _mediator.Send(new GetCourseByCourseIdQuerry { CourseId = Id }));
+        }
+
+
 
     }
 }

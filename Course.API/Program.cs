@@ -2,6 +2,7 @@
 using CloudinaryDotNet;
 using CourseService;
 using CourseService.API.Application.ConsumeMessage.EvenHandles;
+using CourseService.API.Application.MessageBroker.EvenHandles;
 using CourseService.API.IntegrationEvent.EvenHandles;
 using CourseService.API.Models;
 using GrpcServices;
