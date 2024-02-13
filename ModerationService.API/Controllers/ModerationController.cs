@@ -44,6 +44,16 @@ namespace ModerationService.API.Controllers
 
             return Ok(await _mediator.Send(new ModerationCourseCommand { CourseId=courseId}));
         }
+        [HttpPost]
+
+        public async Task<ActionResult> UpdateCourse(int Id,UpdateCourseCommand command)
+        {
+            if (Id != command.Id)
+            {
+                return BadRequest();
+            } 
+            return Ok(await _mediator.Send(command));
+        }
 
 
 

@@ -74,7 +74,7 @@ namespace Authenticate_Service.Feature.AuthenticateFearture.Command.ForgotPasswo
                     ToAddress = request.Email,
                     Subject = "Verify Code"
                 };
-                await  _emailService.SendEmailAsync(message);
+                await  _emailService.SendEmailasync(message);
 
                 return new OkObjectResult("We have sent the confirmation code to your email: "+request.Email);
 

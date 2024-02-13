@@ -19,7 +19,7 @@ namespace Contract.Service
            _setting = options;
         }
 
-        public async Task SendEmailAsync(MailRequest request, CancellationToken cancellationToken = default)
+        public async Task SendEmailasync(MailRequest request, CancellationToken cancellationToken = default)
         {
             var emailMessage = new MimeMessage
             {

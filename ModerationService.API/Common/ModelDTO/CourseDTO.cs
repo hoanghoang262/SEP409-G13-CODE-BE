@@ -11,7 +11,7 @@ namespace CourseService.API.Common.ModelDTO
             Chapters = new HashSet<ChapterDTO>();
         }
 
-        
+        public int Id { get; set; }
         public string? Name { get; set; }
         public string? Description { get; set; }
         public string? Picture { get; set; }
@@ -24,7 +24,7 @@ namespace CourseService.API.Common.ModelDTO
     public class ChapterDTO: IMapFrom<Chapter> {
        
 
-     
+        public int Id { get; set; }
         public string? Name { get; set; }
         public int? CourseId { get; set; }
         public decimal? Part { get; set; }
@@ -41,7 +41,7 @@ namespace CourseService.API.Common.ModelDTO
             Questions = new HashSet<QuestionDTO>();
         }
 
-       
+        public int Id { get; set; }
         public string? Title { get; set; }
         public string? VideoUrl { get; set; }
         public int? ChapterId { get; set; }
@@ -54,7 +54,8 @@ namespace CourseService.API.Common.ModelDTO
 
     }
     public class QuestionDTO: IMapFrom<Question> {
-   
+
+        public int Id { get; set; }
         public int? VideoId { get; set; }
         public string? ContentQuestion { get; set; }
         public string? AnswerA { get; set; }
