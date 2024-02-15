@@ -11,7 +11,9 @@
         "reverseproxy": "StartDebugging",
         "user.grpc": "StartDebugging",
         "usergrpc": "StartDebugging",
-        "moderationservice.api": "StartDebugging"
+        "moderationservice.api": "StartDebugging",
+        "coursegrpc": "StartDebugging",
+        "notificationservice.api": "StartDebugging"
       }
     }
   }

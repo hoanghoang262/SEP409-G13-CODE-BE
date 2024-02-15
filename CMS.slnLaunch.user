@@ -1,0 +1,20 @@
+[
+  {
+    "Name": "New Profile",
+    "Projects": [
+      {
+        "Name": "ModerationService.API\\ModerationService.API.csproj",
+        "Action": "Start",
+        "DebugTarget": ""
+      },
+      {
+        "Name": "CourseGRPC\\CourseGRPC.csproj",
+        "Action": "Start"
+      },
+      {
+        "Name": "NotificationService.API\\NotificationService.API.csproj",
+        "Action": "Start"
+      }
+    ]
+  }
+]

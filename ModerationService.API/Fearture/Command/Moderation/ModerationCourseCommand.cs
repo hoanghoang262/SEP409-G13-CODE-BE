@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using CourseGRPC.Services;
 using EventBus.Message.IntegrationEvent.PublishEvent;
 using MassTransit;
 using MediatR;
@@ -18,14 +19,18 @@ namespace ModerationService.API.Fearture.Command.Moderation
             private readonly IPublishEndpoint _publish;
             private readonly Content_ModerationContext _context;
             private readonly IMapper _mapper;
-            public ModerationCourseCommandHandler(IPublishEndpoint publish, Content_ModerationContext context,IMapper mapper)
+            private readonly UserEnrollCourseGrpcServices _services;
+            public ModerationCourseCommandHandler(IPublishEndpoint publish, Content_ModerationContext context,IMapper mapper,UserEnrollCourseGrpcServices service)
             {
                 _context = context;
                 _publish = publish;
                 _mapper = mapper;
+                _services=service;
+
             }
             public async Task<IActionResult> Handle(ModerationCourseCommand request, CancellationToken cancellationToken)
             {
+                var userId=_services.SendCourseId(request.CourseId);
                 var course =  await  _context.Courses.FirstOrDefaultAsync(c => c.Id.Equals(request.CourseId));
                 var courseEvent = new CourseEvent
                 {
@@ -61,7 +66,9 @@ namespace ModerationService.API.Fearture.Command.Moderation
                             Description = less.Description,
                             VideoUrl = less.VideoUrl,
                             Title = less.Title,
-                            Duration = less.Duration
+                            Duration = less.Duration,
+                            IsCompleted=false
+                            
                         };
                         await _publish.Publish(lessonEvent);
                         var question = await _context.Questions.Where(q => q.VideoId.Equals(less.Id)).ToListAsync();
@@ -83,6 +90,19 @@ namespace ModerationService.API.Fearture.Command.Moderation
                         }
                     }
                 }
+                foreach (var id in userId.Result.UserId)
+                {
+                    var notification = new NotificationEvent
+                    {
+                        RecipientId=id,
+                        IsSeen=false,
+                        NotificationContent="Your course have been change. Please check the new content",
+                        SendDate=DateTime.Now,
+                    };
+                    await _publish.Publish(notification);
+                }
+
+
                 return new OkObjectResult("async success");
             }
         }

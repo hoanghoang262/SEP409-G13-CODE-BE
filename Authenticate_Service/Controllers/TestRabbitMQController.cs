@@ -2,7 +2,7 @@
 using Account.API.Model;
 
 using AutoMapper;
-using EventBus.Message.IntegrationEvent.Event;
+
 using Infrastructures;
 using MassTransit;
 using Microsoft.AspNetCore.Http;
@@ -32,15 +32,15 @@ namespace Authenticated.Controllers
         }
 
 
-        [HttpPost]
-        public async Task<IActionResult> SendMessage(CourseMessage models)
-        {
+        //[HttpPost]
+        //public async Task<IActionResult> SendMessage(CourseMessage models)
+        //{
 
-            var eventMessage = models;
-           await _publishEndpoint.Publish(eventMessage);
+        //    var eventMessage = models;
+        //   await _publishEndpoint.Publish(eventMessage);
 
-            return Ok(eventMessage);
-        }
+        //    return Ok(eventMessage);
+        //}
         //[HttpGet]
         //public IActionResult ProductTest()
         //{

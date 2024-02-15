@@ -24,6 +24,8 @@
       "UpstreamHttpMethod": [ "POST", "PUT" ]
 
     },
+
+
     {
       "DownstreamPathTemplate": "/api/{controller}/{action}",
       "AuthenticationOptions": {

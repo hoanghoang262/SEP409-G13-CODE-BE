@@ -63,9 +63,9 @@ C:\Users\fpt\Desktop\HappyLearning\SEP490-G13-CODE-BE\GrpcService1\obj\Debug\net
 C:\Users\fpt\Desktop\HappyLearning\SEP490-G13-CODE-BE\GrpcService1\obj\Debug\net6.0\staticwebassets\msbuild.buildTransitive.UserGrpc.props
 C:\Users\fpt\Desktop\HappyLearning\SEP490-G13-CODE-BE\GrpcService1\obj\Debug\net6.0\staticwebassets.pack.json
 C:\Users\fpt\Desktop\HappyLearning\SEP490-G13-CODE-BE\GrpcService1\obj\Debug\net6.0\scopedcss\bundle\UserGrpc.styles.css
-C:\Users\fpt\Desktop\HappyLearning\SEP490-G13-CODE-BE\GrpcService1\obj\Debug\net6.0\UserGrpc.csproj.CopyComplete
 C:\Users\fpt\Desktop\HappyLearning\SEP490-G13-CODE-BE\GrpcService1\obj\Debug\net6.0\UserGrpc.dll
 C:\Users\fpt\Desktop\HappyLearning\SEP490-G13-CODE-BE\GrpcService1\obj\Debug\net6.0\refint\UserGrpc.dll
 C:\Users\fpt\Desktop\HappyLearning\SEP490-G13-CODE-BE\GrpcService1\obj\Debug\net6.0\UserGrpc.pdb
 C:\Users\fpt\Desktop\HappyLearning\SEP490-G13-CODE-BE\GrpcService1\obj\Debug\net6.0\UserGrpc.genruntimeconfig.cache
 C:\Users\fpt\Desktop\HappyLearning\SEP490-G13-CODE-BE\GrpcService1\obj\Debug\net6.0\ref\UserGrpc.dll
+C:\Users\fpt\Desktop\HappyLearning\SEP490-G13-CODE-BE\GrpcService1\obj\Debug\net6.0\UserGrpc.csproj.Up2Date

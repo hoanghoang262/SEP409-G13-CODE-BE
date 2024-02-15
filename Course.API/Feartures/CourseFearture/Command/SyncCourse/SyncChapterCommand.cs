@@ -2,7 +2,7 @@
 using CourseService.API.Common.Mapping;
 using CourseService.API.Common.ModelDTO;
 using CourseService.API.Models;
-using EventBus.Message.IntegrationEvent.Event;
+
 using EventBus.Message.IntegrationEvent.PublishEvent;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;

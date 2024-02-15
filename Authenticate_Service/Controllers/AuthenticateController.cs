@@ -11,7 +11,7 @@ using Authenticate_Service.Feature.AuthenticateFearture.Command;
 using MediatR;
 using Authenticate_Service.Common;
 using MassTransit;
-using EventBus.Message.IntegrationEvent.Event;
+
 using Authenticate_Service.Feature.AuthenticateFearture.Command.Login;
 
 using Contract.Service;

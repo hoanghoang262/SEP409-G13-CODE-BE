@@ -2,7 +2,6 @@
 using CourseService.API.Common.Mapping;
 using CourseService.API.Common.ModelDTO;
 using CourseService.API.Models;
-using EventBus.Message.IntegrationEvent.Event;
 using EventBus.Message.IntegrationEvent.PublishEvent;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -18,6 +17,7 @@ namespace CourseService.API.Feartures.CourseFearture.Command.CreateCourse
         public int? ChapterId { get; set; }
         public string? Description { get; set; }
         public long? Duration { get; set; }
+        public bool? IsCompleted { get; set; }
         public class asyncLessonHandler : IRequestHandler<SyncLessonCommand, IActionResult>
         {
             private readonly CourseContext _context;
@@ -40,7 +40,8 @@ namespace CourseService.API.Feartures.CourseFearture.Command.CreateCourse
                         VideoUrl = request.VideoUrl,
                         ChapterId = request.ChapterId,
                         Description = request.Description,
-                        Duration = request.Duration
+                        Duration = request.Duration,
+                        IsCompleted=request.IsCompleted
 
                     };
 
@@ -56,6 +57,8 @@ namespace CourseService.API.Feartures.CourseFearture.Command.CreateCourse
                     lesson.ChapterId = request.ChapterId;
                     lesson.Description = request.Description;
                     lesson.Duration = request.Duration;
+                    lesson.IsCompleted = request.IsCompleted;
+
                     await _context.SaveChangesAsync(cancellationToken);
                 }
               

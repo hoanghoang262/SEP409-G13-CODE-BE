@@ -39,6 +39,8 @@ namespace CourseService.API.Models
             {
                 entity.ToTable("Chapter");
 
+                entity.Property(e => e.Id).ValueGeneratedNever();
+
                 entity.Property(e => e.CourseId).HasColumnName("Course_Id");
 
                 entity.Property(e => e.IsNew).HasColumnName("Is_New");
@@ -76,6 +78,8 @@ namespace CourseService.API.Models
             {
                 entity.ToTable("Course");
 
+                entity.Property(e => e.Id).ValueGeneratedNever();
+
                 entity.Property(e => e.CreatedAt)
                     .HasColumnType("datetime")
                     .HasColumnName("Created_At");
@@ -103,6 +107,8 @@ namespace CourseService.API.Models
             {
                 entity.ToTable("Lesson");
 
+                entity.Property(e => e.Id).ValueGeneratedNever();
+
                 entity.Property(e => e.ChapterId).HasColumnName("Chapter_Id");
 
                 entity.Property(e => e.Title).HasMaxLength(50);
@@ -117,6 +123,8 @@ namespace CourseService.API.Models
 
             modelBuilder.Entity<Question>(entity =>
             {
+                entity.Property(e => e.Id).ValueGeneratedNever();
+
                 entity.Property(e => e.AnswerA).HasColumnName("Answer_A");
 
                 entity.Property(e => e.AnswerB).HasColumnName("Answer_B");
