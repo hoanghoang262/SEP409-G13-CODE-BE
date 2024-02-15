@@ -3,18 +3,18 @@ using CourseService.API.Common.ModelDTO;
 using GrpcServices;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using ModerationService.API.Common.ModelDTO;
 using ModerationService.API.Models;
 
 namespace CourseService.API.Feartures.CourseFearture.Command.CreateCourse
 {
-    public class CreateCourseCommand : IRequest<IActionResult>
+   public class CreateCourseCommand : IRequest<IActionResult>
     {
-         
         public string? Name { get; set; }
         public string? Description { get; set; }
         public string? Picture { get; set; }
         public string? Tag { get; set; }
-        public int CreateBy { get; set; }
+        public int CreatedBy { get; set; }
         public DateTime? CreatedAt { get; set; }=DateTime.Now;
 
         public List<ChapterDTO> Chapters { get; set; }
@@ -33,14 +33,15 @@ namespace CourseService.API.Feartures.CourseFearture.Command.CreateCourse
             }
             public async Task<IActionResult> Handle(CreateCourseCommand request, CancellationToken cancellationToken)
             {
-                var user = await service.SendUserId(request.CreateBy);
+                var user = await service.SendUserId(request.CreatedBy);
+
                 var newCourse = new Course
                 {
                     Name = request.Name,
                     Description = request.Description,
                     Picture = request.Picture,
                     Tag = request.Tag,
-                    CreatedBy = request.CreateBy,
+                    CreatedBy = request.CreatedBy,
                     CreatedAt= request.CreatedAt,
 
 
@@ -73,7 +74,8 @@ namespace CourseService.API.Feartures.CourseFearture.Command.CreateCourse
                             VideoUrl = lessonDto.VideoUrl,
                             Description = lessonDto.Description,
                             Duration = lessonDto.Duration,
-                            ChapterId = newChapter.Id
+                            ChapterId = newChapter.Id,
+                            IsCompleted=false
                            
                         };
 

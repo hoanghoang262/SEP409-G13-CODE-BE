@@ -16,6 +16,7 @@ namespace CourseService.API.Models
         public string? VideoUrl { get; set; }
         public int? ChapterId { get; set; }
         public string? Description { get; set; }
+        public bool? IsCompleted { get; set; }
         public long? Duration { get; set; }
 
         public virtual Chapter? Chapter { get; set; }

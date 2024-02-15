@@ -1,21 +1,15 @@
 ﻿using Authenticate_Service;
 using Authenticate_Service.Models;
-using EventBus.Message.IntegrationEvent.Interfaces;
 using FirebaseAdmin;
 using Google.Apis.Auth.OAuth2;
-using Infrastructures;
 using MassTransit;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System.Reflection;
 using System.Text;
-
 using Contract.Service.Configuration;
 using Contract.Service;
-using EventBus.Message.IntegrationEvent.Event;
-using Microsoft.Extensions.FileProviders;
 
 
 
@@ -38,13 +32,13 @@ namespace Authenticated
                 {
                     cfg.Host(mqConnection);
                 });
-                config.AddRequestClient<CourseMessage>();
+                //config.AddRequestClient<CourseMessage>();
 
             });
             //gRPC
             var config = builder.Configuration.GetSection("GrpcSetting:UserUrl").Value;
             builder.Services.AddSingleton(config);
-            builder.Services.AddGrpcClient<CourseMessage>(x=>x.Address = new Uri(config));
+           // builder.Services.AddGrpcClient<CourseMessage>(x=>x.Address = new Uri(config));
            
             //Config email
             var email=builder.Configuration.GetSection(nameof(SmtpEmailSetting)).Get<SmtpEmailSetting>();

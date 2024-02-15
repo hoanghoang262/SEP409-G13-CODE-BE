@@ -65,6 +65,39 @@ services:
         read_only: true
         bind:
           create_host_path: true
+  coursegrpc:
+    build:
+      context: C:\Users\fpt\Desktop\HappyLearning\SEP490-G13-CODE-BE
+      dockerfile: CourseGRPC/Dockerfile
+    depends_on:
+      sqlserverdb:
+        condition: service_started
+        required: true
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+      ASPNETCORE_URLS: http://+:80
+      ConnectionStrings:DefaultConnection: server=sqlserverdb;database=Course;uid=sa;pwd=PassW0rd!;TrustServerCertificate=True
+    image: coursegrpc
+    networks:
+      default: null
+    ports:
+      - mode: ingress
+        target: 80
+        published: "6005"
+        protocol: tcp
+    volumes:
+      - type: bind
+        source: C:\Users\fpt\AppData\Roaming/Microsoft/UserSecrets
+        target: /root/.microsoft/usersecrets
+        read_only: true
+        bind:
+          create_host_path: true
+      - type: bind
+        source: C:\Users\fpt\AppData\Roaming/ASP.NET/Https
+        target: /root/.aspnet/https
+        read_only: true
+        bind:
+          create_host_path: true
   moderationservice.api:
     build:
       context: C:\Users\fpt\Desktop\HappyLearning\SEP490-G13-CODE-BE
@@ -81,6 +114,8 @@ services:
       ASPNETCORE_URLS: http://+:80
       ConnectionStrings:DefaultConnection: server=sqlserverdb;database=Content_Moderation;uid=sa;pwd=PassW0rd!;TrustServerCertificate=True
       EventBusSetting:HostAddress: amqp://guest:guest@rabbitmq:5672
+      GrpcSetting:UserUrl: http://usergrpc
+      GrpcSetting2:CourseUrl: http://coursegrpc
     image: moderationserviceapi
     networks:
       default: null
@@ -97,6 +132,26 @@ services:
         read_only: true
         bind:
           create_host_path: true
+  notificationservice.api:
+    build:
+      context: C:\Users\fpt\Desktop\HappyLearning\SEP490-G13-CODE-BE
+      dockerfile: NotificationService.API/Dockerfile
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+      ASPNETCORE_URLS: http://+:80
+      ConnectionStrings:DefaultConnection: server=sqlserverdb;database=Notification;uid=sa;pwd=PassW0rd!;TrustServerCertificate=True
+      EventBusSetting:HostAddress: amqp://guest:guest@rabbitmq:5672
+    image: notificationserviceapi
+    networks:
+      default: null
+    ports:
+      - mode: ingress
+        target: 80
+        published: "6006"
+        protocol: tcp
+      - mode: ingress
+        target: 80
+        protocol: tcp
   rabbitmq:
     container_name: rabbitmq
     image: rabbitmq:3.12.11-management-alpine

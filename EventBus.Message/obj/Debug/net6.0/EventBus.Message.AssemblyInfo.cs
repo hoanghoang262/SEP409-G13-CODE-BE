@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("EventBus.Message")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+f2d5f4466161ede83afbe33b84d1f4fd2278a29a")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+2e74391c50193e82bc39ac363106f1dc7b7f2720")]
 [assembly: System.Reflection.AssemblyProductAttribute("EventBus.Message")]
 [assembly: System.Reflection.AssemblyTitleAttribute("EventBus.Message")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

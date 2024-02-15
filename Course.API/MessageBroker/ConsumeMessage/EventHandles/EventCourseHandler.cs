@@ -1,9 +1,7 @@
 ﻿
-
-
 using AutoMapper;
 using CourseService.API.Feartures.CourseFearture.Command.CreateCourse;
-using EventBus.Message.IntegrationEvent.Event;
+
 using MassTransit;
 
 using MediatR;

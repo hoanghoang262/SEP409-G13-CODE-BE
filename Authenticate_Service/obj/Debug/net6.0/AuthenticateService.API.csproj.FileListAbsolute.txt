@@ -112,9 +112,9 @@ C:\Users\fpt\Desktop\HappyLearning\SEP490-G13-CODE-BE\Authenticate_Service\obj\D
 C:\Users\fpt\Desktop\HappyLearning\SEP490-G13-CODE-BE\Authenticate_Service\obj\Debug\net6.0\staticwebassets\msbuild.buildTransitive.AuthenticateService.API.props
 C:\Users\fpt\Desktop\HappyLearning\SEP490-G13-CODE-BE\Authenticate_Service\obj\Debug\net6.0\staticwebassets.pack.json
 C:\Users\fpt\Desktop\HappyLearning\SEP490-G13-CODE-BE\Authenticate_Service\obj\Debug\net6.0\scopedcss\bundle\AuthenticateService.API.styles.css
-C:\Users\fpt\Desktop\HappyLearning\SEP490-G13-CODE-BE\Authenticate_Service\obj\Debug\net6.0\AuthenticateService.API.csproj.CopyComplete
 C:\Users\fpt\Desktop\HappyLearning\SEP490-G13-CODE-BE\Authenticate_Service\obj\Debug\net6.0\AuthenticateService.API.dll
 C:\Users\fpt\Desktop\HappyLearning\SEP490-G13-CODE-BE\Authenticate_Service\obj\Debug\net6.0\refint\AuthenticateService.API.dll
 C:\Users\fpt\Desktop\HappyLearning\SEP490-G13-CODE-BE\Authenticate_Service\obj\Debug\net6.0\AuthenticateService.API.pdb
 C:\Users\fpt\Desktop\HappyLearning\SEP490-G13-CODE-BE\Authenticate_Service\obj\Debug\net6.0\AuthenticateService.API.genruntimeconfig.cache
 C:\Users\fpt\Desktop\HappyLearning\SEP490-G13-CODE-BE\Authenticate_Service\obj\Debug\net6.0\ref\AuthenticateService.API.dll
+C:\Users\fpt\Desktop\HappyLearning\SEP490-G13-CODE-BE\Authenticate_Service\obj\Debug\net6.0\Authenti.0ED0EA7A.Up2Date

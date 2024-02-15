@@ -1,0 +1,18 @@
+syntax = "proto3";
+
+option csharp_namespace = "CourseGRPC";
+
+package course;
+
+service UserEnrollCourseService {
+  rpc GetUserEnrollCourses (GetUserEnrollCourseRequest) returns (GetUserEnrollCoursesResponse);
+}
+
+message GetUserEnrollCourseRequest {
+  int32 CourseId = 1;
+}
+
+message GetUserEnrollCoursesResponse {
+   repeated  int32 UserId = 1;
+}
+

@@ -1,0 +1,55 @@
+[
+  {
+    "ContainingType": "ModerationService.API.Controllers.ModerationController",
+    "Method": "AddCourse",
+    "RelativePath": "api/Moderation/AddCourse",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "command",
+        "Type": "CourseService.API.Feartures.CourseFearture.Command.CreateCourse.CreateCourseCommand",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "ModerationService.API.Controllers.ModerationController",
+    "Method": "ModerationCourse",
+    "RelativePath": "api/Moderation/ModerationCourse",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "courseId",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "ModerationService.API.Controllers.ModerationController",
+    "Method": "UpdateCourse",
+    "RelativePath": "api/Moderation/UpdateCourse",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "Id",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "command",
+        "Type": "CourseService.API.Feartures.CourseFearture.Command.CreateCourse.UpdateCourseCommand",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  }
+]

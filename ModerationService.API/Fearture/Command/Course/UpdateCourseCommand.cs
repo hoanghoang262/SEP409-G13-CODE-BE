@@ -3,6 +3,7 @@ using MassTransit.Contracts;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using ModerationService.API.Common.ModelDTO;
 using ModerationService.API.Models;
 using System;
 using System.Collections.Generic;

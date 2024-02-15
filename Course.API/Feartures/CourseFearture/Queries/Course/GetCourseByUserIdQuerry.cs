@@ -62,6 +62,7 @@ namespace CourseService.API.Feartures.CourseFearture.Queries
                                 lesson.ChapterId,
                                 lesson.Description,
                                 lesson.Duration,
+                                lesson.IsCompleted,
                                 Questions = lesson.Questions.Select(question => new
                                 {
                                     question.Id,
