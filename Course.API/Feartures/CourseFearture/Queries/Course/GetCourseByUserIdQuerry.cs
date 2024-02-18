@@ -35,7 +35,7 @@ namespace CourseService.API.Feartures.CourseFearture.Queries
                           .Include(course => course.Chapters)
                           .ThenInclude(chapter => chapter.Lessons)
                           .ThenInclude(lesson => lesson.Questions)
-                          .Where(course => course.CreatedBy == request.UserId).ToList(); // Lọc theo UserId nếu 
+                          .Where(course => course.CreatedBy == request.UserId).ToList(); 
 
                 var result = new
                 {

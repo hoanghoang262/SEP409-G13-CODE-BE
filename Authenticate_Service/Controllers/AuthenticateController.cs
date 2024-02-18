@@ -1,24 +1,12 @@
-﻿using Account.API.Model;
-using Authenticate_Service.Models;
-using FirebaseAdmin.Auth;
+﻿using Authenticate_Service.Models;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.IdentityModel.Tokens;
-using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
-using System.Text;
-using Authenticate_Service.Feature.AuthenticateFearture.Command;
-
 using MediatR;
-using Authenticate_Service.Common;
-using MassTransit;
-
 using Authenticate_Service.Feature.AuthenticateFearture.Command.Login;
-
 using Contract.Service;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Authenticate_Service.LoginModel;
 using Microsoft.EntityFrameworkCore;
 using Contract.Service.Configuration;
+using Authenticate_Service.Common;
 
 
 
@@ -32,6 +20,8 @@ namespace Authenticated.Controllers
         private readonly IMediator _mediator;
         private readonly AuthenticationContext context;
         private readonly IEmailService<MailRequest> _emailService;
+        private readonly HassPaword hash = new HassPaword();
+        
         public AuthenticateController(IMediator mediator, AuthenticationContext _context, IEmailService<MailRequest> emailService)
         {
             _mediator = mediator;
@@ -53,7 +43,8 @@ namespace Authenticated.Controllers
         [HttpPost]
         public async Task<IActionResult> SignUp(SignUpModel request)
         {
-           
+
+            var hashPass = hash.HashPassword(request.Password);
             if (context.Users.Any(u => u.Email == request.Email))
             {
                 return new BadRequestObjectResult("A user is already registered with this e-mail address.");
@@ -64,7 +55,7 @@ namespace Authenticated.Controllers
             }
             else
             {
-                var newUser = new User { Email = request.Email, UserName = request.UserName, Password = request.Password, RoleId = 1 };
+                var newUser = new User { Email = request.Email, UserName = request.UserName, Password = hashPass, RoleId = 1 };
                 context.Users.Add(newUser);
                 await context.SaveChangesAsync();
 

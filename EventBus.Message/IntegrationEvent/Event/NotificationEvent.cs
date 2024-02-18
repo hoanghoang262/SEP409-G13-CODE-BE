@@ -9,8 +9,10 @@ namespace EventBus.Message.IntegrationEvent.PublishEvent
     public class NotificationEvent
     {
         public int NotificationsId { get; set; }
-        public int RecipientId { get; set; }
+        public int? RecipientId { get; set; }
         public string? NotificationContent { get; set; }
+
+        public int Course_Id { get; set; }  
 
         public DateTime SendDate { get; set; }
 

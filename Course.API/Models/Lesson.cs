@@ -7,7 +7,6 @@ namespace CourseService.API.Models
     {
         public Lesson()
         {
-            Comments = new HashSet<Comment>();
             Questions = new HashSet<Question>();
         }
 
@@ -20,7 +19,6 @@ namespace CourseService.API.Models
         public long? Duration { get; set; }
 
         public virtual Chapter? Chapter { get; set; }
-        public virtual ICollection<Comment> Comments { get; set; }
         public virtual ICollection<Question> Questions { get; set; }
     }
 }

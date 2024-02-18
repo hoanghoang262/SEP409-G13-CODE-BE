@@ -17,7 +17,6 @@ namespace CourseService.API.Models
         }
 
         public virtual DbSet<Chapter> Chapters { get; set; } = null!;
-        public virtual DbSet<Comment> Comments { get; set; } = null!;
         public virtual DbSet<Course> Courses { get; set; } = null!;
         public virtual DbSet<Enrollment> Enrollments { get; set; } = null!;
         public virtual DbSet<Lesson> Lessons { get; set; } = null!;
@@ -51,27 +50,6 @@ namespace CourseService.API.Models
                     .WithMany(p => p.Chapters)
                     .HasForeignKey(d => d.CourseId)
                     .HasConstraintName("FK_Chapter_Course");
-            });
-
-            modelBuilder.Entity<Comment>(entity =>
-            {
-                entity.ToTable("Comment");
-
-                entity.Property(e => e.Id).ValueGeneratedNever();
-
-                entity.Property(e => e.CommentContent).HasColumnName("Comment_Content");
-
-                entity.Property(e => e.LessonId).HasColumnName("Lesson_Id");
-
-                entity.Property(e => e.UserId)
-                    .HasMaxLength(10)
-                    .HasColumnName("User_Id")
-                    .IsFixedLength();
-
-                entity.HasOne(d => d.Lesson)
-                    .WithMany(p => p.Comments)
-                    .HasForeignKey(d => d.LessonId)
-                    .HasConstraintName("FK_Comment_Lesson");
             });
 
             modelBuilder.Entity<Course>(entity =>

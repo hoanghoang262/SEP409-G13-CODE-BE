@@ -197,3 +197,8 @@ C:\Users\fpt\Desktop\HappyLearning\SEP490-G13-CODE-BE\ReverseProxy\obj\Debug\net
 C:\Users\fpt\Desktop\HappyLearning\SEP490-G13-CODE-BE\ReverseProxy\obj\Debug\net6.0\ref\ReverseProxy.dll
 C:\Users\fpt\Desktop\HappyLearning\SEP490-G13-CODE-BE\ReverseProxy\bin\Debug\net6.0\ocelot_Local.json
 C:\Users\fpt\Desktop\HappyLearning\SEP490-G13-CODE-BE\ReverseProxy\obj\Debug\net6.0\ReverseP.95B94160.Up2Date
+C:\Users\fpt\Desktop\HappyLearning\SEP490-G13-CODE-BE\ReverseProxy\bin\Debug\net6.0\Microsoft.Bcl.AsyncInterfaces.dll
+C:\Users\fpt\Desktop\HappyLearning\SEP490-G13-CODE-BE\ReverseProxy\bin\Debug\net6.0\Microsoft.Bcl.TimeProvider.dll
+C:\Users\fpt\Desktop\HappyLearning\SEP490-G13-CODE-BE\ReverseProxy\bin\Debug\net6.0\Ocelot.Provider.Polly.dll
+C:\Users\fpt\Desktop\HappyLearning\SEP490-G13-CODE-BE\ReverseProxy\bin\Debug\net6.0\Polly.dll
+C:\Users\fpt\Desktop\HappyLearning\SEP490-G13-CODE-BE\ReverseProxy\bin\Debug\net6.0\Polly.Core.dll

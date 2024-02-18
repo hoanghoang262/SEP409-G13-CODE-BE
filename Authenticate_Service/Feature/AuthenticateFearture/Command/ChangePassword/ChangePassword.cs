@@ -1,4 +1,5 @@
-﻿using Authenticate_Service.Models;
+﻿using Authenticate_Service.Common;
+using Authenticate_Service.Models;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -8,11 +9,12 @@ namespace Authenticate_Service.Feature.AuthenticateFearture.Command.ChangePasswo
     {
         public string Email { get; set; } 
    
-        public string NewPassword { get; set; }
+        public string? NewPassword { get; set; }
 
         public class ChangePasswordHandler : IRequestHandler<ChangePasswordCommand, IActionResult>
         {
             private readonly AuthenticationContext _context;
+            private readonly HassPaword hash = new HassPaword();
 
             public ChangePasswordHandler(AuthenticationContext context)
             {
@@ -26,7 +28,8 @@ namespace Authenticate_Service.Feature.AuthenticateFearture.Command.ChangePasswo
                 {
                     return new BadRequestResult();
                 }
-                user.Password = request.NewPassword;
+                var HassPass = hash.HashPassword(request.NewPassword);
+                user.Password = HassPass;
 
                 await _context.SaveChangesAsync();
 

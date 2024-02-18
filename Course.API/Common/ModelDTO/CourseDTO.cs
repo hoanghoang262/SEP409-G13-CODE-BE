@@ -37,7 +37,7 @@ namespace CourseService.API.Common.ModelDTO
     {
         public LessonDTO()
         {
-            Comments = new HashSet<CommentDTO>();
+           
             Questions = new HashSet<QuestionDTO>();
         }
 
@@ -49,7 +49,7 @@ namespace CourseService.API.Common.ModelDTO
         public long? Duration { get; set; }
 
        
-        public virtual ICollection<CommentDTO> Comments { get; set; }
+       
         public virtual ICollection<QuestionDTO> Questions { get; set; }
 
     }
@@ -66,13 +66,5 @@ namespace CourseService.API.Common.ModelDTO
 
         
     }
-    public class CommentDTO: IMapFrom<Comment>
-    {
-        public int Id { get; set; }
-        public int? LessonId { get; set; }
-        public string? CommentContent { get; set; }
-        public string? UserId { get; set; }
-
-        public virtual LessonDTO? Lesson { get; set; }
-    }
+   
 }

@@ -90,17 +90,32 @@ namespace ModerationService.API.Fearture.Command.Moderation
                         }
                     }
                 }
-                foreach (var id in userId.Result.UserId)
+                if (userId != null)
                 {
-                    var notification = new NotificationEvent
+                    foreach (var id in userId.Result.UserId)
                     {
-                        RecipientId=id,
-                        IsSeen=false,
-                        NotificationContent="Your course have been change. Please check the new content",
-                        SendDate=DateTime.Now,
-                    };
-                    await _publish.Publish(notification);
+                        var notification = new NotificationEvent
+                        {
+                            RecipientId = id,
+                            IsSeen = false,
+                            NotificationContent = "Your course have been change. Please check the new content",
+                            SendDate = DateTime.Now,
+                            Course_Id = course.Id,
+                        };
+                        await _publish.Publish(notification);
+                    }
+
                 }
+                var notificationForAdminBussiness= new NotificationEvent
+                {
+                    RecipientId = course.CreatedBy,
+                    IsSeen = false,
+                    NotificationContent = "Your course has been approved",
+                    SendDate = DateTime.Now,
+                    Course_Id=course.Id,
+                };
+                await _publish.Publish(notificationForAdminBussiness);
+
 
 
                 return new OkObjectResult("async success");

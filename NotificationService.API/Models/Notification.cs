@@ -15,6 +15,7 @@ namespace NotificationService.API.Models
         public DateTime? SendDate { get; set; }
         public bool? IsSeen { get; set; }
         public int? RecipientId { get; set; }
+        public int? CourseId { get; set; }
 
         public virtual ICollection<NotificationRecipient> NotificationRecipients { get; set; }
     }
