@@ -16,6 +16,7 @@ namespace Authenticate_Service.Feature.AuthenticateFearture.Command.Login
         {
             private readonly IConfiguration _configuration;
             private readonly AuthenticationContext _context;
+            private readonly HassPaword hash = new HassPaword();
 
             public LoginCommandHandler(IConfiguration configuration, AuthenticationContext context)
             {
@@ -27,8 +28,9 @@ namespace Authenticate_Service.Feature.AuthenticateFearture.Command.Login
             {
                 try
                 {
+                    var HassPass = hash.HashPassword(request.Password);
                     var user = _context.Users.FirstOrDefault(u => u.UserName == request.UserName
-                                                 && u.Password == request.Password
+                                                 && u.Password == HassPass
                                                  );
                     if( user.EmailConfirmed ==false )
                     {

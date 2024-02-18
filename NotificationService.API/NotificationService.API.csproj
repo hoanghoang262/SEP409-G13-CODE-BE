@@ -26,8 +26,4 @@
     <ProjectReference Include="..\EventBus.Message\EventBus.Message.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Fearture\NotificationFearture\Queries\" />
-  </ItemGroup>
-
 </Project>

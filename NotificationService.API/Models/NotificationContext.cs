@@ -34,7 +34,7 @@ namespace NotificationService.API.Models
             {
                 entity.ToTable("Notification");
 
-                entity.Property(e => e.Id);
+                entity.Property(e => e.CourseId).HasColumnName("Course_Id");
 
                 entity.Property(e => e.NotificationContent).HasColumnName("Notification_Content");
 

@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("ModerationService.API")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+2e74391c50193e82bc39ac363106f1dc7b7f2720")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+9efbbd738a9710985cb644aef966b9b8e5533949")]
 [assembly: System.Reflection.AssemblyProductAttribute("ModerationService.API")]
 [assembly: System.Reflection.AssemblyTitleAttribute("ModerationService.API")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

@@ -231,3 +231,7 @@ C:\Users\fpt\Desktop\HappyLearning\SEP490-G13-CODE-BE\bin\Debug\NotificationServ
 C:\Users\fpt\Desktop\HappyLearning\SEP490-G13-CODE-BE\bin\Debug\NotificationService.API.exe
 C:\Users\fpt\Desktop\HappyLearning\SEP490-G13-CODE-BE\bin\Debug\NotificationService.API.dll
 C:\Users\fpt\Desktop\HappyLearning\SEP490-G13-CODE-BE\bin\Debug\NotificationService.API.pdb
+C:\Users\fpt\Desktop\HappyLearning\SEP490-G13-CODE-BE\bin\Debug\Ocelot.Provider.Polly.dll
+C:\Users\fpt\Desktop\HappyLearning\SEP490-G13-CODE-BE\bin\Debug\Polly.dll
+C:\Users\fpt\Desktop\HappyLearning\SEP490-G13-CODE-BE\bin\Debug\Polly.Core.dll
+C:\Users\fpt\Desktop\HappyLearning\SEP490-G13-CODE-BE\bin\Debug\Microsoft.Bcl.TimeProvider.dll

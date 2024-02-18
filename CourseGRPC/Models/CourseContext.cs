@@ -17,7 +17,6 @@ namespace CourseGRPC.Models
         }
 
         public virtual DbSet<Chapter> Chapters { get; set; } = null!;
-        public virtual DbSet<Comment> Comments { get; set; } = null!;
         public virtual DbSet<Course> Courses { get; set; } = null!;
         public virtual DbSet<Enrollment> Enrollments { get; set; } = null!;
         public virtual DbSet<Lesson> Lessons { get; set; } = null!;
@@ -29,7 +28,7 @@ namespace CourseGRPC.Models
             if (!optionsBuilder.IsConfigured)
             {
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-                optionsBuilder.UseSqlServer("server=localhost\\sqlserverdb,1435;database=Course;uid=sa;pwd=PassW0rd!;TrustServerCertificate=True");
+                optionsBuilder.UseSqlServer("server=localhost\\sqlserverdb,1435;database=Course;uid=sa;pwd=PassW0rd!;TrustServerCertificate=true");
             }
         }
 
@@ -51,27 +50,6 @@ namespace CourseGRPC.Models
                     .WithMany(p => p.Chapters)
                     .HasForeignKey(d => d.CourseId)
                     .HasConstraintName("FK_Chapter_Course");
-            });
-
-            modelBuilder.Entity<Comment>(entity =>
-            {
-                entity.ToTable("Comment");
-
-                entity.Property(e => e.Id).ValueGeneratedNever();
-
-                entity.Property(e => e.CommentContent).HasColumnName("Comment_Content");
-
-                entity.Property(e => e.LessonId).HasColumnName("Lesson_Id");
-
-                entity.Property(e => e.UserId)
-                    .HasMaxLength(10)
-                    .HasColumnName("User_Id")
-                    .IsFixedLength();
-
-                entity.HasOne(d => d.Lesson)
-                    .WithMany(p => p.Comments)
-                    .HasForeignKey(d => d.LessonId)
-                    .HasConstraintName("FK_Comment_Lesson");
             });
 
             modelBuilder.Entity<Course>(entity =>
