@@ -3,20 +3,44 @@
   "WorkspaceRootPath": "C:\\Users\\fpt\\Desktop\\HappyLearning\\SEP490-G13-CODE-BE\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{3CF56D2D-2146-42F6-8784-189078AF1A7D}|NotificationService.API\\NotificationService.API.csproj|c:\\users\\fpt\\desktop\\happylearning\\sep490-g13-code-be\\notificationservice.api\\fearture\\notificationfearture\\queries\\getnotificationbyuseridquerry.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{3CF56D2D-2146-42F6-8784-189078AF1A7D}|NotificationService.API\\NotificationService.API.csproj|solutionrelative:notificationservice.api\\fearture\\notificationfearture\\queries\\getnotificationbyuseridquerry.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{86801734-137B-4351-92A9-C828FB152EF0}|Authenticate_Service\\AuthenticateService.API.csproj|c:\\users\\fpt\\desktop\\happylearning\\sep490-g13-code-be\\authenticate_service\\common\\hashpassword.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{86801734-137B-4351-92A9-C828FB152EF0}|Authenticate_Service\\AuthenticateService.API.csproj|solutionrelative:authenticate_service\\common\\hashpassword.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{86801734-137B-4351-92A9-C828FB152EF0}|Authenticate_Service\\AuthenticateService.API.csproj|c:\\users\\fpt\\desktop\\happylearning\\sep490-g13-code-be\\authenticate_service\\common\\generatejwttoken.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{86801734-137B-4351-92A9-C828FB152EF0}|Authenticate_Service\\AuthenticateService.API.csproj|solutionrelative:authenticate_service\\common\\generatejwttoken.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{86801734-137B-4351-92A9-C828FB152EF0}|Authenticate_Service\\AuthenticateService.API.csproj|c:\\users\\fpt\\desktop\\happylearning\\sep490-g13-code-be\\authenticate_service\\feature\\authenticatefearture\\command\\login\\login.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{86801734-137B-4351-92A9-C828FB152EF0}|Authenticate_Service\\AuthenticateService.API.csproj|solutionrelative:authenticate_service\\feature\\authenticatefearture\\command\\login\\login.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{86801734-137B-4351-92A9-C828FB152EF0}|Authenticate_Service\\AuthenticateService.API.csproj|c:\\users\\fpt\\desktop\\happylearning\\sep490-g13-code-be\\authenticate_service\\feature\\authenticatefearture\\command\\changepassword\\changepassword.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{86801734-137B-4351-92A9-C828FB152EF0}|Authenticate_Service\\AuthenticateService.API.csproj|solutionrelative:authenticate_service\\feature\\authenticatefearture\\command\\changepassword\\changepassword.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{86801734-137B-4351-92A9-C828FB152EF0}|Authenticate_Service\\AuthenticateService.API.csproj|c:\\users\\fpt\\desktop\\happylearning\\sep490-g13-code-be\\authenticate_service\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{86801734-137B-4351-92A9-C828FB152EF0}|Authenticate_Service\\AuthenticateService.API.csproj|solutionrelative:authenticate_service\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{86801734-137B-4351-92A9-C828FB152EF0}|Authenticate_Service\\AuthenticateService.API.csproj|c:\\users\\fpt\\desktop\\happylearning\\sep490-g13-code-be\\authenticate_service\\controllers\\authenticatecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{86801734-137B-4351-92A9-C828FB152EF0}|Authenticate_Service\\AuthenticateService.API.csproj|solutionrelative:authenticate_service\\controllers\\authenticatecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{86801734-137B-4351-92A9-C828FB152EF0}|Authenticate_Service\\AuthenticateService.API.csproj|c:\\users\\fpt\\desktop\\happylearning\\sep490-g13-code-be\\authenticate_service\\feature\\authenticatefearture\\command\\forgotpassword\\forgotpasswordcommand.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{86801734-137B-4351-92A9-C828FB152EF0}|Authenticate_Service\\AuthenticateService.API.csproj|solutionrelative:authenticate_service\\feature\\authenticatefearture\\command\\forgotpassword\\forgotpasswordcommand.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{86801734-137B-4351-92A9-C828FB152EF0}|Authenticate_Service\\AuthenticateService.API.csproj|c:\\users\\fpt\\desktop\\happylearning\\sep490-g13-code-be\\authenticate_service\\feature\\authenticatefearture\\command\\users\\usercommand\\createusercommand.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{86801734-137B-4351-92A9-C828FB152EF0}|Authenticate_Service\\AuthenticateService.API.csproj|solutionrelative:authenticate_service\\feature\\authenticatefearture\\command\\users\\usercommand\\createusercommand.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{8CCDE642-6CB0-46DD-9C53-664CEA4C0C92}|Infrastructures\\Infrastructures.csproj|c:\\users\\fpt\\desktop\\happylearning\\sep490-g13-code-be\\infrastructures\\extensions\\configurationextensions.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{8CCDE642-6CB0-46DD-9C53-664CEA4C0C92}|Infrastructures\\Infrastructures.csproj|solutionrelative:infrastructures\\extensions\\configurationextensions.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3CF56D2D-2146-42F6-8784-189078AF1A7D}|NotificationService.API\\NotificationService.API.csproj|c:\\users\\fpt\\desktop\\happylearning\\sep490-g13-code-be\\notificationservice.api\\fearture\\notificationfearture\\queries\\getnotificationbyuseridquerry.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{3CF56D2D-2146-42F6-8784-189078AF1A7D}|NotificationService.API\\NotificationService.API.csproj|solutionrelative:notificationservice.api\\fearture\\notificationfearture\\queries\\getnotificationbyuseridquerry.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{86801734-137B-4351-92A9-C828FB152EF0}|Authenticate_Service\\AuthenticateService.API.csproj|c:\\users\\fpt\\desktop\\happylearning\\sep490-g13-code-be\\authenticate_service\\feature\\authenticatefearture\\command\\changepassword\\changepassword.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{86801734-137B-4351-92A9-C828FB152EF0}|Authenticate_Service\\AuthenticateService.API.csproj|solutionrelative:authenticate_service\\feature\\authenticatefearture\\command\\changepassword\\changepassword.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{86801734-137B-4351-92A9-C828FB152EF0}|Authenticate_Service\\AuthenticateService.API.csproj|c:\\users\\fpt\\desktop\\happylearning\\sep490-g13-code-be\\authenticate_service\\feature\\authenticatefearture\\command\\forgotpassword\\verificationcodecommand.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -25,14 +49,6 @@
     {
       "AbsoluteMoniker": "D:0:0:{86801734-137B-4351-92A9-C828FB152EF0}|Authenticate_Service\\AuthenticateService.API.csproj|c:\\users\\fpt\\desktop\\happylearning\\sep490-g13-code-be\\authenticate_service\\feature\\authenticatefearture\\command\\login\\logingoogle.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{86801734-137B-4351-92A9-C828FB152EF0}|Authenticate_Service\\AuthenticateService.API.csproj|solutionrelative:authenticate_service\\feature\\authenticatefearture\\command\\login\\logingoogle.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{86801734-137B-4351-92A9-C828FB152EF0}|Authenticate_Service\\AuthenticateService.API.csproj|c:\\users\\fpt\\desktop\\happylearning\\sep490-g13-code-be\\authenticate_service\\controllers\\authenticatecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{86801734-137B-4351-92A9-C828FB152EF0}|Authenticate_Service\\AuthenticateService.API.csproj|solutionrelative:authenticate_service\\controllers\\authenticatecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{86801734-137B-4351-92A9-C828FB152EF0}|Authenticate_Service\\AuthenticateService.API.csproj|c:\\users\\fpt\\desktop\\happylearning\\sep490-g13-code-be\\authenticate_service\\common\\hashpassword.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{86801734-137B-4351-92A9-C828FB152EF0}|Authenticate_Service\\AuthenticateService.API.csproj|solutionrelative:authenticate_service\\common\\hashpassword.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{44756E2A-651B-492B-ABF8-739A855F4DB8}|Course.API\\CourseService.API.csproj|c:\\users\\fpt\\desktop\\happylearning\\sep490-g13-code-be\\course.api\\feartures\\coursefearture\\queries\\course\\getcoursebyuseridquerry.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -79,10 +95,6 @@
       "RelativeMoniker": "D:0:0:{141EF2BC-D764-4ACF-8265-4C267F67EAD4}|CourseGRPC\\CourseGRPC.csproj|solutionrelative:coursegrpc\\services\\userenrollcourse.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{86801734-137B-4351-92A9-C828FB152EF0}|Authenticate_Service\\AuthenticateService.API.csproj|c:\\users\\fpt\\desktop\\happylearning\\sep490-g13-code-be\\authenticate_service\\feature\\authenticatefearture\\command\\users\\usercommand\\createusercommand.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{86801734-137B-4351-92A9-C828FB152EF0}|Authenticate_Service\\AuthenticateService.API.csproj|solutionrelative:authenticate_service\\feature\\authenticatefearture\\command\\users\\usercommand\\createusercommand.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{86801734-137B-4351-92A9-C828FB152EF0}|Authenticate_Service\\AuthenticateService.API.csproj|c:\\users\\fpt\\desktop\\happylearning\\sep490-g13-code-be\\authenticate_service\\authenticateservice.api.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
       "RelativeMoniker": "D:0:0:{86801734-137B-4351-92A9-C828FB152EF0}|Authenticate_Service\\AuthenticateService.API.csproj|solutionrelative:authenticate_service\\authenticateservice.api.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
     },
@@ -118,46 +130,33 @@
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "Login.cs",
-              "DocumentMoniker": "C:\\Users\\fpt\\Desktop\\HappyLearning\\SEP490-G13-CODE-BE\\Authenticate_Service\\Feature\\AuthenticateFearture\\Command\\Login\\Login.cs",
-              "RelativeDocumentMoniker": "Authenticate_Service\\Feature\\AuthenticateFearture\\Command\\Login\\Login.cs",
-              "ToolTip": "C:\\Users\\fpt\\Desktop\\HappyLearning\\SEP490-G13-CODE-BE\\Authenticate_Service\\Feature\\AuthenticateFearture\\Command\\Login\\Login.cs",
-              "RelativeToolTip": "Authenticate_Service\\Feature\\AuthenticateFearture\\Command\\Login\\Login.cs",
-              "ViewState": "AQIAAC0AAAAAAAAAAAAowB4AAABHAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-02-18T10:43:21.304Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "VerificationCodeCommand.cs",
-              "DocumentMoniker": "C:\\Users\\fpt\\Desktop\\HappyLearning\\SEP490-G13-CODE-BE\\Authenticate_Service\\Feature\\AuthenticateFearture\\Command\\ForgotPassword\\VerificationCodeCommand.cs",
-              "RelativeDocumentMoniker": "Authenticate_Service\\Feature\\AuthenticateFearture\\Command\\ForgotPassword\\VerificationCodeCommand.cs",
-              "ToolTip": "C:\\Users\\fpt\\Desktop\\HappyLearning\\SEP490-G13-CODE-BE\\Authenticate_Service\\Feature\\AuthenticateFearture\\Command\\ForgotPassword\\VerificationCodeCommand.cs",
-              "RelativeToolTip": "Authenticate_Service\\Feature\\AuthenticateFearture\\Command\\ForgotPassword\\VerificationCodeCommand.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-02-18T10:25:16.962Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
               "DocumentIndex": 3,
-              "Title": "ForgotPasswordCommand.cs",
-              "DocumentMoniker": "C:\\Users\\fpt\\Desktop\\HappyLearning\\SEP490-G13-CODE-BE\\Authenticate_Service\\Feature\\AuthenticateFearture\\Command\\ForgotPassword\\ForgotPasswordCommand.cs",
-              "RelativeDocumentMoniker": "Authenticate_Service\\Feature\\AuthenticateFearture\\Command\\ForgotPassword\\ForgotPasswordCommand.cs",
-              "ToolTip": "C:\\Users\\fpt\\Desktop\\HappyLearning\\SEP490-G13-CODE-BE\\Authenticate_Service\\Feature\\AuthenticateFearture\\Command\\ForgotPassword\\ForgotPasswordCommand.cs",
-              "RelativeToolTip": "Authenticate_Service\\Feature\\AuthenticateFearture\\Command\\ForgotPassword\\ForgotPasswordCommand.cs",
-              "ViewState": "AQIAABEAAAAAAAAAAAAgwAAAAAAAAAAA",
+              "Title": "Program.cs",
+              "DocumentMoniker": "C:\\Users\\fpt\\Desktop\\HappyLearning\\SEP490-G13-CODE-BE\\Authenticate_Service\\Program.cs",
+              "RelativeDocumentMoniker": "Authenticate_Service\\Program.cs",
+              "ToolTip": "C:\\Users\\fpt\\Desktop\\HappyLearning\\SEP490-G13-CODE-BE\\Authenticate_Service\\Program.cs",
+              "RelativeToolTip": "Authenticate_Service\\Program.cs",
+              "ViewState": "AQIAAC4AAAAAAAAAAAAQwAAAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-02-18T10:25:15.562Z",
+              "WhenOpened": "2024-02-19T15:13:50.424Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 1,
+              "Title": "GenerateJwtToken.cs",
+              "DocumentMoniker": "C:\\Users\\fpt\\Desktop\\HappyLearning\\SEP490-G13-CODE-BE\\Authenticate_Service\\Common\\GenerateJwtToken.cs",
+              "RelativeDocumentMoniker": "Authenticate_Service\\Common\\GenerateJwtToken.cs",
+              "ToolTip": "C:\\Users\\fpt\\Desktop\\HappyLearning\\SEP490-G13-CODE-BE\\Authenticate_Service\\Common\\GenerateJwtToken.cs",
+              "RelativeToolTip": "Authenticate_Service\\Common\\GenerateJwtToken.cs",
+              "ViewState": "AQIAAAsAAAAAAAAAAAAAwB8AAAAkAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-02-19T15:02:18.058Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
               "Title": "ChangePassword.cs",
               "DocumentMoniker": "C:\\Users\\fpt\\Desktop\\HappyLearning\\SEP490-G13-CODE-BE\\Authenticate_Service\\Feature\\AuthenticateFearture\\Command\\ChangePassword\\ChangePassword.cs",
               "RelativeDocumentMoniker": "Authenticate_Service\\Feature\\AuthenticateFearture\\Command\\ChangePassword\\ChangePassword.cs",
@@ -165,207 +164,11 @@
               "RelativeToolTip": "Authenticate_Service\\Feature\\AuthenticateFearture\\Command\\ChangePassword\\ChangePassword.cs",
               "ViewState": "AQIAAAYAAAAAAAAAAAAAAB8AAAAoAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-02-18T10:25:12.604Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "GetNotificationByUserIdQuerry.cs",
-              "DocumentMoniker": "C:\\Users\\fpt\\Desktop\\HappyLearning\\SEP490-G13-CODE-BE\\NotificationService.API\\Fearture\\NotificationFearture\\Queries\\GetNotificationByUserIdQuerry.cs",
-              "RelativeDocumentMoniker": "NotificationService.API\\Fearture\\NotificationFearture\\Queries\\GetNotificationByUserIdQuerry.cs",
-              "ToolTip": "C:\\Users\\fpt\\Desktop\\HappyLearning\\SEP490-G13-CODE-BE\\NotificationService.API\\Fearture\\NotificationFearture\\Queries\\GetNotificationByUserIdQuerry.cs",
-              "RelativeToolTip": "NotificationService.API\\Fearture\\NotificationFearture\\Queries\\GetNotificationByUserIdQuerry.cs",
-              "ViewState": "AQIAAAwAAAAAAAAAAAAewBoAAAAvAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-02-18T14:15:41.217Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 5,
-              "Title": "LoginGoogle.cs",
-              "DocumentMoniker": "C:\\Users\\fpt\\Desktop\\HappyLearning\\SEP490-G13-CODE-BE\\Authenticate_Service\\Feature\\AuthenticateFearture\\Command\\Login\\LoginGoogle.cs",
-              "RelativeDocumentMoniker": "Authenticate_Service\\Feature\\AuthenticateFearture\\Command\\Login\\LoginGoogle.cs",
-              "ToolTip": "C:\\Users\\fpt\\Desktop\\HappyLearning\\SEP490-G13-CODE-BE\\Authenticate_Service\\Feature\\AuthenticateFearture\\Command\\Login\\LoginGoogle.cs",
-              "RelativeToolTip": "Authenticate_Service\\Feature\\AuthenticateFearture\\Command\\Login\\LoginGoogle.cs",
-              "ViewState": "AQIAACQAAAAAAAAAAAAowAAAAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-02-18T10:43:57.461Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-02-18T10:25:12.604Z"
             },
             {
               "$type": "Document",
               "DocumentIndex": 6,
-              "Title": "AuthenticateController.cs",
-              "DocumentMoniker": "C:\\Users\\fpt\\Desktop\\HappyLearning\\SEP490-G13-CODE-BE\\Authenticate_Service\\Controllers\\AuthenticateController.cs",
-              "RelativeDocumentMoniker": "Authenticate_Service\\Controllers\\AuthenticateController.cs",
-              "ToolTip": "C:\\Users\\fpt\\Desktop\\HappyLearning\\SEP490-G13-CODE-BE\\Authenticate_Service\\Controllers\\AuthenticateController.cs",
-              "RelativeToolTip": "Authenticate_Service\\Controllers\\AuthenticateController.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAABYAAAAIAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-02-18T17:32:20.118Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 7,
-              "Title": "HashPassword.cs",
-              "DocumentMoniker": "C:\\Users\\fpt\\Desktop\\HappyLearning\\SEP490-G13-CODE-BE\\Authenticate_Service\\Common\\HashPassword.cs",
-              "RelativeDocumentMoniker": "Authenticate_Service\\Common\\HashPassword.cs",
-              "ToolTip": "C:\\Users\\fpt\\Desktop\\HappyLearning\\SEP490-G13-CODE-BE\\Authenticate_Service\\Common\\HashPassword.cs",
-              "RelativeToolTip": "Authenticate_Service\\Common\\HashPassword.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAuwA0AAAAjAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-02-18T17:19:52.318Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 8,
-              "Title": "GetCourseByUserIdQuerry.cs",
-              "DocumentMoniker": "C:\\Users\\fpt\\Desktop\\HappyLearning\\SEP490-G13-CODE-BE\\Course.API\\Feartures\\CourseFearture\\Queries\\Course\\GetCourseByUserIdQuerry.cs",
-              "RelativeDocumentMoniker": "Course.API\\Feartures\\CourseFearture\\Queries\\Course\\GetCourseByUserIdQuerry.cs",
-              "ToolTip": "C:\\Users\\fpt\\Desktop\\HappyLearning\\SEP490-G13-CODE-BE\\Course.API\\Feartures\\CourseFearture\\Queries\\Course\\GetCourseByUserIdQuerry.cs",
-              "RelativeToolTip": "Course.API\\Feartures\\CourseFearture\\Queries\\Course\\GetCourseByUserIdQuerry.cs",
-              "ViewState": "AQIAABAAAAAAAAAAAAAQwCEAAAAbAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-02-18T17:09:29.331Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 9,
-              "Title": "CourseController.cs",
-              "DocumentMoniker": "C:\\Users\\fpt\\Desktop\\HappyLearning\\SEP490-G13-CODE-BE\\Course.API\\Controllers\\CourseController.cs",
-              "RelativeDocumentMoniker": "Course.API\\Controllers\\CourseController.cs",
-              "ToolTip": "C:\\Users\\fpt\\Desktop\\HappyLearning\\SEP490-G13-CODE-BE\\Course.API\\Controllers\\CourseController.cs",
-              "RelativeToolTip": "Course.API\\Controllers\\CourseController.cs",
-              "ViewState": "AQIAABEAAAAAAAAAAAAcwCUAAABGAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-02-18T17:09:09.817Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 11,
-              "Title": "Program.cs",
-              "DocumentMoniker": "C:\\Users\\fpt\\Desktop\\HappyLearning\\SEP490-G13-CODE-BE\\NotificationService.API\\Program.cs",
-              "RelativeDocumentMoniker": "NotificationService.API\\Program.cs",
-              "ToolTip": "C:\\Users\\fpt\\Desktop\\HappyLearning\\SEP490-G13-CODE-BE\\NotificationService.API\\Program.cs",
-              "RelativeToolTip": "NotificationService.API\\Program.cs",
-              "ViewState": "AQIAAA0AAAAAAAAAAAAQwAAAAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-02-18T14:18:16.766Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 14,
-              "Title": "NotificationService.API",
-              "DocumentMoniker": "C:\\Users\\fpt\\Desktop\\HappyLearning\\SEP490-G13-CODE-BE\\NotificationService.API\\NotificationService.API.csproj",
-              "RelativeDocumentMoniker": "NotificationService.API\\NotificationService.API.csproj",
-              "ToolTip": "C:\\Users\\fpt\\Desktop\\HappyLearning\\SEP490-G13-CODE-BE\\NotificationService.API\\NotificationService.API.csproj",
-              "RelativeToolTip": "NotificationService.API\\NotificationService.API.csproj",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
-              "WhenOpened": "2024-02-18T14:08:50.344Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 13,
-              "Title": "NotificationEvent.cs",
-              "DocumentMoniker": "C:\\Users\\fpt\\Desktop\\HappyLearning\\SEP490-G13-CODE-BE\\EventBus.Message\\IntegrationEvent\\Event\\NotificationEvent.cs",
-              "RelativeDocumentMoniker": "EventBus.Message\\IntegrationEvent\\Event\\NotificationEvent.cs",
-              "ToolTip": "C:\\Users\\fpt\\Desktop\\HappyLearning\\SEP490-G13-CODE-BE\\EventBus.Message\\IntegrationEvent\\Event\\NotificationEvent.cs",
-              "RelativeToolTip": "EventBus.Message\\IntegrationEvent\\Event\\NotificationEvent.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAuwA4AAAAsAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-02-18T14:05:57.003Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 10,
-              "Title": "NotificationController.cs",
-              "DocumentMoniker": "C:\\Users\\fpt\\Desktop\\HappyLearning\\SEP490-G13-CODE-BE\\NotificationService.API\\Controllers\\NotificationController.cs",
-              "RelativeDocumentMoniker": "NotificationService.API\\Controllers\\NotificationController.cs",
-              "ToolTip": "C:\\Users\\fpt\\Desktop\\HappyLearning\\SEP490-G13-CODE-BE\\NotificationService.API\\Controllers\\NotificationController.cs",
-              "RelativeToolTip": "NotificationService.API\\Controllers\\NotificationController.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAABUAAABhAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-02-18T10:47:38.278Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 15,
-              "Title": "Notification.cs",
-              "DocumentMoniker": "C:\\Users\\fpt\\Desktop\\HappyLearning\\SEP490-G13-CODE-BE\\NotificationService.API\\Models\\Notification.cs",
-              "RelativeDocumentMoniker": "NotificationService.API\\Models\\Notification.cs",
-              "ToolTip": "C:\\Users\\fpt\\Desktop\\HappyLearning\\SEP490-G13-CODE-BE\\NotificationService.API\\Models\\Notification.cs",
-              "RelativeToolTip": "NotificationService.API\\Models\\Notification.cs",
-              "ViewState": "AQIAAAcAAAAAAAAAAAAzwAAAAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-02-18T14:09:52.084Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 12,
-              "Title": "ModerationCourseCommand.cs",
-              "DocumentMoniker": "C:\\Users\\fpt\\Desktop\\HappyLearning\\SEP490-G13-CODE-BE\\ModerationService.API\\Fearture\\Command\\Moderation\\ModerationCourseCommand.cs",
-              "RelativeDocumentMoniker": "ModerationService.API\\Fearture\\Command\\Moderation\\ModerationCourseCommand.cs",
-              "ToolTip": "C:\\Users\\fpt\\Desktop\\HappyLearning\\SEP490-G13-CODE-BE\\ModerationService.API\\Fearture\\Command\\Moderation\\ModerationCourseCommand.cs",
-              "RelativeToolTip": "ModerationService.API\\Fearture\\Command\\Moderation\\ModerationCourseCommand.cs",
-              "ViewState": "AQIAAFIAAAAAAAAAAAAkwHIAAAAoAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-02-18T13:09:19.145Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 18,
-              "Title": "UserEnrollCourse.cs",
-              "DocumentMoniker": "C:\\Users\\fpt\\Desktop\\HappyLearning\\SEP490-G13-CODE-BE\\CourseGRPC\\Services\\UserEnrollCourse.cs",
-              "RelativeDocumentMoniker": "CourseGRPC\\Services\\UserEnrollCourse.cs",
-              "ToolTip": "C:\\Users\\fpt\\Desktop\\HappyLearning\\SEP490-G13-CODE-BE\\CourseGRPC\\Services\\UserEnrollCourse.cs",
-              "RelativeToolTip": "CourseGRPC\\Services\\UserEnrollCourse.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-02-18T13:08:19.443Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 17,
-              "Title": "SendNotificationCommand.cs",
-              "DocumentMoniker": "C:\\Users\\fpt\\Desktop\\HappyLearning\\SEP490-G13-CODE-BE\\NotificationService.API\\Fearture\\NotificationFearture\\Command\\SendNotificationCommand.cs",
-              "RelativeDocumentMoniker": "NotificationService.API\\Fearture\\NotificationFearture\\Command\\SendNotificationCommand.cs",
-              "ToolTip": "C:\\Users\\fpt\\Desktop\\HappyLearning\\SEP490-G13-CODE-BE\\NotificationService.API\\Fearture\\NotificationFearture\\Command\\SendNotificationCommand.cs",
-              "RelativeToolTip": "NotificationService.API\\Fearture\\NotificationFearture\\Command\\SendNotificationCommand.cs",
-              "ViewState": "AQIAAAoAAAAAAAAAAAAzwAAAAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-02-18T10:47:49.568Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 16,
-              "Title": "ModerationController.cs",
-              "DocumentMoniker": "C:\\Users\\fpt\\Desktop\\HappyLearning\\SEP490-G13-CODE-BE\\ModerationService.API\\Controllers\\ModerationController.cs",
-              "RelativeDocumentMoniker": "ModerationService.API\\Controllers\\ModerationController.cs",
-              "ToolTip": "C:\\Users\\fpt\\Desktop\\HappyLearning\\SEP490-G13-CODE-BE\\ModerationService.API\\Controllers\\ModerationController.cs",
-              "RelativeToolTip": "ModerationService.API\\Controllers\\ModerationController.cs",
-              "ViewState": "AQIAACIAAAAAAAAAAAAQwCwAAABGAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-02-17T02:22:44.437Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 19,
               "Title": "CreateUserCommand.cs",
               "DocumentMoniker": "C:\\Users\\fpt\\Desktop\\HappyLearning\\SEP490-G13-CODE-BE\\Authenticate_Service\\Feature\\AuthenticateFearture\\Command\\Users\\UserCommand\\CreateUserCommand.cs",
               "RelativeDocumentMoniker": "Authenticate_Service\\Feature\\AuthenticateFearture\\Command\\Users\\UserCommand\\CreateUserCommand.cs",
@@ -373,25 +176,255 @@
               "RelativeToolTip": "Authenticate_Service\\Feature\\AuthenticateFearture\\Command\\Users\\UserCommand\\CreateUserCommand.cs",
               "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-02-18T10:45:40.044Z",
+              "WhenOpened": "2024-02-18T10:45:40.044Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "HashPassword.cs",
+              "DocumentMoniker": "C:\\Users\\fpt\\Desktop\\HappyLearning\\SEP490-G13-CODE-BE\\Authenticate_Service\\Common\\HashPassword.cs",
+              "RelativeDocumentMoniker": "Authenticate_Service\\Common\\HashPassword.cs",
+              "ToolTip": "C:\\Users\\fpt\\Desktop\\HappyLearning\\SEP490-G13-CODE-BE\\Authenticate_Service\\Common\\HashPassword.cs",
+              "RelativeToolTip": "Authenticate_Service\\Common\\HashPassword.cs",
+              "ViewState": "AQIAAAkAAAAAAAAAAAAAAA0AAAAjAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-02-18T17:19:52.318Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "Login.cs",
+              "DocumentMoniker": "C:\\Users\\fpt\\Desktop\\HappyLearning\\SEP490-G13-CODE-BE\\Authenticate_Service\\Feature\\AuthenticateFearture\\Command\\Login\\Login.cs",
+              "RelativeDocumentMoniker": "Authenticate_Service\\Feature\\AuthenticateFearture\\Command\\Login\\Login.cs",
+              "ToolTip": "C:\\Users\\fpt\\Desktop\\HappyLearning\\SEP490-G13-CODE-BE\\Authenticate_Service\\Feature\\AuthenticateFearture\\Command\\Login\\Login.cs",
+              "RelativeToolTip": "Authenticate_Service\\Feature\\AuthenticateFearture\\Command\\Login\\Login.cs",
+              "ViewState": "AQIAABsAAAAAAAAAAAAowDAAAABAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-02-18T10:43:21.304Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "ForgotPasswordCommand.cs",
+              "DocumentMoniker": "C:\\Users\\fpt\\Desktop\\HappyLearning\\SEP490-G13-CODE-BE\\Authenticate_Service\\Feature\\AuthenticateFearture\\Command\\ForgotPassword\\ForgotPasswordCommand.cs",
+              "RelativeDocumentMoniker": "Authenticate_Service\\Feature\\AuthenticateFearture\\Command\\ForgotPassword\\ForgotPasswordCommand.cs",
+              "ToolTip": "C:\\Users\\fpt\\Desktop\\HappyLearning\\SEP490-G13-CODE-BE\\Authenticate_Service\\Feature\\AuthenticateFearture\\Command\\ForgotPassword\\ForgotPasswordCommand.cs",
+              "RelativeToolTip": "Authenticate_Service\\Feature\\AuthenticateFearture\\Command\\ForgotPassword\\ForgotPasswordCommand.cs",
+              "ViewState": "AQIAADEAAAAAAAAAAAAkwD8AAAAIAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-02-18T10:25:15.562Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "AuthenticateController.cs",
+              "DocumentMoniker": "C:\\Users\\fpt\\Desktop\\HappyLearning\\SEP490-G13-CODE-BE\\Authenticate_Service\\Controllers\\AuthenticateController.cs",
+              "RelativeDocumentMoniker": "Authenticate_Service\\Controllers\\AuthenticateController.cs",
+              "ToolTip": "C:\\Users\\fpt\\Desktop\\HappyLearning\\SEP490-G13-CODE-BE\\Authenticate_Service\\Controllers\\AuthenticateController.cs",
+              "RelativeToolTip": "Authenticate_Service\\Controllers\\AuthenticateController.cs",
+              "ViewState": "AQIAACQAAAAAAAAAAAAYwDkAAAB4AAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-02-18T17:32:20.118Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "ConfigurationExtensions.cs",
+              "DocumentMoniker": "C:\\Users\\fpt\\Desktop\\HappyLearning\\SEP490-G13-CODE-BE\\Infrastructures\\Extensions\\ConfigurationExtensions.cs",
+              "RelativeDocumentMoniker": "Infrastructures\\Extensions\\ConfigurationExtensions.cs",
+              "ToolTip": "C:\\Users\\fpt\\Desktop\\HappyLearning\\SEP490-G13-CODE-BE\\Infrastructures\\Extensions\\ConfigurationExtensions.cs",
+              "RelativeToolTip": "Infrastructures\\Extensions\\ConfigurationExtensions.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-02-19T06:16:53.668Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "VerificationCodeCommand.cs",
+              "DocumentMoniker": "C:\\Users\\fpt\\Desktop\\HappyLearning\\SEP490-G13-CODE-BE\\Authenticate_Service\\Feature\\AuthenticateFearture\\Command\\ForgotPassword\\VerificationCodeCommand.cs",
+              "RelativeDocumentMoniker": "Authenticate_Service\\Feature\\AuthenticateFearture\\Command\\ForgotPassword\\VerificationCodeCommand.cs",
+              "ToolTip": "C:\\Users\\fpt\\Desktop\\HappyLearning\\SEP490-G13-CODE-BE\\Authenticate_Service\\Feature\\AuthenticateFearture\\Command\\ForgotPassword\\VerificationCodeCommand.cs",
+              "RelativeToolTip": "Authenticate_Service\\Feature\\AuthenticateFearture\\Command\\ForgotPassword\\VerificationCodeCommand.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-02-18T10:25:16.962Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "GetNotificationByUserIdQuerry.cs",
+              "DocumentMoniker": "C:\\Users\\fpt\\Desktop\\HappyLearning\\SEP490-G13-CODE-BE\\NotificationService.API\\Fearture\\NotificationFearture\\Queries\\GetNotificationByUserIdQuerry.cs",
+              "RelativeDocumentMoniker": "NotificationService.API\\Fearture\\NotificationFearture\\Queries\\GetNotificationByUserIdQuerry.cs",
+              "ToolTip": "C:\\Users\\fpt\\Desktop\\HappyLearning\\SEP490-G13-CODE-BE\\NotificationService.API\\Fearture\\NotificationFearture\\Queries\\GetNotificationByUserIdQuerry.cs",
+              "RelativeToolTip": "NotificationService.API\\Fearture\\NotificationFearture\\Queries\\GetNotificationByUserIdQuerry.cs",
+              "ViewState": "AQIAAAwAAAAAAAAAAAAewBoAAAAvAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-02-18T14:15:41.217Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 11,
+              "Title": "LoginGoogle.cs",
+              "DocumentMoniker": "C:\\Users\\fpt\\Desktop\\HappyLearning\\SEP490-G13-CODE-BE\\Authenticate_Service\\Feature\\AuthenticateFearture\\Command\\Login\\LoginGoogle.cs",
+              "RelativeDocumentMoniker": "Authenticate_Service\\Feature\\AuthenticateFearture\\Command\\Login\\LoginGoogle.cs",
+              "ToolTip": "C:\\Users\\fpt\\Desktop\\HappyLearning\\SEP490-G13-CODE-BE\\Authenticate_Service\\Feature\\AuthenticateFearture\\Command\\Login\\LoginGoogle.cs",
+              "RelativeToolTip": "Authenticate_Service\\Feature\\AuthenticateFearture\\Command\\Login\\LoginGoogle.cs",
+              "ViewState": "AQIAACQAAAAAAAAAAAAowAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-02-18T10:43:57.461Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 12,
+              "Title": "GetCourseByUserIdQuerry.cs",
+              "DocumentMoniker": "C:\\Users\\fpt\\Desktop\\HappyLearning\\SEP490-G13-CODE-BE\\Course.API\\Feartures\\CourseFearture\\Queries\\Course\\GetCourseByUserIdQuerry.cs",
+              "RelativeDocumentMoniker": "Course.API\\Feartures\\CourseFearture\\Queries\\Course\\GetCourseByUserIdQuerry.cs",
+              "ToolTip": "C:\\Users\\fpt\\Desktop\\HappyLearning\\SEP490-G13-CODE-BE\\Course.API\\Feartures\\CourseFearture\\Queries\\Course\\GetCourseByUserIdQuerry.cs",
+              "RelativeToolTip": "Course.API\\Feartures\\CourseFearture\\Queries\\Course\\GetCourseByUserIdQuerry.cs",
+              "ViewState": "AQIAABAAAAAAAAAAAAAQwCEAAAAbAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-02-18T17:09:29.331Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 13,
+              "Title": "CourseController.cs",
+              "DocumentMoniker": "C:\\Users\\fpt\\Desktop\\HappyLearning\\SEP490-G13-CODE-BE\\Course.API\\Controllers\\CourseController.cs",
+              "RelativeDocumentMoniker": "Course.API\\Controllers\\CourseController.cs",
+              "ToolTip": "C:\\Users\\fpt\\Desktop\\HappyLearning\\SEP490-G13-CODE-BE\\Course.API\\Controllers\\CourseController.cs",
+              "RelativeToolTip": "Course.API\\Controllers\\CourseController.cs",
+              "ViewState": "AQIAABEAAAAAAAAAAAAcwCUAAABGAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-02-18T17:09:09.817Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 15,
+              "Title": "Program.cs",
+              "DocumentMoniker": "C:\\Users\\fpt\\Desktop\\HappyLearning\\SEP490-G13-CODE-BE\\NotificationService.API\\Program.cs",
+              "RelativeDocumentMoniker": "NotificationService.API\\Program.cs",
+              "ToolTip": "C:\\Users\\fpt\\Desktop\\HappyLearning\\SEP490-G13-CODE-BE\\NotificationService.API\\Program.cs",
+              "RelativeToolTip": "NotificationService.API\\Program.cs",
+              "ViewState": "AQIAAA0AAAAAAAAAAAAQwAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-02-18T14:18:16.766Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 18,
+              "Title": "NotificationService.API.csproj",
+              "DocumentMoniker": "C:\\Users\\fpt\\Desktop\\HappyLearning\\SEP490-G13-CODE-BE\\NotificationService.API\\NotificationService.API.csproj",
+              "RelativeDocumentMoniker": "NotificationService.API\\NotificationService.API.csproj",
+              "ToolTip": "C:\\Users\\fpt\\Desktop\\HappyLearning\\SEP490-G13-CODE-BE\\NotificationService.API\\NotificationService.API.csproj",
+              "RelativeToolTip": "NotificationService.API\\NotificationService.API.csproj",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
+              "WhenOpened": "2024-02-18T14:08:50.344Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 17,
+              "Title": "NotificationEvent.cs",
+              "DocumentMoniker": "C:\\Users\\fpt\\Desktop\\HappyLearning\\SEP490-G13-CODE-BE\\EventBus.Message\\IntegrationEvent\\Event\\NotificationEvent.cs",
+              "RelativeDocumentMoniker": "EventBus.Message\\IntegrationEvent\\Event\\NotificationEvent.cs",
+              "ToolTip": "C:\\Users\\fpt\\Desktop\\HappyLearning\\SEP490-G13-CODE-BE\\EventBus.Message\\IntegrationEvent\\Event\\NotificationEvent.cs",
+              "RelativeToolTip": "EventBus.Message\\IntegrationEvent\\Event\\NotificationEvent.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAuwA4AAAAsAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-02-18T14:05:57.003Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 14,
+              "Title": "NotificationController.cs",
+              "DocumentMoniker": "C:\\Users\\fpt\\Desktop\\HappyLearning\\SEP490-G13-CODE-BE\\NotificationService.API\\Controllers\\NotificationController.cs",
+              "RelativeDocumentMoniker": "NotificationService.API\\Controllers\\NotificationController.cs",
+              "ToolTip": "C:\\Users\\fpt\\Desktop\\HappyLearning\\SEP490-G13-CODE-BE\\NotificationService.API\\Controllers\\NotificationController.cs",
+              "RelativeToolTip": "NotificationService.API\\Controllers\\NotificationController.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAABUAAABhAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-02-18T10:47:38.278Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 19,
+              "Title": "Notification.cs",
+              "DocumentMoniker": "C:\\Users\\fpt\\Desktop\\HappyLearning\\SEP490-G13-CODE-BE\\NotificationService.API\\Models\\Notification.cs",
+              "RelativeDocumentMoniker": "NotificationService.API\\Models\\Notification.cs",
+              "ToolTip": "C:\\Users\\fpt\\Desktop\\HappyLearning\\SEP490-G13-CODE-BE\\NotificationService.API\\Models\\Notification.cs",
+              "RelativeToolTip": "NotificationService.API\\Models\\Notification.cs",
+              "ViewState": "AQIAAAcAAAAAAAAAAAAzwAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-02-18T14:09:52.084Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 16,
+              "Title": "ModerationCourseCommand.cs",
+              "DocumentMoniker": "C:\\Users\\fpt\\Desktop\\HappyLearning\\SEP490-G13-CODE-BE\\ModerationService.API\\Fearture\\Command\\Moderation\\ModerationCourseCommand.cs",
+              "RelativeDocumentMoniker": "ModerationService.API\\Fearture\\Command\\Moderation\\ModerationCourseCommand.cs",
+              "ToolTip": "C:\\Users\\fpt\\Desktop\\HappyLearning\\SEP490-G13-CODE-BE\\ModerationService.API\\Fearture\\Command\\Moderation\\ModerationCourseCommand.cs",
+              "RelativeToolTip": "ModerationService.API\\Fearture\\Command\\Moderation\\ModerationCourseCommand.cs",
+              "ViewState": "AQIAAFIAAAAAAAAAAAAkwHIAAAAoAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-02-18T13:09:19.145Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 22,
+              "Title": "UserEnrollCourse.cs",
+              "DocumentMoniker": "C:\\Users\\fpt\\Desktop\\HappyLearning\\SEP490-G13-CODE-BE\\CourseGRPC\\Services\\UserEnrollCourse.cs",
+              "RelativeDocumentMoniker": "CourseGRPC\\Services\\UserEnrollCourse.cs",
+              "ToolTip": "C:\\Users\\fpt\\Desktop\\HappyLearning\\SEP490-G13-CODE-BE\\CourseGRPC\\Services\\UserEnrollCourse.cs",
+              "RelativeToolTip": "CourseGRPC\\Services\\UserEnrollCourse.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-02-18T13:08:19.443Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 21,
+              "Title": "SendNotificationCommand.cs",
+              "DocumentMoniker": "C:\\Users\\fpt\\Desktop\\HappyLearning\\SEP490-G13-CODE-BE\\NotificationService.API\\Fearture\\NotificationFearture\\Command\\SendNotificationCommand.cs",
+              "RelativeDocumentMoniker": "NotificationService.API\\Fearture\\NotificationFearture\\Command\\SendNotificationCommand.cs",
+              "ToolTip": "C:\\Users\\fpt\\Desktop\\HappyLearning\\SEP490-G13-CODE-BE\\NotificationService.API\\Fearture\\NotificationFearture\\Command\\SendNotificationCommand.cs",
+              "RelativeToolTip": "NotificationService.API\\Fearture\\NotificationFearture\\Command\\SendNotificationCommand.cs",
+              "ViewState": "AQIAAAoAAAAAAAAAAAAzwAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-02-18T10:47:49.568Z"
+            },
+            {
+              "$type": "Document",
               "DocumentIndex": 20,
-              "Title": "AuthenticateService.API",
+              "Title": "ModerationController.cs",
+              "DocumentMoniker": "C:\\Users\\fpt\\Desktop\\HappyLearning\\SEP490-G13-CODE-BE\\ModerationService.API\\Controllers\\ModerationController.cs",
+              "RelativeDocumentMoniker": "ModerationService.API\\Controllers\\ModerationController.cs",
+              "ToolTip": "C:\\Users\\fpt\\Desktop\\HappyLearning\\SEP490-G13-CODE-BE\\ModerationService.API\\Controllers\\ModerationController.cs",
+              "RelativeToolTip": "ModerationService.API\\Controllers\\ModerationController.cs",
+              "ViewState": "AQIAACIAAAAAAAAAAAAQwCwAAABGAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-02-17T02:22:44.437Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 23,
+              "Title": "AuthenticateService.API.csproj",
               "DocumentMoniker": "C:\\Users\\fpt\\Desktop\\HappyLearning\\SEP490-G13-CODE-BE\\Authenticate_Service\\AuthenticateService.API.csproj",
               "RelativeDocumentMoniker": "Authenticate_Service\\AuthenticateService.API.csproj",
               "ToolTip": "C:\\Users\\fpt\\Desktop\\HappyLearning\\SEP490-G13-CODE-BE\\Authenticate_Service\\AuthenticateService.API.csproj",
               "RelativeToolTip": "Authenticate_Service\\AuthenticateService.API.csproj",
               "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
-              "WhenOpened": "2024-02-18T10:24:55.832Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-02-18T10:24:55.832Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 21,
+              "DocumentIndex": 24,
               "Title": "GreeterService.cs",
               "DocumentMoniker": "C:\\Users\\fpt\\Desktop\\HappyLearning\\SEP490-G13-CODE-BE\\GrpcService1\\Services\\GreeterService.cs",
               "RelativeDocumentMoniker": "GrpcService1\\Services\\GreeterService.cs",
@@ -399,12 +432,11 @@
               "RelativeToolTip": "GrpcService1\\Services\\GreeterService.cs",
               "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-02-18T10:24:24.843Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-02-18T10:24:24.843Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 22,
+              "DocumentIndex": 25,
               "Title": "GetUsersService.cs",
               "DocumentMoniker": "C:\\Users\\fpt\\Desktop\\HappyLearning\\SEP490-G13-CODE-BE\\GrpcService1\\Services\\GetUsersService.cs",
               "RelativeDocumentMoniker": "GrpcService1\\Services\\GetUsersService.cs",
@@ -412,12 +444,11 @@
               "RelativeToolTip": "GrpcService1\\Services\\GetUsersService.cs",
               "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-02-18T10:24:19.333Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-02-18T10:24:19.333Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 23,
+              "DocumentIndex": 26,
               "Title": "Program.cs",
               "DocumentMoniker": "C:\\Users\\fpt\\Desktop\\HappyLearning\\SEP490-G13-CODE-BE\\ReverseProxy\\Program.cs",
               "RelativeDocumentMoniker": "ReverseProxy\\Program.cs",
@@ -425,12 +456,11 @@
               "RelativeToolTip": "ReverseProxy\\Program.cs",
               "ViewState": "AQIAAAcAAAAAAAAAAAAAADYAAABHAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-02-17T02:35:55.425Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-02-17T02:35:55.425Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 24,
+              "DocumentIndex": 27,
               "Title": "ReverseProxy.csproj",
               "DocumentMoniker": "C:\\Users\\fpt\\Desktop\\HappyLearning\\SEP490-G13-CODE-BE\\ReverseProxy\\ReverseProxy.csproj",
               "RelativeDocumentMoniker": "ReverseProxy\\ReverseProxy.csproj",
@@ -438,12 +468,11 @@
               "RelativeToolTip": "ReverseProxy\\ReverseProxy.csproj",
               "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
-              "WhenOpened": "2024-02-17T02:34:40.248Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-02-17T02:34:40.248Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 25,
+              "DocumentIndex": 28,
               "Title": "ocelot.json",
               "DocumentMoniker": "C:\\Users\\fpt\\Desktop\\HappyLearning\\SEP490-G13-CODE-BE\\ReverseProxy\\ocelot.json",
               "RelativeDocumentMoniker": "ReverseProxy\\ocelot.json",
