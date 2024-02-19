@@ -28,9 +28,9 @@ namespace Authenticate_Service.Feature.AuthenticateFearture.Command.Login
             {
                 try
                 {
-                    var HassPass = hash.HashPassword(request.Password);
+                    
                     var user = _context.Users.FirstOrDefault(u => u.UserName == request.UserName
-                                                 && u.Password == HassPass
+                                                 && u.Password == request.Password
                                                  );
                     if( user.EmailConfirmed ==false )
                     {

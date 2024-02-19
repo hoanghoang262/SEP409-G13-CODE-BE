@@ -13,19 +13,20 @@ namespace Authenticate_Service.Common
             _configuration = configuration;
         }
 
-        public JwtSecurityToken GenerateToken(int UserId,string email, List<string> userRoles)
+        public JwtSecurityToken GenerateToken(int UserId,string userName, List<string> userRoles)
         {
             var authClaims = new List<Claim>
             {
-                  new Claim(ClaimTypes.Email, email),
-                  new Claim(ClaimTypes.Name, UserId.ToString()),
-                  new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+                  
+                  new Claim("UserID", UserId.ToString()),
+
             };
+
            
 
             foreach (var userRole in userRoles)
             {
-                authClaims.Add(new Claim(ClaimTypes.Role, userRole));
+                authClaims.Add(new Claim("Role", userRole));
             }
 
             var authSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["JWT:Secret"]));

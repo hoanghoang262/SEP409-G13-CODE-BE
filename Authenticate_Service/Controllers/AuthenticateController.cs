@@ -44,7 +44,7 @@ namespace Authenticated.Controllers
         public async Task<IActionResult> SignUp(SignUpModel request)
         {
 
-            var hashPass = hash.HashPassword(request.Password);
+            
             if (context.Users.Any(u => u.Email == request.Email))
             {
                 return new BadRequestObjectResult("A user is already registered with this e-mail address.");
@@ -55,7 +55,7 @@ namespace Authenticated.Controllers
             }
             else
             {
-                var newUser = new User { Email = request.Email, UserName = request.UserName, Password = hashPass, RoleId = 1 };
+                var newUser = new User { Email = request.Email, UserName = request.UserName, Password = request.Password, RoleId = 1 };
                 context.Users.Add(newUser);
                 await context.SaveChangesAsync();
 
