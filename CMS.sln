@@ -45,7 +45,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "CommentService", "CommentSe
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CommentService.API", "CommentService.API\CommentService.API.csproj", "{36C63B83-63FD-4E79-8967-C24E6DD93132}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shared", "Shared\Shared.csproj", "{689EB0C9-E3CF-41A9-9A1B-BBF264F91365}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shared", "Shared\Shared.csproj", "{689EB0C9-E3CF-41A9-9A1B-BBF264F91365}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -1,6 +1,22 @@
 [
   {
     "ContainingType": "Authenticated.Controllers.AuthenticateController",
+    "Method": "ConfirmEmail",
+    "RelativePath": "api/Authenticate/ConfirmEmail",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "userId",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Authenticated.Controllers.AuthenticateController",
     "Method": "GetUser",
     "RelativePath": "api/Authenticate/GetUser",
     "HttpMethod": "GET",

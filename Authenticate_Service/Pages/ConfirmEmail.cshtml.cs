@@ -8,21 +8,15 @@ namespace Authenticate_Service.Pages
     {
         private readonly AuthenticationContext _context;
         public bool ShowConfirmation { get; set; }
-        public ConfirmEmailModel (AuthenticationContext context)
+        public ConfirmEmailModel(AuthenticationContext context)
         {
             _context = context;
         }
-        
+
         public async Task<IActionResult> OnGetasync(int userId)
         {
-
             var user = await _context.Users.FindAsync(userId);
-            if (user == null )
-            {
-              
-                await _context.SaveChangesAsync();
-                ShowConfirmation = true;
-            }
+
             user.EmailConfirmed = true;
             await _context.SaveChangesAsync();
 
