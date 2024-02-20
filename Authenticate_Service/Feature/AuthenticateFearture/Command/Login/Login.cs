@@ -30,9 +30,8 @@ namespace Authenticate_Service.Feature.AuthenticateFearture.Command.Login
                 {
                     
                     var user = _context.Users.FirstOrDefault(u => u.UserName == request.UserName
-                                                 && u.Password == request.Password
-                                                 );
-                    if( user.EmailConfirmed ==false )
+                                                          && u.Password == request.Password);
+                    if( user.EmailConfirmed == false )
                     {
                         return new BadRequestObjectResult("You have to confirm email to login into this account");
                     }

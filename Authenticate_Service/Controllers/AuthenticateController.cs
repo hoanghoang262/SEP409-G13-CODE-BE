@@ -7,6 +7,7 @@ using Authenticate_Service.LoginModel;
 using Microsoft.EntityFrameworkCore;
 using Contract.Service.Configuration;
 using Authenticate_Service.Common;
+using Microsoft.AspNetCore.Http.Extensions;
 
 
 
@@ -55,15 +56,15 @@ namespace Authenticated.Controllers
             }
             else
             {
-                var newUser = new User { Email = request.Email, UserName = request.UserName, Password = request.Password, RoleId = 1 };
+                var newUser = new User { Email = request.Email, UserName = request.UserName, Password = request.Password, RoleId = 1,EmailConfirmed=false };
                 context.Users.Add(newUser);
                 await context.SaveChangesAsync();
 
-                var callbackUrl = Url.Page(
-                          "/ConfirmEmail",
-                           pageHandler : null,
-                          new { userId = newUser.Id },
-                         protocol:Request.Scheme);
+                var callbackUrl = Url.Action(
+                                "ConfirmEmail", 
+                                 "Authenticate",
+                                 new { userId = newUser.Id },
+                                 Request.Scheme);
 
                 var message = new MailRequest
                 {
@@ -99,6 +100,18 @@ namespace Authenticated.Controllers
 
             return Ok(user);    
         }
-       
+        [HttpGet]
+        public async Task<IActionResult> ConfirmEmail(int userId)
+        {
+            var user = await context.Users.FindAsync(userId);
+
+            user.EmailConfirmed = true;
+            await context.SaveChangesAsync();
+
+            return RedirectToPage("/ConfirmEmail");
+
+        }
+
+
     }
  }
