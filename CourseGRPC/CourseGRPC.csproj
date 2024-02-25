@@ -15,6 +15,7 @@
   <ItemGroup>
     <Protobuf Include="Protos\course.proto" GrpcServices="Server" />
     <Protobuf Include="Protos\greet.proto" GrpcServices="Server" />
+    <Protobuf Include="Protos\getcourseid.proto" GrpcServices="Server" />
   </ItemGroup>
 
   <ItemGroup>

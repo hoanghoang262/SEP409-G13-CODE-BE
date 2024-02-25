@@ -5,6 +5,7 @@ using GrpcServices;
 using MassTransit;
 using Microsoft.EntityFrameworkCore;
 using ModerationService.API.Common.PublishEvent;
+using ModerationService.API.GrpcServices;
 using ModerationService.API.Models;
 using Serilog;
 using System.Reflection;
@@ -48,6 +49,8 @@ namespace ModerationService.API
             var config2 = builder.Configuration.GetSection("GrpcSetting2:CourseUrl").Value;
             builder.Services.AddGrpcClient<UserEnrollCourseService.UserEnrollCourseServiceClient>(x => x.Address = new Uri(config2));
             builder.Services.AddScoped<UserEnrollCourseGrpcServices>();
+            builder.Services.AddGrpcClient<GetCourseByIdService.GetCourseByIdServiceClient>(x => x.Address = new Uri(config2));
+            builder.Services.AddScoped<GetCourseIdGrpcServices>();
             //mapper
             builder.Services.AddAutoMapper(Assembly.GetExecutingAssembly());
             //mediatR

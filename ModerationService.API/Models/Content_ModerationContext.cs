@@ -104,6 +104,10 @@ namespace ModerationService.API.Models
 
                 entity.Property(e => e.CourseId).HasColumnName("Course_Id");
 
+                entity.Property(e => e.CourseName)
+                    .HasMaxLength(200)
+                    .HasColumnName("Course_Name");
+
                 entity.Property(e => e.CreatedAt)
                     .HasColumnType("datetime")
                     .HasColumnName("Created_At");

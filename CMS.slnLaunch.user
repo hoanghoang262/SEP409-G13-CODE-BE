@@ -8,13 +8,9 @@
         "DebugTarget": ""
       },
       {
-        "Name": "CourseGRPC\\CourseGRPC.csproj",
+        "Name": "Course.API\\CourseService.API.csproj",
         "Action": "Start",
         "DebugTarget": ""
-      },
-      {
-        "Name": "Course.API\\CourseService.API.csproj",
-        "Action": "Start"
       }
     ]
   },

@@ -12,6 +12,7 @@ namespace ModerationService.API.Models
         public string? CreatedBy { get; set; }
         public DateTime? CreatedAt { get; set; }
         public string? Status { get; set; }
+        public string? CourseName { get; set; }
 
         public virtual Course? Course { get; set; }
     }
