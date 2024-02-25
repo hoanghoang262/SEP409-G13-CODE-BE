@@ -1,9 +1,13 @@
 ﻿
 using CloudinaryDotNet;
+using CompileCodeOnline;
 using CourseService;
+using CourseService.API;
 using CourseService.API.Application.ConsumeMessage.EvenHandles;
 using CourseService.API.Application.MessageBroker.EvenHandles;
+using CourseService.API.Controllers;
 using CourseService.API.IntegrationEvent.EvenHandles;
+using CourseService.API.MessageBroker.ConsumeMessage.EventHandles;
 using CourseService.API.Models;
 using GrpcServices;
 using MassTransit;
@@ -18,6 +22,8 @@ namespace CourseService
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
+            builder.Services.AddScoped<DynamicCodeCompiler>();
+            builder.Services.AddScoped<DynamicCodeCompilerJava>();
 
             // rabbitMQ
             var configuration = builder.Configuration.GetSection("EventBusSetting:HostAddress").Value;
@@ -30,6 +36,8 @@ namespace CourseService
                 config.AddConsumersFromNamespaceContaining<EventChapterHandler>();
                 config.AddConsumersFromNamespaceContaining<EventLessonHandler>();
                 config.AddConsumersFromNamespaceContaining<EventQuestionHandler>();
+                config.AddConsumersFromNamespaceContaining<EventCodeQuestionHandler>();
+                config.AddConsumersFromNamespaceContaining<EventTestCaseHandler>();
 
                 config.UsingRabbitMq((ctx, cfg) =>
                 {

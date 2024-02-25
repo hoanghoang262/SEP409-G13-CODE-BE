@@ -23,7 +23,7 @@ namespace CourseService.API.Application.ConsumeMessage.EvenHandles
 
         public async Task Consume(ConsumeContext<LessonEvent> context)
         {
-            var command = _mapper.Map<SyncLessonCommand>(context.Message);
+            var command = _mapper.Map<SyncQuestionCommand>(context.Message);
             var result = await mediator.Send(command);
 
         }

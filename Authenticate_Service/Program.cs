@@ -10,6 +10,7 @@ using System.Reflection;
 using System.Text;
 using Contract.Service.Configuration;
 using Contract.Service;
+using DynamicCodeCompilerAPI.Controllers;
 
 
 
@@ -21,6 +22,7 @@ namespace Authenticated
         {
             var builder = WebApplication.CreateBuilder(args);
             builder.Services.AddControllersWithViews();
+            builder.Services.AddScoped<DynamicCodeCompiler>();
             //config RabbitMQ
             var configuration = builder.Configuration.GetSection("EventBusSetting:HostAddress").Value;
 

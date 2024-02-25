@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using CourseGRPC.Services;
+using EventBus.Message.IntegrationEvent.Event;
 using EventBus.Message.IntegrationEvent.PublishEvent;
 using MassTransit;
 using MediatR;
@@ -56,7 +57,41 @@ namespace ModerationService.API.Fearture.Command.Moderation
                         Part = chap.Part
                     };
                     await _publish.Publish(chapterEvent);
+                    var codequestion = await _context.CodeQuestions.Where(c => c.ChapterId.Equals(chap.Id)).ToListAsync();
+
+                    foreach (var code in codequestion)
+                    {
+                        var codequestionEvent = new CodeQuestionEvent
+                        {
+                            Description = code.Description,
+                            ChapterId = code.ChapterId,
+                            Id = code.Id,
+
+                        };
+                        await _publish.Publish(codequestionEvent);
+                        var testcase= await _context.TestCases.Where(c => c.CodeQuestionId.Equals(code.Id)).ToListAsync();
+                        foreach(var test in testcase)
+                        {
+                            var testcaseEvent = new TestCaseEvent
+                            {
+                                Id = test.Id,
+                                InputTypeInt = test.InputTypeInt,
+                                CodeQuestionId = test.CodeQuestionId,
+                                ExpectedResultString = test.ExpectedResultString,
+                                InputTypeArrayInt = test.InputTypeArrayInt,
+                                InputTypeArrayString = test.InputTypeArrayString,
+                                ExpectedResultInt = test.ExpectedResultInt,
+                                ExpectedResultBoolean = test.ExpectedResultBoolean,
+                                InputTypeBoolean = test.ExpectedResultBoolean,
+                                InputTypeString = test.InputTypeString
+                            };
+                            await _publish.Publish(testcaseEvent);
+                        }
+                        
+                    }
+                    
                     var lesson = await _context.Lessons.Where(l => l.ChapterId.Equals(chap.Id)).ToListAsync();
+                   
                     foreach (var less in lesson)
                     {
                         var lessonEvent = new LessonEvent
@@ -105,16 +140,22 @@ namespace ModerationService.API.Fearture.Command.Moderation
                         await _publish.Publish(notification);
                     }
 
+
                 }
-                var notificationForAdminBussiness= new NotificationEvent
+                else
                 {
-                    RecipientId = course.CreatedBy,
-                    IsSeen = false,
-                    NotificationContent = "Your course has been approved",
-                    SendDate = DateTime.Now,
-                    Course_Id=course.Id,
-                };
-                await _publish.Publish(notificationForAdminBussiness);
+                    var notificationForAdminBussiness = new NotificationEvent
+                    {
+                        RecipientId = course.CreatedBy,
+                        IsSeen = false,
+                        NotificationContent = "Your course has been approved",
+                        SendDate = DateTime.Now,
+                        Course_Id = course.Id,
+                    };
+                    await _publish.Publish(notificationForAdminBussiness);
+
+                }
+              
 
 
 

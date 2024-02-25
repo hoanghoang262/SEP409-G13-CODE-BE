@@ -3,14 +3,15 @@
     "BaseURL": "http://reverseproxy"
   },
   "Routes": [
+    //CourseService
     {
       "DownstreamPathTemplate": "/api/{controller}/{action}",
       "AuthenticationOptions": {
-        "AuthenticationProviderKey": "Bearer",
-        "AllowedScopes": []
+        //"AuthenticationProviderKey": "Bearer",
+        //"AllowedScopes": []
       },
       "RouteClaimsRequirement": {
-        "Role": "Admin Bussiness,Admin System"
+        //"Role": "Admin Bussiness,Admin System"
       },
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
@@ -21,31 +22,31 @@
         }
       ],
       "UpstreamPathTemplate": "/course-gateway/{controller}/{action}",
-      "UpstreamHttpMethod": [ "POST", "PUT" ]
+      "UpstreamHttpMethod": [ "POST", "PUT", "GET" ]
 
     },
 
 
-    {
-      "DownstreamPathTemplate": "/api/{controller}/{action}",
-      "AuthenticationOptions": {
-        "AuthenticationProviderKey": "Bearer",
-        "AllowedScopes": []
-      },
-      "RouteClaimsRequirement": {
-        "Role": "Administrator"
-      },
-      "DownstreamScheme": "http",
-      "DownstreamHostAndPorts": [
-        {
-          "Host": "host.docker.internal",
-          //duong dan docker
-          "Port": 6002
-        }
-      ],
-      "UpstreamPathTemplate": "/course-gateway/{controller}/{action}",
-      "UpstreamHttpMethod": [ "GET" ]
-    },
+    //{
+    //  "DownstreamPathTemplate": "/api/{controller}/{action}",
+    //  "AuthenticationOptions": {
+    //    "AuthenticationProviderKey": "Bearer",
+    //    "AllowedScopes": []
+    //  },
+    //  "RouteClaimsRequirement": {
+    //    "Role": "Administrator"
+    //  },
+    //  "DownstreamScheme": "http",
+    //  "DownstreamHostAndPorts": [
+    //    {
+    //      "Host": "host.docker.internal",
+    //      //duong dan docker
+    //      "Port": 6002
+    //    }
+    //  ],
+    //  "UpstreamPathTemplate": "/course-gateway/{controller}/{action}",
+    //  "UpstreamHttpMethod": [ "GET" ]
+    //},
 
     //Authenticate service host
     {
@@ -75,6 +76,13 @@
     // Moderation service host
     {
       "DownstreamPathTemplate": "/api/{controller}/{action}",
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer",
+        "AllowedScopes": []
+      },
+      "RouteClaimsRequirement": {
+        "Role": "Admin Bussiness"
+      },
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
@@ -94,8 +102,3 @@
 
   ]
 }
-
-  ]
-}
-
-

@@ -13,7 +13,7 @@ namespace ModerationService.API.Common.ModelDTO
         public decimal? Part { get; set; }
         public bool? IsNew { get; set; }
 
-
+        public virtual ICollection<CodeQuestionDTO> CodeQuestions { get; set; }
         public virtual ICollection<LessonDTO> Lessons { get; set; }
 
     }

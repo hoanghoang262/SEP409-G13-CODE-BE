@@ -47,12 +47,12 @@ services:
       - "5672:5672"
       - "15672:15672"
   
-  redisdb:
-     image: "redis:alpine"
-     container_name: redisdb
-     restart: always
-     ports:
-       - "6379:6379"
+ # redisdb:
+  #   image: "redis:alpine"
+  ##   container_name: redisdb
+     #restart: always
+     #ports:
+     #  - "6379:6379"
 
        
   
@@ -164,9 +164,11 @@ services:
       - ASPNETCORE_URLS=http://+:80
       - ConnectionStrings:DefaultConnection=server=sqlserverdb;database=Notification;uid=sa;pwd=PassW0rd!;TrustServerCertificate=True
       - "EventBusSetting:HostAddress=amqp://guest:guest@rabbitmq:5672"
-     
     ports:
       - "6006:80"
+    restart: always
+    volumes:
+      - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
 
 networks:
    default: 

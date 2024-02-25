@@ -1,0 +1,11 @@
+{
+  "Version": 1,
+  "Hash": "C1CVBn7apDcFaWstxaxri9Q7VW+ccn5Ys2xfAxKeEgc=",
+  "Source": "AuthenticateService.API",
+  "BasePath": "_content/AuthenticateService.API",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": []
+}
