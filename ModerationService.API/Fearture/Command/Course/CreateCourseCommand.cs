@@ -8,14 +8,14 @@ using ModerationService.API.Models;
 
 namespace CourseService.API.Feartures.CourseFearture.Command.CreateCourse
 {
-   public class CreateCourseCommand : IRequest<IActionResult>
+    public class CreateCourseCommand : IRequest<IActionResult>
     {
         public string? Name { get; set; }
         public string? Description { get; set; }
         public string? Picture { get; set; }
         public string? Tag { get; set; }
         public int CreatedBy { get; set; }
-        public DateTime? CreatedAt { get; set; }=DateTime.Now;
+        public DateTime? CreatedAt { get; set; } = DateTime.Now;
 
         public List<ChapterDTO> Chapters { get; set; }
 
@@ -26,7 +26,7 @@ namespace CourseService.API.Feartures.CourseFearture.Command.CreateCourse
             private readonly UserIdCourseGrpcService service;
 
 
-            public CreateCourseHandler(Content_ModerationContext context,UserIdCourseGrpcService _service)
+            public CreateCourseHandler(Content_ModerationContext context, UserIdCourseGrpcService _service)
             {
                 _context = context;
                 service = _service;
@@ -42,7 +42,7 @@ namespace CourseService.API.Feartures.CourseFearture.Command.CreateCourse
                     Picture = request.Picture,
                     Tag = request.Tag,
                     CreatedBy = request.CreatedBy,
-                    CreatedAt= request.CreatedAt,
+                    CreatedAt = request.CreatedAt,
 
 
                 };
@@ -65,63 +65,94 @@ namespace CourseService.API.Feartures.CourseFearture.Command.CreateCourse
                     _context.Chapters.Add(newChapter);
                     await _context.SaveChangesAsync(cancellationToken);
 
-
-                    foreach (var lessonDto in chapterDto.Lessons)
+                    foreach (var codequestionDto in chapterDto.CodeQuestions)
                     {
-                        var newLesson = new Lesson
+                        var newCodeQuestion = new CodeQuestion
                         {
-                            Title = lessonDto.Title,
-                            VideoUrl = lessonDto.VideoUrl,
-                            Description = lessonDto.Description,
-                            Duration = lessonDto.Duration,
                             ChapterId = newChapter.Id,
-                            IsCompleted=false
-                           
+                            Description = codequestionDto.Description,
                         };
-
-                        _context.Lessons.Add(newLesson);
+                        _context.CodeQuestions.Add(newCodeQuestion);
                         await _context.SaveChangesAsync(cancellationToken);
 
-                        
-                        foreach (var questionDto in lessonDto.Questions)
+                        foreach (var testcaseDto in codequestionDto.TestCases)
                         {
-                            var newQuestion = new Question
+                            var newTestCase = new TestCase
                             {
-                                ContentQuestion = questionDto.ContentQuestion,
-                                AnswerA = questionDto.AnswerA,
-                                AnswerB = questionDto.AnswerB,
-                                AnswerC = questionDto.AnswerC,
-                                AnswerD = questionDto.AnswerD,
-                                CorrectAnswer = questionDto.CorrectAnswer,
-                                Time = questionDto.Time,
-                                VideoId = newLesson.Id
+                                InputTypeInt = testcaseDto.InputTypeInt,
+                                CodeQuestionId = newCodeQuestion.Id,
+                                ExpectedResultString = testcaseDto.ExpectedResultString,
+                                InputTypeArrayInt = testcaseDto.InputTypeArrayInt,
+                                InputTypeArrayString = testcaseDto.InputTypeArrayString,
+                                ExpectedResultInt = testcaseDto.ExpectedResultInt,
+                                ExpectedResultBoolean = testcaseDto.ExpectedResultBoolean,
+                                InputTypeBoolean = testcaseDto.ExpectedResultBoolean,
+                                InputTypeString = testcaseDto.InputTypeString
                             };
-
-                            _context.Questions.Add(newQuestion);
+                            _context.TestCases.Add(newTestCase);
                             await _context.SaveChangesAsync(cancellationToken);
+
                         }
+
+                    }
+
+
+                foreach (var lessonDto in chapterDto.Lessons)
+                {
+                    var newLesson = new Lesson
+                    {
+                        Title = lessonDto.Title,
+                        VideoUrl = lessonDto.VideoUrl,
+                        Description = lessonDto.Description,
+                        Duration = lessonDto.Duration,
+                        ChapterId = newChapter.Id,
+                        IsCompleted = false
+
+                    };
+
+                    _context.Lessons.Add(newLesson);
+                    await _context.SaveChangesAsync(cancellationToken);
+
+
+                    foreach (var questionDto in lessonDto.Questions)
+                    {
+                        var newQuestion = new Question
+                        {
+                            ContentQuestion = questionDto.ContentQuestion,
+                            AnswerA = questionDto.AnswerA,
+                            AnswerB = questionDto.AnswerB,
+                            AnswerC = questionDto.AnswerC,
+                            AnswerD = questionDto.AnswerD,
+                            CorrectAnswer = questionDto.CorrectAnswer,
+                            Time = questionDto.Time,
+                            VideoId = newLesson.Id
+                        };
+
+                        _context.Questions.Add(newQuestion);
+                        await _context.SaveChangesAsync(cancellationToken);
                     }
                 }
-                var moderation = new Moderation
-                {
-                    CourseId= newCourse.Id,
-                    ChangeType="Add",
-                    CreatedBy=user.Name,
-                    ApprovedContent="Add a new course",
-                    Status="Pending",
-                    CreatedAt=newCourse.CreatedAt
-                    
+            }
+            var moderation = new Moderation
+            {
+                CourseId = newCourse.Id,
+                ChangeType = "Add",
+                CreatedBy = user.Name,
+                ApprovedContent = "Add a new course",
+                Status = "Pending",
+                CreatedAt = newCourse.CreatedAt
 
-                };
-                await _context.Moderations.AddAsync(moderation);
-                await _context.SaveChangesAsync(cancellationToken); 
+
+            };
+            await _context.Moderations.AddAsync(moderation);
+            await _context.SaveChangesAsync(cancellationToken); 
 
 
 
 
                 return new OkObjectResult("Your course will be sent to Admin for moderation");
-            }
         }
     }
+}
    
 }

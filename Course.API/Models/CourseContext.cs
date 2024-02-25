@@ -17,10 +17,12 @@ namespace CourseService.API.Models
         }
 
         public virtual DbSet<Chapter> Chapters { get; set; } = null!;
+        public virtual DbSet<CodeQuestion> CodeQuestions { get; set; } = null!;
         public virtual DbSet<Course> Courses { get; set; } = null!;
         public virtual DbSet<Enrollment> Enrollments { get; set; } = null!;
         public virtual DbSet<Lesson> Lessons { get; set; } = null!;
         public virtual DbSet<Question> Questions { get; set; } = null!;
+        public virtual DbSet<TestCase> TestCases { get; set; } = null!;
         public virtual DbSet<UserCourseProgress> UserCourseProgresses { get; set; } = null!;
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -50,6 +52,16 @@ namespace CourseService.API.Models
                     .WithMany(p => p.Chapters)
                     .HasForeignKey(d => d.CourseId)
                     .HasConstraintName("FK_Chapter_Course");
+            });
+
+            modelBuilder.Entity<CodeQuestion>(entity =>
+            {
+                entity.ToTable("Code_Question");
+
+                entity.HasOne(d => d.Chapter)
+                    .WithMany(p => p.CodeQuestions)
+                    .HasForeignKey(d => d.ChapterId)
+                    .HasConstraintName("FK_Code_Question_Chapter");
             });
 
             modelBuilder.Entity<Course>(entity =>
@@ -123,6 +135,20 @@ namespace CourseService.API.Models
                     .WithMany(p => p.Questions)
                     .HasForeignKey(d => d.VideoId)
                     .HasConstraintName("FK_Questions_Videos");
+            });
+
+            modelBuilder.Entity<TestCase>(entity =>
+            {
+                entity.ToTable("TestCase");
+
+                entity.Property(e => e.CodeQuestionId).HasColumnName("Code_Question_Id");
+
+                entity.Property(e => e.ExpectedResultString).HasMaxLength(50);
+
+                entity.HasOne(d => d.CodeQuestion)
+                    .WithMany(p => p.TestCases)
+                    .HasForeignKey(d => d.CodeQuestionId)
+                    .HasConstraintName("FK_TestCase_Code_Question");
             });
 
             modelBuilder.Entity<UserCourseProgress>(entity =>

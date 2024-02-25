@@ -19,12 +19,16 @@ namespace CourseGRPC.Services
                                 .Select(e => e.UserId)
                                 .ToList();
 
+            if (userEnrollCourses.Count == null)
+            {
+                return Task.FromResult<GetUserEnrollCoursesResponse>(null);
+            }
+
             var response = new GetUserEnrollCoursesResponse();
-            foreach(var id in  userEnrollCourses)
+            foreach (var id in userEnrollCourses)
             {
                 response.UserId.Add((int)id);
             }
-           
 
             return Task.FromResult(response);
         }

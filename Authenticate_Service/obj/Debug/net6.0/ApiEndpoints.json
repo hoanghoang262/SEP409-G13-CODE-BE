@@ -126,5 +126,21 @@
       }
     ],
     "ReturnTypes": []
+  },
+  {
+    "ContainingType": "DynamicCodeCompilerAPI.Controllers.CodeCompilerController",
+    "Method": "CompileAndRunCode",
+    "RelativePath": "CodeCompiler",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "request",
+        "Type": "DynamicCodeCompilerAPI.Controllers.CodeRequestModel",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
   }
 ]
