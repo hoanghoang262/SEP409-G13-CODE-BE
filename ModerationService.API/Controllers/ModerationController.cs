@@ -21,17 +21,6 @@ namespace ModerationService.API.Controllers
         }
 
 
-        //[HttpGet]
-        //public async Task<IActionResult> GetAllCourses()
-        //{
-        //    return Ok(await _mediator.Send(new GetAllCourseQuerry()));
-        //}
-        //[HttpGet]
-        //public async Task<IActionResult> GetCourseByUser(int Id)
-        //{
-        //    return Ok(await _mediator.Send(new GetCourseByUserIdQuerry { UserId = Id }));
-        //}
-
         [HttpPost]
         public async Task<ActionResult> AddCourse(CreateCourseCommand command)
         {
@@ -46,12 +35,8 @@ namespace ModerationService.API.Controllers
         }
         [HttpPost]
 
-        public async Task<ActionResult> UpdateCourse(int Id,UpdateCourseCommand command)
+        public async Task<ActionResult> UpdateCourse(UpdateCourseCommand command)
         {
-            if (Id != command.Id)
-            {
-                return BadRequest();
-            } 
             return Ok(await _mediator.Send(command));
         }
 

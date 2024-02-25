@@ -1,0 +1,2 @@
+obj\Debug\net6.0\Protos/Getcourseid.cs \
+obj\Debug\net6.0\Protos/GetcourseidGrpc.cs: Protos/getcourseid.proto
