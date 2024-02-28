@@ -1,12 +1,12 @@
 {
   "version": 2,
-  "dgSpecHash": "EDxu/8ZimHb5i4fkJ/QO9EY4/YeSsiAGft9RSYCrg5ziMBGimTUk0fMGiyLKoqakdfyytEiMufmJGyupooBrrg==",
+  "dgSpecHash": "AkIqi14zBGq7dEATwI6yEAW6m/K6Unm9Ne1hax2uxoSdJ73AtDOEyVbgGVF6Z8L4fvntalhz8UggA9Zf/E31yg==",
   "success": true,
-  "projectFilePath": "C:\\Users\\fpt\\Desktop\\HappyLearning\\SEP490-G13-CODE-BE\\Infrastructures\\Infrastructures.csproj",
+  "projectFilePath": "C:\\Users\\binhp\\Downloads\\SEP490\\Backup\\SEP490-G13-CODE-BE\\Infrastructures\\Infrastructures.csproj",
   "expectedPackageFiles": [
-    "C:\\Users\\fpt\\.nuget\\packages\\rabbitmq.client\\6.8.1\\rabbitmq.client.6.8.1.nupkg.sha512",
-    "C:\\Users\\fpt\\.nuget\\packages\\system.memory\\4.5.5\\system.memory.4.5.5.nupkg.sha512",
-    "C:\\Users\\fpt\\.nuget\\packages\\system.threading.channels\\7.0.0\\system.threading.channels.7.0.0.nupkg.sha512"
+    "C:\\Users\\binhp\\.nuget\\packages\\rabbitmq.client\\6.8.1\\rabbitmq.client.6.8.1.nupkg.sha512",
+    "C:\\Users\\binhp\\.nuget\\packages\\system.memory\\4.5.5\\system.memory.4.5.5.nupkg.sha512",
+    "C:\\Users\\binhp\\.nuget\\packages\\system.threading.channels\\7.0.0\\system.threading.channels.7.0.0.nupkg.sha512"
   ],
   "logs": []
 }
