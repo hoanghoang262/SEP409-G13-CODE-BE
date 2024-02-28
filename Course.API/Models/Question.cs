@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace CourseService
+namespace CourseService.API.Models
 {
     public partial class Question
     {

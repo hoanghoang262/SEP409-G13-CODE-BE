@@ -46,7 +46,13 @@ services:
      ports:
       - "5672:5672"
       - "15672:15672"
-     
+  
+ # redisdb:
+  #   image: "redis:alpine"
+  ##   container_name: redisdb
+     #restart: always
+     #ports:
+     #  - "6379:6379"
 
        
   
@@ -60,6 +66,7 @@ services:
       - ASPNETCORE_URLS=http://+:80
       - ConnectionStrings:DefaultConnection=server=sqlserverdb;database=Course;uid=sa;pwd=PassW0rd!;TrustServerCertificate=True
       - "EventBusSetting:HostAddress=amqp://guest:guest@rabbitmq:5672"
+      - "GrpcSetting:UserUrl=http://usergrpc"
     ports:
       - "6002:80"
     depends_on:
@@ -78,7 +85,7 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Local
       - ASPNETCORE_URLS=http://+:80
-      - GlobalConfiguration:BaseURL= http://reverseproxy
+      - GlobalConfiguration:BaseURL=http://reverseproxy
     depends_on:
       - course
       - authenticate
@@ -88,11 +95,93 @@ services:
     volumes:
       - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
 
+#gRPC
+ 
+  usergrpc:
+    image: ${DOCKER_REGISTRY-}usergrpc
+    build:
+      context: .
+      dockerfile: GrpcService1/Dockerfile
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://+:80
+      -  ConnectionStrings:DefaultConnection=server=sqlserverdb;database=Authentication;uid=sa;pwd=PassW0rd!;TrustServerCertificate=True
+    ports:
+      - "6003:80"
+    depends_on:
+      - sqlserverdb
+    volumes:
+      - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
+      - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
+  
+
+  moderationservice.api:
+    image: ${DOCKER_REGISTRY-}moderationserviceapi
+    build:
+      context: .
+      dockerfile: ModerationService.API/Dockerfile
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://+:80
+      - ConnectionStrings:DefaultConnection=server=sqlserverdb;database=Content_Moderation;uid=sa;pwd=PassW0rd!;TrustServerCertificate=True
+      - "EventBusSetting:HostAddress=amqp://guest:guest@rabbitmq:5672"
+      - "GrpcSetting:UserUrl=http://usergrpc"
+      - "GrpcSetting2:CourseUrl=http://coursegrpc"
+    ports:
+      - "6004:80"
+    depends_on:
+      - sqlserverdb
+      - rabbitmq
+    restart: always
+    volumes:
+      - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
+
+
+  coursegrpc:
+    image: ${DOCKER_REGISTRY-}coursegrpc
+    build:
+      context: .
+      dockerfile: CourseGRPC/Dockerfile
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://+:80
+      -  ConnectionStrings:DefaultConnection=server=sqlserverdb;database=Course;uid=sa;pwd=PassW0rd!;TrustServerCertificate=True
+    ports:
+      - "6005:80"
+    depends_on:
+      - sqlserverdb
+    volumes:
+      - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
+      - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
+
+  notificationservice.api:
+    image: ${DOCKER_REGISTRY-}notificationserviceapi
+    build:
+      context: .
+      dockerfile: NotificationService.API/Dockerfile
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://+:80
+      - ConnectionStrings:DefaultConnection=server=sqlserverdb;database=Notification;uid=sa;pwd=PassW0rd!;TrustServerCertificate=True
+      - "EventBusSetting:HostAddress=amqp://guest:guest@rabbitmq:5672"
+    ports:
+      - "6006:80"
+    restart: always
+    volumes:
+      - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
+
 networks:
-   default:
+   default: 
      name: CMS
      driver: bridge
      
+
+     
+
+
+
+
+
 
 
 

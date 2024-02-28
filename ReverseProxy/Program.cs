@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Ocelot.DependencyInjection;
 using Ocelot.Middleware;
+using Ocelot.Provider.Polly;
 using System.Text;
 
 namespace ReverseProxy
@@ -51,7 +52,7 @@ namespace ReverseProxy
             builder.Configuration.SetBasePath(builder.Environment.ContentRootPath).
                 AddJsonFile("ocelot_Local.json", optional: false, reloadOnChange: true).
                 AddJsonFile("ocelot.json", optional: false, reloadOnChange: true).AddEnvironmentVariables();
-            builder.Services.AddOcelot(builder.Configuration);
+            builder.Services.AddOcelot(builder.Configuration).AddPolly();
             var app = builder.Build();
             app.UseHttpsRedirection();
 

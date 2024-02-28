@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 
-namespace CourseService
+namespace CourseService.API.Models
 {
     public partial class CourseContext : DbContext
     {
@@ -17,10 +17,12 @@ namespace CourseService
         }
 
         public virtual DbSet<Chapter> Chapters { get; set; } = null!;
-        public virtual DbSet<Comment> Comments { get; set; } = null!;
+        public virtual DbSet<CodeQuestion> CodeQuestions { get; set; } = null!;
         public virtual DbSet<Course> Courses { get; set; } = null!;
+        public virtual DbSet<Enrollment> Enrollments { get; set; } = null!;
         public virtual DbSet<Lesson> Lessons { get; set; } = null!;
         public virtual DbSet<Question> Questions { get; set; } = null!;
+        public virtual DbSet<TestCase> TestCases { get; set; } = null!;
         public virtual DbSet<UserCourseProgress> UserCourseProgresses { get; set; } = null!;
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -28,7 +30,7 @@ namespace CourseService
             if (!optionsBuilder.IsConfigured)
             {
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-                optionsBuilder.UseSqlServer("server=localhost\\sqlserverdb,1435;database=Course;uid=sa;pwd=PassW0rd!;TrustServerCertificate=True");
+                optionsBuilder.UseSqlServer("server=localhost\\sqlserverdb,1435;database=Course;uid=sa;pwd=PassW0rd!;TrustServerCertificate=true");
             }
         }
 
@@ -37,6 +39,8 @@ namespace CourseService
             modelBuilder.Entity<Chapter>(entity =>
             {
                 entity.ToTable("Chapter");
+
+                entity.Property(e => e.Id).ValueGeneratedNever();
 
                 entity.Property(e => e.CourseId).HasColumnName("Course_Id");
 
@@ -50,39 +54,50 @@ namespace CourseService
                     .HasConstraintName("FK_Chapter_Course");
             });
 
-            modelBuilder.Entity<Comment>(entity =>
+            modelBuilder.Entity<CodeQuestion>(entity =>
             {
-                entity.ToTable("Comment");
+                entity.ToTable("Code_Question");
 
-                entity.Property(e => e.Id).ValueGeneratedNever();
-
-                entity.Property(e => e.CommentContent).HasColumnName("Comment_Content");
-
-                entity.Property(e => e.LessonId).HasColumnName("Lesson_Id");
-
-                entity.Property(e => e.UserId)
-                    .HasMaxLength(10)
-                    .HasColumnName("User_Id")
-                    .IsFixedLength();
-
-                entity.HasOne(d => d.Lesson)
-                    .WithMany(p => p.Comments)
-                    .HasForeignKey(d => d.LessonId)
-                    .HasConstraintName("FK_Comment_Lesson");
+                entity.HasOne(d => d.Chapter)
+                    .WithMany(p => p.CodeQuestions)
+                    .HasForeignKey(d => d.ChapterId)
+                    .HasConstraintName("FK_Code_Question_Chapter");
             });
 
             modelBuilder.Entity<Course>(entity =>
             {
                 entity.ToTable("Course");
 
+                entity.Property(e => e.Id).ValueGeneratedNever();
+
+                entity.Property(e => e.CreatedAt)
+                    .HasColumnType("datetime")
+                    .HasColumnName("Created_At");
+
+                entity.Property(e => e.CreatedBy).HasColumnName("Created_By");
+
                 entity.Property(e => e.Tag).HasMaxLength(50);
+            });
+
+            modelBuilder.Entity<Enrollment>(entity =>
+            {
+                entity.ToTable("Enrollment");
+
+                entity.Property(e => e.CourseId).HasColumnName("Course_Id");
 
                 entity.Property(e => e.UserId).HasColumnName("User_Id");
+
+                entity.HasOne(d => d.Course)
+                    .WithMany(p => p.Enrollments)
+                    .HasForeignKey(d => d.CourseId)
+                    .HasConstraintName("FK_Enrollment_Course");
             });
 
             modelBuilder.Entity<Lesson>(entity =>
             {
                 entity.ToTable("Lesson");
+
+                entity.Property(e => e.Id).ValueGeneratedNever();
 
                 entity.Property(e => e.ChapterId).HasColumnName("Chapter_Id");
 
@@ -98,6 +113,8 @@ namespace CourseService
 
             modelBuilder.Entity<Question>(entity =>
             {
+                entity.Property(e => e.Id).ValueGeneratedNever();
+
                 entity.Property(e => e.AnswerA).HasColumnName("Answer_A");
 
                 entity.Property(e => e.AnswerB).HasColumnName("Answer_B");
@@ -118,6 +135,20 @@ namespace CourseService
                     .WithMany(p => p.Questions)
                     .HasForeignKey(d => d.VideoId)
                     .HasConstraintName("FK_Questions_Videos");
+            });
+
+            modelBuilder.Entity<TestCase>(entity =>
+            {
+                entity.ToTable("TestCase");
+
+                entity.Property(e => e.CodeQuestionId).HasColumnName("Code_Question_Id");
+
+                entity.Property(e => e.ExpectedResultString).HasMaxLength(50);
+
+                entity.HasOne(d => d.CodeQuestion)
+                    .WithMany(p => p.TestCases)
+                    .HasForeignKey(d => d.CodeQuestionId)
+                    .HasConstraintName("FK_TestCase_Code_Question");
             });
 
             modelBuilder.Entity<UserCourseProgress>(entity =>

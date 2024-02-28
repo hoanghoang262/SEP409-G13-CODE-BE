@@ -1,5 +1,5 @@
-﻿
-using CourseService.API.Common.Mapping;
+﻿using CourseService.API.Common.Mapping;
+using CourseService.API.Models;
 
 namespace CourseService.API.Common.ModelDTO
 {
@@ -16,6 +16,7 @@ namespace CourseService.API.Common.ModelDTO
         public string? Picture { get; set; }
         public string? Tag { get; set; }
         public int? UserId { get; set; }
+        public string? UserName { get; set; }
 
         public virtual ICollection<ChapterDTO> Chapters { get; set; }
     }
@@ -36,20 +37,19 @@ namespace CourseService.API.Common.ModelDTO
     {
         public LessonDTO()
         {
-            Comments = new HashSet<CommentDTO>();
+           
             Questions = new HashSet<QuestionDTO>();
         }
 
         public int Id { get; set; }
         public string? Title { get; set; }
         public string? VideoUrl { get; set; }
-        public IFormFile? VideoByte { get; set; }
         public int? ChapterId { get; set; }
         public string? Description { get; set; }
         public long? Duration { get; set; }
 
        
-        public virtual ICollection<CommentDTO> Comments { get; set; }
+       
         public virtual ICollection<QuestionDTO> Questions { get; set; }
 
     }
@@ -66,13 +66,5 @@ namespace CourseService.API.Common.ModelDTO
 
         
     }
-    public class CommentDTO: IMapFrom<Comment>
-    {
-        public int Id { get; set; }
-        public int? LessonId { get; set; }
-        public string? CommentContent { get; set; }
-        public string? UserId { get; set; }
-
-        public virtual LessonDTO? Lesson { get; set; }
-    }
+   
 }

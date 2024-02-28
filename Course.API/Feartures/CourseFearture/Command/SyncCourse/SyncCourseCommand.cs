@@ -1,0 +1,74 @@
+﻿using CloudinaryDotNet.Actions;
+using CourseService.API.Common.Mapping;
+using CourseService.API.Common.ModelDTO;
+using CourseService.API.Models;
+
+using EventBus.Message.IntegrationEvent.PublishEvent;
+using MediatR;
+using Microsoft.AspNetCore.Mvc;
+using ModerationService.API.Common.PublishEvent;
+
+namespace CourseService.API.Feartures.CourseFearture.Command.CreateCourse
+{
+    public class SyncCourseCommand : IRequest<IActionResult>, IMapFrom<CourseEvent>
+    {
+        public int Id { get; set; }
+        public string? Name { get; set; }
+        public string? Description { get; set; }
+        public string? Picture { get; set; }
+        public string? Tag { get; set; }
+        public int? CreatedBy { get; set; }
+        public DateTime? CreatedAt { get; set; }
+        public class asyncCourseCommandHandler : IRequestHandler<SyncCourseCommand, IActionResult>
+        {
+            private readonly CourseContext _context;
+            private readonly CloudinaryService _cloudinaryService;
+
+            public asyncCourseCommandHandler(CourseContext context, CloudinaryService cloudinaryService)
+            {
+                _context = context;
+                _cloudinaryService = cloudinaryService;
+            }
+            public async Task<IActionResult> Handle(SyncCourseCommand request, CancellationToken cancellationToken)
+            {
+                var course= await _context.Courses.FindAsync(request.Id);
+                if (course == null)
+                {
+                    var newCourse = new Course
+                    {
+                        Id = request.Id,
+                        Name = request.Name,
+                        Description = request.Description,
+                        Picture = request.Picture,
+                        Tag = request.Tag,
+                        CreatedBy = request.CreatedBy,
+
+                    };
+
+                    _context.Courses.Add(newCourse);
+                    await _context.SaveChangesAsync(cancellationToken);
+
+                }
+                else
+                {
+
+                    course.Name = request.Name;
+                    course.Description = request.Description;
+                    course.Picture = request.Picture;
+                    course.Tag = request.Tag;
+                    course.CreatedBy = request.CreatedBy;
+
+                   
+                    await _context.SaveChangesAsync(cancellationToken);
+                }
+
+              
+
+
+             
+                return new OkObjectResult("done") ;
+            }
+        }
+    }
+   
+}

@@ -13,6 +13,9 @@ namespace Authenticate_Service.Models
         public string? ProfilePict { get; set; }
         public bool? Status { get; set; }
         public int? RoleId { get; set; }
+        public string? UserName { get; set; }
+        public bool? EmailConfirmed { get; set; }
+        public string? VerificationCode { get; set; }
 
         public virtual Role? Role { get; set; }
     }

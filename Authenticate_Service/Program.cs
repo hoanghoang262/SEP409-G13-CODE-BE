@@ -1,21 +1,18 @@
-
-
-
-
-
-
-using Authenticate_Service;
+﻿using Authenticate_Service;
 using Authenticate_Service.Models;
-using EventBus.Message.IntegrationEvent.Event;
-using EventBus.Message.IntegrationEvent.Interfaces;
-using Infrastructures;
+using FirebaseAdmin;
+using Google.Apis.Auth.OAuth2;
 using MassTransit;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
-using RabbitMQ.Client;
+using System.Reflection;
 using System.Text;
+using Contract.Service.Configuration;
+using Contract.Service;
+using DynamicCodeCompilerAPI.Controllers;
+
+
 
 namespace Authenticated
 {
@@ -24,6 +21,9 @@ namespace Authenticated
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
+            builder.Services.AddControllersWithViews();
+            builder.Services.AddScoped<DynamicCodeCompiler>();
+            //config RabbitMQ
             var configuration = builder.Configuration.GetSection("EventBusSetting:HostAddress").Value;
 
             var mqConnection = new Uri(configuration);
@@ -34,25 +34,30 @@ namespace Authenticated
                 {
                     cfg.Host(mqConnection);
                 });
-                config.AddRequestClient<ILoginEvent>();
+                //config.AddRequestClient<CourseMessage>();
 
             });
-
-
-
-            // Add services to the container.
-
-            builder.Services.AddControllers();
-            // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-            builder.Services.AddEndpointsApiExplorer();
-            builder.Services.AddSwaggerGen();
+            //gRPC
+            var config = builder.Configuration.GetSection("GrpcSetting:UserUrl").Value;
+            builder.Services.AddSingleton(config);
+           // builder.Services.AddGrpcClient<CourseMessage>(x=>x.Address = new Uri(config));
+           
+            //Config email
+            var email=builder.Configuration.GetSection(nameof(SmtpEmailSetting)).Get<SmtpEmailSetting>();
+            builder.Services.AddSingleton(email);
+            builder.Services.AddScoped<IEmailService<MailRequest>, SMTPEmailService>();
+            //Config autoMapper
             builder.Services.AddAutoMapper(cfg=>cfg.AddProfile(new MappingProfile()));
-            builder.Services.AddScoped<IMessageProducer, RabbitMQProducer>();
+            //Config MediatR
+            builder.Services.AddMediatR(cfg=>cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly()));
+
+            builder.Services.AddRazorPages();
+            //Config context
             builder.Services.AddDbContext<AuthenticationContext>(
     oprions => oprions.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"))
     );
 
-            // builder.Services.AddScoped<IMessageProducer,RabbitMQProducer>();
+            //Config Jwt
             builder.Services.AddAuthentication(options =>
             {
                 options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -71,6 +76,16 @@ namespace Authenticated
                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["JWT:Secret"]))
                 };
             });
+            //Config FireBase
+            FirebaseApp.Create(new AppOptions()
+            {
+                Credential = GoogleCredential.FromFile("firebase.json"),
+            });
+
+            builder.Services.AddControllers();
+            builder.Services.AddEndpointsApiExplorer();
+            builder.Services.AddSwaggerGen();
+            builder.Services.AddHttpContextAccessor();
 
             var app = builder.Build();
 
@@ -84,12 +99,15 @@ namespace Authenticated
             app.UseHttpsRedirection();
 
             app.UseAuthorization();
-
-
+            app.UseAuthentication();
+            app.UseRouting();
+           
+            app.MapRazorPages();
 
             app.MapControllerRoute(
-                name: "default",
-                pattern: "{controller=Home}/{action=Index}/{id?}");
+              name: "default",
+              pattern: "{controller=Home}/{action=Index}/{id?}");
+            app.MapControllers();
 
             app.Run();
         }

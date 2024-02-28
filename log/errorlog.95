@@ -1,0 +1,31 @@
+2024-01-31 09:26:50.58 Server      Microsoft SQL Server 2019 (RTM-CU24) (KB5031908) - 15.0.4345.5 (X64) 
+	Dec  4 2023 14:44:16 
+	Copyright (C) 2019 Microsoft Corporation
+	Developer Edition (64-bit) on Linux (Ubuntu 20.04.6 LTS) <X64>
+2024-01-31 09:26:50.59 Server      UTC adjustment: 0:00
+2024-01-31 09:26:50.59 Server      (c) Microsoft Corporation.
+2024-01-31 09:26:50.59 Server      All rights reserved.
+2024-01-31 09:26:50.60 Server      Server process ID is 376.
+2024-01-31 09:26:50.60 Server      Logging SQL Server messages in file '/var/opt/mssql/log/errorlog'.
+2024-01-31 09:26:50.60 Server      Registry startup parameters: 
+	 -d /var/opt/mssql/data/master.mdf
+	 -l /var/opt/mssql/data/mastlog.ldf
+	 -e /var/opt/mssql/log/errorlog
+2024-01-31 09:26:50.66 Server      SQL Server detected 1 sockets with 4 cores per socket and 8 logical processors per socket, 8 total logical processors; using 8 logical processors based on SQL Server licensing. This is an informational message; no user action is required.
+2024-01-31 09:26:50.67 Server      SQL Server is starting at normal priority base (=7). This is an informational message only. No user action is required.
+2024-01-31 09:26:50.67 Server      Detected 2304 MB of RAM. This is an informational message; no user action is required.
+2024-01-31 09:26:50.68 Server      Using conventional memory in the memory manager.
+2024-01-31 09:26:50.69 Server      Page exclusion bitmap is enabled.
+2024-01-31 09:26:50.76 Server      Buffer pool extension is not supported on Linux platform.
+2024-01-31 09:26:50.77 Server      Buffer Pool: Allocating 262144 bytes for 201085 hashPages.
+2024-01-31 09:26:51.47 Server      Buffer pool extension is already disabled. No action is necessary.
+2024-01-31 09:26:52.04 Server      Successfully initialized the TLS configuration. Allowed TLS protocol versions are ['1.0 1.1 1.2']. Allowed TLS ciphers are ['ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-ECDSA-AES256-GCM-SHA384:ECDHE-RSA-AES128-GCM-SHA256:ECDHE-RSA-AES256-GCM-SHA384:ECDHE-ECDSA-AES128-SHA256:ECDHE-ECDSA-AES256-SHA384:ECDHE-ECDSA-AES256-SHA:ECDHE-ECDSA-AES128-SHA:AES256-GCM-SHA384:AES128-GCM-SHA256:AES256-SHA256:AES128-SHA256:AES256-SHA:AES128-SHA:!DHE-RSA-AES256-GCM-SHA384:!DHE-RSA-AES128-GCM-SHA256:!DHE-RSA-AES256-SHA:!DHE-RSA-AES128-SHA'].
+2024-01-31 09:26:52.16 Server      Query Store settings initialized with enabled = 1, 
+2024-01-31 09:26:52.23 Server      The maximum number of dedicated administrator connections for this instance is '1'
+2024-01-31 09:26:52.24 Server      Node configuration: node 0: CPU mask: 0x00000000000000ff:0 Active CPU mask: 0x00000000000000ff:0. This message provides a description of the NUMA configuration for this computer. This is an informational message only. No user action is required.
+2024-01-31 09:26:52.28 Server      Using dynamic lock allocation.  Initial allocation of 2500 Lock blocks and 5000 Lock Owner blocks per node.  This is an informational message only.  No user action is required.
+2024-01-31 09:26:52.31 Server      In-Memory OLTP initialized on lowend machine.
+2024-01-31 09:26:52.57 Server      CLR version v4.0.30319 loaded.
+2024-01-31 09:26:53.67 Server      Common language runtime (CLR) functionality initialized.
+2024-01-31 09:26:53.91 Server      [INFO] Created Extended Events session 'hkenginexesession'
+2024-01-31 09:26:53.92 Server      Database Instant File Initialization: enabled. For security and performance considerations see the topic 'Database Instant File Initialization' in SQL Server Books Online. This is an informational message only. No user action is required.

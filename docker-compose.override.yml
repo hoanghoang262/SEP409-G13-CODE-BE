@@ -1,6 +1,10 @@
 version: '3.8'
 
 
-
-
+services:
+  notificationservice.api:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+    ports:
+      - "80"
 

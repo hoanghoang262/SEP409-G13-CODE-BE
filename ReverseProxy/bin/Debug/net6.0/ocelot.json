@@ -3,14 +3,15 @@
     "BaseURL": "http://reverseproxy"
   },
   "Routes": [
+    //CourseService
     {
       "DownstreamPathTemplate": "/api/{controller}/{action}",
       "AuthenticationOptions": {
-        "AuthenticationProviderKey": "Bearer",
-        "AllowedScopes": []
+        //"AuthenticationProviderKey": "Bearer",
+        //"AllowedScopes": []
       },
       "RouteClaimsRequirement": {
-        "Role": "Administrator"
+        //"Role": "Admin Bussiness,Admin System"
       },
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
@@ -26,6 +27,28 @@
     },
 
 
+    //{
+    //  "DownstreamPathTemplate": "/api/{controller}/{action}",
+    //  "AuthenticationOptions": {
+    //    "AuthenticationProviderKey": "Bearer",
+    //    "AllowedScopes": []
+    //  },
+    //  "RouteClaimsRequirement": {
+    //    "Role": "Administrator"
+    //  },
+    //  "DownstreamScheme": "http",
+    //  "DownstreamHostAndPorts": [
+    //    {
+    //      "Host": "host.docker.internal",
+    //      //duong dan docker
+    //      "Port": 6002
+    //    }
+    //  ],
+    //  "UpstreamPathTemplate": "/course-gateway/{controller}/{action}",
+    //  "UpstreamHttpMethod": [ "GET" ]
+    //},
+
+    //Authenticate service host
     {
       "DownstreamPathTemplate": "/api/{controller}/{action}",
       "DownstreamScheme": "http",
@@ -36,7 +59,39 @@
           "Port": 6001
         }
       ],
+      "QoSOptions": {
+        "ExceptionsAllowedBeforeBreaking": 2,
+        "DurationOfBreak": 1000,
+        "TimeoutValue": 5000
+
+      },
       "UpstreamPathTemplate": "/authen-gateway/{controller}/{action}",
+      "UpstreamHttpMethod": [ "POST", "PUT", "GET" ]
+      //"AuthenticationOptions": {
+      //  "AuthenticationProviderKey": "IdentityApiKey",
+      //  "AllowedScopes": []
+      //}
+
+    },
+    // Moderation service host
+    {
+      "DownstreamPathTemplate": "/api/{controller}/{action}",
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer",
+        "AllowedScopes": []
+      },
+      "RouteClaimsRequirement": {
+        "Role": "Admin Bussiness"
+      },
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "host.docker.internal",
+          //duong dan docker
+          "Port": 6004
+        }
+      ],
+      "UpstreamPathTemplate": "/moderation-gatewayd/{controller}/{action}",
       "UpstreamHttpMethod": [ "POST", "PUT", "GET" ]
       //"AuthenticationOptions": {
       //  "AuthenticationProviderKey": "IdentityApiKey",

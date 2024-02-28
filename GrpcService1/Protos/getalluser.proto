@@ -1,0 +1,21 @@
+syntax = "proto3";
+
+option csharp_namespace = "UserGrpc";
+
+package getalluser;
+
+    service GetAllUserService {
+      rpc GetAllUser (GetAllUserRequest) returns (GetAllUserResponse);
+    }
+
+    message GetAllUserRequest {
+     
+    }
+    message UserInfo{
+         int32 Id = 1;
+       string Name= 2; 
+    }
+
+    message GetAllUserResponse {
+       repeated UserInfo info=1;
+    }

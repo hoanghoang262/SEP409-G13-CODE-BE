@@ -1,47 +1,55 @@
 ﻿
-
-
-
 using CloudinaryDotNet;
+using CompileCodeOnline;
 using CourseService;
 using CourseService.API;
+using CourseService.API.Application.ConsumeMessage.EvenHandles;
+using CourseService.API.Application.MessageBroker.EvenHandles;
+using CourseService.API.Controllers;
 using CourseService.API.IntegrationEvent.EvenHandles;
+using CourseService.API.MessageBroker.ConsumeMessage.EventHandles;
+using CourseService.API.Models;
+using GrpcServices;
 using MassTransit;
-using MediatR;
 using Microsoft.EntityFrameworkCore;
-using System;
 using System.Reflection;
+using UserGrpc;
 
-namespace Course
+namespace CourseService
 {
     public class Program
     {
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
+            builder.Services.AddScoped<DynamicCodeCompiler>();
+            builder.Services.AddScoped<DynamicCodeCompilerJava>();
 
-            // Add services to the container.
+            // rabbitMQ
             var configuration = builder.Configuration.GetSection("EventBusSetting:HostAddress").Value;
 
             var mqConnection = new Uri(configuration);
 
             builder.Services.AddMassTransit(config =>
             {
-                config.AddConsumer<EventHanler>();
+                config.AddConsumersFromNamespaceContaining<EventCourseHandler>();
+                config.AddConsumersFromNamespaceContaining<EventChapterHandler>();
+                config.AddConsumersFromNamespaceContaining<EventLessonHandler>();
+                config.AddConsumersFromNamespaceContaining<EventQuestionHandler>();
+                config.AddConsumersFromNamespaceContaining<EventCodeQuestionHandler>();
+                config.AddConsumersFromNamespaceContaining<EventTestCaseHandler>();
 
                 config.UsingRabbitMq((ctx, cfg) =>
                 {
                     cfg.Host(mqConnection);
-                    cfg.ReceiveEndpoint("LoginEvent", c =>
-                    {
-                        c.ConfigureConsumer<EventHanler>(ctx);
-                    });
-
-
+                    cfg.ConfigureEndpoints(ctx);
+                    
                 });
 
             });
-            var cloudinaryConfig = new Account(
+          
+
+        var cloudinaryConfig = new Account(
         builder.Configuration["Cloudinary:CloudName"],
         builder.Configuration["Cloudinary:ApiKey"],
         builder.Configuration["Cloudinary:ApiSecret"]
@@ -57,14 +65,20 @@ namespace Course
                                         .AllowAnyMethod()
                                         .AllowAnyHeader());
             });
+            //grpc
+            var config = builder.Configuration.GetSection("GrpcSetting:UserUrl").Value;
+            builder.Services.AddSingleton(config);
+            builder.Services.AddGrpcClient<UserCourseService.UserCourseServiceClient>(x => x.Address = new Uri(config));
+            builder.Services.AddScoped<UserIdCourseGrpcService>();
+            //dbContext
             builder.Services.AddDbContext<CourseContext>(
     oprions => oprions.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"))
-    );
-            builder.Services.AddAutoMapper(cfg => cfg.AddProfile(new MappingProfile()));
-            builder.Services.AddMediatR(cfg =>
-            cfg.RegisterServicesFromAssemblies(Assembly.GetExecutingAssembly()));
+    );      //mapper
+            builder.Services.AddAutoMapper(Assembly.GetExecutingAssembly());
+            //mediatR
+            builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly()));
 
-
+            //Cloudinary
             builder.Services.AddSingleton(new CloudinaryService("dcduktpij", "592561579458269", "rriM4lqd8uNQ9FtUd11NjTq50ac"));
             builder.Services.AddControllers();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

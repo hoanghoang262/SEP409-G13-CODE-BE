@@ -17,3 +17,11 @@ build_property.SupportLocalizedComponentNames =
 build_property.GenerateRazorMetadataSourceChecksumAttributes = 
 build_property.MSBuildProjectDirectory = C:\Users\binhp\Downloads\SEP490\Backup\SEP490-G13-CODE-BE\Authenticate_Service
 build_property._RazorSourceGeneratorDebug = 
+
+[C:/Users/binhp/Downloads/SEP490/Backup/SEP490-G13-CODE-BE/Authenticate_Service/Pages/CodeEditor.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ29kZUVkaXRvci5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/binhp/Downloads/SEP490/Backup/SEP490-G13-CODE-BE/Authenticate_Service/Pages/ConfirmEmail.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ29uZmlybUVtYWlsLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 

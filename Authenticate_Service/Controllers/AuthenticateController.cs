@@ -1,12 +1,15 @@
-﻿using Account.API;
-using Account.API.Model;
-using Authenticate_Service.Models;
-using Microsoft.AspNetCore.Http;
+﻿using Authenticate_Service.Models;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.IdentityModel.Tokens;
-using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
-using System.Text;
+using MediatR;
+using Authenticate_Service.Feature.AuthenticateFearture.Command.Login;
+using Contract.Service;
+using Authenticate_Service.LoginModel;
+using Microsoft.EntityFrameworkCore;
+using Contract.Service.Configuration;
+using Authenticate_Service.Common;
+using Microsoft.AspNetCore.Http.Extensions;
+
+
 
 namespace Authenticated.Controllers
 {
@@ -15,72 +18,100 @@ namespace Authenticated.Controllers
     public class AuthenticateController : ControllerBase
     {
 
-        private readonly IConfiguration _configuration;
+        private readonly IMediator _mediator;
         private readonly AuthenticationContext context;
-
-
-        public AuthenticateController(IConfiguration configuration,AuthenticationContext _context)
+        private readonly IEmailService<MailRequest> _emailService;
+        private readonly HassPaword hash = new HassPaword();
+        
+        public AuthenticateController(IMediator mediator, AuthenticationContext _context, IEmailService<MailRequest> emailService)
         {
-
-            _configuration = configuration;
+            _mediator = mediator;
             context = _context;
+            _emailService = emailService;
         }
-       
-   
         [HttpPost]
-        public async Task<IActionResult> Login([FromBody] LoginModels model)
+        public async Task<IActionResult> LoginGoogle(LoginGoogleCommand command)
         {
-            var user = context.Users.FirstOrDefault(u => u.Email == model.Username
-                                                && u.Password == model.Password);
+           
+            return Ok(await _mediator.Send(command));
+        }
 
+        [HttpPost]
+        public async Task<IActionResult> Login([FromBody] LoginCommand command)
+        {
+            return Ok(await _mediator.Send(command));
+        }
+        [HttpPost]
+        public async Task<IActionResult> SignUp(SignUpModel request)
+        {
 
-            if (user != null)
+            
+            if (context.Users.Any(u => u.Email == request.Email))
             {
-                var userRoles = user.Role;
-
-                var authClaims = new List<Claim>
-                {
-                    new Claim(ClaimTypes.Email, user.Email),
-
-                    new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
-                };
-
-
-
-                //foreach (var userRole in userRoles)
-                //{
-
-                //}
-               // authClaims.Add(new Claim("Role", userRoles));
-
-
-                var authSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["JWT:Secret"]));
-
-                var token = new JwtSecurityToken(
-                    issuer: _configuration["JWT:ValidIssuer"],
-                    audience: _configuration["JWT:ValidAudience"],
-                    expires: DateTime.Now.AddHours(3),
-                    claims: authClaims,
-                    signingCredentials: new SigningCredentials(authSigningKey, SecurityAlgorithms.HmacSha256)
-                    );
-
-                return Ok(new
-                {
-                    token = new JwtSecurityTokenHandler().WriteToken(token),
-                    expiration = token.ValidTo
-                });
+                return new BadRequestObjectResult("A user is already registered with this e-mail address.");
             }
-            return Unauthorized();
-        }
+            if (context.Users.Any(u => u.UserName == request.UserName))
+            {
+                return new BadRequestObjectResult("A user is already registered with this username.");
+            }
+            else
+            {
+                var newUser = new User { Email = request.Email, UserName = request.UserName, Password = request.Password, RoleId = 1,EmailConfirmed=false };
+                context.Users.Add(newUser);
+                await context.SaveChangesAsync();
 
+                var callbackUrl = Url.Action(
+                                "ConfirmEmail", 
+                                 "Authenticate",
+                                 new { userId = newUser.Id },
+                                 Request.Scheme);
+
+                var message = new MailRequest
+                {
+                    Body = @$"
+<html>
+    <body>
+        <div style='font-family: Arial, sans-serif; color: #333;'>
+            <h2 style='color: #0056b3;'>Welcome to Happy Learning, {request.UserName}!</h2>
+            <p>Thank you for signing up. Please confirm your email address to activate your account.</p>
+            <p style='margin: 20px 0;'>
+                <a href='{callbackUrl}' style='background-color: #0056b3; color: #ffffff; padding: 10px 20px; text-decoration: none; border-radius: 5px;'>Confirm Email</a>
+            </p>
+            <p>If you did not create an account using this email address, please ignore this email.</p>
+        </div>
+    </body>
+</html>",
+                    
+                    ToAddress = request.Email,
+                    Subject = "Confirm Your Email "
+                };
+                await _emailService.SendEmailasync(message);
+
+                return new OkObjectResult("Please confirm the email that have sent to you");
+
+            }
+           
+        }
         [HttpGet]
-
-        public IActionResult getUser()
+        public async Task<IActionResult> GetUser(int id)
         {
-            var user = context.Users.ToList();
-            return Ok(user);
+
+            var user= await context.Users.FirstOrDefaultAsync(u => u.Id.Equals(id));
+
+            return Ok(user);    
         }
+        [HttpGet]
+        public async Task<IActionResult> ConfirmEmail(int userId)
+        {
+            var user = await context.Users.FindAsync(userId);
+
+            user.EmailConfirmed = true;
+            await context.SaveChangesAsync();
+
+            return RedirectToPage("/ConfirmEmail");
+
+        }
+        
 
     }
-
-}
+ }

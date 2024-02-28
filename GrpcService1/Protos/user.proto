@@ -1,0 +1,29 @@
+syntax = "proto3";
+
+option csharp_namespace = "UserGrpc";
+
+package user;
+
+
+service UserCourseService {
+  rpc GetUserCourses (GetUserCourseRequest) returns (GetUserCoursesResponse);
+}
+
+message GetUserCourseRequest {
+  int32 userId = 1;
+}
+
+message GetUserCoursesResponse {
+    int32 Id = 1;
+   string Name=2; 
+}
+
+
+
+
+
+
+
+
+
+

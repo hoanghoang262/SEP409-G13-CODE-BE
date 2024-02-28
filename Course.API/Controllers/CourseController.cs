@@ -1,15 +1,15 @@
 ﻿
 
-
-using CloudinaryDotNet.Actions;
 using CloudinaryDotNet;
-using CourseService.API.Common.ModelDTO;
+
 using CourseService.API.Feartures.CourseFearture.Command.CreateCourse;
 using CourseService.API.Feartures.CourseFearture.Queries;
-using MassTransit;
+
 using MediatR;
-using Microsoft.AspNetCore.Http;
+
 using Microsoft.AspNetCore.Mvc;
+
+
 
 namespace CourseService.Controllers
 {
@@ -27,37 +27,24 @@ namespace CourseService.Controllers
         }
 
 
-        [HttpPost]
-        public  async Task<IActionResult> GetMess()
+        [HttpGet]
+        public async Task<IActionResult> GetAllCourses()
         {
-            return Ok(await _mediator.Send(new MessageCommand()));
+            return Ok(await _mediator.Send(new GetAllCourseQuerry()));
         }
-        [HttpPost]
-        public async Task<IActionResult> GetMesaaas(IFormFile video)
+        [HttpGet]
+        public async Task<IActionResult> GetCourseByUser(int Id)
         {
-            return Ok();
+            return Ok(await _mediator.Send(new GetCourseByUserIdQuerry{UserId=Id}));
         }
-        [HttpPost]
-        public async Task<ActionResult<Course>> AddCourse(CreateCourseCommand command)
-        {
-            var course = await _mediator.Send(command);
-            return Ok(course);
-        }
-        [HttpPost]
-        public IActionResult UploadVideo( IFormFile video)
-        {
-            var uploadParams = new VideoUploadParams
-            {
-                File = new FileDescription(video.FileName, video.OpenReadStream()),
-                // Các tham số tải lên khác nếu cần
-            };
 
-            var uploadResult = _cloudinary.Upload(uploadParams);
-
-            // Process uploadResult as needed
-            var videoUrl = uploadResult.Url;
-
-            return Ok(new { VideoUrl = videoUrl });
+        [HttpGet]
+        public async Task<IActionResult> GetCourseByCourseId(int Id)
+        {
+            return Ok(await _mediator.Send(new GetCourseByCourseIdQuerry { CourseId = Id }));
         }
+
+
+
     }
 }
