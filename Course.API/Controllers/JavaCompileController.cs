@@ -26,7 +26,7 @@ namespace CourseService.API.Controllers
             {
                 // Create a temporary file path for the Java code
                 //string javaFilePath = Path.Combine(Path.GetTempPath(), "HelloWorld.java");
-               string javaFilePath = @"..\HelloWorld.java";
+               string javaFilePath = @"..\Solution.java";
 
               _compile.WriteJavaCodeToFile(javaCode.UserCode, javaFilePath);
                
@@ -63,11 +63,26 @@ namespace CourseService.API.Controllers
 
         public string RunJavaProgram(string javaFilePath)
         {
-            string javaHome = Environment.GetEnvironmentVariable("JAVA_HOME");
             string result = "";
+            string javaHome = Environment.GetEnvironmentVariable("javaHome");
+
+            //if (string.IsNullOrWhiteSpace(javaHome))
+            //{
+            //    Console.WriteLine("JAVA_HOME environment variable is not set.");
+            //    return "JAVA_HOME environment variable is not set.";
+            //}
+
+            //string javaExePath = Path.Combine(javaHome, "bin", "java.exe");
+
+            //if (!File.Exists(javaExePath))
+            //{
+            //    Console.WriteLine("Java executable not found at the specified path: " + javaExePath);
+            //    return "Java executable not found.";
+            //}
+
             var startInfo = new ProcessStartInfo
             {
-                FileName = javaHome,
+                FileName = "java.exe",
                 Arguments = javaFilePath,
                 UseShellExecute = false,
                 RedirectStandardOutput = true,
@@ -108,10 +123,10 @@ namespace CourseService.API.Controllers
             catch (Exception e)
             {
                 Console.WriteLine("Error compiling Java code: " + e.Message);
+                result = e.Message;
             }
             return result;
         }
-
 
     }
 }

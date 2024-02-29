@@ -14,9 +14,9 @@ namespace DynamicCodeCompilerAPI.Controllers
     public class CodeCompilerController : ControllerBase
     {
         private readonly DynamicCodeCompiler _codeCompiler;
-        private readonly CourseContext _context;
+        private readonly Course_DeployContext _context;
 
-        public CodeCompilerController(DynamicCodeCompiler codeCompiler, CourseContext context)
+        public CodeCompilerController(DynamicCodeCompiler codeCompiler, Course_DeployContext context)
         {
             _codeCompiler = codeCompiler;
             _context = context;
@@ -25,7 +25,7 @@ namespace DynamicCodeCompilerAPI.Controllers
         [HttpPost]
         public IActionResult CompileAndRunCode( CodeRequestModel request)
         {
-            var testCases = from codeQuestion in _context.CodeQuestions
+            var testCases = from codeQuestion in _context.PracticeQuestions
                             join testCase in _context.TestCases
                             on codeQuestion.Id equals testCase.CodeQuestionId
                             where testCase.CodeQuestionId == 1

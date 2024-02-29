@@ -1,0 +1,11 @@
+{
+  "Version": 1,
+  "Hash": "4mlUdGcD9s9kIuzw73aRiya3Vfqtw6wlu5L+AHrRNf4=",
+  "Source": "ModerationService.API",
+  "BasePath": "_content/ModerationService.API",
+  "Mode": "Default",
+  "ManifestType": "Publish",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": []
+}

@@ -1,6 +1,6 @@
 using MassTransit;
 using Microsoft.EntityFrameworkCore;
-using NotificationService.API.MessageBroker.ConsumeMessage.EventHandles;
+using NotificationService.API.MessageBroker;
 using NotificationService.API.Models;
 using System.Reflection;
 
@@ -51,11 +51,10 @@ namespace NotificationService.API
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
-            if (app.Environment.IsDevelopment())
-            {
+            
                 app.UseSwagger();
                 app.UseSwaggerUI();
-            }
+            
 
             app.UseAuthorization();
 

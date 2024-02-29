@@ -1,6 +1,6 @@
 
- import java.util.ArrayList;
-import java.util.List;
+  import java.util.ArrayList;
+  import java.util.List;
 
           public class Solution  {
                 public static void main(String[] args) {
@@ -16,14 +16,15 @@ import java.util.List;
                 	expectedResult.add(5);
                 	expectedResult.add(123);
                 	expectedResult.add(123);
+
                 	
                 	 for (int i = 0; i < testCase.size(); i++) {
                          int[] input = testCase.get(i);
                          int actualResult = Answer(input);
                          int expected = expectedResult.get(i);
-                         System.out.println("Expected Result: " + expected);
-                         System.out.println("Actual Result: " + actualResult);
-                         System.out.println("Test Result: " + (actualResult == expected ? "Passed" : "Failed"));
+                         System.out.println( expected);
+                         System.out.println(actualResult);
+                         System.out.println( + (actualResult == expected ? 1 : 0));
                          System.out.println();
                      }
                 	

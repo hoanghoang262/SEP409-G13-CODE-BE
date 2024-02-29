@@ -1,5 +1,36 @@
 [
   {
+    "ContainingType": "CourseService.API.Controllers.CheckAnswerController",
+    "Method": "CheckAnswer",
+    "RelativePath": "api/CheckAnswer/CheckAnswer",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "questionId",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "selectedOptionIds",
+        "Type": "System.Collections.Generic.List\u00601[[System.Int32, System.Private.CoreLib, Version=6.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Boolean",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
     "ContainingType": "DynamicCodeCompilerAPI.Controllers.CodeCompilerController",
     "Method": "CompileAndRunCode",
     "RelativePath": "api/CodeCompiler/CompileAndRunCode",

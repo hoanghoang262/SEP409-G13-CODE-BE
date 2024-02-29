@@ -1,4 +1,4 @@
-﻿using Account.API.Model;
+﻿
 using AutoMapper;
 
 using EventBus.Message.IntegrationEvent.Interfaces;

@@ -5,8 +5,8 @@ namespace CourseGRPC.Services
 {
     public class GetCoursesId : GetCourseByIdService.GetCourseByIdServiceBase
     {
-        private readonly CourseContext _context;
-        public GetCoursesId(CourseContext context)
+        private readonly Course_DeployContext _context;
+        public GetCoursesId(Course_DeployContext context)
         {
             _context = context;
         }
@@ -21,13 +21,16 @@ namespace CourseGRPC.Services
             {
                 return Task.FromResult<GetCourseIdResponse>(null);
             }
+           
+                var response = new GetCourseIdResponse()
+                {
+                    Id = course.Id,
+                    Name = course.Name,
+                };
 
-            var response = new GetCourseIdResponse()
-            {
-                Id = course.Id,
-                Name = course.Name,
-            };
-          
+
+            
+
 
             return Task.FromResult(response);
         }

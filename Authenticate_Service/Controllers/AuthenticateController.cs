@@ -3,11 +3,11 @@ using Microsoft.AspNetCore.Mvc;
 using MediatR;
 using Authenticate_Service.Feature.AuthenticateFearture.Command.Login;
 using Contract.Service;
-using Authenticate_Service.LoginModel;
 using Microsoft.EntityFrameworkCore;
 using Contract.Service.Configuration;
 using Authenticate_Service.Common;
 using Microsoft.AspNetCore.Http.Extensions;
+using AuthenticateService.API.Common.DTO;
 
 
 
@@ -110,6 +110,16 @@ namespace Authenticated.Controllers
 
             return RedirectToPage("/ConfirmEmail");
 
+        }
+        [HttpPost]
+        public async Task<IActionResult> CheckEmailExist(string email)
+        {
+            var user = await context.Users.FirstOrDefaultAsync(c => c.Email.Equals(email));
+            if (user != null)
+            {
+                return BadRequest("Email has exist");
+            }
+            return Ok("Not found Email");
         }
         
 

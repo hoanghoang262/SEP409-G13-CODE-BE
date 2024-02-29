@@ -1,10 +1,10 @@
 
 using CourseGRPC;
 using CourseGRPC.Services;
+using EventBus.Message.Event;
 using GrpcServices;
 using MassTransit;
 using Microsoft.EntityFrameworkCore;
-using ModerationService.API.Common.PublishEvent;
 using ModerationService.API.GrpcServices;
 using ModerationService.API.Models;
 using Serilog;
@@ -13,7 +13,7 @@ using UserGrpc;
 
 namespace ModerationService.API
 {
-   
+
     public class Program
     {
         public static void Main(string[] args)
@@ -64,11 +64,10 @@ namespace ModerationService.API
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
-            if (app.Environment.IsDevelopment())
-            {
+           
                 app.UseSwagger();
                 app.UseSwaggerUI();
-            }
+            
 
             app.UseAuthorization();
             app.MapControllerRoute(

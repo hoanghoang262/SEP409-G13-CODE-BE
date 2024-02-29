@@ -1,0 +1,2 @@
+obj\Release\net6.0\Protos/Course.cs \
+obj\Release\net6.0\Protos/CourseGrpc.cs: Protos/course.proto

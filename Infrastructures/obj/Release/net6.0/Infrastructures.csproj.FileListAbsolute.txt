@@ -1,0 +1,13 @@
+C:\Users\fpt\Desktop\HappyLearning\SEP490-G13-CODE-BE\Infrastructures\bin\Release\net6.0\Infrastructures.deps.json
+C:\Users\fpt\Desktop\HappyLearning\SEP490-G13-CODE-BE\Infrastructures\bin\Release\net6.0\Infrastructures.dll
+C:\Users\fpt\Desktop\HappyLearning\SEP490-G13-CODE-BE\Infrastructures\bin\Release\net6.0\Infrastructures.pdb
+C:\Users\fpt\Desktop\HappyLearning\SEP490-G13-CODE-BE\Infrastructures\obj\Release\net6.0\Infrastructures.csproj.AssemblyReference.cache
+C:\Users\fpt\Desktop\HappyLearning\SEP490-G13-CODE-BE\Infrastructures\obj\Release\net6.0\Infrastructures.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\fpt\Desktop\HappyLearning\SEP490-G13-CODE-BE\Infrastructures\obj\Release\net6.0\Infrastructures.AssemblyInfoInputs.cache
+C:\Users\fpt\Desktop\HappyLearning\SEP490-G13-CODE-BE\Infrastructures\obj\Release\net6.0\Infrastructures.AssemblyInfo.cs
+C:\Users\fpt\Desktop\HappyLearning\SEP490-G13-CODE-BE\Infrastructures\obj\Release\net6.0\Infrastructures.csproj.CoreCompileInputs.cache
+C:\Users\fpt\Desktop\HappyLearning\SEP490-G13-CODE-BE\Infrastructures\obj\Release\net6.0\Infrastructures.sourcelink.json
+C:\Users\fpt\Desktop\HappyLearning\SEP490-G13-CODE-BE\Infrastructures\obj\Release\net6.0\Infrastructures.dll
+C:\Users\fpt\Desktop\HappyLearning\SEP490-G13-CODE-BE\Infrastructures\obj\Release\net6.0\refint\Infrastructures.dll
+C:\Users\fpt\Desktop\HappyLearning\SEP490-G13-CODE-BE\Infrastructures\obj\Release\net6.0\Infrastructures.pdb
+C:\Users\fpt\Desktop\HappyLearning\SEP490-G13-CODE-BE\Infrastructures\obj\Release\net6.0\ref\Infrastructures.dll
