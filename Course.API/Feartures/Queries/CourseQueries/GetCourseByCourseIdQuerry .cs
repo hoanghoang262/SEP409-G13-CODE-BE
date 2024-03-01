@@ -58,6 +58,8 @@ namespace CourseService.API.Feartures.Queries.CourseQueries
                     course.Description,
                     course.Picture,
                     course.Tag,
+                    course.CreatedBy,
+                    course.CreatedAt,
                     Chapters = course.Chapters.Select(chapter => new
                     {
                         chapter.Id,

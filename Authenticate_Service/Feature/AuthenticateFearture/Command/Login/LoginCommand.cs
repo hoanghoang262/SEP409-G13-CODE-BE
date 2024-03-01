@@ -53,6 +53,11 @@ namespace Authenticate_Service.Feature.AuthenticateFearture.Command.Login
                             expiration = token.ValidTo
                         });
                     }
+                    else if (user==null)
+                    {
+                        return new BadRequestObjectResult("Tài khoản không tồn tại");
+                    }
+
                     return new OkObjectResult("Please check your mail or password again");
 
 

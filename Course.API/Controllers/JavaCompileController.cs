@@ -64,7 +64,8 @@ namespace CourseService.API.Controllers
         public string RunJavaProgram(string javaFilePath)
         {
             string result = "";
-            string javaHome = Environment.GetEnvironmentVariable("javaHome");
+            string javaHome = Environment.GetEnvironmentVariable("JAVA_HOME");
+            
 
             //if (string.IsNullOrWhiteSpace(javaHome))
             //{
@@ -82,9 +83,9 @@ namespace CourseService.API.Controllers
 
             var startInfo = new ProcessStartInfo
             {
-                FileName = "java.exe",
+                FileName = "C:\\Users\\fpt\\Desktop\\HappyLearning\\SEP490-G13-CODE-BE\\Course.API\\java.exe",
                 Arguments = javaFilePath,
-                UseShellExecute = false,
+               
                 RedirectStandardOutput = true,
                 RedirectStandardError = true,
                 CreateNoWindow = true
