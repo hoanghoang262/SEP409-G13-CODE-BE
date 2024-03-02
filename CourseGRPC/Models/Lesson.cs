@@ -7,7 +7,8 @@ namespace CourseGRPC.Models
     {
         public Lesson()
         {
-            Questions = new HashSet<Question>();
+            CompleteLessons = new HashSet<CompleteLesson>();
+            TheoryQuestions = new HashSet<TheoryQuestion>();
         }
 
         public int Id { get; set; }
@@ -15,10 +16,11 @@ namespace CourseGRPC.Models
         public string? VideoUrl { get; set; }
         public int? ChapterId { get; set; }
         public string? Description { get; set; }
-        public bool? IsCompleted { get; set; }
         public long? Duration { get; set; }
+        public string? ContentLesson { get; set; }
 
         public virtual Chapter? Chapter { get; set; }
-        public virtual ICollection<Question> Questions { get; set; }
+        public virtual ICollection<CompleteLesson> CompleteLessons { get; set; }
+        public virtual ICollection<TheoryQuestion> TheoryQuestions { get; set; }
     }
 }

@@ -16,6 +16,6 @@ namespace CourseService.API.Models
         public string? InputTypeArrayInt { get; set; }
         public string? InputTypeArrayString { get; set; }
 
-        public virtual CodeQuestion? CodeQuestion { get; set; }
+        public virtual PracticeQuestion? CodeQuestion { get; set; }
     }
 }

@@ -2,9 +2,7 @@
 
 using CloudinaryDotNet;
 
-using CourseService.API.Feartures.CourseFearture.Command.CreateCourse;
-using CourseService.API.Feartures.CourseFearture.Queries;
-
+using CourseService.API.Feartures.Queries.CourseQueries;
 using MediatR;
 
 using Microsoft.AspNetCore.Mvc;

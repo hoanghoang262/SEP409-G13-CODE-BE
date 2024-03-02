@@ -1,6 +1,6 @@
 ﻿using CourseService.API.Common.Mapping;
 using CourseService.API.Models;
-using EventBus.Message.IntegrationEvent.Event;
+using EventBus.Message.Event;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -20,10 +20,10 @@ namespace CourseService.API.Feartures.CourseFearture.Command.SyncCourse
         public string? InputTypeArrayString { get; set; }
         public class asyncQuestionCommandHandler : IRequestHandler<SyncTestCaseCommand, IActionResult>
         {
-            private readonly CourseContext _context;
+            private readonly Course_DeployContext _context;
             private readonly CloudinaryService _cloudinaryService;
 
-            public asyncQuestionCommandHandler(CourseContext context, CloudinaryService cloudinaryService)
+            public asyncQuestionCommandHandler(Course_DeployContext context, CloudinaryService cloudinaryService)
             {
                 _context = context;
                 _cloudinaryService = cloudinaryService;
@@ -35,7 +35,7 @@ namespace CourseService.API.Feartures.CourseFearture.Command.SyncCourse
                 {
                     var newTestCase = new TestCase
                     {
-                        Id= request.Id,
+                        Id = request.Id,
                         InputTypeInt = request.InputTypeInt,
                         CodeQuestionId = request.CodeQuestionId,
                         ExpectedResultString = request.ExpectedResultString,
@@ -58,12 +58,12 @@ namespace CourseService.API.Feartures.CourseFearture.Command.SyncCourse
                     existingTestCase.ExpectedResultString = request.ExpectedResultString;
                     existingTestCase.InputTypeArrayInt = request.InputTypeArrayInt;
                     existingTestCase.InputTypeArrayString = request.InputTypeArrayString;
-                    existingTestCase. InputTypeInt= request.InputTypeInt;
-                    existingTestCase. InputTypeString= request.InputTypeString;
+                    existingTestCase.InputTypeInt = request.InputTypeInt;
+                    existingTestCase.InputTypeString = request.InputTypeString;
                     existingTestCase.Id = request.Id;
                     existingTestCase.CodeQuestionId = request.CodeQuestionId;
-                    
-                    
+
+
                     await _context.SaveChangesAsync(cancellationToken);
 
                 }

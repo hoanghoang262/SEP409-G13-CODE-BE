@@ -7,8 +7,8 @@ namespace CourseService.API.Models
     {
         public Chapter()
         {
-            CodeQuestions = new HashSet<CodeQuestion>();
             Lessons = new HashSet<Lesson>();
+            PracticeQuestions = new HashSet<PracticeQuestion>();
         }
 
         public int Id { get; set; }
@@ -18,7 +18,7 @@ namespace CourseService.API.Models
         public bool? IsNew { get; set; }
 
         public virtual Course? Course { get; set; }
-        public virtual ICollection<CodeQuestion> CodeQuestions { get; set; }
         public virtual ICollection<Lesson> Lessons { get; set; }
+        public virtual ICollection<PracticeQuestion> PracticeQuestions { get; set; }
     }
 }

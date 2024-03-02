@@ -15,7 +15,7 @@ namespace CourseService.API.Feartures.CourseFearture.Command.CreateCourse
         public string? Picture { get; set; }
         public string? Tag { get; set; }
         public int CreatedBy { get; set; }
-        public DateTime? CreatedAt { get; set; } = DateTime.Now;
+       
 
         public List<ChapterDTO> Chapters { get; set; }
 
@@ -42,7 +42,7 @@ namespace CourseService.API.Feartures.CourseFearture.Command.CreateCourse
                     Picture = request.Picture,
                     Tag = request.Tag,
                     CreatedBy = request.CreatedBy,
-                    CreatedAt = request.CreatedAt,
+                    CreatedAt = DateTime.Now,
 
 
                 };
@@ -67,12 +67,13 @@ namespace CourseService.API.Feartures.CourseFearture.Command.CreateCourse
 
                     foreach (var codequestionDto in chapterDto.CodeQuestions)
                     {
-                        var newCodeQuestion = new CodeQuestion
+                        var newCodeQuestion = new PracticeQuestion
                         {
                             ChapterId = newChapter.Id,
                             Description = codequestionDto.Description,
+                            CodeForm= codequestionDto.CodeForm,
                         };
-                        _context.CodeQuestions.Add(newCodeQuestion);
+                        _context.PracticeQuestions.Add(newCodeQuestion);
                         await _context.SaveChangesAsync(cancellationToken);
 
                         foreach (var testcaseDto in codequestionDto.TestCases)
@@ -94,65 +95,71 @@ namespace CourseService.API.Feartures.CourseFearture.Command.CreateCourse
 
                         }
 
+                       
                     }
 
 
-                foreach (var lessonDto in chapterDto.Lessons)
-                {
-                    var newLesson = new Lesson
+                    foreach (var lessonDto in chapterDto.Lessons)
                     {
-                        Title = lessonDto.Title,
-                        VideoUrl = lessonDto.VideoUrl,
-                        Description = lessonDto.Description,
-                        Duration = lessonDto.Duration,
-                        ChapterId = newChapter.Id,
-                        IsCompleted = false
-
-                    };
-
-                    _context.Lessons.Add(newLesson);
-                    await _context.SaveChangesAsync(cancellationToken);
-
-
-                    foreach (var questionDto in lessonDto.Questions)
-                    {
-                        var newQuestion = new Question
+                        var newLesson = new Lesson
                         {
-                            ContentQuestion = questionDto.ContentQuestion,
-                            AnswerA = questionDto.AnswerA,
-                            AnswerB = questionDto.AnswerB,
-                            AnswerC = questionDto.AnswerC,
-                            AnswerD = questionDto.AnswerD,
-                            CorrectAnswer = questionDto.CorrectAnswer,
-                            Time = questionDto.Time,
-                            VideoId = newLesson.Id
+                            Title = lessonDto.Title,
+                            VideoUrl = lessonDto.VideoUrl,
+                            Description = lessonDto.Description,
+                            Duration = lessonDto.Duration,
+                            ChapterId = newChapter.Id,
+                            IsCompleted = false
+
                         };
 
-                        _context.Questions.Add(newQuestion);
+                        _context.Lessons.Add(newLesson);
                         await _context.SaveChangesAsync(cancellationToken);
+
+
+                        foreach (var questionDto in lessonDto.Questions)
+                        {
+                            var newQuestion = new TheoryQuestion
+                            {
+                                ContentQuestion = questionDto.ContentQuestion,
+                                Time = questionDto.Time,
+                                VideoId = newLesson.Id
+                            };
+                            _context.TheoryQuestions.Add(newQuestion);
+                            await _context.SaveChangesAsync(cancellationToken);
+                            foreach (var ansoptiDto in questionDto.AnswerOptions)
+                            {
+                                var newAnsOps = new AnswerOption
+                                {
+                                    QuestionId= newQuestion.Id,
+                                    OptionsText=ansoptiDto.OptionsText,
+                                    CorrectAnswer=ansoptiDto.CorrectAnswer,
+                                };
+                                _context.AnswerOptions.Add(newAnsOps);
+                                await _context.SaveChangesAsync(cancellationToken);
+                            }
+                        }
                     }
                 }
-            }
-            var moderation = new Moderation
-            {
-                CourseId = newCourse.Id,
-                ChangeType = "Add",
-                CreatedBy = user.Name,
-                ApprovedContent = "Add a new course",
-                Status = "Pending",
-                CreatedAt = newCourse.CreatedAt
+                var moderation = new Moderation
+                {
+                    CourseId = newCourse.Id,
+                    ChangeType = "Add",
+                    CreatedBy = user.Name,
+                    ApprovedContent = "Add a new course",
+                    Status = "Pending",
+                    CreatedAt = newCourse.CreatedAt
 
 
-            };
-            await _context.Moderations.AddAsync(moderation);
-            await _context.SaveChangesAsync(cancellationToken); 
+                };
+                await _context.Moderations.AddAsync(moderation);
+                await _context.SaveChangesAsync(cancellationToken);
 
 
 
 
                 return new OkObjectResult("Your course will be sent to Admin for moderation");
+            }
         }
     }
-}
-   
+
 }
