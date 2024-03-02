@@ -1,6 +1,6 @@
 **/.vs
 **/.vscode
-**/Java
+**/Course.API/Java
 # Build results
 [Dd]ebug/
 [Dd]ebugPublic/
