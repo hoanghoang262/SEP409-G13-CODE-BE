@@ -40,14 +40,27 @@ namespace CourseService.API.Feartures.CourseFearture.Command.CreateCourse
             public async Task<IActionResult> Handle(UpdateCourseCommand request, CancellationToken cancellationToken)
             {
                 var courseId = await services.SendCourseId(request.Id);
+
                 var existingCourse = _context.Courses
-                        .Include(course => course.Chapters)
-                        .ThenInclude(chapter => chapter.Lessons)
-                        .ThenInclude(lesson => lesson.Questions)
-                        .Include(course => course.Chapters)
-                        .ThenInclude(chapter => chapter.CodeQuestions)
-                        .ThenInclude(codeQuestion => codeQuestion.TestCases)
+        .Include(c => c.Chapters)
+            .ThenInclude(ch => ch.Lessons)
+                .ThenInclude(l => l.TheoryQuestions)
+        .Include(c => c.Chapters)
+            .ThenInclude(ch => ch.PracticeQuestions)
+                .ThenInclude(cq => cq.TestCases)
+        .Include(c => c.Chapters)
+            .ThenInclude(ch => ch.Lessons)
+                .ThenInclude(l => l.TheoryQuestions)
+                  .ThenInclude(ans => ans.AnswerOptions)
+        .Include(c => c.Chapters)
+            .ThenInclude(ch => ch.PracticeQuestions)
+                    .ThenInclude(cq => cq.TestCases)
+        .Include(c => c.Chapters)
+            .ThenInclude(ch => ch.PracticeQuestions)
+                    .ThenInclude(cq => cq.UserAnswerCodes)
                         .FirstOrDefault(course => course.Id == request.Id);
+
+
                 if (existingCourse == null)
                 {
                     return new NotFoundResult();
@@ -59,6 +72,7 @@ namespace CourseService.API.Feartures.CourseFearture.Command.CreateCourse
                 existingCourse.Picture = request.Picture;
                 existingCourse.Tag = request.Tag;
                 existingCourse.CreatedBy = request.CreatedBy;
+                existingCourse.CreatedAt = request.CreatedAt;
 
 
                 foreach (var chapterDto in request.Chapters)
@@ -82,20 +96,20 @@ namespace CourseService.API.Feartures.CourseFearture.Command.CreateCourse
                     }
                     foreach (var codequestionDto in chapterDto.CodeQuestions)
                     {
-                        var existCodeQuestion = existingChapter.CodeQuestions.FirstOrDefault(code => code.Id == codequestionDto.Id);
+                        var existCodeQuestion = existingChapter.PracticeQuestions.FirstOrDefault(code => code.Id == codequestionDto.Id);
                         if (existCodeQuestion != null)
                         {
                             existCodeQuestion.Description = codequestionDto.Description;
                         }
                         else
                         {
-                            var newCodeQuestion = new CodeQuestion
+                            var newCodeQuestion = new PracticeQuestion
                             {
                                 ChapterId = existCodeQuestion.ChapterId,
                                 Description = codequestionDto.Description,
                             };
 
-                            _context.CodeQuestions.Add(newCodeQuestion);
+                            _context.PracticeQuestions.Add(newCodeQuestion);
 
                         }
 
@@ -154,36 +168,50 @@ namespace CourseService.API.Feartures.CourseFearture.Command.CreateCourse
                             };
                             existingChapter.Lessons.Add(newLesson);
                         }
-
                         foreach (var questionDto in lessonDto.Questions)
                         {
-                            var existingQuestion = existingLesson.Questions.FirstOrDefault(q => q.Id == questionDto.Id);
+                            var existingQuestion = existingLesson.TheoryQuestions.FirstOrDefault(q => q.Id == questionDto.Id);
                             if (existingQuestion != null)
                             {
 
                                 existingQuestion.ContentQuestion = questionDto.ContentQuestion;
-                                existingQuestion.AnswerA = questionDto.AnswerA;
-                                existingQuestion.AnswerB = questionDto.AnswerB;
-                                existingQuestion.AnswerC = questionDto.AnswerC;
-                                existingQuestion.AnswerD = questionDto.AnswerD;
-                                existingQuestion.CorrectAnswer = questionDto.CorrectAnswer;
                                 existingQuestion.Time = questionDto.Time;
                             }
                             else
                             {
-
-                                var newQuestion = new Question
+                                var newQuestion = new TheoryQuestion
                                 {
                                     ContentQuestion = questionDto.ContentQuestion,
-                                    AnswerA = questionDto.AnswerA,
-                                    AnswerB = questionDto.AnswerB,
-                                    AnswerC = questionDto.AnswerC,
-                                    AnswerD = questionDto.AnswerD,
-                                    CorrectAnswer = questionDto.CorrectAnswer,
+                                 
                                     Time = questionDto.Time
                                 };
-                                existingLesson.Questions.Add(newQuestion);
+                                existingLesson.TheoryQuestions.Add(newQuestion);
                             }
+
+  
+
+                            foreach(var answerOptions in questionDto.AnswerOptions)
+                            {
+                                var existing = existingQuestion.AnswerOptions.FirstOrDefault(q=>q.Id == answerOptions.Id);
+
+                                if(existing != null)
+                                {
+                                    existing.OptionsText=answerOptions.OptionsText;
+                                    existing.CorrectAnswer = answerOptions.CorrectAnswer;
+                                }
+                                else
+                                {
+                                    var newAnswerOption = new AnswerOption
+                                    {
+                                        OptionsText = answerOptions.OptionsText,
+                                        QuestionId= questionDto.Id,
+                                        CorrectAnswer= answerOptions.CorrectAnswer
+                                    };
+                                    existingQuestion.AnswerOptions.Add(newAnswerOption);
+                                }
+                            }
+                            
+                           
                         }
                     }
                 }
@@ -192,6 +220,7 @@ namespace CourseService.API.Feartures.CourseFearture.Command.CreateCourse
                 {
                     if (querry == null)
                     {
+
                         var moderation = new Moderation
                         {
                             CourseId = existingCourse.Id,

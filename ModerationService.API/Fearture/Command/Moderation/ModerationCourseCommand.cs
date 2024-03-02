@@ -1,13 +1,13 @@
 ﻿using AutoMapper;
 using CourseGRPC.Services;
-using EventBus.Message.IntegrationEvent.Event;
-using EventBus.Message.IntegrationEvent.PublishEvent;
+using EventBus.Message.Event;
 using MassTransit;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using ModerationService.API.Common.PublishEvent;
+
 using ModerationService.API.Models;
+using System.Threading;
 
 namespace ModerationService.API.Fearture.Command.Moderation
 {
@@ -29,10 +29,17 @@ namespace ModerationService.API.Fearture.Command.Moderation
                 _services=service;
 
             }
-            public async Task<IActionResult> Handle(ModerationCourseCommand request, CancellationToken cancellationToken)
+            public  async Task<IActionResult> Handle(ModerationCourseCommand request, CancellationToken cancellationToken)
             {
+                var courseIdEvent = new CourseIdEvent
+                {
+                    CourseId = request.CourseId,
+                };
+                await _publish.Publish(courseIdEvent);
                 var userId=_services.SendCourseId(request.CourseId);
-                var course =  await  _context.Courses.FirstOrDefaultAsync(c => c.Id.Equals(request.CourseId));
+               
+                var course = _context.Courses.FirstOrDefault(c => c.Id.Equals(request.CourseId));
+               
                 var courseEvent = new CourseEvent
                 {
                     Id=course.Id,
@@ -43,9 +50,10 @@ namespace ModerationService.API.Fearture.Command.Moderation
                     Picture = course.Picture,
                     CreatedAt = course.CreatedAt,
                 };  
-                await _publish.Publish(courseEvent);
-
-                var chapter = await _context.Chapters.Where(c => c.CourseId.Equals(request.CourseId)).ToListAsync();
+               await  _publish.Publish(courseEvent);
+                
+               
+                var chapter =  _context.Chapters.Where(c => c.CourseId.Equals(request.CourseId)).ToList();
                 foreach (var chap in chapter)
                 {
                     var chapterEvent = new ChapterEvent
@@ -57,19 +65,21 @@ namespace ModerationService.API.Fearture.Command.Moderation
                         Part = chap.Part
                     };
                     await _publish.Publish(chapterEvent);
-                    var codequestion = await _context.CodeQuestions.Where(c => c.ChapterId.Equals(chap.Id)).ToListAsync();
+                    
+                    var codequestion =  _context.PracticeQuestions.Where(c => c.ChapterId.Equals(chap.Id)).ToList();
 
                     foreach (var code in codequestion)
                     {
-                        var codequestionEvent = new CodeQuestionEvent
+                        var codequestionEvent = new PracticeQuestionEvent
                         {
                             Description = code.Description,
                             ChapterId = code.ChapterId,
                             Id = code.Id,
-
+                            CodeForm=code.CodeForm
                         };
                         await _publish.Publish(codequestionEvent);
-                        var testcase= await _context.TestCases.Where(c => c.CodeQuestionId.Equals(code.Id)).ToListAsync();
+                   
+                        var testcase=  _context.TestCases.Where(c => c.CodeQuestionId.Equals(code.Id)).ToList();
                         foreach(var test in testcase)
                         {
                             var testcaseEvent = new TestCaseEvent
@@ -86,18 +96,19 @@ namespace ModerationService.API.Fearture.Command.Moderation
                                 InputTypeString = test.InputTypeString
                             };
                             await _publish.Publish(testcaseEvent);
+                            
                         }
                         
                     }
                     
-                    var lesson = await _context.Lessons.Where(l => l.ChapterId.Equals(chap.Id)).ToListAsync();
+                    var lesson =  _context.Lessons.Where(l => l.ChapterId.Equals(chap.Id)).ToList();
                    
                     foreach (var less in lesson)
                     {
                         var lessonEvent = new LessonEvent
                         {
                             Id = less.Id,
-                            ChapterId = chap.Id,
+                            ChapterId = less.ChapterId,
                             Description = less.Description,
                             VideoUrl = less.VideoUrl,
                             Title = less.Title,
@@ -106,22 +117,33 @@ namespace ModerationService.API.Fearture.Command.Moderation
                             
                         };
                         await _publish.Publish(lessonEvent);
-                        var question = await _context.Questions.Where(q => q.VideoId.Equals(less.Id)).ToListAsync();
+                    
+                        var question =  _context.TheoryQuestions.Where(q => q.VideoId.Equals(less.Id)).ToList();
                         foreach (var ques in question)
                         {
-                            var questionEvent = new QuestionEvent
+                            var questionEvent = new TheoryQuestionEvent
                             {
                                 Id = ques.Id,
-                                AnswerA = ques.AnswerA,
-                                AnswerB = ques.AnswerB,
-                                AnswerC = ques.AnswerC,
-                                AnswerD = ques.AnswerD,
                                 ContentQuestion = ques.ContentQuestion,
-                                CorrectAnswer = ques.CorrectAnswer,
                                 Time = ques.Time,
-                                VideoId = less.Id
+                                VideoId = ques.VideoId
                             };
                             await _publish.Publish(questionEvent);
+                        
+                            var answerOption =  _context.AnswerOptions.Where(q => q.QuestionId.Equals(ques.Id)).ToList();
+                            foreach(var ansOptio in answerOption)
+                            {
+                                var ansOpEvent = new AnswerOptionsEvent
+                                {
+                                    Id = ansOptio.Id,
+                                    QuestionId = ansOptio.QuestionId,
+                                    OptionsText = ansOptio.OptionsText,
+                                    CorrectAnswer=ansOptio.CorrectAnswer
+                                };
+                                await _publish.Publish(ansOpEvent);
+                             
+                            }
+                           
                         }
                     }
                 }
@@ -155,11 +177,12 @@ namespace ModerationService.API.Fearture.Command.Moderation
                     await _publish.Publish(notificationForAdminBussiness);
 
                 }
-              
+                
 
 
 
-                return new OkObjectResult("async success");
+
+               return  new OkObjectResult("ok");
             }
         }
     }

@@ -14,9 +14,9 @@ namespace DynamicCodeCompilerAPI.Controllers
     public class CodeCompilerController : ControllerBase
     {
         private readonly DynamicCodeCompiler _codeCompiler;
-        private readonly CourseContext _context;
+        private readonly Course_DeployContext _context;
 
-        public CodeCompilerController(DynamicCodeCompiler codeCompiler, CourseContext context)
+        public CodeCompilerController(DynamicCodeCompiler codeCompiler, Course_DeployContext context)
         {
             _codeCompiler = codeCompiler;
             _context = context;
@@ -25,10 +25,10 @@ namespace DynamicCodeCompilerAPI.Controllers
         [HttpPost]
         public IActionResult CompileAndRunCode( CodeRequestModel request)
         {
-            var testCases = from codeQuestion in _context.CodeQuestions
+            var testCases = from codeQuestion in _context.PracticeQuestions
                             join testCase in _context.TestCases
                             on codeQuestion.Id equals testCase.CodeQuestionId
-                            where testCase.CodeQuestionId == 1
+                            where testCase.CodeQuestionId == request.PracticeQuestionId
                             select new
                             {
                                 codeQuestion.Description,
@@ -61,7 +61,7 @@ namespace DynamicCodeCompilerAPI.Controllers
                         {
                             var stringInput = testCase.InputTypeArrayInt.Split(',');
                             inputArray = stringInput.Select(item => int.Parse(item)).ToArray();
-                            object result = _codeCompiler.InvokeMethod(assembly, "Solution", "Answer", inputArray);
+                            object result = _codeCompiler.InvokeMethodArrayInt(assembly, "Solution", "Answer", inputArray);
 
                             if (testCase.ExpectedResultInt.HasValue)
                             {
@@ -93,6 +93,7 @@ namespace DynamicCodeCompilerAPI.Controllers
                             throw;
                         }
                     }
+
                     if (!string.IsNullOrEmpty(testCase.InputTypeArrayString))
                     {
                         try
@@ -132,7 +133,7 @@ namespace DynamicCodeCompilerAPI.Controllers
                         }
                     }
 
-                    if (testCase.ExpectedResultInt.HasValue || string.IsNullOrEmpty(testCase.ExpectedResultString) || testCase.InputTypeBoolean.HasValue)
+                    if (testCase.InputTypeInt.HasValue || !string.IsNullOrEmpty(testCase.InputTypeString))
                     {
                         object inputValue;
                         if (testCase.InputTypeInt.HasValue)
@@ -169,7 +170,7 @@ namespace DynamicCodeCompilerAPI.Controllers
                         {
                             if (!result.Equals(testCase.ExpectedResultBoolean))
                             {
-                                return BadRequest($"Test failed for input '{inputValue}': Expected result '{testCase.ExpectedResultString}' does not match actual result '{result}'.");
+                                return BadRequest($"Test failed for input '{inputValue}': Expected result '{testCase.ExpectedResultBoolean}' does not match actual result '{result}'.");
                             }
                         }
 
@@ -197,6 +198,7 @@ namespace DynamicCodeCompilerAPI.Controllers
 
 public class CodeRequestModel
 {
+    public int PracticeQuestionId { get; set; }
     public string UserCode { get; set; }
 }
 

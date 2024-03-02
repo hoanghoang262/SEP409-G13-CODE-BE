@@ -17,7 +17,7 @@ namespace CourseGRPC
 
             // Add services to the container.
             builder.Services.AddGrpc();
-            builder.Services.AddDbContext<CourseContext>(
+            builder.Services.AddDbContext<Course_DeployContext>(
     oprions => oprions.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"))
     );
 

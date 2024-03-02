@@ -12,7 +12,6 @@ namespace CompileCodeOnline
         {
             return userCode;
         }
-
         public Assembly CompileCode(string codeToCompile)
         {
             SyntaxTree syntaxTree = CSharpSyntaxTree.ParseText(codeToCompile);
@@ -52,7 +51,6 @@ namespace CompileCodeOnline
                 return AssemblyLoadContext.Default.LoadFromStream(ms);
             }
         }
-
         public object InvokeMethod(Assembly assembly, string className, string methodName, object inputValue)
         {
             var type = assembly.GetType(className);
@@ -61,7 +59,7 @@ namespace CompileCodeOnline
             object[] parameters = new object[] { inputValue };
             return method.Invoke(instance, parameters);
         }
-        public object InvokeMethodArray(Assembly assembly, string className, string methodName, int[] inputValue)
+        public object InvokeMethodArrayInt(Assembly assembly, string className, string methodName, int[] inputValue)
         {
             var type = assembly.GetType(className);
             var instance = Activator.CreateInstance(type);
@@ -69,6 +67,7 @@ namespace CompileCodeOnline
             object[] parameters = new object[] { inputValue };
             return method.Invoke(instance, parameters);
         }
+       
 
     }
 }

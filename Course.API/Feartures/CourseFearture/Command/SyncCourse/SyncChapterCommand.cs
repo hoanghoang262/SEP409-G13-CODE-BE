@@ -2,13 +2,12 @@
 using CourseService.API.Common.Mapping;
 using CourseService.API.Common.ModelDTO;
 using CourseService.API.Models;
-
-using EventBus.Message.IntegrationEvent.PublishEvent;
+using EventBus.Message.Event;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using ModerationService.API.Common.PublishEvent;
 
-namespace CourseService.API.Feartures.CourseFearture.Command.CreateCourse
+
+namespace CourseService.API.Feartures.CourseFearture.Command.SyncCourse
 {
     public class SyncChapterCommand : IRequest<IActionResult>, IMapFrom<ChapterEvent>
     {
@@ -19,21 +18,22 @@ namespace CourseService.API.Feartures.CourseFearture.Command.CreateCourse
         public bool? IsNew { get; set; }
         public class asyncChapterHandler : IRequestHandler<SyncChapterCommand, IActionResult>
         {
-            private readonly CourseContext _context;
+            private readonly Course_DeployContext _context;
             private readonly CloudinaryService _cloudinaryService;
 
-            public asyncChapterHandler(CourseContext context, CloudinaryService cloudinaryService)
+            public asyncChapterHandler(Course_DeployContext context, CloudinaryService cloudinaryService)
             {
                 _context = context;
                 _cloudinaryService = cloudinaryService;
             }
             public async Task<IActionResult> Handle(SyncChapterCommand request, CancellationToken cancellationToken)
             {
-                var chapter= await _context.Chapters.FindAsync(request.Id);
-                if(chapter == null) {
+                var chapter = await _context.Chapters.FindAsync(request.Id);
+                if (chapter == null)
+                {
                     var newChapter = new Chapter
                     {
-                        Id=request.Id,
+                        Id = request.Id,
                         Name = request.Name,
                         CourseId = request.CourseId,
                         Part = request.Part,
@@ -50,17 +50,17 @@ namespace CourseService.API.Feartures.CourseFearture.Command.CreateCourse
                     chapter.Name = request.Name;
                     chapter.CourseId = request.CourseId;
                     chapter.Part = request.Part;
-                    chapter.IsNew = request.IsNew;
+                    chapter.IsNew = true;
                     await _context.SaveChangesAsync(cancellationToken);
 
                 }
-                
 
 
-             
-                return new OkObjectResult("done") ;
+
+
+                return new OkObjectResult("done");
             }
         }
     }
-   
+
 }
