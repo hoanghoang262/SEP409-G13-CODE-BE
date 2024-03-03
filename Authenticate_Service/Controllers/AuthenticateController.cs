@@ -8,6 +8,7 @@ using Contract.Service.Configuration;
 using Authenticate_Service.Common;
 using Microsoft.AspNetCore.Http.Extensions;
 using AuthenticateService.API.Common.DTO;
+using AuthenticateService.API.Message;
 
 
 
@@ -22,7 +23,7 @@ namespace Authenticated.Controllers
         private readonly AuthenticationContext context;
         private readonly IEmailService<MailRequest> _emailService;
         private readonly HassPaword hash = new HassPaword();
-        
+
         public AuthenticateController(IMediator mediator, AuthenticationContext _context, IEmailService<MailRequest> emailService)
         {
             _mediator = mediator;
@@ -32,7 +33,7 @@ namespace Authenticated.Controllers
         [HttpPost]
         public async Task<IActionResult> LoginGoogle(LoginGoogleCommand command)
         {
-           
+
             return Ok(await _mediator.Send(command));
         }
 
@@ -44,24 +45,22 @@ namespace Authenticated.Controllers
         [HttpPost]
         public async Task<IActionResult> SignUp(SignUpModel request)
         {
-
-            
             if (context.Users.Any(u => u.Email == request.Email))
             {
-                return new BadRequestObjectResult("A user is already registered with this e-mail address.");
+                return new BadRequestObjectResult(Message.MG06);
             }
             if (context.Users.Any(u => u.UserName == request.UserName))
             {
-                return new BadRequestObjectResult("A user is already registered with this username.");
+                return new BadRequestObjectResult(Message.MG07);
             }
             else
             {
-                var newUser = new User { Email = request.Email, UserName = request.UserName, Password = request.Password, RoleId = 1,EmailConfirmed=false };
+                var newUser = new User { Email = request.Email, UserName = request.UserName, Password = request.Password, RoleId = 1, EmailConfirmed = false };
                 context.Users.Add(newUser);
                 await context.SaveChangesAsync();
 
                 var callbackUrl = Url.Action(
-                                "ConfirmEmail", 
+                                "ConfirmEmail",
                                  "Authenticate",
                                  new { userId = newUser.Id },
                                  Request.Scheme);
@@ -81,24 +80,23 @@ namespace Authenticated.Controllers
         </div>
     </body>
 </html>",
-                    
+
                     ToAddress = request.Email,
                     Subject = "Confirm Your Email "
                 };
                 await _emailService.SendEmailasync(message);
 
-                return new OkObjectResult("Please confirm the email that have sent to you");
+                return new OkObjectResult(Message.MG08);
 
             }
-           
         }
         [HttpGet]
         public async Task<IActionResult> GetUser(int id)
         {
 
-            var user= await context.Users.FirstOrDefaultAsync(u => u.Id.Equals(id));
+            var user = await context.Users.FirstOrDefaultAsync(u => u.Id.Equals(id));
 
-            return Ok(user);    
+            return Ok(user);
         }
         [HttpGet]
         public async Task<IActionResult> ConfirmEmail(int userId)
@@ -121,7 +119,7 @@ namespace Authenticated.Controllers
             }
             return Ok("Not found Email");
         }
-        
+
 
     }
- }
+}

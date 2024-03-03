@@ -1,5 +1,6 @@
 ﻿using Authenticate_Service.Common;
 using Authenticate_Service.Models;
+using AuthenticateService.API.Message;
 using Google;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -9,8 +10,8 @@ namespace Authenticate_Service.Feature.AuthenticateFearture.Command.Login
 {
     public class LoginCommand : IRequest<IActionResult>
     {
-        public string UserName { get; set; }
-        public string Password { get; set; }
+        public string? UserName { get; set; }
+        public string? Password { get; set; }
 
         public class LoginCommandHandler : IRequestHandler<LoginCommand, IActionResult>
         {
@@ -28,15 +29,15 @@ namespace Authenticate_Service.Feature.AuthenticateFearture.Command.Login
             {
                 try
                 {
-                   
-                    var user = _context.Users.FirstOrDefault(u => u.UserName == request.UserName
-                                                          && u.Password == request.Password);
-                    if( user.EmailConfirmed == false )
-                    {
-                        return new BadRequestObjectResult("You have to confirm email to login into this account");
-                    }
+                    var user = _context.Users.FirstOrDefault(u => u.UserName == request.UserName && u.Password == request.Password);
+
                     if (user != null)
                     {
+                        if (user.EmailConfirmed == false)
+                        {
+                            return new BadRequestObjectResult(Message.MG03);
+                        }
+
                         var userId = user.Id;
                         var userRoles = (from u in _context.Users
                                          where user.UserName == request.UserName
@@ -44,7 +45,6 @@ namespace Authenticate_Service.Feature.AuthenticateFearture.Command.Login
                                          select role.Name).ToList();
 
                         var tokenGenerator = new GenerateJwtToken(_configuration);
-
                         var token = tokenGenerator.GenerateToken(userId, request.UserName, userRoles);
 
                         return new OkObjectResult(new
@@ -53,18 +53,15 @@ namespace Authenticate_Service.Feature.AuthenticateFearture.Command.Login
                             expiration = token.ValidTo
                         });
                     }
-                    else if (user==null)
+                    else if (user == null)
                     {
-                        return new BadRequestObjectResult("Tài khoản không tồn tại");
+                        return new BadRequestObjectResult(Message.MG01);
                     }
 
-                    return new OkObjectResult("Please check your mail or password again");
-
-
+                    return new OkObjectResult(Message.MG04);
                 }
                 catch (GoogleApiException)
                 {
-
                     return new StatusCodeResult(StatusCodes.Status503ServiceUnavailable);
                 }
             }
@@ -77,7 +74,6 @@ namespace Authenticate_Service.Feature.AuthenticateFearture.Command.Login
                     return false;
                 }
                 return true;
-
             }
         }
     }
