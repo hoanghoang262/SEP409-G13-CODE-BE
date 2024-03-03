@@ -19,6 +19,7 @@ namespace ModerationService.API.Models
         public virtual DbSet<AnswerOption> AnswerOptions { get; set; } = null!;
         public virtual DbSet<Chapter> Chapters { get; set; } = null!;
         public virtual DbSet<Course> Courses { get; set; } = null!;
+        public virtual DbSet<Forum> Forums { get; set; } = null!;
         public virtual DbSet<Lesson> Lessons { get; set; } = null!;
         public virtual DbSet<Moderation> Moderations { get; set; } = null!;
         public virtual DbSet<PracticeQuestion> PracticeQuestions { get; set; } = null!;
@@ -80,11 +81,28 @@ namespace ModerationService.API.Models
                 entity.Property(e => e.Tag).HasMaxLength(50);
             });
 
+            modelBuilder.Entity<Forum>(entity =>
+            {
+                entity.ToTable("Forum");
+
+                entity.Property(e => e.CreatedBy)
+                    .HasMaxLength(200)
+                    .HasColumnName("Created_By");
+
+                entity.Property(e => e.LastUpdate)
+                    .HasColumnType("datetime")
+                    .HasColumnName("Last_Update");
+
+                entity.Property(e => e.PostContent).HasColumnName("Post_Content");
+            });
+
             modelBuilder.Entity<Lesson>(entity =>
             {
                 entity.ToTable("Lesson");
 
                 entity.Property(e => e.ChapterId).HasColumnName("Chapter_Id");
+
+                entity.Property(e => e.ContentLesson).HasColumnName("Content_Lesson");
 
                 entity.Property(e => e.Title).HasMaxLength(50);
 

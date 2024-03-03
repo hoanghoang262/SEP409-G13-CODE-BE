@@ -11,19 +11,19 @@ namespace DynamicCodeCompilerAPI.Controllers
 {
     [ApiController]
     [Route("api/[controller]/[action]")]
-    public class CodeCompilerController : ControllerBase
+    public class CSharpCompilerController : ControllerBase
     {
         private readonly DynamicCodeCompiler _codeCompiler;
         private readonly Course_DeployContext _context;
 
-        public CodeCompilerController(DynamicCodeCompiler codeCompiler, Course_DeployContext context)
+        public CSharpCompilerController(DynamicCodeCompiler codeCompiler, Course_DeployContext context)
         {
             _codeCompiler = codeCompiler;
             _context = context;
         }
 
         [HttpPost]
-        public IActionResult CompileAndRunCode( CodeRequestModel request)
+        public IActionResult CompileCodeCSharp( CodeRequestModel request)
         {
             var testCases = from codeQuestion in _context.PracticeQuestions
                             join testCase in _context.TestCases

@@ -3,7 +3,7 @@ using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
-namespace CourseService.API.Feartures.Queries.CourseQueries
+namespace CourseService.API.Feartures.CourseFearture.Queries.CourseQueries
 {
     public class CheckAnswerQuestion : IRequest<bool>
     {

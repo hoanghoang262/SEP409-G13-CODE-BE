@@ -4,7 +4,7 @@
     <Controller_SelectedScaffolderID>ApiControllerEmptyScaffolder</Controller_SelectedScaffolderID>
     <Controller_SelectedScaffolderCategoryPath>root/Common/Api</Controller_SelectedScaffolderCategoryPath>
     <ActiveDebugProfile>ModerationService.API</ActiveDebugProfile>
-    <NameOfLastUsedPublishProfile>C:\Users\fpt\Desktop\HappyLearning\SEP490-G13-CODE-BE\ModerationService.API\Properties\PublishProfiles\ModerationService - Zip Deploy.pubxml</NameOfLastUsedPublishProfile>
+    <NameOfLastUsedPublishProfile>C:\Users\fpt\Desktop\HappLearning 3\SEP490-G13-CODE-BE\ModerationService.API\Properties\PublishProfiles\ModerationService - Zip Deploy.pubxml</NameOfLastUsedPublishProfile>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <DebuggerFlavor>ProjectDebugger</DebuggerFlavor>

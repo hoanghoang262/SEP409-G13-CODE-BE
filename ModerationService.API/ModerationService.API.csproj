@@ -30,12 +30,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Fearture\Command\Chapter\" />
-    <Folder Include="Fearture\Command\Lesson\" />
-    <Folder Include="Fearture\Command\Question\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\Contract\Contract.csproj" />
     <ProjectReference Include="..\EventBus.Message\EventBus.Message.csproj" />
   </ItemGroup>
