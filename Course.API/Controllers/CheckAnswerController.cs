@@ -1,4 +1,4 @@
-﻿using CourseService.API.Feartures.Queries.CourseQueries;
+﻿using CourseService.API.Feartures.CourseFearture.Queries.CourseQueries;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;

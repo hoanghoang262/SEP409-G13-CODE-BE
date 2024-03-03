@@ -1,0 +1,27 @@
+syntax = "proto3";
+
+option csharp_namespace = "CommentGrpc.Protos";
+
+package comment_forum;
+
+service CommentForumsService {
+  // Sends a greeting
+  rpc GetCommentForums (GetCommentForumsRequest) returns (GetCommentForumsResponse);
+}
+
+// The request message containing the user's name.
+message GetCommentForumsRequest {
+  int32 forumId = 1;
+}
+
+// The response message containing the greetings.
+message GetCommentForumsResponse {
+   repeated Comments comment=1;
+}
+
+message Comments{
+	int32 userId=1;
+	string userName=2;
+	string content=3;
+	string date=4;
+}

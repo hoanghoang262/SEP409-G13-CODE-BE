@@ -2,6 +2,7 @@
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using ModerationService.API.Fearture.Command;
 using ModerationService.API.Fearture.Command.Moderation;
 using ModerationService.API.Models;
 
@@ -36,6 +37,13 @@ namespace ModerationService.API.Controllers
         [HttpPost]
 
         public async Task<ActionResult> UpdateCourse(UpdateCourseCommand command)
+        {
+            return Ok(await _mediator.Send(command));
+        }
+
+        [HttpPost]
+
+        public async Task<ActionResult> CreateContentForum(CreateForumCommand command)
         {
             return Ok(await _mediator.Send(command));
         }

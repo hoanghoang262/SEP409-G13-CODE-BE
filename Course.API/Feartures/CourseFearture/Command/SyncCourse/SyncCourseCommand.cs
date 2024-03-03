@@ -16,7 +16,7 @@ namespace CourseService.API.Feartures.CourseFearture.Command.SyncCourse
         public string? Description { get; set; }
         public string? Picture { get; set; }
         public string? Tag { get; set; }
-        public int? CreatedBy { get; set; }
+        public int CreatedBy { get; set; }
         public DateTime? CreatedAt { get; set; }
         public class asyncCourseCommandHandler : IRequestHandler<SyncCourseCommand, IActionResult>
         {
@@ -41,6 +41,7 @@ namespace CourseService.API.Feartures.CourseFearture.Command.SyncCourse
                         Picture = request.Picture,
                         Tag = request.Tag,
                         CreatedBy = request.CreatedBy,
+                        CreatedAt=request.CreatedAt
 
                     };
 

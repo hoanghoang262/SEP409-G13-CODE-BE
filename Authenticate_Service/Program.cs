@@ -10,7 +10,7 @@ using System.Reflection;
 using System.Text;
 using Contract.Service.Configuration;
 using Contract.Service;
-using DynamicCodeCompilerAPI.Controllers;
+
 
 
 
@@ -22,7 +22,7 @@ namespace Authenticated
         {
             var builder = WebApplication.CreateBuilder(args);
             builder.Services.AddControllersWithViews();
-            builder.Services.AddScoped<DynamicCodeCompiler>();
+           
             //config RabbitMQ
             var configuration = builder.Configuration.GetSection("EventBusSetting:HostAddress").Value;
 
@@ -40,8 +40,15 @@ namespace Authenticated
             //gRPC
             var config = builder.Configuration.GetSection("GrpcSetting:UserUrl").Value;
             builder.Services.AddSingleton(config);
-           // builder.Services.AddGrpcClient<CourseMessage>(x=>x.Address = new Uri(config));
-           
+            // builder.Services.AddGrpcClient<CourseMessage>(x=>x.Address = new Uri(config));
+
+            builder.Services.AddCors(options =>
+            {
+                options.AddPolicy("AllowSpecificOrigin",
+                    builder => builder.WithOrigins("http://localhost:5173")
+                                      .AllowAnyHeader()
+                                      .AllowAnyMethod());
+            });
             //Config email
             var email=builder.Configuration.GetSection(nameof(SmtpEmailSetting)).Get<SmtpEmailSetting>();
             builder.Services.AddSingleton(email);
@@ -102,7 +109,7 @@ namespace Authenticated
             app.UseAuthorization();
             app.UseAuthentication();
             app.UseRouting();
-           
+            app.UseCors("AllowSpecificOrigin");
             app.MapRazorPages();
 
             app.MapControllerRoute(

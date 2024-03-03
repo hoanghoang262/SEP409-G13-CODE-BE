@@ -13,7 +13,7 @@ namespace ModerationService.API.Common.ModelDTO
         public int? ChapterId { get; set; }
         public string? Description { get; set; }
         public long? Duration { get; set; }
-
+        public string? ContentLesson { get; set; }
 
 
         public virtual ICollection<TheoryQuestionDTO> Questions { get; set; }

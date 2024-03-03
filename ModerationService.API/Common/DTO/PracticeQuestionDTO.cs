@@ -14,6 +14,6 @@ namespace ModerationService.API.Common.ModelDTO
 
 
         public virtual ICollection<TestCaseDTO> TestCases { get; set; }
-        public virtual ICollection<UserAnswerCodeDTO> UserAnswerCodes { get; set; }
+     
     }
 }

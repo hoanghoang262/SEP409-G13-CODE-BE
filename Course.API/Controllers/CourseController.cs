@@ -1,13 +1,11 @@
 ﻿
 
 using CloudinaryDotNet;
+using CourseService.API.Feartures.CourseFearture.Queries.CourseQueries;
 
-using CourseService.API.Feartures.Queries.CourseQueries;
 using MediatR;
 
 using Microsoft.AspNetCore.Mvc;
-
-
 
 namespace CourseService.Controllers
 {

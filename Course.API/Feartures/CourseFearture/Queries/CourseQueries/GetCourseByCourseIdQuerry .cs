@@ -6,7 +6,7 @@ using CourseService.API.Common.ModelDTO;
 using Microsoft.EntityFrameworkCore;
 using CourseService.API.Models;
 
-namespace CourseService.API.Feartures.Queries.CourseQueries
+namespace CourseService.API.Feartures.CourseFearture.Queries.CourseQueries
 {
     public class GetCourseByCourseIdQuerry : IRequest<IActionResult>
     {
@@ -27,40 +27,45 @@ namespace CourseService.API.Feartures.Queries.CourseQueries
             }
             public async Task<IActionResult> Handle(GetCourseByCourseIdQuerry request, CancellationToken cancellationToken)
             {
-                var courses = _context.Courses
-        .Include(c => c.Chapters)
-            .ThenInclude(ch => ch.Lessons)
-                .ThenInclude(l => l.TheoryQuestions)
-        .Include(c => c.Chapters)
-            .ThenInclude(ch => ch.PracticeQuestions)
-                .ThenInclude(cq => cq.TestCases)
-        .Include(c => c.Chapters)
-            .ThenInclude(ch => ch.Lessons)
-                .ThenInclude(l => l.TheoryQuestions)
-                  .ThenInclude(ans => ans.AnswerOptions)
-        .Include(c => c.Chapters)
-            .ThenInclude(ch => ch.PracticeQuestions)
-                    .ThenInclude(cq => cq.TestCases)
-        .Include(c => c.Chapters)
-            .ThenInclude(ch => ch.PracticeQuestions)
-                    .ThenInclude(cq => cq.UserAnswerCodes)
-                          .Where(course => course.Id == request.CourseId).ToList();
+                var courses = await _context.Courses
+                    .Include(c => c.Chapters)
+                        .ThenInclude(ch => ch.Lessons)
+                            .ThenInclude(l => l.TheoryQuestions)
+                                .ThenInclude(ans => ans.AnswerOptions)
+                    .Include(c => c.Chapters)
+                        .ThenInclude(ch => ch.PracticeQuestions)
+                            .ThenInclude(cq => cq.TestCases)
+                    .Include(c => c.Chapters)
+                        .ThenInclude(ch => ch.Lessons)
+                            .ThenInclude(l => l.TheoryQuestions)
+                                .ThenInclude(ans => ans.AnswerOptions)
+                    .Include(c => c.Chapters)
+                        .ThenInclude(ch => ch.PracticeQuestions)
+                            .ThenInclude(cq => cq.TestCases)
+                    .Include(c => c.Chapters)
+                        .ThenInclude(ch => ch.PracticeQuestions)
+                            .ThenInclude(cq => cq.UserAnswerCodes)
+                    .FirstOrDefaultAsync(course => course.Id == request.CourseId);
 
-                courses.ForEach(course =>
+                if (courses == null)
                 {
-                    course.Chapters = course.Chapters.OrderBy(chapter => chapter.Part).ToList();
-                });
+                    return new NotFoundObjectResult("There is no course in here"); // Không tìm thấy khóa học
+                }
 
-                var result = courses.Select(course => new
+                courses.Chapters.OrderBy(c => c.Part);
+                var user = await service.SendUserId(courses.CreatedBy);
+
+                var result = new
                 {
-                    course.Id,
-                    course.Name,
-                    course.Description,
-                    course.Picture,
-                    course.Tag,
-                    course.CreatedBy,
-                    course.CreatedAt,
-                    Chapters = course.Chapters.Select(chapter => new
+                    courses.Id,
+                    courses.Name,
+                    courses.Description,
+                    courses.Picture,
+                    courses.Tag,
+                    courses.CreatedBy,
+                    courses.CreatedAt,
+                    Created_Name = user.Name,
+                    Chapters = courses.Chapters.Select(chapter => new
                     {
                         chapter.Id,
                         chapter.Name,
@@ -100,7 +105,7 @@ namespace CourseService.API.Feartures.Queries.CourseQueries
                             lesson.ChapterId,
                             lesson.Description,
                             lesson.Duration,
-                           
+                            lesson.ContentLesson,
                             Questions = lesson.TheoryQuestions.Select(question => new
                             {
                                 question.Id,
@@ -117,11 +122,11 @@ namespace CourseService.API.Feartures.Queries.CourseQueries
                             }).ToList()
                         }).ToList()
                     }).ToList()
-                }).ToList();
-
+                };
 
                 return new OkObjectResult(result);
             }
+
         }
     }
 }

@@ -8,7 +8,7 @@ using MediatR;
 using Microsoft.EntityFrameworkCore;
 
 
-namespace CourseService.API.Feartures.Queries.CourseQueries
+namespace CourseService.API.Feartures.CourseFearture.Queries.CourseQueries
 {
     public class GetAllCourseQuerry : IRequest<PageList<Course>>
     {

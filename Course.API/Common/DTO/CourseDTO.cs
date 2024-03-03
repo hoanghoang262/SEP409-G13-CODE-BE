@@ -66,5 +66,17 @@ namespace CourseService.API.Common.ModelDTO
 
         
     }
-   
+    public class UserProfileDto
+    {
+
+        public List<CourseCompletionDto> EnrolledCourses { get; set; }
+    }
+
+    public class CourseCompletionDto
+    {
+        public int CourseId { get; set; }
+        public string CourseName { get; set; }
+        public string CoursePicture { get; set; }
+        public double CompletionPercentage { get; set; }
+    }
 }

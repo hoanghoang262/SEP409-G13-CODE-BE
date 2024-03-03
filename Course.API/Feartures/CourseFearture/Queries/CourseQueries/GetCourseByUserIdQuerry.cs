@@ -6,7 +6,7 @@ using CourseService.API.Common.ModelDTO;
 using Microsoft.EntityFrameworkCore;
 using CourseService.API.Models;
 
-namespace CourseService.API.Feartures.Queries.CourseQueries
+namespace CourseService.API.Feartures.CourseFearture.Queries.CourseQueries
 {
     public class GetCourseByUserIdQuerry : IRequest<IActionResult>
     {
@@ -30,8 +30,8 @@ namespace CourseService.API.Feartures.Queries.CourseQueries
 
                 var user = await service.SendUserId(request.UserId);
 
-                var courses = _context.Courses.Where(c=>c.CreatedBy.Equals(user.Id)).ToList();
-                        
+                var courses = _context.Courses.Where(c => c.CreatedBy.Equals(user.Id)).ToList();
+
 
                 //var result = new
                 //{
