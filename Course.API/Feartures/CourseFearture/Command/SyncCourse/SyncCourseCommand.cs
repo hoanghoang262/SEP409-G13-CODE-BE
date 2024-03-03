@@ -2,13 +2,12 @@
 using CourseService.API.Common.Mapping;
 using CourseService.API.Common.ModelDTO;
 using CourseService.API.Models;
+using EventBus.Message.Event;
 
-using EventBus.Message.IntegrationEvent.PublishEvent;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using ModerationService.API.Common.PublishEvent;
 
-namespace CourseService.API.Feartures.CourseFearture.Command.CreateCourse
+namespace CourseService.API.Feartures.CourseFearture.Command.SyncCourse
 {
     public class SyncCourseCommand : IRequest<IActionResult>, IMapFrom<CourseEvent>
     {
@@ -21,17 +20,17 @@ namespace CourseService.API.Feartures.CourseFearture.Command.CreateCourse
         public DateTime? CreatedAt { get; set; }
         public class asyncCourseCommandHandler : IRequestHandler<SyncCourseCommand, IActionResult>
         {
-            private readonly CourseContext _context;
+            private readonly Course_DeployContext _context;
             private readonly CloudinaryService _cloudinaryService;
 
-            public asyncCourseCommandHandler(CourseContext context, CloudinaryService cloudinaryService)
+            public asyncCourseCommandHandler(Course_DeployContext context, CloudinaryService cloudinaryService)
             {
                 _context = context;
                 _cloudinaryService = cloudinaryService;
             }
             public async Task<IActionResult> Handle(SyncCourseCommand request, CancellationToken cancellationToken)
             {
-                var course= await _context.Courses.FindAsync(request.Id);
+                var course = await _context.Courses.FindAsync(request.Id);
                 if (course == null)
                 {
                     var newCourse = new Course
@@ -58,17 +57,17 @@ namespace CourseService.API.Feartures.CourseFearture.Command.CreateCourse
                     course.Tag = request.Tag;
                     course.CreatedBy = request.CreatedBy;
 
-                   
+
                     await _context.SaveChangesAsync(cancellationToken);
                 }
 
-              
 
 
-             
-                return new OkObjectResult("done") ;
+
+
+                return new OkObjectResult("done");
             }
         }
     }
-   
+
 }

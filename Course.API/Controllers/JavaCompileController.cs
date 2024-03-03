@@ -1,6 +1,9 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Hosting;
+using System;
 using System.Diagnostics;
+using System.IO;
 
 namespace CourseService.API.Controllers
 {
@@ -9,14 +12,20 @@ namespace CourseService.API.Controllers
     public class JavaCompileController : ControllerBase
     {
         private readonly DynamicCodeCompilerJava _compile;
-        public JavaCompileController(DynamicCodeCompilerJava compile)
+        private readonly IWebHostEnvironment _hostingEnvironment;
+
+        public JavaCompileController(DynamicCodeCompilerJava compile, IWebHostEnvironment env)
         {
             _compile = compile;
+            _hostingEnvironment = env;
         }
+
         [HttpPost]
         public IActionResult CompileCodeJava([FromBody] CodeRequestModel javaCode)
         {
-            // Check if the request contains Java code
+            string rootPath = _hostingEnvironment.ContentRootPath;
+            string javaFilePath = Path.Combine(rootPath, "Solution.java");
+
             if (string.IsNullOrWhiteSpace(javaCode.UserCode))
             {
                 return BadRequest("Java code is missing.");
@@ -24,15 +33,9 @@ namespace CourseService.API.Controllers
 
             try
             {
-                // Create a temporary file path for the Java code
-                //string javaFilePath = Path.Combine(Path.GetTempPath(), "HelloWorld.java");
-               string javaFilePath = @"..\HelloWorld.java";
+                _compile.WriteJavaCodeToFile(javaCode.UserCode, javaFilePath);
 
-              _compile.WriteJavaCodeToFile(javaCode.UserCode, javaFilePath);
-               
-
-
-                object compilationResult = _compile.RunJavaProgram(javaFilePath);
+                string compilationResult = _compile.CompileAndRun(javaFilePath);
 
                 // Return compilation result
                 return Ok(compilationResult);
@@ -43,13 +46,18 @@ namespace CourseService.API.Controllers
                 return StatusCode(500, $"Error compiling Java code: {ex.Message}");
             }
         }
-
-      
-
     }
+
     public class DynamicCodeCompilerJava
     {
-        public  void WriteJavaCodeToFile(string javaCode, string javaFilePath)
+        private readonly IWebHostEnvironment _hostingEnvironment;
+
+        public DynamicCodeCompilerJava(IWebHostEnvironment env)
+        {
+            _hostingEnvironment = env;
+        }
+
+        public void WriteJavaCodeToFile(string javaCode, string javaFilePath)
         {
             try
             {
@@ -58,17 +66,77 @@ namespace CourseService.API.Controllers
             catch (Exception e)
             {
                 Console.WriteLine("Error writing Java code to file: " + e.Message);
+                throw;
             }
         }
 
-        public string RunJavaProgram(string javaFilePath)
+        public string CompileAndRun(string javaFilePath)
         {
-            string javaHome = Environment.GetEnvironmentVariable("JAVA_HOME");
             string result = "";
+
+            // Compile Java code
+            string compileResult = CompileJava(javaFilePath);
+
+            // If compilation is successful, execute the program
+            if (!string.IsNullOrEmpty(compileResult))
+            {
+                result = ExecuteJavaProgram(javaFilePath);
+            }
+            else
+            {
+                result = compileResult;
+            }
+
+            return result;
+        }
+
+        private string CompileJava(string javaFilePath)
+        {
+            string result = "";
+
             var startInfo = new ProcessStartInfo
             {
-                FileName = javaHome,
-                Arguments = javaFilePath,
+                FileName = "javac",
+                Arguments = $"\"{javaFilePath}\"",
+                UseShellExecute = false,
+                RedirectStandardOutput = true,
+                RedirectStandardError = true,
+                CreateNoWindow = true
+            };
+
+            try
+            {
+                using (var compileProcess = Process.Start(startInfo))
+                {
+                    string output = compileProcess.StandardOutput.ReadToEnd();
+                    string error = compileProcess.StandardError.ReadToEnd();
+
+                    if (!string.IsNullOrEmpty(error))
+                    {
+                        result = "Compilation error: " + error;
+                    }
+                    else
+                    {
+                        result = "Compilation successful: " + output;
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                result = "Error compiling Java code: " + e.Message;
+            }
+
+            return result;
+        }
+
+        private string ExecuteJavaProgram(string javaFilePath)
+        {
+            string result = "";
+
+            var startInfo = new ProcessStartInfo
+            {
+                FileName = "java",
+                Arguments = "Solution", // Assuming "Solution" is the name of the main class
                 UseShellExecute = false,
                 RedirectStandardOutput = true,
                 RedirectStandardError = true,
@@ -80,38 +148,17 @@ namespace CourseService.API.Controllers
                 using (var process = Process.Start(startInfo))
                 {
                     string output = process.StandardOutput.ReadToEnd();
-                    string outputErr = process.StandardError.ReadToEnd();
-                    Console.WriteLine("Output of Java code:");
-                    Console.WriteLine(output);
+                    string error = process.StandardError.ReadToEnd();
 
-                    if (!string.IsNullOrWhiteSpace(outputErr))
-                    {
-                        Console.WriteLine("Error output of Java code:");
-                        Console.WriteLine(outputErr);
-                        result = outputErr;
-                        throw new Exception("Compilation failed. Check the error output for details.");
-                    }
-                    else if (process.ExitCode != 0)
-                    {
-                        string errorMessage = $"Compilation failed with exit code {process.ExitCode}";
-                        Console.WriteLine(errorMessage);
-                        result = errorMessage;
-                        throw new Exception(errorMessage);
-                    }
-                    else
-                    {
-                        Console.WriteLine("Compilation successful.");
-                        result = output;
-                    }
+                    result = output + "\n" + error;
                 }
             }
             catch (Exception e)
             {
-                Console.WriteLine("Error compiling Java code: " + e.Message);
+                result = "Error executing Java program: " + e.Message;
             }
+
             return result;
         }
-
-
     }
 }

@@ -1,13 +1,8 @@
 ﻿
 using CloudinaryDotNet;
 using CompileCodeOnline;
-using CourseService;
-using CourseService.API;
-using CourseService.API.Application.ConsumeMessage.EvenHandles;
-using CourseService.API.Application.MessageBroker.EvenHandles;
 using CourseService.API.Controllers;
-using CourseService.API.IntegrationEvent.EvenHandles;
-using CourseService.API.MessageBroker.ConsumeMessage.EventHandles;
+using CourseService.API.MessageBroker;
 using CourseService.API.Models;
 using GrpcServices;
 using MassTransit;
@@ -24,6 +19,7 @@ namespace CourseService
             var builder = WebApplication.CreateBuilder(args);
             builder.Services.AddScoped<DynamicCodeCompiler>();
             builder.Services.AddScoped<DynamicCodeCompilerJava>();
+            
 
             // rabbitMQ
             var configuration = builder.Configuration.GetSection("EventBusSetting:HostAddress").Value;
@@ -35,9 +31,12 @@ namespace CourseService
                 config.AddConsumersFromNamespaceContaining<EventCourseHandler>();
                 config.AddConsumersFromNamespaceContaining<EventChapterHandler>();
                 config.AddConsumersFromNamespaceContaining<EventLessonHandler>();
-                config.AddConsumersFromNamespaceContaining<EventQuestionHandler>();
-                config.AddConsumersFromNamespaceContaining<EventCodeQuestionHandler>();
+                config.AddConsumersFromNamespaceContaining<EventTheoryQuestionHandler>();
+                config.AddConsumersFromNamespaceContaining<EventPracticeQuestionHandler>();
                 config.AddConsumersFromNamespaceContaining<EventTestCaseHandler>();
+                config.AddConsumersFromNamespaceContaining<EventAnswerOptionsHandler>();
+            
+
 
                 config.UsingRabbitMq((ctx, cfg) =>
                 {
@@ -71,7 +70,7 @@ namespace CourseService
             builder.Services.AddGrpcClient<UserCourseService.UserCourseServiceClient>(x => x.Address = new Uri(config));
             builder.Services.AddScoped<UserIdCourseGrpcService>();
             //dbContext
-            builder.Services.AddDbContext<CourseContext>(
+            builder.Services.AddDbContext<Course_DeployContext>(
     oprions => oprions.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"))
     );      //mapper
             builder.Services.AddAutoMapper(Assembly.GetExecutingAssembly());
@@ -88,11 +87,10 @@ namespace CourseService
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
-            if (app.Environment.IsDevelopment())
-            {
+           
                 app.UseSwagger();
                 app.UseSwaggerUI();
-            }
+        
 
             app.UseAuthorization();
             app.UseCors("AllowSpecificOrigin");

@@ -8,6 +8,7 @@ namespace CourseGRPC.Models
         public Chapter()
         {
             Lessons = new HashSet<Lesson>();
+            PracticeQuestions = new HashSet<PracticeQuestion>();
         }
 
         public int Id { get; set; }
@@ -18,5 +19,6 @@ namespace CourseGRPC.Models
 
         public virtual Course? Course { get; set; }
         public virtual ICollection<Lesson> Lessons { get; set; }
+        public virtual ICollection<PracticeQuestion> PracticeQuestions { get; set; }
     }
 }

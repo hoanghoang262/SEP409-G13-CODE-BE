@@ -1,5 +1,5 @@
 ﻿using CourseService.API.Common.Mapping;
-using EventBus.Message.IntegrationEvent.PublishEvent;
+using EventBus.Message.Event;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using NotificationService.API.Models;

@@ -7,7 +7,7 @@ namespace ModerationService.API.Models
     {
         public Lesson()
         {
-            Questions = new HashSet<Question>();
+            TheoryQuestions = new HashSet<TheoryQuestion>();
         }
 
         public int Id { get; set; }
@@ -19,6 +19,6 @@ namespace ModerationService.API.Models
         public long? Duration { get; set; }
 
         public virtual Chapter? Chapter { get; set; }
-        public virtual ICollection<Question> Questions { get; set; }
+        public virtual ICollection<TheoryQuestion> TheoryQuestions { get; set; }
     }
 }

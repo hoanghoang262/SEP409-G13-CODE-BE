@@ -28,8 +28,8 @@ namespace Authenticate_Service.Feature.AuthenticateFearture.Command.ChangePasswo
                 {
                     return new BadRequestResult();
                 }
-                var HassPass = hash.HashPassword(request.NewPassword);
-                user.Password = HassPass;
+               
+                user.Password =request.NewPassword;
 
                 await _context.SaveChangesAsync();
 

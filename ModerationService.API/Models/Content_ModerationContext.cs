@@ -16,25 +16,41 @@ namespace ModerationService.API.Models
         {
         }
 
+        public virtual DbSet<AnswerOption> AnswerOptions { get; set; } = null!;
         public virtual DbSet<Chapter> Chapters { get; set; } = null!;
-        public virtual DbSet<CodeQuestion> CodeQuestions { get; set; } = null!;
         public virtual DbSet<Course> Courses { get; set; } = null!;
         public virtual DbSet<Lesson> Lessons { get; set; } = null!;
         public virtual DbSet<Moderation> Moderations { get; set; } = null!;
-        public virtual DbSet<Question> Questions { get; set; } = null!;
+        public virtual DbSet<PracticeQuestion> PracticeQuestions { get; set; } = null!;
         public virtual DbSet<TestCase> TestCases { get; set; } = null!;
+        public virtual DbSet<TheoryQuestion> TheoryQuestions { get; set; } = null!;
+        public virtual DbSet<UserAnswerCode> UserAnswerCodes { get; set; } = null!;
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)
             {
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-                optionsBuilder.UseSqlServer("server=localhost\\sqlserverdb,1435;database=Content_Moderation;uid=sa;pwd=PassW0rd!;TrustServerCertificate=true");
+                optionsBuilder.UseSqlServer("Server=tcp:fptulearnserver.database.windows.net,1433;Initial Catalog=Content_Moderation;Persist Security Info=False;User ID=fptu;Password=24082002aA;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;");
             }
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<AnswerOption>(entity =>
+            {
+                entity.Property(e => e.CorrectAnswer).HasColumnName("Correct_Answer");
+
+                entity.Property(e => e.OptionsText).HasColumnName("options_text");
+
+                entity.Property(e => e.QuestionId).HasColumnName("question_id");
+
+                entity.HasOne(d => d.Question)
+                    .WithMany(p => p.AnswerOptions)
+                    .HasForeignKey(d => d.QuestionId)
+                    .HasConstraintName("FK_AnswerOptions_Questions");
+            });
+
             modelBuilder.Entity<Chapter>(entity =>
             {
                 entity.ToTable("Chapter");
@@ -49,18 +65,6 @@ namespace ModerationService.API.Models
                     .WithMany(p => p.Chapters)
                     .HasForeignKey(d => d.CourseId)
                     .HasConstraintName("FK_Chapter_Course");
-            });
-
-            modelBuilder.Entity<CodeQuestion>(entity =>
-            {
-                entity.ToTable("Code_Question");
-
-                entity.Property(e => e.ChapterId).HasColumnName("Chapter_Id");
-
-                entity.HasOne(d => d.Chapter)
-                    .WithMany(p => p.CodeQuestions)
-                    .HasForeignKey(d => d.ChapterId)
-                    .HasConstraintName("FK_Code_Question_Chapter");
             });
 
             modelBuilder.Entity<Course>(entity =>
@@ -124,28 +128,18 @@ namespace ModerationService.API.Models
                     .HasConstraintName("FK_Moderation_Course");
             });
 
-            modelBuilder.Entity<Question>(entity =>
+            modelBuilder.Entity<PracticeQuestion>(entity =>
             {
-                entity.Property(e => e.AnswerA).HasColumnName("Answer_A");
+                entity.ToTable("Practice_Question");
 
-                entity.Property(e => e.AnswerB).HasColumnName("Answer_B");
+                entity.Property(e => e.ChapterId).HasColumnName("Chapter_Id");
 
-                entity.Property(e => e.AnswerC).HasColumnName("Answer_C");
+                entity.Property(e => e.CodeForm).HasColumnName("Code_Form");
 
-                entity.Property(e => e.AnswerD).HasColumnName("Answer_D");
-
-                entity.Property(e => e.ContentQuestion).HasColumnName("Content_Question");
-
-                entity.Property(e => e.CorrectAnswer)
-                    .HasMaxLength(50)
-                    .HasColumnName("Correct_Answer");
-
-                entity.Property(e => e.VideoId).HasColumnName("Video_Id");
-
-                entity.HasOne(d => d.Video)
-                    .WithMany(p => p.Questions)
-                    .HasForeignKey(d => d.VideoId)
-                    .HasConstraintName("FK_Questions_Videos");
+                entity.HasOne(d => d.Chapter)
+                    .WithMany(p => p.PracticeQuestions)
+                    .HasForeignKey(d => d.ChapterId)
+                    .HasConstraintName("FK_Code_Question_Chapter");
             });
 
             modelBuilder.Entity<TestCase>(entity =>
@@ -160,6 +154,41 @@ namespace ModerationService.API.Models
                     .WithMany(p => p.TestCases)
                     .HasForeignKey(d => d.CodeQuestionId)
                     .HasConstraintName("FK_TestCase_Code_Question");
+            });
+
+            modelBuilder.Entity<TheoryQuestion>(entity =>
+            {
+                entity.ToTable("Theory_Questions");
+
+                entity.Property(e => e.ContentQuestion).HasColumnName("Content_Question");
+
+                entity.Property(e => e.TimeQuestion)
+                    .HasMaxLength(10)
+                    .HasColumnName("Time_Question")
+                    .IsFixedLength();
+
+                entity.Property(e => e.VideoId).HasColumnName("Video_Id");
+
+                entity.HasOne(d => d.Video)
+                    .WithMany(p => p.TheoryQuestions)
+                    .HasForeignKey(d => d.VideoId)
+                    .HasConstraintName("FK_Questions_Videos");
+            });
+
+            modelBuilder.Entity<UserAnswerCode>(entity =>
+            {
+                entity.ToTable("User Answer Code");
+
+                entity.Property(e => e.AnswerCode).HasColumnName("Answer_Code");
+
+                entity.Property(e => e.CodeQuestionId).HasColumnName("Code_Question_Id");
+
+                entity.Property(e => e.UserId).HasColumnName("User_Id");
+
+                entity.HasOne(d => d.CodeQuestion)
+                    .WithMany(p => p.UserAnswerCodes)
+                    .HasForeignKey(d => d.CodeQuestionId)
+                    .HasConstraintName("FK_User Answer Code_Code_Question");
             });
 
             OnModelCreatingPartial(modelBuilder);
