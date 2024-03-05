@@ -42,16 +42,17 @@ namespace Authenticated.Controllers
         {
             return Ok(await _mediator.Send(command));
         }
+
         [HttpPost]
         public async Task<IActionResult> SignUp(SignUpModel request)
         {
             if (context.Users.Any(u => u.Email == request.Email))
             {
-                return new BadRequestObjectResult(Message.MG06);
+                return new BadRequestObjectResult(Message.MSG06);
             }
             if (context.Users.Any(u => u.UserName == request.UserName))
             {
-                return new BadRequestObjectResult(Message.MG07);
+                return new BadRequestObjectResult(Message.MSG07);
             }
             else
             {
@@ -86,7 +87,7 @@ namespace Authenticated.Controllers
                 };
                 await _emailService.SendEmailasync(message);
 
-                return new OkObjectResult(Message.MG08);
+                return new OkObjectResult(Message.MSG08);
 
             }
         }

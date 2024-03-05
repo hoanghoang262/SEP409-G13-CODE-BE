@@ -35,7 +35,7 @@ namespace Authenticate_Service.Feature.AuthenticateFearture.Command.Login
                     {
                         if (user.EmailConfirmed == false)
                         {
-                            return new BadRequestObjectResult(Message.MG03);
+                            return new BadRequestObjectResult(Message.MSG03);
                         }
 
                         var userId = user.Id;
@@ -50,15 +50,16 @@ namespace Authenticate_Service.Feature.AuthenticateFearture.Command.Login
                         return new OkObjectResult(new
                         {
                             token = new JwtSecurityTokenHandler().WriteToken(token),
-                            expiration = token.ValidTo
+                            expiration = token.ValidTo,
+                            Message.MSG02
                         });
                     }
                     else if (user == null)
                     {
-                        return new BadRequestObjectResult(Message.MG01);
+                        return new BadRequestObjectResult(Message.MSG01);
                     }
 
-                    return new OkObjectResult(Message.MG04);
+                    return new OkObjectResult(Message.MSG04);
                 }
                 catch (GoogleApiException)
                 {
