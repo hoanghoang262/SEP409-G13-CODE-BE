@@ -23,7 +23,7 @@ namespace CommentService.API.Models
             if (!optionsBuilder.IsConfigured)
             {
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-                optionsBuilder.UseSqlServer("server=localhost\\sqlserverdb,1435;database=Comment;uid=sa;pwd=PassW0rd!;TrustServerCertificate=True");
+                optionsBuilder.UseSqlServer("Server=tcp:fptulearnserver.database.windows.net,1433;Initial Catalog=Comment;Persist Security Info=False;User ID=fptu;Password=24082002aA;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;");
             }
         }
 
@@ -39,9 +39,13 @@ namespace CommentService.API.Models
 
                 entity.Property(e => e.Date).HasColumnType("datetime");
 
+                entity.Property(e => e.ForumPostId).HasColumnName("Forum_Post_Id");
+
                 entity.Property(e => e.LessonId).HasColumnName("Lesson_Id");
 
                 entity.Property(e => e.UserId).HasColumnName("User_Id");
+
+                entity.Property(e => e.UserName).HasMaxLength(50);
             });
 
             OnModelCreatingPartial(modelBuilder);

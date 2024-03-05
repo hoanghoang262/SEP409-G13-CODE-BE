@@ -21,7 +21,7 @@ namespace CourseService.API.Controllers
         }
 
         [HttpPost]
-        public IActionResult CompileCodeJava([FromBody] CodeRequestModel javaCode)
+        public IActionResult JavaCompileCode([FromBody] CodeRequestModel javaCode)
         {
             string rootPath = _hostingEnvironment.ContentRootPath;
             string javaFilePath = Path.Combine(rootPath, "Solution.java");
@@ -77,14 +77,14 @@ namespace CourseService.API.Controllers
             // Compile Java code
             string compileResult = CompileJava(javaFilePath);
 
-            // If compilation is successful, execute the program
-            if (!string.IsNullOrEmpty(compileResult))
-            {
-                result = ExecuteJavaProgram(javaFilePath);
-            }
-            else
+           
+            if (compileResult.Contains("Compilation error:"))
             {
                 result = compileResult;
+            }
+            else if(!(string.IsNullOrEmpty(compileResult)))
+            {
+                result = ExecuteJavaProgram(javaFilePath);
             }
 
             return result;
@@ -147,10 +147,15 @@ namespace CourseService.API.Controllers
             {
                 using (var process = Process.Start(startInfo))
                 {
-                    string output = process.StandardOutput.ReadToEnd();
-                    string error = process.StandardError.ReadToEnd();
+                    
+                    var outputTask = process.StandardOutput.ReadToEndAsync();
+                    var errorTask = process.StandardError.ReadToEndAsync();
 
-                    result = output + "\n" + error;
+                  
+                    Task.WaitAll(outputTask, errorTask);
+
+                    
+                    result = outputTask.Result + "\n" + errorTask.Result;
                 }
             }
             catch (Exception e)
@@ -160,5 +165,6 @@ namespace CourseService.API.Controllers
 
             return result;
         }
+
     }
 }

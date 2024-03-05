@@ -108,6 +108,7 @@ namespace CourseService.API.Feartures.CourseFearture.Command.CreateCourse
                             Description = lessonDto.Description,
                             Duration = lessonDto.Duration,
                             ChapterId = newChapter.Id,
+                            ContentLesson=lessonDto.ContentLesson,
                             IsCompleted = false
 
                         };

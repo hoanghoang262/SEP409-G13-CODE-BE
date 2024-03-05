@@ -81,7 +81,7 @@
         "AllowedScopes": []
       },
       "RouteClaimsRequirement": {
-        "Role": "Admin Bussiness"
+        "Role": "Admin System"
       },
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [

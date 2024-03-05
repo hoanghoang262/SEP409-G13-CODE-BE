@@ -155,6 +155,7 @@ namespace CourseService.API.Feartures.CourseFearture.Command.CreateCourse
                             existingLesson.VideoUrl = lessonDto.VideoUrl;
                             existingLesson.Description = lessonDto.Description;
                             existingLesson.Duration = lessonDto.Duration;
+                            existingLesson.ContentLesson= lessonDto.ContentLesson;
                         }
                         else
                         {
@@ -164,7 +165,8 @@ namespace CourseService.API.Feartures.CourseFearture.Command.CreateCourse
                                 Title = lessonDto.Title,
                                 VideoUrl = lessonDto.VideoUrl,
                                 Description = lessonDto.Description,
-                                Duration = lessonDto.Duration
+                                Duration = lessonDto.Duration,
+                                ContentLesson=lessonDto.ContentLesson
                             };
                             existingChapter.Lessons.Add(newLesson);
                         }

@@ -18,6 +18,7 @@ namespace CourseService.API.Feartures.CourseFearture.Command.SyncCourse
         public string? Description { get; set; }
         public long? Duration { get; set; }
         public bool? IsCompleted { get; set; }
+        public string? ContentLesson { get; set; }
         public class asyncLessonHandler : IRequestHandler<SyncLessonCommand, IActionResult>
         {
             private readonly Course_DeployContext _context;
@@ -40,7 +41,8 @@ namespace CourseService.API.Feartures.CourseFearture.Command.SyncCourse
                         VideoUrl = request.VideoUrl,
                         ChapterId = request.ChapterId,
                         Description = request.Description,
-                        Duration = request.Duration
+                        Duration = request.Duration,
+                        ContentLesson=request.ContentLesson,
                       
 
                     };
@@ -57,6 +59,7 @@ namespace CourseService.API.Feartures.CourseFearture.Command.SyncCourse
                     lesson.ChapterId = request.ChapterId;
                     lesson.Description = request.Description;
                     lesson.Duration = request.Duration;
+                    lesson.ContentLesson = request.ContentLesson;
                    
 
                     await _context.SaveChangesAsync(cancellationToken);
