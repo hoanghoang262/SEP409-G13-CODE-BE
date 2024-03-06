@@ -147,6 +147,16 @@ namespace ModerationService.API.Fearture.Command.Moderations
                         }
                     }
                 }
+                var moderation = await _context.Moderations.FirstOrDefaultAsync(c => c.CourseId.Equals(request.CourseId));
+
+                if (moderation == null)
+                {
+                    return new BadRequestObjectResult("Not Found");
+                }
+                else
+                {
+                    moderation.Status = "Approved";
+                }
                 if (userId != null)
                 {
                     foreach (var id in userId.Result.UserId)

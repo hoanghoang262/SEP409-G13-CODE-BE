@@ -1,12 +1,14 @@
-﻿using ForumService.API.Models;
+﻿using CourseService.API.Common.Mapping;
+using EventBus.Message.Event;
+using ForumService.API.Models;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ForumService.API.Fearture.Command
 {
-    public class SyncPostCommand : IRequest<IActionResult>
+    public class SyncPostCommand : IRequest<IActionResult>, IMapFrom<PostEvent>
     {
-        public int Id { get; set; } 
+        public int Id { get; set; }
         public string? Title { get; set; }
         public string? Description { get; set; }
         public string? PostContent { get; set; }
@@ -23,13 +25,13 @@ namespace ForumService.API.Fearture.Command
             }
             public async Task<IActionResult> Handle(SyncPostCommand request, CancellationToken cancellationToken)
             {
-                var post = await _context.Posts.FindAsync(request.Id);
+                //var post = await _context.Posts.FindAsync(request.Id);
 
-                if (post == null)
-                {
+                //if (post == null)
+                //{
                     var postForum = new Post
                     {
-                        Id = request.Id,
+                     
                         Title = request.Title,  
                         Description = request.Description,  
                         PostContent = request.PostContent,  
@@ -38,15 +40,15 @@ namespace ForumService.API.Fearture.Command
                     };
                     _context.Posts.Add(postForum);
                     await _context.SaveChangesAsync(cancellationToken);
-                }
-                else
-                {
-                    post.Title= request.Title;  
-                    post.Description= request.Description;
-                    post.LastUpdate= request.LastUpdate;
-                    post.PostContent= request.PostContent;
-                    await _context.SaveChangesAsync(cancellationToken);
-                }
+              //  }
+                //else
+                //{
+                //    post.Title= request.Title;  
+                //    post.Description= request.Description;
+                //    post.LastUpdate= request.LastUpdate;
+                //    post.PostContent= request.PostContent;
+                //    await _context.SaveChangesAsync(cancellationToken);
+                //}
                 return new OkObjectResult("done");
             }
         }

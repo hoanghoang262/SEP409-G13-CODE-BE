@@ -1,4 +1,5 @@
 ﻿using CourseService.API.Common.ModelDTO;
+using GrpcServices;
 using MassTransit.Contracts;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -21,7 +22,7 @@ namespace CourseService.API.Feartures.CourseFearture.Command.CreateCourse
         public string? Description { get; set; }
         public string? Picture { get; set; }
         public string? Tag { get; set; }
-        public int? CreatedBy { get; set; }
+        public int CreatedBy { get; set; }
         public DateTime? CreatedAt { get; set; } = DateTime.UtcNow;
 
         public List<ChapterDTO> Chapters { get; set; }
@@ -30,16 +31,20 @@ namespace CourseService.API.Feartures.CourseFearture.Command.CreateCourse
         {
             private readonly Content_ModerationContext _context;
             private readonly GetCourseIdGrpcServices services;
+            private readonly UserIdCourseGrpcService service;
 
-            public UpdateCourseCommandHandler(Content_ModerationContext context, GetCourseIdGrpcServices _services)
+            public UpdateCourseCommandHandler(Content_ModerationContext context, GetCourseIdGrpcServices _services, UserIdCourseGrpcService _service)
             {
                 _context = context;
                 services = _services;
+                service=_service;
             }
+
 
             public async Task<IActionResult> Handle(UpdateCourseCommand request, CancellationToken cancellationToken)
             {
                 var courseId = await services.SendCourseId(request.Id);
+                var user = await service.SendUserId(request.CreatedBy);
 
                 var existingCourse = _context.Courses
         .Include(c => c.Chapters)
@@ -231,7 +236,8 @@ namespace CourseService.API.Feartures.CourseFearture.Command.CreateCourse
                             CreatedBy = existingCourse.CreatedBy,
                             ApprovedContent = "Modified the course",
                             Status = "Pending",
-                            CreatedAt = existingCourse.CreatedAt
+                            CreatedAt = existingCourse.CreatedAt,
+                            
                         };
                         await _context.Moderations.AddAsync(moderation);
                     }
