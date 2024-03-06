@@ -51,9 +51,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Event", "Event", "{6661EF5E
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ForumService", "ForumService", "{32C662D0-12DE-478E-8DD6-7D5AABC97BC0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ForumService.API", "ForumService.API\ForumService.API.csproj", "{73F77848-4888-4129-9BCF-A241081684ED}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ForumService.API", "ForumService.API\ForumService.API.csproj", "{73F77848-4888-4129-9BCF-A241081684ED}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CommentGrpc", "CommentGrpc\CommentGrpc.csproj", "{9F33786A-47F2-4828-ACEB-CFF45882EA78}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CommentGrpc", "CommentGrpc\CommentGrpc.csproj", "{9F33786A-47F2-4828-ACEB-CFF45882EA78}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

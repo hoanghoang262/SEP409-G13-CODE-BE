@@ -18,16 +18,22 @@ namespace UserGrpc.Services
 
         public override async Task<GetUserCoursesResponse> GetUserCourses(GetUserCourseRequest request, ServerCallContext context)
         {
-            var response = await _context.Users.FirstOrDefaultAsync(u=>u.Id.Equals(request.UserId));
+            var response = await _context.Users.FirstOrDefaultAsync(u => u.Id.Equals(request.UserId));
 
-            return await Task.FromResult(new GetUserCoursesResponse()
+            if (response == null)
+            {
+                
+                return await Task.FromResult(new GetUserCoursesResponse());
+            }
+
+            return await Task.FromResult(new GetUserCoursesResponse
             {
                 Id = response.Id,
-                Name = response.UserName,
-
+                Name = response.UserName
             });
         }
-      
+
+
 
 
     }

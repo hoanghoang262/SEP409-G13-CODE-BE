@@ -145,10 +145,11 @@ namespace CourseService.API.Feartures.CourseFearture.Command.CreateCourse
                 {
                     CourseId = newCourse.Id,
                     ChangeType = "Add",
-                    CreatedBy = user.Name,
+                    CreatedBy = user.Id,
                     ApprovedContent = "Add a new course",
                     Status = "Pending",
-                    CreatedAt = newCourse.CreatedAt
+                    CreatedAt = newCourse.CreatedAt,
+                    CourseName=newCourse.Name,
 
 
                 };

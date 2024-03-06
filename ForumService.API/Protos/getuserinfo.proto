@@ -1,0 +1,22 @@
+syntax = "proto3";
+
+option csharp_namespace = "UserGrpc";
+
+package getuserinfo;
+
+
+service GetUserService {
+  rpc GetUserInfo (GetUserInfoRequest) returns (GetUserInfoResponse);
+}
+
+message GetUserInfoRequest {
+  int32 userId = 1;
+}
+
+message GetUserInfoResponse {
+    int32 Id = 1;
+   string Name=2; 
+   string Picture=3;
+}
+
+

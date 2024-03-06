@@ -16,6 +16,8 @@ namespace NotificationService.API
             builder.Services.AddDbContext<NotificationContext>(
             options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
             builder.Services.AddControllers();
+
+            builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly()));
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
@@ -27,7 +29,7 @@ namespace NotificationService.API
             builder.Services.AddMassTransit(config =>
             {
                 config.AddConsumersFromNamespaceContaining<EventNotificationHandler>();
-                
+
 
                 config.UsingRabbitMq((ctx, cfg) =>
                 {
@@ -50,12 +52,12 @@ namespace NotificationService.API
 
             var app = builder.Build();
 
-            // Configure the HTTP request pipeline.
-            
-                app.UseSwagger();
-                app.UseSwaggerUI();
-            
+            app.UseSwagger();
+            app.UseSwaggerUI();
 
+            app.MapControllerRoute(
+              name: "default",
+              pattern: "{controller=Home}/{action=Index}/{id?}");
             app.UseAuthorization();
 
 

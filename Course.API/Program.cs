@@ -78,7 +78,7 @@ namespace CourseService
             builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly()));
 
             //Cloudinary
-            builder.Services.AddSingleton(new CloudinaryService("dcduktpij", "592561579458269", "rriM4lqd8uNQ9FtUd11NjTq50ac"));
+           
             builder.Services.AddControllers();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();

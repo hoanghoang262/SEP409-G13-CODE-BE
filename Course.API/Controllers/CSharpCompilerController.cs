@@ -3,7 +3,7 @@ using CourseService.API.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
-
+using System.Diagnostics;
 using System.Reflection;
 
 
@@ -25,7 +25,7 @@ namespace DynamicCodeCompilerAPI.Controllers
         [HttpPost]
         public IActionResult CompileCodeCSharp( CodeRequestModel request)
         {
-            var testCases = from codeQuestion in _context.PracticeQuestions
+            var testCases = (from codeQuestion in _context.PracticeQuestions
                             join testCase in _context.TestCases
                             on codeQuestion.Id equals testCase.CodeQuestionId
                             where testCase.CodeQuestionId == request.PracticeQuestionId
@@ -40,7 +40,11 @@ namespace DynamicCodeCompilerAPI.Controllers
                                 testCase.InputTypeBoolean,
                                 testCase.ExpectedResultBoolean,
                                 testCase.InputTypeArrayString
-                            };
+                            }).ToList();
+            if (testCases.Count == 0)
+            {
+                return BadRequest("Not found question id");
+            }
 
 
             try
@@ -50,6 +54,7 @@ namespace DynamicCodeCompilerAPI.Controllers
 
 
                 Assembly assembly = _codeCompiler.CompileCode(generatedCode);
+                Stopwatch stopwatch = Stopwatch.StartNew();
 
                 // Perform tests
                 foreach (var testCase in testCases)
@@ -178,8 +183,8 @@ namespace DynamicCodeCompilerAPI.Controllers
                     }
 
                 }
-
-
+                stopwatch.Stop();
+                Console.WriteLine($"Total execution time for all test cases: {stopwatch.ElapsedMilliseconds} milliseconds");
                 return Ok("All tests passed!");
             }
             catch (ArgumentException ex)
