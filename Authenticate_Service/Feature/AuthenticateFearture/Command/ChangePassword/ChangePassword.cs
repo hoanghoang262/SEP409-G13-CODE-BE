@@ -8,6 +8,8 @@ namespace Authenticate_Service.Feature.AuthenticateFearture.Command.ChangePasswo
     public class ChangePasswordCommand : IRequest<IActionResult>
     {
         public string Email { get; set; } 
+
+        public string OldPassword { get; set; } 
    
         public string? NewPassword { get; set; }
 
@@ -23,10 +25,10 @@ namespace Authenticate_Service.Feature.AuthenticateFearture.Command.ChangePasswo
 
             public async Task<IActionResult> Handle(ChangePasswordCommand request, CancellationToken cancellationToken)
             {
-                var user = _context.Users.FirstOrDefault(u => u.Email == request.Email);
+                var user = _context.Users.FirstOrDefault(u => u.Email == request.Email&& u.Password==request.OldPassword);
                 if (user == null)
                 {
-                    return new BadRequestResult();
+                    return new BadRequestObjectResult("Check your email or password again");
                 }
                
                 user.Password =request.NewPassword;

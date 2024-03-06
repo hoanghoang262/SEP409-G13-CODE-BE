@@ -71,7 +71,7 @@ namespace CourseService.API.Feartures.CourseFearture.Command.CreateCourse
                 existingCourse.Description = request.Description;
                 existingCourse.Picture = request.Picture;
                 existingCourse.Tag = request.Tag;
-                existingCourse.CreatedBy = request.CreatedBy;
+                existingCourse.CreatedBy = (int)request.CreatedBy;
                 existingCourse.CreatedAt = request.CreatedAt;
 
 
@@ -228,7 +228,7 @@ namespace CourseService.API.Feartures.CourseFearture.Command.CreateCourse
                             CourseId = existingCourse.Id,
                             CourseName = existingCourse.Name,
                             ChangeType = "Modified",
-                            CreatedBy = existingCourse.Name,
+                            CreatedBy = existingCourse.CreatedBy,
                             ApprovedContent = "Modified the course",
                             Status = "Pending",
                             CreatedAt = existingCourse.CreatedAt

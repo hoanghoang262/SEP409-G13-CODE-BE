@@ -17,6 +17,7 @@ namespace CommentService.API.Models
         }
 
         public virtual DbSet<Comment> Comments { get; set; } = null!;
+        public virtual DbSet<Reply> Replies { get; set; } = null!;
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -44,8 +45,20 @@ namespace CommentService.API.Models
                 entity.Property(e => e.LessonId).HasColumnName("Lesson_Id");
 
                 entity.Property(e => e.UserId).HasColumnName("User_Id");
+            });
 
-                entity.Property(e => e.UserName).HasMaxLength(50);
+            modelBuilder.Entity<Reply>(entity =>
+            {
+                entity.Property(e => e.CommentId).HasColumnName("Comment_Id");
+
+                entity.Property(e => e.ReplyContent).HasColumnName("Reply_Content");
+
+                entity.Property(e => e.UserId).HasColumnName("User_Id");
+
+                entity.HasOne(d => d.Comment)
+                    .WithMany(p => p.Replies)
+                    .HasForeignKey(d => d.CommentId)
+                    .HasConstraintName("FK_Replies_Comment");
             });
 
             OnModelCreatingPartial(modelBuilder);

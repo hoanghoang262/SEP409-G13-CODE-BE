@@ -40,6 +40,15 @@ namespace ModerationService.API
                 config.AddRequestClient<CourseEvent>();
 
             });
+
+            //cors
+            builder.Services.AddCors(options =>
+            {
+                options.AddPolicy("AllowSpecificOrigin",
+                    builder => builder.WithOrigins("http://localhost:5173")
+                                      .AllowAnyHeader()
+                                      .AllowAnyMethod());
+            });
             //gRPC
             var config = builder.Configuration.GetSection("GrpcSetting:UserUrl").Value;
             builder.Services.AddSingleton(config);
@@ -49,6 +58,7 @@ namespace ModerationService.API
             var config2 = builder.Configuration.GetSection("GrpcSetting2:CourseUrl").Value;
             builder.Services.AddGrpcClient<UserEnrollCourseService.UserEnrollCourseServiceClient>(x => x.Address = new Uri(config2));
             builder.Services.AddScoped<UserEnrollCourseGrpcServices>();
+
             builder.Services.AddGrpcClient<GetCourseByIdService.GetCourseByIdServiceClient>(x => x.Address = new Uri(config2));
             builder.Services.AddScoped<GetCourseIdGrpcServices>();
             //mapper
@@ -67,7 +77,7 @@ namespace ModerationService.API
            
                 app.UseSwagger();
                 app.UseSwaggerUI();
-            
+            app.UseCors("AllowSpecificOrigin");
 
             app.UseAuthorization();
             app.MapControllerRoute(

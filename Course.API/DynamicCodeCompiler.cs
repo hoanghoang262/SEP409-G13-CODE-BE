@@ -3,6 +3,7 @@ using Microsoft.CodeAnalysis.Emit;
 using Microsoft.CodeAnalysis;
 using System.Reflection;
 using System.Runtime.Loader;
+using System.Diagnostics;
 
 namespace CompileCodeOnline
 {
@@ -57,7 +58,14 @@ namespace CompileCodeOnline
             var instance = Activator.CreateInstance(type);
             var method = type.GetMethod(methodName);
             object[] parameters = new object[] { inputValue };
-            return method.Invoke(instance, parameters);
+
+
+            Stopwatch stopwatch = Stopwatch.StartNew();
+            object result = method.Invoke(instance, parameters);
+            stopwatch.Stop();
+
+            Console.WriteLine($"Execution time of method {methodName}: {stopwatch.ElapsedMilliseconds} milliseconds");
+            return result;
         }
         public object InvokeMethodArrayInt(Assembly assembly, string className, string methodName, int[] inputValue)
         {
@@ -65,7 +73,13 @@ namespace CompileCodeOnline
             var instance = Activator.CreateInstance(type);
             var method = type.GetMethod(methodName);
             object[] parameters = new object[] { inputValue };
-            return method.Invoke(instance, parameters);
+
+            Stopwatch stopwatch = Stopwatch.StartNew();
+            object result = method.Invoke(instance, parameters);
+            stopwatch.Stop();
+
+            Console.WriteLine($"Execution time of method {methodName}: {stopwatch.ElapsedMilliseconds} milliseconds");
+            return result;
         }
        
 

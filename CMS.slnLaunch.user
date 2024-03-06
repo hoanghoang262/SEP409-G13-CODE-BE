@@ -43,5 +43,18 @@
         "DebugTarget": ""
       }
     ]
+  },
+  {
+    "Name": "New Profile (3)",
+    "Projects": [
+      {
+        "Name": "GrpcService1\\UserGrpc.csproj",
+        "Action": "Start"
+      },
+      {
+        "Name": "ForumService.API\\ForumService.API.csproj",
+        "Action": "Start"
+      }
+    ]
   }
 ]

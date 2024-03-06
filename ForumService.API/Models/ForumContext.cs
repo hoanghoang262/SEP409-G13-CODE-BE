@@ -16,7 +16,7 @@ namespace ForumService.API.Models
         {
         }
 
-        public virtual DbSet<Forum> Forums { get; set; } = null!;
+        public virtual DbSet<Post> Posts { get; set; } = null!;
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -29,15 +29,13 @@ namespace ForumService.API.Models
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Forum>(entity =>
+            modelBuilder.Entity<Post>(entity =>
             {
-                entity.ToTable("Forum");
+                entity.ToTable("Post");
 
                 entity.Property(e => e.Id).ValueGeneratedNever();
 
-                entity.Property(e => e.CreatedBy)
-                    .HasMaxLength(200)
-                    .HasColumnName("Created_By");
+                entity.Property(e => e.CreatedBy).HasColumnName("Created_By");
 
                 entity.Property(e => e.LastUpdate)
                     .HasColumnType("datetime")

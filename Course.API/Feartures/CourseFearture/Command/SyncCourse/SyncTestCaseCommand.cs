@@ -21,12 +21,12 @@ namespace CourseService.API.Feartures.CourseFearture.Command.SyncCourse
         public class asyncQuestionCommandHandler : IRequestHandler<SyncTestCaseCommand, IActionResult>
         {
             private readonly Course_DeployContext _context;
-            private readonly CloudinaryService _cloudinaryService;
+            
 
-            public asyncQuestionCommandHandler(Course_DeployContext context, CloudinaryService cloudinaryService)
+            public asyncQuestionCommandHandler(Course_DeployContext context)
             {
                 _context = context;
-                _cloudinaryService = cloudinaryService;
+                
             }
             public async Task<IActionResult> Handle(SyncTestCaseCommand request, CancellationToken cancellationToken)
             {

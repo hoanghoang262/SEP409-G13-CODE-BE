@@ -15,12 +15,12 @@ namespace CourseService.API.Feartures.CourseFearture.Command.SyncCourse
         public class SyncAnswerOptionsHandler : IRequestHandler<SyncAnswerOptionCommand, IActionResult>
         {
             private readonly Course_DeployContext _context;
-            private readonly CloudinaryService _cloudinaryService;
+           
 
-            public SyncAnswerOptionsHandler(Course_DeployContext context, CloudinaryService cloudinaryService)
+            public SyncAnswerOptionsHandler(Course_DeployContext context)
             {
                 _context = context;
-                _cloudinaryService = cloudinaryService;
+               
             }
             public async Task<IActionResult> Handle(SyncAnswerOptionCommand request, CancellationToken cancellationToken)
             {
