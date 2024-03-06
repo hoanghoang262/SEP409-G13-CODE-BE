@@ -1,4 +1,6 @@
-﻿using EventBus.Message.Event;
+﻿using CourseService.API.Common.Mapping;
+using EventBus.Message.Event;
+using MassTransit;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -10,12 +12,11 @@ namespace ModerationService.API.Fearture.Command.Moderations
     {
         public int PostId { get; set; }
 
-
         public class ModerationPostCommandHandler : IRequestHandler<ModerationPostCommand, IActionResult>
         {
-            private readonly IPublisher _publish;
+            private readonly IPublishEndpoint _publish;
             private readonly Content_ModerationContext _context;
-            public ModerationPostCommandHandler(IPublisher publish,Content_ModerationContext context)
+            public ModerationPostCommandHandler(IPublishEndpoint publish,Content_ModerationContext context)
             {
                 _publish = publish;
                 _context = context;

@@ -18,7 +18,7 @@ namespace ForumService.API.MessageBroker
         }
         public async Task Consume(ConsumeContext<PostEvent> context)
         {
-            var command = _mapper.Map<SyncPostCommand>(context);
+            var command = _mapper.Map<SyncPostCommand>(context.Message);
             var result = await _mediator.Send(command);
         }
     }

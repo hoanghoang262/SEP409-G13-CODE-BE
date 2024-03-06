@@ -1,3 +1,5 @@
+using ForumService.API.Fearture.Command;
+using ForumService.API.MessageBroker;
 using ForumService.API.Models;
 using GrpcServices;
 using MassTransit;
@@ -29,6 +31,9 @@ namespace ForumService.API
 
             builder.Services.AddMassTransit(config =>
             {
+              
+                config.AddConsumersFromNamespaceContaining<EventPostHandler>();
+
                 config.UsingRabbitMq((ctx, cfg) =>
                 {
                     cfg.Host(mqConnection);
@@ -37,8 +42,6 @@ namespace ForumService.API
                 });
 
             });
-
-
 
             //gRPC
             var config = builder.Configuration.GetSection("GrpcSetting:UserUrl").Value;

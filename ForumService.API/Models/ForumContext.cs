@@ -33,8 +33,6 @@ namespace ForumService.API.Models
             {
                 entity.ToTable("Post");
 
-                entity.Property(e => e.Id).ValueGeneratedNever();
-
                 entity.Property(e => e.CreatedBy).HasColumnName("Created_By");
 
                 entity.Property(e => e.LastUpdate)
