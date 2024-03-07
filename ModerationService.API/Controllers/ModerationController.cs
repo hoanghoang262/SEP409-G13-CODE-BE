@@ -51,17 +51,17 @@ namespace ModerationService.API.Controllers
 
         [HttpPost]
 
-        public async Task<ActionResult> CreateContentForum(CreatePostCommand command)
+        public async Task<ActionResult> CreatePost(CreatePostCommand command)
         {
             return Ok(await _mediator.Send(command));
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetModerations(int page = 1, int pageSize = 5)
+        public async Task<IActionResult> GetModerationsCourse(string? courseName,int page = 1, int pageSize = 5)
         {
             try
             {
-                var query = new GetModerationQuerry { Page = page, PageSize = pageSize };
+                var query = new GetModerationCourseQuerry { Page = page, PageSize = pageSize,CourseName=courseName };
                 var result = await _mediator.Send(query);
 
                 if (result == null)
@@ -76,7 +76,27 @@ namespace ModerationService.API.Controllers
                 return StatusCode(500, $"Internal server error: {ex.Message}");
             }
         }
-       
+        [HttpGet]
+        public async Task<IActionResult> GetModerationsPost(string? postTitle, int page = 1, int pageSize = 5)
+        {
+            try
+            {
+                var query = new GetModerationPostQuerry { Page = page, PageSize = pageSize, PostTitle = postTitle };
+                var result = await _mediator.Send(query);
+
+                if (result == null)
+                {
+                    return NotFound();
+                }
+
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
+        }
+
 
 
 

@@ -121,6 +121,10 @@ namespace ModerationService.API.Models
 
                 entity.Property(e => e.CreatedBy).HasColumnName("Created_By");
 
+                entity.Property(e => e.PostId).HasColumnName("Post_Id");
+
+                entity.Property(e => e.PostTitle).HasColumnName("Post_Title");
+
                 entity.Property(e => e.Status).HasMaxLength(50);
             });
 

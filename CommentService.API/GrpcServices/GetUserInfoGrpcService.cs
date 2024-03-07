@@ -3,10 +3,10 @@ using UserGrpc;
 
 namespace GrpcServices
 {
-    public class GetUserPostGrpcService 
+    public class GetUserInfoGrpcService 
     {
         private readonly GetUserService.GetUserServiceClient service ;
-        public GetUserPostGrpcService(GetUserService.GetUserServiceClient _service)
+        public GetUserInfoGrpcService(GetUserService.GetUserServiceClient _service)
         {
             service = _service;
         }

@@ -26,8 +26,4 @@
     <Protobuf Include="Protos\getuserinfo.proto" GrpcServices="Client" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Fearture\Command\" />
-  </ItemGroup>
-
 </Project>

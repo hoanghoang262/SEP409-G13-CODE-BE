@@ -52,7 +52,7 @@ namespace ForumService.API
 
             builder.Services.AddDbContext<ForumContext>(
   options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"))
-  );
+  );         //mediator
             builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly()));
 
             var app = builder.Build();

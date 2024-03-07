@@ -5,15 +5,15 @@ namespace CommentService.API.Fearture.Queries
 {
     public class GetUserInfomation
     {
-        private readonly GetUserPostGrpcService _service;
+        private readonly GetUserInfoGrpcService _service;
         
-        public GetUserInfomation(GetUserPostGrpcService service)
+        public GetUserInfomation(GetUserInfoGrpcService service)
         {
             _service = service; 
         }
         //public CommentDTO GetInfo(int userId)
         //{
-
+        //    var
 
         //}
     }

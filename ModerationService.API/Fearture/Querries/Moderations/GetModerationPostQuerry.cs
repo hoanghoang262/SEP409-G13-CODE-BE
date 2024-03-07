@@ -12,25 +12,34 @@ using System.Threading.Tasks;
 
 namespace ModerationService.API.Feature.Queries
 {
-    public class GetModerationQuerry : IRequest<PageList<ModerationDTO>>
+    public class GetModerationPostQuerry : IRequest<PageList<ModerationDTO>>
     {
         public int Page { get; set; }
         public int PageSize { get; set; }
+        public string? PostTitle { get; set; }
 
-        public class GetModerationQuerryHandler : IRequestHandler<GetModerationQuerry, PageList<ModerationDTO>>
+        public class GetModerationPostQuerryHandler : IRequestHandler<GetModerationPostQuerry, PageList<ModerationDTO>>
         {
             private readonly Content_ModerationContext _context;
             private readonly UserIdCourseGrpcService _service;
 
-            public GetModerationQuerryHandler(Content_ModerationContext context, UserIdCourseGrpcService service)
+            public GetModerationPostQuerryHandler(Content_ModerationContext context, UserIdCourseGrpcService service)
             {
                 _context = context;
                 _service = service;
             }
 
-            public async Task<PageList<ModerationDTO>> Handle(GetModerationQuerry request, CancellationToken cancellationToken)
+            public async Task<PageList<ModerationDTO>> Handle(GetModerationPostQuerry request, CancellationToken cancellationToken)
             {
-                var moderations = await _context.Moderations.ToListAsync();
+                List<Moderation> moderations;
+                if (string.IsNullOrEmpty(request.PostTitle))
+                {
+                    moderations = await _context.Moderations.Where(x => x.PostId != null).ToListAsync();
+                }
+                else
+                {
+                    moderations = await _context.Moderations.Where(x => x.PostTitle.Contains(request.PostTitle) && x.PostId != null).ToListAsync();
+                }
 
                 if (moderations == null)
                 {
@@ -52,13 +61,13 @@ namespace ModerationService.API.Feature.Queries
                     var moderationDTO = new ModerationDTO
                     {
                         Id = moderation.Id,
-                        CourseId = moderation.CourseId,
+                        PostId = moderation.PostId,
                         ChangeType = moderation.ChangeType,
                         ApprovedContent = moderation.ApprovedContent,
                         CreatedBy = moderation.CreatedBy,
                         CreatedAt = moderation.CreatedAt,
                         Status = moderation.Status,
-                        CourseName = moderation.CourseName,
+                        PostTitle = moderation.PostTitle,
                         UserName = userName.Name // Set the UserName obtained from the service
                     };
                     moderationDTOs.Add(moderationDTO);
