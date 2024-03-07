@@ -37,6 +37,8 @@ namespace ModerationService.API.Fearture.Command
                     ApprovedContent="Phê duyệt bài đăng",
                     CreatedBy=request.CreatedBy,
                     CreatedAt=request.LastUpdate,
+                    PostId=post.Id,
+                    PostTitle=post.Title,   
                 };
 
                 return post.Id;

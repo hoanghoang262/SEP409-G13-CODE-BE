@@ -25,6 +25,10 @@ namespace ForumService.API.Fearture.Queries
             {
                 
                 var querry= await _context.Posts.ToListAsync();
+                if (querry == null)
+                {
+                    return null;
+                }
                 List<PostDTO> post=new List<PostDTO>();  
                 foreach(var c in querry)
                 {

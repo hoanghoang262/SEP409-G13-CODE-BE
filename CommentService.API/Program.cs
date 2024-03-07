@@ -1,4 +1,5 @@
 using GrpcServices;
+using System.Reflection;
 using UserGrpc;
 
 namespace CommentService.API
@@ -18,8 +19,8 @@ namespace CommentService.API
             var config = builder.Configuration.GetSection("GrpcSetting:UserUrl").Value;
             builder.Services.AddSingleton(config);
             builder.Services.AddGrpcClient<GetUserService.GetUserServiceClient>(x => x.Address = new Uri(config));
-            builder.Services.AddScoped<GetUserPostGrpcService>();
-
+            builder.Services.AddScoped<GetUserInfoGrpcService>();
+            builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly()));
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
