@@ -47,5 +47,19 @@ namespace CommentService.API.Controllers
                 return StatusCode(500, $"Error creating comment: {ex.Message}");
             }
         }
+        [HttpPut]
+        public async Task<IActionResult> UpdateComment(int id, UpdateCommentCommand command)
+        {
+            command.Id = id;
+            try
+            {
+                var result = await _mediator.Send(command);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Error updating comment: {ex.Message}");
+            }
+        }
     }
 }
