@@ -5,6 +5,6 @@
     <Controller_SelectedScaffolderCategoryPath>root/Common/Api</Controller_SelectedScaffolderCategoryPath>
     <RazorPage_SelectedScaffolderID>RazorPageScaffolder</RazorPage_SelectedScaffolderID>
     <RazorPage_SelectedScaffolderCategoryPath>root/Common/RazorPage</RazorPage_SelectedScaffolderCategoryPath>
-    <NameOfLastUsedPublishProfile>C:\Users\fpt\Desktop\HappLearning 3\SEP490-G13-CODE-BE\Authenticate_Service\Properties\PublishProfiles\AuthenticateService - Zip Deploy.pubxml</NameOfLastUsedPublishProfile>
+    <NameOfLastUsedPublishProfile>C:\Users\fpt\Desktop\HappLearning 3\SEP490-G13-CODE-BE\Authenticate_Service\Properties\PublishProfiles\AuthenticateService - Web Deploy.pubxml</NameOfLastUsedPublishProfile>
   </PropertyGroup>
 </Project>

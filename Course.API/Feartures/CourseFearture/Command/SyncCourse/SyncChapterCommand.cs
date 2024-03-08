@@ -19,12 +19,12 @@ namespace CourseService.API.Feartures.CourseFearture.Command.SyncCourse
         public class asyncChapterHandler : IRequestHandler<SyncChapterCommand, IActionResult>
         {
             private readonly Course_DeployContext _context;
-            private readonly CloudinaryService _cloudinaryService;
+          
 
-            public asyncChapterHandler(Course_DeployContext context, CloudinaryService cloudinaryService)
+            public asyncChapterHandler(Course_DeployContext context)
             {
                 _context = context;
-                _cloudinaryService = cloudinaryService;
+              
             }
             public async Task<IActionResult> Handle(SyncChapterCommand request, CancellationToken cancellationToken)
             {

@@ -22,12 +22,12 @@ namespace CourseService.API.Feartures.CourseFearture.Command.SyncCourse
         public class asyncLessonHandler : IRequestHandler<SyncLessonCommand, IActionResult>
         {
             private readonly Course_DeployContext _context;
-            private readonly CloudinaryService _cloudinaryService;
+          
 
-            public asyncLessonHandler(Course_DeployContext context, CloudinaryService cloudinaryService)
+            public asyncLessonHandler(Course_DeployContext context)
             {
                 _context = context;
-                _cloudinaryService = cloudinaryService;
+            
             }
             public async Task<IActionResult> Handle(SyncLessonCommand request, CancellationToken cancellationToken)
             {
