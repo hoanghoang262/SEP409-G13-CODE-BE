@@ -1,4 +1,4 @@
-﻿namespace AuthenticateService.API.Message
+﻿namespace AuthenticateService.API.MessageOutput
 {
     public static class Message
     {
@@ -103,14 +103,93 @@
         };
 
         /// <summary>
-        /// MSG11: Email không được để trống
+        /// MSG11: Không được để trống
         /// </summary>
         public static readonly MessageModel MSG11 = new MessageModel
         {
             MsgCode = "MSG11",
-            MsgTextVN = "Email không được để trống",
-            MsgTextEN = "Email cannot be empty"
+            MsgTextVN = "Không được để trống",
+            MsgTextEN = "Not empty"
         };
 
+        /// <summary>
+        /// MSG12: Đổi mật khẩu thành công
+        /// </summary>
+        public static readonly MessageModel MSG12 = new MessageModel
+        {
+            MsgCode = "MSG12",
+            MsgTextVN = "Đổi mật khẩu thành công",
+            MsgTextEN = "Change password successfully"
+        };
+
+        /// <summary>
+        /// MSG13: Mật khẩu cũ không chính xác
+        /// </summary>
+        public static readonly MessageModel MSG13 = new MessageModel
+        {
+            MsgCode = "MSG13",
+            MsgTextVN = "Mật khẩu cũ không chính xác",
+            MsgTextEN = "Incorrect old password"
+        };
+
+        /// <summary>
+        /// MSG14: Gửi OTP thành công
+        /// </summary>
+        public static readonly MessageModel MSG14 = new MessageModel
+        {
+            MsgCode = "MSG14",
+            MsgTextVN = "Gửi OTP thành công",
+            MsgTextEN = "Send OTP successfully"
+        };
+
+        /// <summary>
+        /// MSG15: Mã OTP không chính xác
+        /// </summary>
+        public static readonly MessageModel MSG15 = new MessageModel
+        {
+            MsgCode = "MSG15",
+            MsgTextVN = "Mã OTP không chính xác",
+            MsgTextEN = "Incorrect OTP code"
+        };
+
+        /// <summary>
+        /// MSG16: Thành công
+        /// </summary>
+        public static readonly MessageModel MSG16 = new MessageModel
+        {
+            MsgCode = "MSG16",
+            MsgTextVN = "Thành công",
+            MsgTextEN = "Success"
+        };
+
+        /// <summary>
+        /// MSG17: Mật khẩu không hợp lệ
+        /// </summary>
+        public static readonly MessageModel MSG17 = new MessageModel
+        {
+            MsgCode = "MSG17",
+            MsgTextVN = "Mật khẩu không hợp lệ",
+            MsgTextEN = "Invalid password"
+        };
+
+        /// <summary>
+        /// MSG18: Mật khẩu cũ và mật khẩu mới không được giống nhau
+        /// </summary>
+        public static readonly MessageModel MSG18 = new MessageModel
+        {
+            MsgCode = "MSG18",
+            MsgTextVN = "Mật khẩu cũ và mật khẩu mới không được giống nhau",
+            MsgTextEN = "Old password and new password must not be the same"
+        };
+
+        /// <summary>
+        /// MSG19: Sửa thông tin thành công
+        /// </summary>
+        public static readonly MessageModel MSG19 = new MessageModel
+        {
+            MsgCode = "MSG19",
+            MsgTextVN = "Sửa thông tin thành công",
+            MsgTextEN = "Update information successfully"
+        };
     }
 }

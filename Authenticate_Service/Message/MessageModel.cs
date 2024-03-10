@@ -1,4 +1,4 @@
-﻿namespace AuthenticateService.API.Message
+﻿namespace AuthenticateService.API.MessageOutput
 {
     public class MessageModel
     {

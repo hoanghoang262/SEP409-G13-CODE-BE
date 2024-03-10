@@ -1,16 +1,18 @@
 ﻿using Authenticate_Service.Common;
 using Authenticate_Service.Models;
+using AuthenticateService.API.MessageOutput;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using System.Text.RegularExpressions;
 
 namespace Authenticate_Service.Feature.AuthenticateFearture.Command.ChangePassword
 {
     public class ChangePasswordCommand : IRequest<IActionResult>
     {
-        public string Email { get; set; } 
+        public string Email { get; set; }
 
-        public string OldPassword { get; set; } 
-   
+        public string OldPassword { get; set; }
+
         public string? NewPassword { get; set; }
 
         public class ChangePasswordHandler : IRequestHandler<ChangePasswordCommand, IActionResult>
@@ -25,17 +27,38 @@ namespace Authenticate_Service.Feature.AuthenticateFearture.Command.ChangePasswo
 
             public async Task<IActionResult> Handle(ChangePasswordCommand request, CancellationToken cancellationToken)
             {
-                var user = _context.Users.FirstOrDefault(u => u.Email == request.Email&& u.Password==request.OldPassword);
+                // Validate input
+                if (string.IsNullOrEmpty(request.OldPassword) || string.IsNullOrEmpty(request.NewPassword))
+                {
+                    return new BadRequestObjectResult(Message.MSG11);
+                }
+
+                // Check user old password
+                var user = _context.Users.FirstOrDefault(u => u.Email == request.Email && u.Password == request.OldPassword);
                 if (user == null)
                 {
-                    return new BadRequestObjectResult("Check your email or password again");
+                    return new BadRequestObjectResult(Message.MSG13);
                 }
-               
-                user.Password =request.NewPassword;
+
+                // Validate password
+                string pattern = "^(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*()-_+=])[A-Za-z0-9!@#$%^&*()-_+=]{8,32}$";
+                Regex regex = new Regex(pattern);
+                if (!regex.IsMatch(request.NewPassword))
+                {
+                    return new BadRequestObjectResult(Message.MSG17);
+                }
+
+                // Check password is the same as old password
+                if (request.OldPassword.Equals(request.NewPassword))
+                {
+                    return new BadRequestObjectResult(Message.MSG18);
+                }
+
+                user.Password = request.NewPassword;
 
                 await _context.SaveChangesAsync();
 
-                return new OkObjectResult("Your password has been successfully changed " );
+                return new OkObjectResult(Message.MSG12);
             }
         }
     }
