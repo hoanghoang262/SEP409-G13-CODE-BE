@@ -1,6 +1,6 @@
 ﻿using Authenticate_Service.Common;
 using Authenticate_Service.Models;
-using AuthenticateService.API.Message;
+using AuthenticateService.API.MessageOutput;
 using Google;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -29,13 +29,18 @@ namespace Authenticate_Service.Feature.AuthenticateFearture.Command.Login
             {
                 try
                 {
-                    var user = _context.Users.FirstOrDefault(u => u.UserName == request.UserName && u.Password == request.Password);
+                    // Validate input
+                    if (String.IsNullOrEmpty(request.UserName) || String.IsNullOrEmpty(request.Password))
+                    {
+                        return new BadRequestObjectResult(Message.MSG11);
+                    }
 
+                    var user = _context.Users.FirstOrDefault(u => u.UserName == request.UserName && u.Password == request.Password);
                     if (user != null)
                     {
                         if (user.EmailConfirmed == false)
                         {
-                            return new BadRequestObjectResult(Message.MG03);
+                            return new BadRequestObjectResult(Message.MSG03);
                         }
 
                         var userId = user.Id;
@@ -50,15 +55,16 @@ namespace Authenticate_Service.Feature.AuthenticateFearture.Command.Login
                         return new OkObjectResult(new
                         {
                             token = new JwtSecurityTokenHandler().WriteToken(token),
-                            expiration = token.ValidTo
+                            expiration = token.ValidTo,
+                            Message.MSG02
                         });
                     }
                     else if (user == null)
                     {
-                        return new BadRequestObjectResult(Message.MG01);
+                        return new BadRequestObjectResult(Message.MSG01);
                     }
 
-                    return new OkObjectResult(Message.MG04);
+                    return new OkObjectResult(Message.MSG04);
                 }
                 catch (GoogleApiException)
                 {

@@ -1,9 +1,9 @@
-﻿namespace AuthenticateService.API.Message
+﻿namespace AuthenticateService.API.MessageOutput
 {
     public class MessageModel
     {
-        public string? MgCode { get; set; }
-        public string? MgTextVN { get; set; }
-        public string? MgTextEN { get; set; }
+        public string? MsgCode { get; set; }
+        public string? MsgTextVN { get; set; }
+        public string? MsgTextEN { get; set; }
     }
 }

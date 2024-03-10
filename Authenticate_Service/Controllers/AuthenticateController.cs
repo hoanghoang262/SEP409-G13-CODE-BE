@@ -6,9 +6,9 @@ using Contract.Service;
 using Microsoft.EntityFrameworkCore;
 using Contract.Service.Configuration;
 using Authenticate_Service.Common;
-using Microsoft.AspNetCore.Http.Extensions;
 using AuthenticateService.API.Common.DTO;
-using AuthenticateService.API.Message;
+using AuthenticateService.API.MessageOutput;
+using System.Text.RegularExpressions;
 
 
 
@@ -33,7 +33,6 @@ namespace Authenticated.Controllers
         [HttpPost]
         public async Task<IActionResult> LoginGoogle(LoginGoogleCommand command)
         {
-
             return Ok(await _mediator.Send(command));
         }
 
@@ -42,16 +41,40 @@ namespace Authenticated.Controllers
         {
             return Ok(await _mediator.Send(command));
         }
+
         [HttpPost]
         public async Task<IActionResult> SignUp(SignUpModel request)
         {
+            // Validate input
+            if (String.IsNullOrEmpty(request.UserName) || String.IsNullOrEmpty(request.Password) || String.IsNullOrEmpty(request.Email))
+            {
+                return new BadRequestObjectResult(Message.MSG11);
+            }
+
+            // Validate email
+            string emailPattern = @"^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$";
+            Regex emailRegex = new Regex(emailPattern);
+            if (!emailRegex.IsMatch(request.Email))
+            {
+                return new BadRequestObjectResult(Message.MSG09);
+            }
+
+            // Validate password
+            string passwordPattern = "^(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*()-_+=])[A-Za-z0-9!@#$%^&*()-_+=]{8,32}$";
+            Regex passwordRegex = new Regex(passwordPattern);
+            if (!passwordRegex.IsMatch(request.Password))
+            {
+                return new BadRequestObjectResult(Message.MSG17);
+            }
+
+            // Check email and username exist
             if (context.Users.Any(u => u.Email == request.Email))
             {
-                return new BadRequestObjectResult(Message.MG06);
+                return new BadRequestObjectResult(Message.MSG06);
             }
-            if (context.Users.Any(u => u.UserName == request.UserName))
+            else if (context.Users.Any(u => u.UserName == request.UserName))
             {
-                return new BadRequestObjectResult(Message.MG07);
+                return new BadRequestObjectResult(Message.MSG07);
             }
             else
             {
@@ -68,32 +91,30 @@ namespace Authenticated.Controllers
                 var message = new MailRequest
                 {
                     Body = @$"
-<html>
-    <body>
-        <div style='font-family: Arial, sans-serif; color: #333;'>
-            <h2 style='color: #0056b3;'>Welcome to Happy Learning, {request.UserName}!</h2>
-            <p>Thank you for signing up. Please confirm your email address to activate your account.</p>
-            <p style='margin: 20px 0;'>
-                <a href='{callbackUrl}' style='background-color: #0056b3; color: #ffffff; padding: 10px 20px; text-decoration: none; border-radius: 5px;'>Confirm Email</a>
-            </p>
-            <p>If you did not create an account using this email address, please ignore this email.</p>
-        </div>
-    </body>
-</html>",
-
+                                <html>
+                                    <body>
+                                        <div style='font-family: Arial, sans-serif; color: #333;'>
+                                            <h2 style='color: #0056b3;'>Welcome to Happy Learning, {request.UserName}!</h2>
+                                            <p>Thank you for signing up. Please confirm your email address to activate your account.</p>
+                                            <p style='margin: 20px 0;'>
+                                                <a href='{callbackUrl}' style='background-color: #0056b3; color: #ffffff; padding: 10px 20px; text-decoration: none; border-radius: 5px;'>Confirm Email</a>
+                                            </p>
+                                            <p>If you did not create an account using this email address, please ignore this email.</p>
+                                        </div>
+                                    </body>
+                                </html>",
                     ToAddress = request.Email,
                     Subject = "Confirm Your Email "
                 };
                 await _emailService.SendEmailasync(message);
 
-                return new OkObjectResult(Message.MG08);
+                return new OkObjectResult(Message.MSG08);
 
             }
         }
         [HttpGet]
         public async Task<IActionResult> GetUser(int id)
         {
-
             var user = await context.Users.FirstOrDefaultAsync(u => u.Id.Equals(id));
 
             return Ok(user);
@@ -102,7 +123,6 @@ namespace Authenticated.Controllers
         public async Task<IActionResult> ConfirmEmail(int userId)
         {
             var user = await context.Users.FindAsync(userId);
-
             user.EmailConfirmed = true;
             await context.SaveChangesAsync();
 

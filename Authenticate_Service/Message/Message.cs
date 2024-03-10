@@ -1,116 +1,195 @@
-﻿namespace AuthenticateService.API.Message
+﻿namespace AuthenticateService.API.MessageOutput
 {
     public static class Message
     {
         /// <summary>
-        /// MG01: Tài khoản không tồn tại
+        /// MSG01: Tài khoản không tồn tại
         /// </summary>
-        public static readonly MessageModel MG01 = new MessageModel
+        public static readonly MessageModel MSG01 = new MessageModel
         {
-            MgCode = "MG01",
-            MgTextVN = "Tài khoản không tồn tại",
-            MgTextEN = "Account does not exist"
+            MsgCode = "MSG01",
+            MsgTextVN = "Tài khoản không tồn tại",
+            MsgTextEN = "Account does not exist"
         };
 
         /// <summary>
-        /// MG02: Đăng nhập thành công
+        /// MSG02: Đăng nhập thành công
         /// </summary>
-        public static readonly MessageModel MG02 = new MessageModel
+        public static readonly MessageModel MSG02 = new MessageModel
         {
-            MgCode = "MG02",
-            MgTextVN = "Đăng nhập thành công",
-            MgTextEN = "Login successfully"
+            MsgCode = "MSG02",
+            MsgTextVN = "Đăng nhập thành công",
+            MsgTextEN = "Login successfully"
         };
 
         /// <summary>
-        /// MG03: Email này chưa được xác nhận
+        /// MSG03: Email này chưa được xác nhận
         /// </summary>
-        public static readonly MessageModel MG03 = new MessageModel
+        public static readonly MessageModel MSG03 = new MessageModel
         {
-            MgCode = "MG03",
-            MgTextVN = "Email này chưa được xác nhận",
-            MgTextEN = "This email has not been confirmed"
+            MsgCode = "MSG03",
+            MsgTextVN = "Email này chưa được xác nhận",
+            MsgTextEN = "This email has not been confirmed"
         };
 
         /// <summary>
-        /// MG04: Mật khẩu không chính xác, vui lòng kiểm tra lại
+        /// MSG04: Mật khẩu không chính xác, vui lòng kiểm tra lại
         /// </summary>
-        public static readonly MessageModel MG04 = new MessageModel
+        public static readonly MessageModel MSG04 = new MessageModel
         {
-            MgCode = "MG04",
-            MgTextVN = "Mật khẩu không chính xác, vui lòng kiểm tra lại",
-            MgTextEN = "Incorrect password, please check again"
+            MsgCode = "MSG04",
+            MsgTextVN = "Mật khẩu không chính xác, vui lòng kiểm tra lại",
+            MsgTextEN = "Incorrect password, please check again"
         };
 
         /// <summary>
-        /// MG05: Đăng ký thành công
+        /// MSG05: Đăng ký thành công
         /// </summary>
-        public static readonly MessageModel MG05 = new MessageModel
+        public static readonly MessageModel MSG05 = new MessageModel
         {
-            MgCode = "MG05",
-            MgTextVN = "Đăng ký thành công",
-            MgTextEN = "Register successfully"
+            MsgCode = "MSG05",
+            MsgTextVN = "Đăng ký thành công",
+            MsgTextEN = "Register successfully"
         };
 
         /// <summary>
-        /// MG06: Email này đã được đăng ký, vui lòng sử dụng một email khác
+        /// MSG06: Email này đã được đăng ký, vui lòng sử dụng một email khác
         /// </summary>
-        public static readonly MessageModel MG06 = new MessageModel
+        public static readonly MessageModel MSG06 = new MessageModel
         {
-            MgCode = "MG06",
-            MgTextVN = "Email này đã được đăng ký, vui lòng sử dụng một email khác",
-            MgTextEN = "This email has been registered, please use another email"
+            MsgCode = "MSG06",
+            MsgTextVN = "Email này đã được đăng ký, vui lòng sử dụng một email khác",
+            MsgTextEN = "This email has been registered, please use another email"
         };
 
         /// <summary>
-        /// MG07: Tên tài khoản này đã được đăng ký, vui lòng sử dụng một tài khoản khác
+        /// MSG07: Tên tài khoản này đã được đăng ký, vui lòng sử dụng một tài khoản khác
         /// </summary>
-        public static readonly MessageModel MG07 = new MessageModel
+        public static readonly MessageModel MSG07 = new MessageModel
         {
-            MgCode = "MG07",
-            MgTextVN = "Tên tài khoản này đã được đăng ký, vui lòng sử dụng một tài khoản khác",
-            MgTextEN = "This username has been registered, please use another username"
+            MsgCode = "MSG07",
+            MsgTextVN = "Tên tài khoản này đã được đăng ký, vui lòng sử dụng một tài khoản khác",
+            MsgTextEN = "This username has been registered, please use another username"
         };
 
         /// <summary>
-        /// MG08: Email xác nhận đã được gửi, vui lòng kiểm tra email để xác nhận tài khoản
+        /// MSG08: Email xác nhận đã được gửi, vui lòng kiểm tra email để xác nhận tài khoản
         /// </summary>
-        public static readonly MessageModel MG08 = new MessageModel
+        public static readonly MessageModel MSG08 = new MessageModel
         {
-            MgCode = "MG08",
-            MgTextVN = "Email xác nhận đã được gửi, vui lòng kiểm tra email để xác nhận tài khoản",
-            MgTextEN = "Confirmation email has been sent, please check your email to confirm your account"
+            MsgCode = "MSG08",
+            MsgTextVN = "Email xác nhận đã được gửi, vui lòng kiểm tra email để xác nhận tài khoản",
+            MsgTextEN = "Confirmation email has been sent, please check your email to confirm your account"
         };
 
         /// <summary>
-        /// MG09: Email không hợp lệ
+        /// MSG09: Email không hợp lệ
         /// </summary>
-        public static readonly MessageModel MG09 = new MessageModel
+        public static readonly MessageModel MSG09 = new MessageModel
         {
-            MgCode = "MG09",
-            MgTextVN = "Email không hợp lệ",
-            MgTextEN = "Invalid email"
+            MsgCode = "MSG09",
+            MsgTextVN = "Email không hợp lệ",
+            MsgTextEN = "Invalid email"
         };
 
         /// <summary>
-        /// MG10: Email không tồn tại
+        /// MSG10: Email không tồn tại
         /// </summary>
-        public static readonly MessageModel MG10 = new MessageModel
+        public static readonly MessageModel MSG10 = new MessageModel
         {
-            MgCode = "MG10",
-            MgTextVN = "Email không tồn tại",
-            MgTextEN = "Email does not exist"
+            MsgCode = "MSG10",
+            MsgTextVN = "Email không tồn tại",
+            MsgTextEN = "Email does not exist"
         };
 
         /// <summary>
-        /// MG11: Email không được để trống
+        /// MSG11: Không được để trống
         /// </summary>
-        public static readonly MessageModel MG11 = new MessageModel
+        public static readonly MessageModel MSG11 = new MessageModel
         {
-            MgCode = "MG11",
-            MgTextVN = "Email không được để trống",
-            MgTextEN = "Email cannot be empty"
+            MsgCode = "MSG11",
+            MsgTextVN = "Không được để trống",
+            MsgTextEN = "Not empty"
         };
 
+        /// <summary>
+        /// MSG12: Đổi mật khẩu thành công
+        /// </summary>
+        public static readonly MessageModel MSG12 = new MessageModel
+        {
+            MsgCode = "MSG12",
+            MsgTextVN = "Đổi mật khẩu thành công",
+            MsgTextEN = "Change password successfully"
+        };
+
+        /// <summary>
+        /// MSG13: Mật khẩu cũ không chính xác
+        /// </summary>
+        public static readonly MessageModel MSG13 = new MessageModel
+        {
+            MsgCode = "MSG13",
+            MsgTextVN = "Mật khẩu cũ không chính xác",
+            MsgTextEN = "Incorrect old password"
+        };
+
+        /// <summary>
+        /// MSG14: Gửi OTP thành công
+        /// </summary>
+        public static readonly MessageModel MSG14 = new MessageModel
+        {
+            MsgCode = "MSG14",
+            MsgTextVN = "Gửi OTP thành công",
+            MsgTextEN = "Send OTP successfully"
+        };
+
+        /// <summary>
+        /// MSG15: Mã OTP không chính xác
+        /// </summary>
+        public static readonly MessageModel MSG15 = new MessageModel
+        {
+            MsgCode = "MSG15",
+            MsgTextVN = "Mã OTP không chính xác",
+            MsgTextEN = "Incorrect OTP code"
+        };
+
+        /// <summary>
+        /// MSG16: Thành công
+        /// </summary>
+        public static readonly MessageModel MSG16 = new MessageModel
+        {
+            MsgCode = "MSG16",
+            MsgTextVN = "Thành công",
+            MsgTextEN = "Success"
+        };
+
+        /// <summary>
+        /// MSG17: Mật khẩu không hợp lệ
+        /// </summary>
+        public static readonly MessageModel MSG17 = new MessageModel
+        {
+            MsgCode = "MSG17",
+            MsgTextVN = "Mật khẩu không hợp lệ",
+            MsgTextEN = "Invalid password"
+        };
+
+        /// <summary>
+        /// MSG18: Mật khẩu cũ và mật khẩu mới không được giống nhau
+        /// </summary>
+        public static readonly MessageModel MSG18 = new MessageModel
+        {
+            MsgCode = "MSG18",
+            MsgTextVN = "Mật khẩu cũ và mật khẩu mới không được giống nhau",
+            MsgTextEN = "Old password and new password must not be the same"
+        };
+
+        /// <summary>
+        /// MSG19: Sửa thông tin thành công
+        /// </summary>
+        public static readonly MessageModel MSG19 = new MessageModel
+        {
+            MsgCode = "MSG19",
+            MsgTextVN = "Sửa thông tin thành công",
+            MsgTextEN = "Update information successfully"
+        };
     }
 }
