@@ -47,26 +47,33 @@ namespace ReverseProxy
                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["JWT:Secret"]))
                 };
             });
-         
 
-            builder.Configuration.SetBasePath(builder.Environment.ContentRootPath).
-                AddJsonFile("ocelot_Local.json", optional: false, reloadOnChange: true).
-                AddJsonFile("ocelot.json", optional: false, reloadOnChange: true).AddEnvironmentVariables();
-            builder.Services.AddOcelot(builder.Configuration).AddPolly();
+            builder.Services.AddSwaggerForOcelot(builder.Configuration, x =>
+            {
+                x.GenerateDocsForGatewayItSelf = false;
+
+            });
+
+            builder.Configuration.AddJsonFile("ocelot.json", optional: false, reloadOnChange: true);
+            builder.Services.AddOcelot(builder.Configuration);
+
             var app = builder.Build();
             app.UseHttpsRedirection();
 
 
             app.UseHttpsRedirection();
-
+          
             app.UseAuthorization();
+            
 
-
-
+            
             app.MapControllers();
             app.UseAuthentication();
             app.UseOcelot();
-
+            app.UseSwaggerForOcelotUI(opt =>
+            {
+                opt.PathToSwaggerGenerator = "/swagger/docs";
+            });
             // app.MapReverseProxy();
 
             app.Run();
