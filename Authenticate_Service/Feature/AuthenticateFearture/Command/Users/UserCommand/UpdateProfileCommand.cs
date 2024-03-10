@@ -2,6 +2,7 @@
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using AuthenticateService.API.MessageOutput;
+using Microsoft.EntityFrameworkCore;
 
 namespace AuthenticateService.API.Feature.AuthenticateFearture.Command.Users.UserCommand
 {
@@ -9,10 +10,10 @@ namespace AuthenticateService.API.Feature.AuthenticateFearture.Command.Users.Use
     {
         public int UserId { get; set; }
         public string? FullName { get; set; }
-        public string? Email { get; set; }
-        public string? LastName { get; set; }
+        public string? Address { get; set; }
+        public DateTime BirthDate { get; set; }
+        public string? FacebookLink { get; set; }
         public string? ProfilePict { get; set; }
-        public bool? Status { get; set; }
         public string? UserName { get; set; }
 
     }
@@ -28,6 +29,7 @@ namespace AuthenticateService.API.Feature.AuthenticateFearture.Command.Users.Use
 
         public async Task<IActionResult> Handle(UpdateProfileCommand request, CancellationToken cancellationToken)
         {
+            // Check user is exist
             var user = await _context.Users.FindAsync(request.UserId);
             if (user == null)
             {
@@ -35,10 +37,19 @@ namespace AuthenticateService.API.Feature.AuthenticateFearture.Command.Users.Use
             }
 
             user.FullName = request.FullName ?? user.FullName;
-            user.LastName = request.LastName ?? user.LastName;
+            user.Address = request.Address ?? user.Address;
+            user.BirthDate = request.BirthDate;
+            user.FacebookLink = request.FacebookLink ?? user.FacebookLink;
             user.ProfilePict = request.ProfilePict ?? user.ProfilePict;
-            user.Status = request.Status ?? user.Status;
             user.UserName = request.UserName ?? user.UserName;
+
+            // Check username is exist
+            var userExist = await _context.Users.FirstOrDefaultAsync(x => x.UserName.Equals(user.UserName));
+            if (userExist != null)
+            {
+                return new BadRequestObjectResult(Message.MSG06);
+            }
+
 
             await _context.SaveChangesAsync(cancellationToken);
 

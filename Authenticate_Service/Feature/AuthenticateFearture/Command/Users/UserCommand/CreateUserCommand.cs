@@ -31,7 +31,6 @@ namespace Authenticate_Service.Feature.AuthenticateFearture.Command.Users.UserCo
                 FullName = request.FullName,
                 Email = request.Email,
                 Password = request.Password,
-                LastName = request.LastName,
                 ProfilePict = request.ProfilePict,
                 Status = request.Status,
                 RoleId = request.RoleId
