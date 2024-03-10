@@ -3,11 +3,12 @@
     "Name": "New Profile",
     "Projects": [
       {
-        "Name": "ModerationService.API\\ModerationService.API.csproj",
-        "Action": "Start"
+        "Name": "ForumService.API\\ForumService.API.csproj",
+        "Action": "Start",
+        "DebugTarget": ""
       },
       {
-        "Name": "ForumService.API\\ForumService.API.csproj",
+        "Name": "CommentService.API\\CommentService.API.csproj",
         "Action": "Start"
       }
     ]

@@ -1,4 +1,8 @@
+using CommentService.API.Models;
+using ForumService.API.MessageBroker;
 using GrpcServices;
+using MassTransit;
+using Microsoft.EntityFrameworkCore;
 using System.Reflection;
 using UserGrpc;
 
@@ -21,6 +25,29 @@ namespace CommentService.API
             builder.Services.AddGrpcClient<GetUserService.GetUserServiceClient>(x => x.Address = new Uri(config));
             builder.Services.AddScoped<GetUserInfoGrpcService>();
             builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly()));
+            builder.Services.AddDbContext<CommentContext>(
+  oprions => oprions.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"))
+  );
+            builder.Services.AddAutoMapper(Assembly.GetExecutingAssembly());
+
+            var configuration = builder.Configuration.GetSection("EventBusSetting:HostAddress").Value;
+
+            var mqConnection = new Uri(configuration);
+
+            builder.Services.AddMassTransit(config =>
+            {
+
+                config.AddConsumersFromNamespaceContaining<EventPostIdHandler>();
+
+                config.UsingRabbitMq((ctx, cfg) =>
+                {
+                    cfg.Host(mqConnection);
+                    cfg.ConfigureEndpoints(ctx);
+
+                });
+
+            });
+
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.

@@ -1,6 +1,6 @@
 {
   "GlobalConfiguration": {
-    "BaseURL": "https://apigatewayocelot.azurewebsites.net/"
+    "BaseURL": "https://apigatewayocelot.azurewebsites.net"
   },
   "Routes": [
     //course api
@@ -20,7 +20,7 @@
 
         }
       ],
-      "UpstreamPathTemplate": "/api/{controller}/{action}",
+      "UpstreamPathTemplate": "/api-gateway/{controller}/{action}",
       "UpstreamHttpMethod": [ "POST", "PUT", "GET" ],
 
       "SwaggerKey": "course"

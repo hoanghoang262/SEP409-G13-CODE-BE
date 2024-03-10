@@ -49,5 +49,13 @@ namespace ForumService.API.Controllers
                 return StatusCode(500, $"Error getting post by id: {ex.Message}");
             }
         }
+        [HttpDelete]
+        public async Task<IActionResult> DeletePost(int postId)
+        {
+            var command = new DeletePostCommand { PostId = postId };
+            var result = await _mediator.Send(command);
+
+            return result;
+        }
     }
 }
