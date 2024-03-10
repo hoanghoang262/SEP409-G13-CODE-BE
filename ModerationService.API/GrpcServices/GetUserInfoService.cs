@@ -1,12 +1,11 @@
-﻿
-using UserGrpc;
+﻿using UserGrpc;
 
-namespace GrpcServices
+namespace ModerationService.API.GrpcServices
 {
-    public class GetUserInfoGrpcService 
+    public class GetUserInfoService
     {
-        private readonly GetUserService.GetUserServiceClient service ;
-        public GetUserInfoGrpcService(GetUserService.GetUserServiceClient _service)
+        private readonly GetUserService.GetUserServiceClient service;
+        public GetUserInfoService(GetUserService.GetUserServiceClient _service)
         {
             service = _service;
         }
@@ -23,7 +22,6 @@ namespace GrpcServices
                 throw;
             }
         }
-
-        
     }
 }
+

@@ -8,8 +8,7 @@ namespace ForumService.API.Fearture.Queries
 {
     public class GetAllCommentCourseQuerry : IRequest<List<CommentDTO>>
     {
-
-
+        public int CoursesId { get; set; }
         public class GetAllCommentCourseQuerryHandler : IRequestHandler<GetAllCommentCourseQuerry, List<CommentDTO>>
         {
             private readonly GetUserInfoGrpcService _service;
@@ -22,17 +21,32 @@ namespace ForumService.API.Fearture.Queries
             public async Task<List<CommentDTO>> Handle(GetAllCommentCourseQuerry request, CancellationToken cancellationToken)
             {
 
-                var querry = await _context.Comments.Where(c => c.CourseId != null).ToListAsync();
+                var querry = await _context.Comments.Include(c => c.Replies).Where(c => c.CourseId != null&& c.CourseId.Equals(request.CoursesId)).ToListAsync();
                 if(querry == null)
                 {
                     return null;
                 }
-                List<CommentDTO> post = new List<CommentDTO>();
+                List<CommentDTO> course = new List<CommentDTO>();
                 foreach (var c in querry)
                 {
                     var id = c.UserId;
                     var userInfo = await _service.SendUserId(id);
-                    post.Add(new CommentDTO
+
+                    List<ReplyDTO> replies = new List<ReplyDTO>();
+                    foreach (var reply in c.Replies)
+                    {
+                        var replyUserInfo = await _service.SendUserId(reply.UserId);
+                        replies.Add(new ReplyDTO
+                        {
+                            CommentId = reply.CommentId,
+                            ReplyContent = reply.ReplyContent,
+                            UserId = reply.UserId,
+                            Id = reply.Id,
+                            UserName = replyUserInfo.Name
+                        });
+                    }
+
+                    course.Add(new CommentDTO
                     {
                         UserId = c.UserId,
                         UserName = userInfo.Name,
@@ -40,12 +54,12 @@ namespace ForumService.API.Fearture.Queries
                         Date = c.Date,
                         Picture = userInfo.Picture,
                         Id = userInfo.Id,
+                        Replies = replies
                     });
-
                 }
 
 
-                return post;
+                return course;
             }
         }
     }

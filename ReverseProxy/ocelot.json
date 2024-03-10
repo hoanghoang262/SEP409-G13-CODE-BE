@@ -1,103 +1,136 @@
 {
   "GlobalConfiguration": {
-    "BaseURL": "http://reverseproxy"
+    "BaseURL": "https://apigatewayocelot.azurewebsites.net/"
   },
   "Routes": [
-    //CourseService
+    //course api
     {
       "DownstreamPathTemplate": "/api/{controller}/{action}",
-      "AuthenticationOptions": {
-        //"AuthenticationProviderKey": "Bearer",
-        //"AllowedScopes": []
-      },
-      "RouteClaimsRequirement": {
-        //"Role": "Admin Bussiness,Admin System"
-      },
-      "DownstreamScheme": "http",
+      //"AuthenticationOptions": {
+      //  "AuthenticationProviderKey": "Bearer",
+      //  "AllowedScopes": []
+      //},
+      //"RouteClaimsRequirement": {
+      //  "Role": "Administrator"
+      //},
+      "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
-          "Host": "host.docker.internal",
-          //duong dan docker
-          "Port": 6002
+          "Host": "coursesservices.azurewebsites.net"
+
         }
       ],
-      "UpstreamPathTemplate": "/course-gateway/{controller}/{action}",
-      "UpstreamHttpMethod": [ "POST", "PUT", "GET" ]
+      "UpstreamPathTemplate": "/api/{controller}/{action}",
+      "UpstreamHttpMethod": [ "POST", "PUT", "GET" ],
+
+      "SwaggerKey": "course"
 
     },
 
-
-    //{
-    //  "DownstreamPathTemplate": "/api/{controller}/{action}",
-    //  "AuthenticationOptions": {
-    //    "AuthenticationProviderKey": "Bearer",
-    //    "AllowedScopes": []
-    //  },
-    //  "RouteClaimsRequirement": {
-    //    "Role": "Administrator"
-    //  },
-    //  "DownstreamScheme": "http",
-    //  "DownstreamHostAndPorts": [
-    //    {
-    //      "Host": "host.docker.internal",
-    //      //duong dan docker
-    //      "Port": 6002
-    //    }
-    //  ],
-    //  "UpstreamPathTemplate": "/course-gateway/{controller}/{action}",
-    //  "UpstreamHttpMethod": [ "GET" ]
-    //},
-
-    //Authenticate service host
+    //authen
     {
       "DownstreamPathTemplate": "/api/{controller}/{action}",
-      "DownstreamScheme": "http",
+      "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
-          "Host": "host.docker.internal",
+          "Host": "authenticateservice.azurewebsites.net"
           //duong dan docker
-          "Port": 6001
+
         }
       ],
-      "QoSOptions": {
-        "ExceptionsAllowedBeforeBreaking": 2,
-        "DurationOfBreak": 1000,
-        "TimeoutValue": 5000
-
-      },
-      "UpstreamPathTemplate": "/authen-gateway/{controller}/{action}",
-      "UpstreamHttpMethod": [ "POST", "PUT", "GET" ]
+      "UpstreamPathTemplate": "/api/{controller}/{action}",
+      "UpstreamHttpMethod": [ "POST", "PUT", "GET" ],
+      "SwaggerKey": "authen"
       //"AuthenticationOptions": {
       //  "AuthenticationProviderKey": "IdentityApiKey",
       //  "AllowedScopes": []
       //}
 
     },
-    // Moderation service host
+    //moderation
     {
       "DownstreamPathTemplate": "/api/{controller}/{action}",
-      "AuthenticationOptions": {
-        "AuthenticationProviderKey": "Bearer",
-        "AllowedScopes": []
-      },
-      "RouteClaimsRequirement": {
-        "Role": "Admin System"
-      },
-      "DownstreamScheme": "http",
+      "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
-          "Host": "host.docker.internal",
+          "Host": "moderationservice.azurewebsites.net"
           //duong dan docker
-          "Port": 6004
+
         }
       ],
-      "UpstreamPathTemplate": "/moderation-gatewayd/{controller}/{action}",
-      "UpstreamHttpMethod": [ "POST", "PUT", "GET" ]
+      "UpstreamPathTemplate": "/api/{controller}/{action}",
+      "UpstreamHttpMethod": [ "POST", "PUT", "GET" ],
+      "SwaggerKey": "moderation"
       //"AuthenticationOptions": {
       //  "AuthenticationProviderKey": "IdentityApiKey",
       //  "AllowedScopes": []
       //}
 
+    },
+    {
+      "DownstreamPathTemplate": "/api/{controller}/{action}",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "forumservices.azurewebsites.net"
+          //duong dan docker
+
+        }
+      ],
+      "UpstreamPathTemplate": "/forum/{controller}/{action}",
+      "UpstreamHttpMethod": [ "POST", "PUT", "GET" ],
+      "SwaggerKey": "forum"
+      //"AuthenticationOptions": {
+      //  "AuthenticationProviderKey": "IdentityApiKey",
+      //  "AllowedScopes": []
+      //}
+
+    }
+  ],
+  "SwaggerEndPoints": [
+    {
+      "Key": "course",
+      "TransformByOcelotConfig": false,
+      "Config": [
+        {
+          "Name": "CourseService.API",
+          "Version": "v1",
+          "Url": "https://coursesservices.azurewebsites.net/swagger/v1/swagger.json"
+        }
+      ]
+    },
+    {
+      "Key": "authen",
+      "TransformByOcelotConfig": false,
+      "Config": [
+        {
+          "Name": "AuthenticateService.API",
+          "Version": "v1",
+          "Url": "https://authenticateservice.azurewebsites.net/swagger/v1/swagger.json"
+        }
+      ]
+    },
+    {
+      "Key": "moderation",
+      "TransformByOcelotConfig": false,
+      "Config": [
+        {
+          "Name": "ModerationService.API",
+          "Version": "v1",
+          "Url": "https://moderationservice.azurewebsites.net/swagger/v1/swagger.json"
+        }
+      ]
+    },
+    {
+      "Key": "forum",
+      "TransformByOcelotConfig": false,
+      "Config": [
+        {
+          "Name": "ForumService.API",
+          "Version": "v1",
+          "Url": "https://forumservices.azurewebsites.net/swagger/v1/swagger.json"
+        }
+      ]
     }
 
   ]

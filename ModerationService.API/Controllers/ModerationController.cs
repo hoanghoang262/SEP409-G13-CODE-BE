@@ -4,6 +4,7 @@ using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using ModerationService.API.Fearture.Command;
 using ModerationService.API.Fearture.Command.Moderations;
+using ModerationService.API.Fearture.Querries.Moderations;
 using ModerationService.API.Feature.Queries;
 using ModerationService.API.Models;
 
@@ -22,8 +23,15 @@ namespace ModerationService.API.Controllers
             _context= context;
           
         }
+        [HttpGet]
 
+        public async Task<IActionResult> GetModerationCourseById(int courseId)
+        {
+            var query = new GetModerationCourseByIdQuerry { CourseId = courseId };
+            var result = await _mediator.Send(query);
 
+            return result;
+        }
         [HttpPost]
         public async Task<ActionResult> AddCourse(CreateCourseCommand command)
         {
@@ -42,7 +50,7 @@ namespace ModerationService.API.Controllers
 
             return Ok(await _mediator.Send(new ModerationPostCommand { PostId = postId }));
         }
-        [HttpPost]
+        [HttpPut]
 
         public async Task<ActionResult> UpdateCourse(UpdateCourseCommand command)
         {
