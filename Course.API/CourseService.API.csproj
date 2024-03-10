@@ -9,6 +9,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Protos\getuserinfo.proto" />
     <None Remove="Protos\user.proto" />
   </ItemGroup>
 
@@ -45,6 +46,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Protobuf Include="Protos\getuserinfo.proto" GrpcServices="Client" />
     <Protobuf Include="Protos\user.proto">
       <GrpcServices>Client</GrpcServices>
     </Protobuf>

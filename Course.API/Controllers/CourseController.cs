@@ -24,9 +24,17 @@ namespace CourseService.Controllers
 
 
         [HttpGet]
-        public async Task<IActionResult> GetAllCourses()
+        public async Task<IActionResult> GetAllCourses([FromQuery] GetAllCourseQuerry query)
         {
-            return Ok(await _mediator.Send(new GetAllCourseQuerry()));
+           
+            var result = await _mediator.Send(query);
+
+            if (result == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(result);
         }
         [HttpGet]
         public async Task<IActionResult> GetCourseByUser(int Id)
@@ -39,7 +47,66 @@ namespace CourseService.Controllers
         {
             return Ok(await _mediator.Send(new GetCourseByCourseIdQuerry { CourseId = Id }));
         }
+        [HttpGet]
+        public async Task<IActionResult> GetLessonById(int lessonId)
+        {
+            try
+            {
+                var query = new GetLessonByIdQuerry { LessonId = lessonId };
+                var result = await _mediator.Send(query);
 
+                if (result == null)
+                {
+                    return NotFound();
+                }
+
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Error getting lesson by id: {ex.Message}");
+            }
+        }
+        [HttpGet]
+        public async Task<IActionResult> GetChapterById(int chapterId)
+        {
+            try
+            {
+                var query = new GetChapterByIdQuerry { ChapterId = chapterId };
+                var result = await _mediator.Send(query);
+
+                if (result == null)
+                {
+                    return NotFound();
+                }
+
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Error getting lesson by id: {ex.Message}");
+            }
+        }
+        [HttpGet]
+        public async Task<IActionResult> GetPracticeQuestionById(int practiceQuestionId)
+        {
+            try
+            {
+                var query = new GetPracticeQuestionByIdQuerry { PracticeQuestionId = practiceQuestionId };
+                var result = await _mediator.Send(query);
+
+                if (result == null)
+                {
+                    return NotFound();
+                }
+
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Error getting practice question by id: {ex.Message}");
+            }
+        }
 
 
     }

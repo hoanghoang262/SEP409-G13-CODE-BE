@@ -2,6 +2,7 @@
 using CloudinaryDotNet;
 using CompileCodeOnline;
 using CourseService.API.Controllers;
+using CourseService.API.GrpcServices;
 using CourseService.API.MessageBroker;
 using CourseService.API.Models;
 using GrpcServices;
@@ -69,6 +70,9 @@ namespace CourseService
             builder.Services.AddSingleton(config);
             builder.Services.AddGrpcClient<UserCourseService.UserCourseServiceClient>(x => x.Address = new Uri(config));
             builder.Services.AddScoped<UserIdCourseGrpcService>();
+
+            builder.Services.AddGrpcClient<GetUserService.GetUserServiceClient>(x => x.Address = new Uri(config));
+            builder.Services.AddScoped<GetUserInfoService>();
             //dbContext
             builder.Services.AddDbContext<Course_DeployContext>(
     oprions => oprions.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"))

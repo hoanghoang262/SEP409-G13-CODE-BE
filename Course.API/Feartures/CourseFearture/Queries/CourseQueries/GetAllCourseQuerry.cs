@@ -14,6 +14,7 @@ namespace CourseService.API.Feartures.CourseFearture.Queries.CourseQueries
     {
         public int page { get; set; } = 1;
         public int pageSize { get; set; } = 5;
+        public string? CourseName { get; set; }
         public class GetAllCoursesHandler : IRequestHandler<GetAllCourseQuerry, PageList<Course>>
         {
             private readonly IMediator mediator;
@@ -29,7 +30,14 @@ namespace CourseService.API.Feartures.CourseFearture.Queries.CourseQueries
             }
             public async Task<PageList<Course>> Handle(GetAllCourseQuerry request, CancellationToken cancellation)
             {
+
                 var query = await _context.Courses.ToListAsync();
+                if (!string.IsNullOrEmpty(request.CourseName))
+                {
+                     query = await _context.Courses.Where(c => c.Name.Contains(request.CourseName)).ToListAsync();
+
+                }
+              
                 if (query == null)
                 {
                     return null;

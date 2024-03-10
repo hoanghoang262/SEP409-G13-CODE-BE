@@ -55,6 +55,9 @@ namespace ModerationService.API
             builder.Services.AddGrpcClient<UserCourseService.UserCourseServiceClient>(x => x.Address = new Uri(config));
             builder.Services.AddScoped<UserIdCourseGrpcService>();
 
+            builder.Services.AddGrpcClient<GetUserService.GetUserServiceClient>(x => x.Address = new Uri(config));
+            builder.Services.AddScoped<GetUserInfoService>();
+
             var config2 = builder.Configuration.GetSection("GrpcSetting2:CourseUrl").Value;
             builder.Services.AddGrpcClient<UserEnrollCourseService.UserEnrollCourseServiceClient>(x => x.Address = new Uri(config2));
             builder.Services.AddScoped<UserEnrollCourseGrpcServices>();

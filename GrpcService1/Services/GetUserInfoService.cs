@@ -24,13 +24,24 @@ namespace UserGrpc.Services
                 return Task.FromResult<GetUserInfoResponse>(null);
             }
 
-            return Task.FromResult(new GetUserInfoResponse()
+            var userInfoResponse = new GetUserInfoResponse()
             {
                 Id = response.Id,
-                Name = response.UserName,
-                Picture = response.ProfilePict
+                Name = response.UserName
+            };
 
-            });
+           
+            if (response.ProfilePict != null)
+            {
+                userInfoResponse.Picture = response.ProfilePict;
+            }
+            else
+            {
+               
+                userInfoResponse.Picture = ""; 
+            }
+
+            return Task.FromResult(userInfoResponse);
         }
     }
 }

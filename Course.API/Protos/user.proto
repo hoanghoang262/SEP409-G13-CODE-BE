@@ -16,6 +16,7 @@ message GetUserCourseRequest {
 message GetUserCoursesResponse {
     int32 Id = 1;
    string Name=2; 
+   string Picture=3;
 }
 
 
