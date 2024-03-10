@@ -144,6 +144,8 @@ namespace CourseService.API.Models
 
                 entity.Property(e => e.CodeForm).HasColumnName("Code_Form");
 
+                entity.Property(e => e.TestCaseJava).HasColumnName("TestCase_Java");
+
                 entity.HasOne(d => d.Chapter)
                     .WithMany(p => p.PracticeQuestions)
                     .HasForeignKey(d => d.ChapterId)
@@ -188,7 +190,7 @@ namespace CourseService.API.Models
             {
                 entity.ToTable("User_Answer_Code");
 
-                entity.Property(e => e.Id).ValueGeneratedNever();
+                entity.Property(e => e.Id).HasColumnName("Id");
 
                 entity.Property(e => e.AnswerCode).HasColumnName("Answer_Code");
 

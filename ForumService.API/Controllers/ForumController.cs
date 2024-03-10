@@ -18,15 +18,36 @@ namespace ForumService.API.Controllers
 
         [HttpGet]
 
-        public async Task<IActionResult> GetAllPost() {
+        public async Task<IActionResult> GetAllPost()
+        {
 
             return Ok(await _mediator.Send(new GetAllPostQuerry()));
-        
+
         }
         [HttpPost]
         public async Task<IActionResult> CreateAdminPost(CreatAdminPostCommand command)
         {
-            return Ok(await _mediator.Send(command));   
+            return Ok(await _mediator.Send(command));
+        }
+        [HttpGet]
+        public async Task<IActionResult> GetPostById(int postId)
+        {
+            try
+            {
+                var query = new GetPostByIdQuerry { PostId = postId };
+                var result = await _mediator.Send(query);
+
+                if (result == null)
+                {
+                    return NotFound();
+                }
+
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Error getting post by id: {ex.Message}");
+            }
         }
     }
 }

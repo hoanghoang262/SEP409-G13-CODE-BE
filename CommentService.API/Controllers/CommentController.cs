@@ -18,21 +18,21 @@ namespace CommentService.API.Controllers
         }
         [HttpGet]
 
-        public async Task<IActionResult> GetAllCommentInPost()
+        public async Task<IActionResult> GetAllCommentInPost(int postId)
         {
-            return Ok(await _mediator.Send(new GetAllCommentPostQuerry { }));
+            return Ok(await _mediator.Send(new GetAllCommentPostQuerry {PostId=postId }));
         }
         [HttpGet]
 
-        public async Task<IActionResult> GetAllCommentInCourse()
+        public async Task<IActionResult> GetAllCommentInCourse(int courseId)
         {
-            return Ok(await _mediator.Send(new GetAllCommentCourseQuerry { }));
+            return Ok(await _mediator.Send(new GetAllCommentCourseQuerry {CoursesId=courseId }));
         }
         [HttpGet]
 
-        public async Task<IActionResult> GetAllCommentInLesson()
+        public async Task<IActionResult> GetAllCommentInLesson(int lessonId)
         {
-            return Ok(await _mediator.Send(new GetAllCommentLessonQuerry { }));
+            return Ok(await _mediator.Send(new GetAllCommentLessonQuerry {LessonId=lessonId }));
         }
         [HttpPost]
         public async Task<IActionResult> CreateComment(CreateCommentCommand command)

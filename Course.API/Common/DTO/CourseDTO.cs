@@ -31,15 +31,12 @@ namespace CourseService.API.Common.ModelDTO
 
         
         public virtual ICollection<LessonDTO> Lessons { get; set; }
+        public virtual ICollection<PracticeQuestionDTO> PracticeQuestions { get; set; }
 
     }
     public class LessonDTO: IMapFrom<Lesson> 
     {
-        public LessonDTO()
-        {
-           
-            Questions = new HashSet<QuestionDTO>();
-        }
+       
 
         public int Id { get; set; }
         public string? Title { get; set; }
@@ -47,24 +44,23 @@ namespace CourseService.API.Common.ModelDTO
         public int? ChapterId { get; set; }
         public string? Description { get; set; }
         public long? Duration { get; set; }
+        public string? ContentLesson { get; set; }
+        public string? ChapterName { get; set; }
+        public string? CourseName { get; set; }
 
-       
-       
-        public virtual ICollection<QuestionDTO> Questions { get; set; }
+
+
+        public virtual ICollection<TheoryQuestionDTO> TheoryQuestions { get; set; }
 
     }
-    public class QuestionDTO: IMapFrom<TheoryQuestion> {
+    public class TheoryQuestionDTO : IMapFrom<TheoryQuestion> {
         public int Id { get; set; }
         public int? VideoId { get; set; }
-        public string? ContentQuestion { get; set; }
-        public string? AnswerA { get; set; }
-        public string? AnswerB { get; set; }
-        public string? AnswerC { get; set; }
-        public string? AnswerD { get; set; }
-        public string? CorrectAnswer { get; set; }
         public long? Time { get; set; }
+        public string? ContentQuestion { get; set; }
+        public long? TimeQuestion { get; set; }
+        public virtual ICollection<AnswerOptionDTO> AnswerOptions { get; set; }
 
-        
     }
     public class UserProfileDto
     {
@@ -78,5 +74,28 @@ namespace CourseService.API.Common.ModelDTO
         public string CourseName { get; set; }
         public string CoursePicture { get; set; }
         public double CompletionPercentage { get; set; }
+    }
+    public class PracticeQuestionDTO :IMapFrom<PracticeQuestion>
+    {
+
+        public int Id { get; set; }
+        public string? Description { get; set; }
+        public int? ChapterId { get; set; }
+        public string? CodeForm { get; set; }
+        public string? TestCaseJava { get; set; }
+        public string? ChapterName  { get; set; }
+        public string? CourseName  { get; set; }
+
+        public virtual ICollection<TestCase> TestCases { get; set; }
+        public virtual ICollection<UserAnswerCode> UserAnswerCodes { get; set; }
+
+    }
+    public class AnswerOptionDTO 
+    {
+        public int Id { get; set; }
+        public int? QuestionId { get; set; }
+        public string? OptionsText { get; set; }
+        public bool? CorrectAnswer { get; set; }
+
     }
 }

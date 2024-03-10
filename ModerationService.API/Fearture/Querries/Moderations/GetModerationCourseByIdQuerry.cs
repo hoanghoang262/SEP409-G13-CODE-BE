@@ -1,32 +1,27 @@
 ﻿using GrpcServices;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using AutoMapper;
-using CourseService.API.Common.ModelDTO;
 using Microsoft.EntityFrameworkCore;
-using CourseService.API.Models;
-using CourseService.API.GrpcServices;
+using ModerationService.API.GrpcServices;
+using ModerationService.API.Models;
 
-namespace CourseService.API.Feartures.CourseFearture.Queries.CourseQueries
+namespace ModerationService.API.Fearture.Querries.Moderations
 {
-    public class GetCourseByCourseIdQuerry : IRequest<IActionResult>
+    public class GetModerationCourseByIdQuerry : IRequest<IActionResult>
     {
         public int CourseId { get; set; }
 
-        public class GetCourseByUserHandler : IRequestHandler<GetCourseByCourseIdQuerry, IActionResult>
+        public class GetModerationCourseByIdHandler : IRequestHandler<GetModerationCourseByIdQuerry, IActionResult>
         {
-            private readonly Course_DeployContext _context;
-            private readonly GetUserInfoService service;
-            private readonly IMapper mapper;
+            private readonly Content_ModerationContext _context;
+            private readonly GetUserInfoService _service;
 
-            public GetCourseByUserHandler(Course_DeployContext context, GetUserInfoService userIdCourseGrpcService, IMapper _mapper)
+            public GetModerationCourseByIdHandler(Content_ModerationContext context, GetUserInfoService service)
             {
                 _context = context;
-                service = userIdCourseGrpcService;
-                mapper = _mapper;
-
+                _service = service;
             }
-            public async Task<IActionResult> Handle(GetCourseByCourseIdQuerry request, CancellationToken cancellationToken)
+            public async Task<IActionResult> Handle(GetModerationCourseByIdQuerry request, CancellationToken cancellationToken)
             {
                 var courses = await _context.Courses
                     .Include(c => c.Chapters)
@@ -54,7 +49,7 @@ namespace CourseService.API.Feartures.CourseFearture.Queries.CourseQueries
                 }
 
                 courses.Chapters.OrderBy(c => c.Part);
-                var user = await service.SendUserId(courses.CreatedBy);
+                var user = await _service.SendUserId(courses.CreatedBy);
 
                 var result = new
                 {

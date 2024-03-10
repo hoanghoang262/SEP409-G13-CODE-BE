@@ -11,6 +11,7 @@
   <ItemGroup>
     <None Remove="Protos\course.proto" />
     <None Remove="Protos\getcourseid.proto" />
+    <None Remove="Protos\getuserinfo.proto" />
     <None Remove="Protos\user.proto" />
   </ItemGroup>
 
@@ -39,6 +40,7 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Protobuf>
     <Protobuf Include="Protos\getcourseid.proto" GrpcServices="Client" />
+    <Protobuf Include="Protos\getuserinfo.proto" GrpcServices="Client" />
     <Protobuf Include="Protos\user.proto" GrpcServices="Client" />
   </ItemGroup>
 
