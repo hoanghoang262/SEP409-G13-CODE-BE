@@ -48,12 +48,13 @@ namespace ForumService.API.Fearture.Queries
 
                     post.Add(new CommentDTO
                     {
-                        UserId = c.UserId,
+                       
                         UserName = userInfo.Name,
                         CommentContent = c.CommentContent,
                         Date = c.Date,
                         Picture = userInfo.Picture,
-                        Id = userInfo.Id,
+                        UserId = userInfo.Id,
+                        Id=c.Id,
                         Replies = replies
                     });
                 }

@@ -151,6 +151,8 @@ namespace ModerationService.API.Models
 
                 entity.Property(e => e.CodeForm).HasColumnName("Code_Form");
 
+                entity.Property(e => e.TestCaseJava).HasColumnName("TestCase_Java");
+
                 entity.HasOne(d => d.Chapter)
                     .WithMany(p => p.PracticeQuestions)
                     .HasForeignKey(d => d.ChapterId)

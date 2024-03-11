@@ -49,7 +49,7 @@ namespace ModerationService.API.Fearture.Querries.Moderations
                 }
 
                 courses.Chapters.OrderBy(c => c.Part);
-                var user = await _service.SendUserId(courses.CreatedBy);
+                var user = await _service.SendUserId((int)courses.CreatedBy);
 
                 var result = new
                 {

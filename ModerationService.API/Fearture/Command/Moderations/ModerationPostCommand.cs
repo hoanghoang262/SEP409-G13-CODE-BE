@@ -27,7 +27,7 @@ namespace ModerationService.API.Fearture.Command.Moderations
                 var postEvent = new PostEvent
                 {
                     Id = post.Id,
-                    CreatedBy = post.CreatedBy,
+                    CreatedBy = (int)post.CreatedBy,
                     Description = post.Description,
                     LastUpdate = post.LastUpdate,
                     PostContent= post.PostContent,

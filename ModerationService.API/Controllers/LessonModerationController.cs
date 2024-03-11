@@ -1,6 +1,6 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using ModerationService.API.Fearture.Command.Lesson;
+using ModerationService.API.Fearture.Command;
 
 namespace ModerationService.API.Controllers
 {
@@ -22,25 +22,25 @@ namespace ModerationService.API.Controllers
             return Ok(result);
         }
 
-        [HttpPut]
-        public async Task<IActionResult> UpdateLesson(int id, [FromBody] UpdateLessonCommand command)
-        {
-            if (id != command.Id)
-            {
-                return BadRequest();
-            }
+        //[HttpPut]
+        //public async Task<IActionResult> UpdateLesson(int id, [FromBody] UpdateLessonCommand command)
+        //{
+        //    if (id != command.Id)
+        //    {
+        //        return BadRequest();
+        //    }
 
-            var result = await _mediator.Send(command);
-            return Ok(result);
-        }
+        //    var result = await _mediator.Send(command);
+        //    return Ok(result);
+        //}
 
-        [HttpDelete]
-        public async Task<IActionResult> DeleteLesson(int id)
-        {
-            var command = new DeleteLessonCommand { Id = id };
-            var result = await _mediator.Send(command);
-            return Ok(result);
-        }
+        //[HttpDelete]
+        //public async Task<IActionResult> DeleteLesson(int id)
+        //{
+        //    var command = new DeleteLessonCommand { Id = id };
+        //    var result = await _mediator.Send(command);
+        //    return Ok(result);
+        //}
     }
 }
 
