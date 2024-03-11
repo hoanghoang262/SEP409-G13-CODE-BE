@@ -32,12 +32,7 @@ namespace ModerationService.API.Controllers
 
             return result;
         }
-        [HttpPost]
-        public async Task<ActionResult> AddCourse(CreateCourseCommand command)
-        {
 
-            return Ok(await _mediator.Send(command));
-        }
         [HttpPost]
         public async Task<ActionResult> ModerationCourse(int courseId)
         {
@@ -50,13 +45,7 @@ namespace ModerationService.API.Controllers
 
             return Ok(await _mediator.Send(new ModerationPostCommand { PostId = postId }));
         }
-        [HttpPut]
-
-        public async Task<ActionResult> UpdateCourse(UpdateCourseCommand command)
-        {
-            return Ok(await _mediator.Send(command));
-        }
-
+      
         [HttpPost]
 
         public async Task<ActionResult> CreatePost(CreatePostCommand command)

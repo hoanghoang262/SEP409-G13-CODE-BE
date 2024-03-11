@@ -44,4 +44,8 @@
     <Protobuf Include="Protos\user.proto" GrpcServices="Client" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Fearture\Command\PracticeQuestion\" />
+  </ItemGroup>
+
 </Project>
