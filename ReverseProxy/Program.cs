@@ -53,9 +53,9 @@ namespace ReverseProxy
                 x.GenerateDocsForGatewayItSelf = false;
 
             });
-
-            builder.Configuration.AddJsonFile("ocelot.json", optional: false, reloadOnChange: true);
-            builder.Services.AddOcelot(builder.Configuration).AddPolly();
+            IConfiguration configuration = new ConfigurationBuilder().AddJsonFile("ocelot.json").Build();
+            builder.Configuration.AddJsonFile("ocelot.json").Build();
+            builder.Services.AddOcelot(configuration).AddPolly();
 
             var app = builder.Build();
             app.UseHttpsRedirection();
@@ -64,16 +64,18 @@ namespace ReverseProxy
             app.UseHttpsRedirection();
           
             app.UseAuthorization();
-            
 
-            
+
+           
             app.MapControllers();
             app.UseAuthentication();
-            app.UseOcelot();
+
             app.UseSwaggerForOcelotUI(opt =>
             {
                 opt.PathToSwaggerGenerator = "/swagger/docs";
             });
+            app.UseOcelot();
+
             // app.MapReverseProxy();
 
             app.Run();

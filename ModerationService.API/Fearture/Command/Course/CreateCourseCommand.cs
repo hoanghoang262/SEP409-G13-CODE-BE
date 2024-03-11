@@ -43,7 +43,7 @@ namespace CourseService.API.Feartures.CourseFearture.Command.CreateCourse
                     Tag = request.Tag,
                     CreatedBy = request.CreatedBy,
                     CreatedAt = DateTime.Now,
-
+                    IsCompleted=false
 
                 };
 

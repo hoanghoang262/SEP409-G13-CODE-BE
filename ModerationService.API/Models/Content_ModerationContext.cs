@@ -78,6 +78,8 @@ namespace ModerationService.API.Models
 
                 entity.Property(e => e.CreatedBy).HasColumnName("Created_By");
 
+                entity.Property(e => e.IsCompleted).HasColumnName("Is_Completed");
+
                 entity.Property(e => e.Tag).HasMaxLength(50);
             });
 
