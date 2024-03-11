@@ -15,7 +15,7 @@ namespace ModerationService.API.Models
         public string? Description { get; set; }
         public string? Picture { get; set; }
         public string? Tag { get; set; }
-        public int CreatedBy { get; set; }
+        public int? CreatedBy { get; set; }
         public DateTime? CreatedAt { get; set; }
         public bool? IsCompleted { get; set; }
 
