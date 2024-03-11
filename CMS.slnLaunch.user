@@ -3,13 +3,14 @@
     "Name": "New Profile",
     "Projects": [
       {
-        "Name": "ForumService.API\\ForumService.API.csproj",
+        "Name": "ReverseProxy\\ReverseProxy.csproj",
         "Action": "Start",
         "DebugTarget": ""
       },
       {
-        "Name": "CommentService.API\\CommentService.API.csproj",
-        "Action": "Start"
+        "Name": "Course.API\\CourseService.API.csproj",
+        "Action": "Start",
+        "DebugTarget": ""
       }
     ]
   },

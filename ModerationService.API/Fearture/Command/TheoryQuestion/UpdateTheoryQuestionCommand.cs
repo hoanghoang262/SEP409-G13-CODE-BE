@@ -1,7 +1,7 @@
 ﻿using MediatR;
 using ModerationService.API.Models;
 
-namespace ModerationService.API.Fearture.Command.TheoryQuestion
+namespace ModerationService.API.Fearture.Command
 {
     public class UpdateTheoryQuestionCommand : IRequest<int>
     {

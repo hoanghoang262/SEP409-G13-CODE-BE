@@ -1,17 +1,14 @@
 ﻿using MediatR;
+using Microsoft.EntityFrameworkCore;
+using ModerationService.API.Common.ModelDTO;
 using ModerationService.API.Models;
 
 namespace ModerationService.API.Fearture.Command.Lesson
 {
     public class CreateLessonCommand : IRequest<int>
     {
-        public string? Title { get; set; }
-        public string? VideoUrl { get; set; }
-        public int? ChapterId { get; set; }
-        public string? Description { get; set; }
-        public bool? IsCompleted { get; set; }
-        public long? Duration { get; set; }
-        public string? ContentLesson { get; set; }
+        public int ChapterId { get; set; }
+        public LessonDTO TheoryQuestions { get; set; }
     }
 
     public class CreateLessonCommandHandler : IRequestHandler<CreateLessonCommand, int>
@@ -25,21 +22,27 @@ namespace ModerationService.API.Fearture.Command.Lesson
 
         public async Task<int> Handle(CreateLessonCommand request, CancellationToken cancellationToken)
         {
-            var lesson = new Models.Lesson
-            {
-                Title = request.Title,
-                VideoUrl = request.VideoUrl,
-                ChapterId = request.ChapterId,
-                Description = request.Description,
-                IsCompleted = request.IsCompleted,
-                Duration = request.Duration,
-                ContentLesson = request.ContentLesson
-            };
+            var lessons= await _context.Lessons
+                .Include(c=>c.Chapter)
+                .Include(c=>c.TheoryQuestions)
+                .ThenInclude(x=>x.AnswerOptions)
+                .FirstOrDefaultAsync(l=>l.Chapter.Id.Equals(request.ChapterId));
 
-            _context.Lessons.Add(lesson);
-            await _context.SaveChangesAsync();
+            //var lesson = new Models.Lesson
+            //{
+            //    Title = request.Title,
+            //    VideoUrl = request.VideoUrl,
+            //    ChapterId = request.ChapterId,
+            //    Description = request.Description,
+            //    IsCompleted = request.IsCompleted,
+            //    Duration = request.Duration,
+            //    ContentLesson = request.ContentLesson
+            //};
 
-            return lesson.Id;
+            //_context.Lessons.Add(lesson);
+            //await _context.SaveChangesAsync();
+
+            return lessons.Id;
         }
     }
 

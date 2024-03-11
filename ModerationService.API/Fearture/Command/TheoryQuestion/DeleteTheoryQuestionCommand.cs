@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using ModerationService.API.Models;
 
-namespace ModerationService.API.Fearture.Command.TheoryQuestion
+namespace ModerationService.API.Fearture.Command
 {
     public class DeleteTheoryQuestionCommand : IRequest<int>
     {

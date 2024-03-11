@@ -47,6 +47,10 @@ namespace Authenticate_Service.Models
                     .HasMaxLength(50)
                     .HasColumnName("Full_Name");
 
+                entity.Property(e => e.Phone)
+                    .HasMaxLength(10)
+                    .IsUnicode(false);
+
                 entity.Property(e => e.ProfilePict).HasColumnName("Profile_Pict");
 
                 entity.Property(e => e.RoleId).HasColumnName("Role_Id");

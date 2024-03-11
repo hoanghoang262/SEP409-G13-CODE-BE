@@ -1,4 +1,4 @@
-﻿using Authenticate_Service.Models;
+﻿
 using Microsoft.AspNetCore.Mvc;
 using MediatR;
 using Authenticate_Service.Feature.AuthenticateFearture.Command.Login;
@@ -9,6 +9,7 @@ using Authenticate_Service.Common;
 using AuthenticateService.API.Common.DTO;
 using AuthenticateService.API.MessageOutput;
 using System.Text.RegularExpressions;
+using Authenticate_Service.Models;
 
 
 
