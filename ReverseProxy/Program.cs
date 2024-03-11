@@ -55,7 +55,7 @@ namespace ReverseProxy
             });
 
             builder.Configuration.AddJsonFile("ocelot.json", optional: false, reloadOnChange: true);
-            builder.Services.AddOcelot(builder.Configuration);
+            builder.Services.AddOcelot(builder.Configuration).AddPolly();
 
             var app = builder.Build();
             app.UseHttpsRedirection();

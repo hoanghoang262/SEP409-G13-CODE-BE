@@ -17,16 +17,12 @@
       "DownstreamHostAndPorts": [
         {
           "Host": "coursesservices.azurewebsites.net"
-
         }
       ],
       "UpstreamPathTemplate": "/api-gateway/{controller}/{action}",
       "UpstreamHttpMethod": [ "POST", "PUT", "GET" ],
-
       "SwaggerKey": "course"
-
     },
-
     //authen
     {
       "DownstreamPathTemplate": "/api/{controller}/{action}",
@@ -34,7 +30,7 @@
       "DownstreamHostAndPorts": [
         {
           "Host": "authenticateservice.azurewebsites.net"
-          //duong dan docker
+         
 
         }
       ],
