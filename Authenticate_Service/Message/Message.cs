@@ -191,5 +191,15 @@
             MsgTextVN = "Sửa thông tin thành công",
             MsgTextEN = "Update information successfully"
         };
+
+        /// <summary>
+        /// MSG20: Số điện thoại không hợp lệ
+        /// </summary>
+        public static readonly MessageModel MSG20 = new MessageModel
+        {
+            MsgCode = "MSG20",
+            MsgTextVN = "Số điện thoại không hợp lệ",
+            MsgTextEN = "Invalid phone number"
+        };
     }
 }
