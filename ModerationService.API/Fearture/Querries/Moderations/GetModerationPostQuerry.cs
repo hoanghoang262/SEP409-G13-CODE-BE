@@ -57,7 +57,7 @@ namespace ModerationService.API.Feature.Queries
                 foreach (var moderation in items)
                 {
                     // Call the microservice to get the UserName for the given CreatedBy
-                    var userName = await _service.SendUserId((int)moderation.CreatedBy);
+                    var userName = await _service.SendUserId(moderation.CreatedBy);
                     var moderationDTO = new ModerationDTO
                     {
                         Id = moderation.Id,

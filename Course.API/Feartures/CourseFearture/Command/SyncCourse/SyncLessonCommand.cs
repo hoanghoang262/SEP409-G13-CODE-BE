@@ -21,10 +21,10 @@ namespace CourseService.API.Feartures.CourseFearture.Command.SyncCourse
         public string? ContentLesson { get; set; }
         public class asyncLessonHandler : IRequestHandler<SyncLessonCommand, IActionResult>
         {
-            private readonly Course_DeployContext _context;
+            private readonly CourseContext _context;
           
 
-            public asyncLessonHandler(Course_DeployContext context)
+            public asyncLessonHandler(CourseContext context)
             {
                 _context = context;
             

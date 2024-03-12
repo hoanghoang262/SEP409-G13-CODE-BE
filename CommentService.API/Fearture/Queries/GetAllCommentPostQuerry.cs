@@ -30,19 +30,21 @@ namespace ForumService.API.Fearture.Queries
                 foreach (var c in querry)
                 {
                     var id = c.UserId;
-                    var userInfo = await _service.SendUserId(id);
+                    var userInfo = await _service.SendUserId((int)id);
 
                     List<ReplyDTO> replies = new List<ReplyDTO>();
                     foreach (var reply in c.Replies)
                     {
-                        var replyUserInfo = await _service.SendUserId(reply.UserId);
+                        var replyUserInfo = await _service.SendUserId((int)reply.UserId);
                         replies.Add(new ReplyDTO
                         {
                             CommentId = reply.CommentId,
                             ReplyContent = reply.ReplyContent,
-                            UserId = reply.UserId,
+                            UserId = (int)reply.UserId,
                             Id = reply.Id,
-                            UserName = replyUserInfo.Name 
+                            UserName = replyUserInfo.Name ,
+                            UserPicture= replyUserInfo.Picture,
+                            CreateDate = reply.CreateDate,
                         });
                     }
 

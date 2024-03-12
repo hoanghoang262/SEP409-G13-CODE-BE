@@ -10,6 +10,8 @@
         public DateTime? CreatedAt { get; set; }
         public string? Status { get; set; }
         public string? CourseName { get; set; }
+        public string? CoursePicture { get; set; }
+        public string? CourseDescription { get; set; }
         public string? UserName { get; set; }
         public int? PostId { get; set; }
         public string? PostTitle { get; set; }

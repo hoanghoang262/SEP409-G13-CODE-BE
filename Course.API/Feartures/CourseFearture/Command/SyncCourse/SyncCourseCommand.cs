@@ -20,10 +20,10 @@ namespace CourseService.API.Feartures.CourseFearture.Command.SyncCourse
         public DateTime? CreatedAt { get; set; }
         public class asyncCourseCommandHandler : IRequestHandler<SyncCourseCommand, IActionResult>
         {
-            private readonly Course_DeployContext _context;
+            private readonly CourseContext _context;
             
 
-            public asyncCourseCommandHandler(Course_DeployContext context)
+            public asyncCourseCommandHandler(CourseContext context)
             {
                 _context = context;
             

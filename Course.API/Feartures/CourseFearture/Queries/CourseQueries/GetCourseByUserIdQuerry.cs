@@ -14,11 +14,11 @@ namespace CourseService.API.Feartures.CourseFearture.Queries.CourseQueries
 
         public class GetCourseByUserHandler : IRequestHandler<GetCourseByUserIdQuerry, IActionResult>
         {
-            private readonly Course_DeployContext _context;
+            private readonly CourseContext _context;
             private readonly UserIdCourseGrpcService service;
             private readonly IMapper mapper;
 
-            public GetCourseByUserHandler(Course_DeployContext context, UserIdCourseGrpcService userIdCourseGrpcService, IMapper _mapper)
+            public GetCourseByUserHandler(CourseContext context, UserIdCourseGrpcService userIdCourseGrpcService, IMapper _mapper)
             {
                 _context = context;
                 service = userIdCourseGrpcService;

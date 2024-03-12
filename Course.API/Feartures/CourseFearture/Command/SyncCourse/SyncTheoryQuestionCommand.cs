@@ -17,10 +17,10 @@ namespace CourseService.API.Feartures.CourseFearture.Command.SyncCourse
         public long? TimeQuestion { get; set; }
         public class asyncQuestionCommandHandler : IRequestHandler<SyncTheoryQuestionCommand, IActionResult>
         {
-            private readonly Course_DeployContext _context;
+            private readonly CourseContext _context;
            
 
-            public asyncQuestionCommandHandler(Course_DeployContext context)
+            public asyncQuestionCommandHandler(CourseContext context)
             {
                 _context = context;
                

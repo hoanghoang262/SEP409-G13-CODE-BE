@@ -5,13 +5,13 @@ using Microsoft.EntityFrameworkCore.Metadata;
 
 namespace CourseService.API.Models
 {
-    public partial class Course_DeployContext : DbContext
+    public partial class CourseContext : DbContext
     {
-        public Course_DeployContext()
+        public CourseContext()
         {
         }
 
-        public Course_DeployContext(DbContextOptions<Course_DeployContext> options)
+        public CourseContext(DbContextOptions<CourseContext> options)
             : base(options)
         {
         }
@@ -33,7 +33,7 @@ namespace CourseService.API.Models
             if (!optionsBuilder.IsConfigured)
             {
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-                optionsBuilder.UseSqlServer("Server=tcp:fptulearnserver.database.windows.net,1433;Initial Catalog=Course_Deploy;Persist Security Info=False;User ID=fptu;Password=24082002aA;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;");
+                optionsBuilder.UseSqlServer("Server=tcp:fptulearnserver.database.windows.net,1433;Initial Catalog=Course;Persist Security Info=False;User ID=fptu;Password=24082002aA;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;");
             }
         }
 
@@ -189,8 +189,6 @@ namespace CourseService.API.Models
             modelBuilder.Entity<UserAnswerCode>(entity =>
             {
                 entity.ToTable("User_Answer_Code");
-
-                entity.Property(e => e.Id).HasColumnName("Id");
 
                 entity.Property(e => e.AnswerCode).HasColumnName("Answer_Code");
 

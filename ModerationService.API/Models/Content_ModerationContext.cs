@@ -128,6 +128,11 @@ namespace ModerationService.API.Models
                 entity.Property(e => e.PostTitle).HasColumnName("Post_Title");
 
                 entity.Property(e => e.Status).HasMaxLength(50);
+
+                entity.HasOne(d => d.Course)
+                    .WithMany(p => p.Moderations)
+                    .HasForeignKey(d => d.CourseId)
+                    .HasConstraintName("FK_Moderation_Course");
             });
 
             modelBuilder.Entity<Post>(entity =>

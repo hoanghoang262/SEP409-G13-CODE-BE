@@ -12,9 +12,9 @@ namespace CourseService.API.Feartures.CourseFearture.Queries.CourseQueries
 
         public class CheckAnswerQuestionHandler : IRequestHandler<CheckAnswerQuestion, bool>
         {
-            private readonly Course_DeployContext _context;
+            private readonly CourseContext _context;
 
-            public CheckAnswerQuestionHandler(Course_DeployContext context)
+            public CheckAnswerQuestionHandler(CourseContext context)
             {
                 _context = context;
             }

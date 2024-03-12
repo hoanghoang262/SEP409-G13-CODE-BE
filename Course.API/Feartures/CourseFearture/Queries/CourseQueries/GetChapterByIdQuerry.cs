@@ -14,8 +14,8 @@ namespace CourseService.API.Feartures.CourseFearture.Queries.CourseQueries
 
         public class GetChapterByIdQuerryHandler : IRequestHandler<GetChapterByIdQuerry, ChapterDTO>
         {
-            private readonly Course_DeployContext _context;
-            public GetChapterByIdQuerryHandler(Course_DeployContext context)
+            private readonly CourseContext _context;
+            public GetChapterByIdQuerryHandler(CourseContext context)
             {
                 _context = context;
             }

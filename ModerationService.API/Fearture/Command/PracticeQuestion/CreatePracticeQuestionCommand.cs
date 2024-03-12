@@ -34,7 +34,6 @@ namespace ModerationService.API.Fearture.Command
                 {
                   
                         _context.TestCases.RemoveRange(prac.TestCases);
-                   
                 }
 
                 _context.PracticeQuestions.RemoveRange(chapter.PracticeQuestions);
