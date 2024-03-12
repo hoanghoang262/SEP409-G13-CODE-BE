@@ -94,7 +94,18 @@ namespace ModerationService.API.Controllers
             }
         }
 
+        [HttpPost]
+        public async Task<ActionResult> SendToModeration(int CourseId)
+        {
+            var course = await _context.Courses.FindAsync(CourseId);
 
+            course.IsCompleted = true;
+
+            await _context.SaveChangesAsync();
+
+            return Ok("Send successfully");
+            
+        }
 
 
     }

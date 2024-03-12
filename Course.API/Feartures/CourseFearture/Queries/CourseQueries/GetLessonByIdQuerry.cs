@@ -13,8 +13,8 @@ namespace CourseService.API.Feartures.CourseFearture.Queries.CourseQueries
 
         public class GetLessonByIdQuerryHandler : IRequestHandler<GetLessonByIdQuerry, LessonDTO>
         {
-            private readonly Course_DeployContext _context;
-            public GetLessonByIdQuerryHandler(Course_DeployContext context)
+            private readonly CourseContext _context;
+            public GetLessonByIdQuerryHandler(CourseContext context)
             {
                 _context = context;
             }

@@ -31,14 +31,15 @@ namespace ModerationService.API.Feature.Queries
 
             public async Task<PageList<ModerationDTO>> Handle(GetModerationCourseQuerry request, CancellationToken cancellationToken)
             {
+           
                 List<Moderation> moderations;
                 if (string.IsNullOrEmpty(request.CourseName))
                 {
-                    moderations = await _context.Moderations.Where(x=>x.CourseId != null).ToListAsync();
+                    moderations = await _context.Moderations.Include(c=>c.Course).Where(x=>x.Course.IsCompleted == true).ToListAsync();
                 }
                 else
                 {
-                    moderations = await _context.Moderations.Where(x => x.CourseName.Contains(request.CourseName) && x.CourseId != null).ToListAsync();
+                    moderations = await _context.Moderations.Include(c => c.Course).Where(x => x.CourseName.Contains(request.CourseName) && x.Course.IsCompleted == true).ToListAsync();
                 }
 
                 if (moderations == null)
@@ -68,7 +69,11 @@ namespace ModerationService.API.Feature.Queries
                         CreatedAt = moderation.CreatedAt,
                         Status = moderation.Status,
                         CourseName = moderation.CourseName,
-                        UserName = userName.Name // Set the UserName obtained from the service
+                        UserName = userName.Name,
+                        CoursePicture=moderation.Course.Picture,
+                        CourseDescription=moderation.Course.Description,
+
+                       
                     };
                     moderationDTOs.Add(moderationDTO);
                 }

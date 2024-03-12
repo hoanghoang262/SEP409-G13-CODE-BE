@@ -20,10 +20,10 @@ namespace CourseService.API.Feartures.CourseFearture.Command.SyncCourse
         public string? InputTypeArrayString { get; set; }
         public class asyncQuestionCommandHandler : IRequestHandler<SyncTestCaseCommand, IActionResult>
         {
-            private readonly Course_DeployContext _context;
+            private readonly CourseContext _context;
             
 
-            public asyncQuestionCommandHandler(Course_DeployContext context)
+            public asyncQuestionCommandHandler(CourseContext context)
             {
                 _context = context;
                 

@@ -75,7 +75,8 @@ namespace ModerationService.API.Fearture.Command.Moderations
                             Description = code.Description,
                             ChapterId = code.ChapterId,
                             Id = code.Id,
-                            CodeForm=code.CodeForm
+                            CodeForm=code.CodeForm,
+                            TestCaseJava=code.TestCaseJava,
                         };
                         await _publish.Publish(codequestionEvent);
                    

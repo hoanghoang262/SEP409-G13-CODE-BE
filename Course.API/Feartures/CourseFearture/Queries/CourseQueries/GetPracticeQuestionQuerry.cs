@@ -11,8 +11,8 @@ namespace CourseService.API.Feartures.CourseFearture.Queries.CourseQueries
 
         public class GetPracticeQuestionQuerryHandler : IRequestHandler<GetPracticeQuestionByIdQuerry, PracticeQuestionDTO>
         {
-            private readonly Course_DeployContext _context;
-            public GetPracticeQuestionQuerryHandler(Course_DeployContext context)
+            private readonly CourseContext _context;
+            public GetPracticeQuestionQuerryHandler(CourseContext context)
             {
                 _context = context;
             }

@@ -12,14 +12,15 @@ namespace CourseService.API.Feartures.CourseFearture.Queries.CourseQueries
     public class GetCourseByCourseIdQuerry : IRequest<IActionResult>
     {
         public int CourseId { get; set; }
+        public int UserId { get; set; }
 
         public class GetCourseByUserHandler : IRequestHandler<GetCourseByCourseIdQuerry, IActionResult>
         {
-            private readonly Course_DeployContext _context;
+            private readonly CourseContext _context;
             private readonly GetUserInfoService service;
             private readonly IMapper mapper;
 
-            public GetCourseByUserHandler(Course_DeployContext context, GetUserInfoService userIdCourseGrpcService, IMapper _mapper)
+            public GetCourseByUserHandler(CourseContext context, GetUserInfoService userIdCourseGrpcService, IMapper _mapper)
             {
                 _context = context;
                 service = userIdCourseGrpcService;
@@ -28,7 +29,8 @@ namespace CourseService.API.Feartures.CourseFearture.Queries.CourseQueries
             }
             public async Task<IActionResult> Handle(GetCourseByCourseIdQuerry request, CancellationToken cancellationToken)
             {
-                var courses = await _context.Courses
+                var courses = await _context.Courses.
+                    Include(c=>c.Enrollments)
                     .Include(c => c.Chapters)
                         .ThenInclude(ch => ch.Lessons)
                             .ThenInclude(l => l.TheoryQuestions)
@@ -46,7 +48,7 @@ namespace CourseService.API.Feartures.CourseFearture.Queries.CourseQueries
                     .Include(c => c.Chapters)
                         .ThenInclude(ch => ch.PracticeQuestions)
                             .ThenInclude(cq => cq.UserAnswerCodes)
-                    .FirstOrDefaultAsync(course => course.Id == request.CourseId);
+                    .FirstOrDefaultAsync(course => course.Id == request.CourseId  );
 
                 if (courses == null)
                 {

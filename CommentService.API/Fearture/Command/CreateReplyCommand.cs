@@ -26,7 +26,8 @@ namespace CommentService.API.Fearture.Command
             {
                 CommentId = request.CommentId,
                 ReplyContent = request.ReplyContent,
-                UserId = request.UserId
+                UserId = request.UserId,
+                CreateDate= DateTime.UtcNow
             };
 
             _context.Replies.Add(reply);

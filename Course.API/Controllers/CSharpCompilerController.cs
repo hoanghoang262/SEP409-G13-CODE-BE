@@ -14,9 +14,9 @@ namespace DynamicCodeCompilerAPI.Controllers
     public class CSharpCompilerController : ControllerBase
     {
         private readonly DynamicCodeCompiler _codeCompiler;
-        private readonly Course_DeployContext _context;
+        private readonly CourseContext _context;
 
-        public CSharpCompilerController(DynamicCodeCompiler codeCompiler, Course_DeployContext context)
+        public CSharpCompilerController(DynamicCodeCompiler codeCompiler, CourseContext context)
         {
             _codeCompiler = codeCompiler;
             _context = context;
@@ -45,6 +45,14 @@ namespace DynamicCodeCompilerAPI.Controllers
             {
                 return BadRequest("Not found question id");
             }
+            var userAnswerCode = new UserAnswerCode
+            {
+                CodeQuestionId = request.PracticeQuestionId,
+                AnswerCode = request.UserCode,
+                UserId = request.UserId
+            };
+            _context.UserAnswerCodes.Add(userAnswerCode);
+            _context.SaveChangesAsync();
 
 
             try
@@ -205,6 +213,7 @@ public class CodeRequestModel
 {
     public int PracticeQuestionId { get; set; }
     public string UserCode { get; set; }
+    public int UserId { get; set; }
 }
 
 

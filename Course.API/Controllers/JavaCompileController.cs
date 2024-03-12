@@ -4,20 +4,24 @@ using Microsoft.AspNetCore.Hosting;
 using System;
 using System.Diagnostics;
 using System.IO;
+using CourseService.API.Models;
 
 namespace CourseService.API.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/[controller]/[action]")]
     [ApiController]
     public class JavaCompileController : ControllerBase
     {
         private readonly DynamicCodeCompilerJava _compile;
         private readonly IWebHostEnvironment _hostingEnvironment;
+        private readonly CourseContext _context;
+        
 
-        public JavaCompileController(DynamicCodeCompilerJava compile, IWebHostEnvironment env)
+        public JavaCompileController(DynamicCodeCompilerJava compile, IWebHostEnvironment env,CourseContext context)
         {
             _compile = compile;
             _hostingEnvironment = env;
+            _context = context;
         }
 
         [HttpPost]
@@ -36,6 +40,16 @@ namespace CourseService.API.Controllers
                 _compile.WriteJavaCodeToFile(javaCode.UserCode, javaFilePath);
 
                 string compilationResult = _compile.CompileAndRun(javaFilePath);
+
+                var userAnswerCode = new UserAnswerCode
+                {
+                    CodeQuestionId=javaCode.PracticeQuestionId,
+                    AnswerCode=javaCode.UserCode,
+                    UserId=javaCode.UserId
+                };
+                _context.UserAnswerCodes.Add(userAnswerCode);
+                _context.SaveChangesAsync();
+
 
                 // Return compilation result
                 return Ok(compilationResult);

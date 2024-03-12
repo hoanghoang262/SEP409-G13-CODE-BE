@@ -51,6 +51,10 @@ namespace CommentService.API.Models
             {
                 entity.Property(e => e.CommentId).HasColumnName("Comment_Id");
 
+                entity.Property(e => e.CreateDate)
+                    .HasColumnType("date")
+                    .HasColumnName("Create_Date");
+
                 entity.Property(e => e.ReplyContent).HasColumnName("Reply_Content");
 
                 entity.Property(e => e.UserId).HasColumnName("User_Id");

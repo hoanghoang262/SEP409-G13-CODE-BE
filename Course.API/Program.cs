@@ -74,7 +74,7 @@ namespace CourseService
             builder.Services.AddGrpcClient<GetUserService.GetUserServiceClient>(x => x.Address = new Uri(config));
             builder.Services.AddScoped<GetUserInfoService>();
             //dbContext
-            builder.Services.AddDbContext<Course_DeployContext>(
+            builder.Services.AddDbContext<CourseContext>(
     oprions => oprions.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"))
     );      //mapper
             builder.Services.AddAutoMapper(Assembly.GetExecutingAssembly());

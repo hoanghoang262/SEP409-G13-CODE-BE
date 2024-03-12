@@ -14,10 +14,10 @@ namespace CourseService.API.Feartures.CourseFearture.Command.SyncCourse
         public bool? CorrectAnswer { get; set; }
         public class SyncAnswerOptionsHandler : IRequestHandler<SyncAnswerOptionCommand, IActionResult>
         {
-            private readonly Course_DeployContext _context;
+            private readonly CourseContext _context;
            
 
-            public SyncAnswerOptionsHandler(Course_DeployContext context)
+            public SyncAnswerOptionsHandler(CourseContext context)
             {
                 _context = context;
                

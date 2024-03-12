@@ -18,10 +18,10 @@ namespace CourseService.API.Feartures.CourseFearture.Command.SyncCourse
         public bool? IsNew { get; set; }
         public class asyncChapterHandler : IRequestHandler<SyncChapterCommand, IActionResult>
         {
-            private readonly Course_DeployContext _context;
+            private readonly CourseContext _context;
           
 
-            public asyncChapterHandler(Course_DeployContext context)
+            public asyncChapterHandler(CourseContext context)
             {
                 _context = context;
               

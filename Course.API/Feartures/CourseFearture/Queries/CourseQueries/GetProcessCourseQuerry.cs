@@ -12,9 +12,9 @@ namespace CourseService.API.Feartures.CourseFearture.Queries.CourseQueries
 
         public class GetProcessCourseQuerryHandler : IRequestHandler<GetProcessCourseQuerry, UserProfileDto>
         {
-            private readonly Course_DeployContext _dbContext;
+            private readonly CourseContext _dbContext;
 
-            public GetProcessCourseQuerryHandler(Course_DeployContext dbContext)
+            public GetProcessCourseQuerryHandler(CourseContext dbContext)
             {
                 _dbContext = dbContext;
             }
