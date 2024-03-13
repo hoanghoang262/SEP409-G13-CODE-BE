@@ -201,5 +201,15 @@
             MsgTextVN = "Số điện thoại không hợp lệ",
             MsgTextEN = "Invalid phone number"
         };
+
+        /// <summary>
+        /// MSG21: Tên tài khoản không hợp lệ
+        /// </summary>
+        public static readonly MessageModel MSG21 = new MessageModel
+        {
+            MsgCode = "MSG21",
+            MsgTextVN = "Tên tài khoản không hợp lệ",
+            MsgTextEN = "Invalid username"
+        };
     }
 }
