@@ -37,6 +37,7 @@ namespace Authenticate_Service.Feature.AuthenticateFearture.Command.ForgotPasswo
                     return new BadRequestObjectResult(Message.MSG09);
                 }
 
+                // Check email exists
                 var user = await _context.Users.FirstOrDefaultAsync(u => u.Email.Equals(request.Email));
                 if (user == null)
                 {

@@ -52,6 +52,13 @@ namespace Authenticated.Controllers
                 return new BadRequestObjectResult(Message.MSG11);
             }
 
+            // Validate username
+            string userNamePattern = @"^[^\s]{8,32}$";
+            if (!Regex.IsMatch(request.UserName, userNamePattern))
+            {
+                return new BadRequestObjectResult(Message.MSG21);
+            }
+
             // Validate email
             string emailPattern = @"^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$";
             Regex emailRegex = new Regex(emailPattern);
