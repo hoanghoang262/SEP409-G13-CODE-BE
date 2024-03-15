@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using ModerationService.API.Fearture.Command;
+using ModerationService.API.Fearture.Querries.Chapter;
 
 namespace ModerationService.API.Controllers
 {
@@ -40,6 +41,19 @@ namespace ModerationService.API.Controllers
             var command = new DeleteChapterCommand { ChapterId = id };
             var result = await _mediator.Send(command);
             return Ok(result);
+        }
+        [HttpGet]
+        public async Task<IActionResult> GetChapterById(int id)
+        {
+            var query = new GetChapterByIdQuery { ChapterId = id };
+            var chapterDTO = await _mediator.Send(query);
+
+            if (chapterDTO == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(chapterDTO);
         }
     }
 }

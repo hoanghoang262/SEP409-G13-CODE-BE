@@ -147,7 +147,6 @@ namespace Authenticated.Controllers
             }
             return Ok("Not found Email");
         }
-
-
+      
     }
 }

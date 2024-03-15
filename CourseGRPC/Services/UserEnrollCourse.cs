@@ -6,8 +6,8 @@ namespace CourseGRPC.Services
 {
     public class UserEnrollCourse : UserEnrollCourseService.UserEnrollCourseServiceBase
     {
-        private readonly Course_DeployContext _context;
-        public UserEnrollCourse(Course_DeployContext context)
+        private readonly CourseContext _context;
+        public UserEnrollCourse(CourseContext context)
         {
             _context = context;
         }

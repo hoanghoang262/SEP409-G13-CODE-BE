@@ -40,6 +40,8 @@ namespace ModerationService.API.Fearture.Command
                     PostId=post.Id,
                     PostTitle=post.Title,   
                 };
+                _context.Moderations.Add(moder);
+                await _context.SaveChangesAsync(cancellationToken);
 
                 return post.Id;
             }

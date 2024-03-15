@@ -20,17 +20,12 @@ namespace ModerationService.API
         {
            
             var builder = WebApplication.CreateBuilder(args);
-
-
-
             // Add services to the container.
             builder.Services.AddDbContext<Content_ModerationContext>(
             options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
             //rabbitMQ
             var configuration = builder.Configuration.GetSection("EventBusSetting:HostAddress").Value;
-
             var mqConnection = new Uri(configuration);
-
             builder.Services.AddMassTransit(config =>
             {
                 config.UsingRabbitMq((ctx, cfg) =>
@@ -38,7 +33,6 @@ namespace ModerationService.API
                     cfg.Host(mqConnection);
                 });
                 config.AddRequestClient<CourseEvent>();
-
             });
 
             //cors
@@ -64,6 +58,9 @@ namespace ModerationService.API
 
             builder.Services.AddGrpcClient<GetCourseByIdService.GetCourseByIdServiceClient>(x => x.Address = new Uri(config2));
             builder.Services.AddScoped<GetCourseIdGrpcServices>();
+
+            builder.Services.AddGrpcClient<CheckCourseIdService.CheckCourseIdServiceClient>(x => x.Address = new Uri(config2));
+            builder.Services.AddScoped<CheckCourseIdServicesGrpc>();
             //mapper
             builder.Services.AddAutoMapper(Assembly.GetExecutingAssembly());
             //mediatR

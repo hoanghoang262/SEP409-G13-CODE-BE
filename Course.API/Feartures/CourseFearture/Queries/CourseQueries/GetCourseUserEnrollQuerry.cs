@@ -29,6 +29,10 @@ namespace CourseService.API.Feartures.CourseFearture.Queries.CourseQueries
                                              .ThenInclude(ch => ch.Lessons)
                                                .ThenInclude(l => l.TheoryQuestions)
                                                  .ThenInclude(ans => ans.AnswerOptions)
+                                                 .Include(c=>c.Course)
+                                                  .ThenInclude(c => c.Chapters)
+                                                     .ThenInclude(ch => ch.Lessons)
+                                                       .ThenInclude(cq => cq.Notes)
                                             .Include(c => c.Course)
                                               .ThenInclude(c => c.Chapters)
                                                 .ThenInclude(ch => ch.PracticeQuestions)
@@ -46,10 +50,10 @@ namespace CourseService.API.Feartures.CourseFearture.Queries.CourseQueries
                                                .ThenInclude(c => c.Chapters)
                                                  .ThenInclude(ch => ch.PracticeQuestions)
                                                    .ThenInclude(cq => cq.UserAnswerCodes)
-                                        
+
                                                   .FirstOrDefaultAsync(enroll => enroll.CourseId == request.CourseId && enroll.UserId == request.UserId);
 
-             var user = await service.SendUserId(courses.Course.CreatedBy);
+            var user = await service.SendUserId(courses.Course.CreatedBy);
             var result = new
             {
                 courses.Course.Id,
@@ -102,6 +106,12 @@ namespace CourseService.API.Feartures.CourseFearture.Queries.CourseQueries
                         lesson.Description,
                         lesson.Duration,
                         lesson.ContentLesson,
+                        Notes = lesson.Notes.Select(note => new
+                        {
+                            note.VideoLink,
+                            note.ContentNote,
+
+                        }).ToList(),
                         Questions = lesson.TheoryQuestions.Select(question => new
                         {
                             question.Id,
@@ -121,7 +131,7 @@ namespace CourseService.API.Feartures.CourseFearture.Queries.CourseQueries
             };
 
             return new OkObjectResult(result);
-            
+
         }
     }
 }

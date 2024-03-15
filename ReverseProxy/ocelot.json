@@ -1,5 +1,4 @@
 {
-
   "Routes": [
     //course api
     {
@@ -11,7 +10,7 @@
 
         }
       ],
-      "UpstreamPathTemplate": "/api/{controller}/{action}",
+      "UpstreamPathTemplate": "/course-gateway/{controller}/{action}",
       "UpstreamHttpMethod": [ "POST", "PUT", "Get" ],
       "SwaggerKey": "course"
     },
@@ -25,16 +24,10 @@
 
         }
       ],
-      "UpstreamPathTemplate": "/api/{controller}/{action}",
+      "UpstreamPathTemplate": "/authen-gateway/{controller}/{action}",
       "UpstreamHttpMethod": [ "POST", "PUT", "Get" ],
       "SwaggerKey": "authen"
-      //"AuthenticationOptions": {
-      //  "AuthenticationProviderKey": "IdentityApiKey",
-      //  "AllowedScopes": []
-      //}
-
     }
-
   ],
   "SwaggerEndPoints": [
     {
@@ -47,24 +40,26 @@
           "Url": "https://coursesservices.azurewebsites.net/swagger/v1/swagger.json"
         }
       ]
-    },
-    {
-      "Key": "authen",
-      "TransformByOcelotConfig": false,
-      "Config": [
-        {
-          "Name": "AuthenticateService.API",
-          "Version": "v1",
-          "Url": "https://authenticateservice.azurewebsites.net/swagger/v1/swagger.json"
-        }
-      ]
     }
+    //,
+    //{
+    //  "Key": "authen",
+    //  "TransformByOcelotConfig": false,
+    //  "Config": [
+    //    {
+    //      "Name": "AuthenticateService.API",
+    //      "Version": "v1",
+    //      "Url": "https://authenticateservice.azurewebsites.net/swagger/v1/swagger.json"
+    //    }
+    //  ]
+    //}
   ],
 
   "GlobalConfiguration": {
     "BaseUrl": "https://apigatewayocelot.azurewebsites.net"
   }
 }
+
 
     
 

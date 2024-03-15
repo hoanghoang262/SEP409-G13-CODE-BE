@@ -3,16 +3,16 @@ using ModerationService.API.Models;
 
 namespace ModerationService.API.Fearture.Command
 {
-    public class UpdateChapterCommand : IRequest<int>
+    public class UpdateChapterCommand : IRequest<Chapter>
     {
         public int Id { get; set; }
         public string? Name { get; set; }
-        public int? CourseId { get; set; }
+       
         public decimal? Part { get; set; }
         public bool? IsNew { get; set; }
     }
 
-    public class UpdateChapterCommandHandler : IRequestHandler<UpdateChapterCommand, int>
+    public class UpdateChapterCommandHandler : IRequestHandler<UpdateChapterCommand, Chapter>
     {
         private readonly Content_ModerationContext _context;
 
@@ -21,22 +21,22 @@ namespace ModerationService.API.Fearture.Command
             _context = moderationContext;
         }
 
-        public async Task<int> Handle(UpdateChapterCommand request, CancellationToken cancellationToken)
+        public async Task<Chapter> Handle(UpdateChapterCommand request, CancellationToken cancellationToken)
         {
             var chapter = await _context.Chapters.FindAsync(request.Id);
 
             if (chapter == null)
-                return 0;
+                return null;
 
             chapter.Name = request.Name;
-            chapter.CourseId = request.CourseId;
+         
             chapter.Part = request.Part;
             chapter.IsNew = request.IsNew;
 
             _context.Chapters.Update(chapter);
             await _context.SaveChangesAsync();
 
-            return chapter.Id;
+            return chapter;
         }
     }
 }

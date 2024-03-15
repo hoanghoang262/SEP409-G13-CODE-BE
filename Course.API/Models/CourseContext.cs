@@ -22,6 +22,7 @@ namespace CourseService.API.Models
         public virtual DbSet<Course> Courses { get; set; } = null!;
         public virtual DbSet<Enrollment> Enrollments { get; set; } = null!;
         public virtual DbSet<Lesson> Lessons { get; set; } = null!;
+        public virtual DbSet<Note> Notes { get; set; } = null!;
         public virtual DbSet<PracticeQuestion> PracticeQuestions { get; set; } = null!;
         public virtual DbSet<TestCase> TestCases { get; set; } = null!;
         public virtual DbSet<TheoryQuestion> TheoryQuestions { get; set; } = null!;
@@ -134,6 +135,25 @@ namespace CourseService.API.Models
                     .WithMany(p => p.Lessons)
                     .HasForeignKey(d => d.ChapterId)
                     .HasConstraintName("FK_Videos_Chapter");
+            });
+
+            modelBuilder.Entity<Note>(entity =>
+            {
+                entity.ToTable("Note");
+
+                entity.Property(e => e.ContentNote).HasColumnName("Content_Note");
+
+                entity.Property(e => e.LessonId).HasColumnName("Lesson_Id");
+
+                entity.Property(e => e.UserId).HasColumnName("User_Id");
+
+                entity.Property(e => e.VideoLink).HasColumnName("Video_Link");
+
+                entity.HasOne(d => d.Lesson)
+                    .WithMany(p => p.Notes)
+                    .HasForeignKey(d => d.LessonId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_Note_Lesson");
             });
 
             modelBuilder.Entity<PracticeQuestion>(entity =>

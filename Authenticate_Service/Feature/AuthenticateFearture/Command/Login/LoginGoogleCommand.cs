@@ -63,7 +63,10 @@ namespace Authenticate_Service.Feature.AuthenticateFearture.Command.Login
                     var getUserId = _context.Users.FirstOrDefault(x => x.Email.Equals(request.Email)).Id;
 
                     var tokenGenerator = new GenerateJwtToken(_configuration);
-                    var roles = new List<string> { "Student" };
+                    var roles = (from u in _context.Users
+                                     join role in _context.Roles on u.RoleId equals role.Id
+                                     where u.Email == request.Email
+                                     select role.Name).ToList();
 
                     var token = tokenGenerator.GenerateToken(getUserId, request.Email, roles);
 

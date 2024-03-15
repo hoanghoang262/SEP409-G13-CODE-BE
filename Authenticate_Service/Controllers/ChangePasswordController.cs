@@ -14,11 +14,6 @@ namespace Authenticate_Service.Controllers
         {
             mediator = _mediator;
         }
-        [HttpPost]
-
-        public async Task<IActionResult> ChangePass(ChangePasswordCommand command)
-        {
-            return Ok(await mediator.Send(command));
-        }
+       
     }
 }

@@ -1,7 +1,9 @@
 ﻿using CourseGRPC;
+using CourseGRPC.Services;
 using CourseService.API.Feartures.CourseFearture.Command.CreateCourse;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using ModerationService.API.Fearture.Command;
 using ModerationService.API.Fearture.Command.Moderations;
 using ModerationService.API.Fearture.Querries.Moderations;
@@ -16,15 +18,16 @@ namespace ModerationService.API.Controllers
     {
         private readonly IMediator _mediator;
         private readonly Content_ModerationContext _context;
+        private readonly CheckCourseIdServicesGrpc service;
 
-        public ModerationController(IMediator mediator,Content_ModerationContext context)
+        public ModerationController(IMediator mediator,Content_ModerationContext context,CheckCourseIdServicesGrpc _service)
         {
             _mediator = mediator;
             _context= context;
+            service = _service;
           
         }
         [HttpGet]
-
         public async Task<IActionResult> GetModerationCourseById(int courseId)
         {
             var query = new GetModerationCourseByIdQuerry { CourseId = courseId };
@@ -97,11 +100,56 @@ namespace ModerationService.API.Controllers
         [HttpPost]
         public async Task<ActionResult> SendToModeration(int CourseId)
         {
-            var course = await _context.Courses.FindAsync(CourseId);
-
+            var course =  _context.Courses.FirstOrDefault(x=>x.Id.Equals(CourseId));
+            
             course.IsCompleted = true;
 
             await _context.SaveChangesAsync();
+
+            var moderationcourse =  _context.Moderations.FirstOrDefault(x => x.CourseId.Equals(CourseId));
+
+            var isExist = await service.SendCourseId(CourseId);
+            if (moderationcourse == null)
+            {
+                var moderation = new Moderation
+                {
+                    CourseId = course.Id,
+                    ChangeType = "Add",
+                    CreatedBy = course.CreatedBy,
+                    ApprovedContent = "Add a new course",
+                    Status = "Pending",
+                    CreatedAt = course.CreatedAt,
+                    CourseName = course.Name
+
+                };
+                await _context.Moderations.AddAsync(moderation);
+                await _context.SaveChangesAsync();
+
+            }
+            if(moderationcourse != null&& isExist.IsCourseExist.Equals(0))
+            {
+                moderationcourse.CreatedAt = DateTime.Now;
+                await _context.SaveChangesAsync();
+
+            }
+            if (moderationcourse != null && isExist.IsCourseExist.Equals(CourseId))
+            {
+                var moderation = new Moderation
+                {
+                    CourseId = course.Id,
+                    ChangeType = "Update",
+                    CreatedBy = course.CreatedBy,
+                    ApprovedContent = "Update a new course",
+                    Status = "Pending",
+                    CreatedAt = course.CreatedAt,
+                    CourseName = course.Name
+
+                };
+                await _context.Moderations.AddAsync(moderation);
+                await _context.SaveChangesAsync();
+
+            }
+
 
             return Ok("Send successfully");
             

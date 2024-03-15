@@ -1,0 +1,18 @@
+syntax = "proto3";
+
+option csharp_namespace = "CourseGRPC";
+
+package checkcourseid;
+
+service CheckCourseIdService {
+  rpc CheckCourseId (CheckCourseIdRequest) returns (CheckCourseIdResponse);
+}
+
+message CheckCourseIdRequest {
+  int32 CourseId = 1;
+}
+
+message CheckCourseIdResponse {
+    int32 isCourseExist = 1;
+}
+

@@ -1,6 +1,7 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using ModerationService.API.Fearture.Command;
+using ModerationService.API.Fearture.Querries.Lesson;
 
 namespace ModerationService.API.Controllers
 {
@@ -22,25 +23,39 @@ namespace ModerationService.API.Controllers
             return Ok(result);
         }
 
-        //[HttpPut]
-        //public async Task<IActionResult> UpdateLesson(int id, [FromBody] UpdateLessonCommand command)
-        //{
-        //    if (id != command.Id)
-        //    {
-        //        return BadRequest();
-        //    }
+        [HttpPut]
+        public async Task<IActionResult> UpdateLesson(int id, UpdateLessonCommand command)
+        {
+            if (id != command.LessonId)
+            {
+                return BadRequest();
+            }
 
-        //    var result = await _mediator.Send(command);
-        //    return Ok(result);
-        //}
+            var result = await _mediator.Send(command);
+            return Ok(result);
+        }
 
-        //[HttpDelete]
-        //public async Task<IActionResult> DeleteLesson(int id)
-        //{
-        //    var command = new DeleteLessonCommand { Id = id };
-        //    var result = await _mediator.Send(command);
-        //    return Ok(result);
-        //}
+        [HttpGet]
+        public async Task<IActionResult> GetLessonById(int id)
+        {
+            var query = new GetLessonByIdQuery { LessonId = id };
+            var lessonDTO = await _mediator.Send(query);
+
+            if (lessonDTO == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(lessonDTO);
+        }
+
+        [HttpDelete]
+        public async Task<IActionResult> DeleteLesson(int id)
+        {
+            var command = new DeleteLessonCommand { Id = id };
+            var result = await _mediator.Send(command);
+            return Ok(result);
+        }
     }
 }
 

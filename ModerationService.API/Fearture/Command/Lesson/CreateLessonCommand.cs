@@ -5,13 +5,13 @@ using ModerationService.API.Models;
 
 namespace ModerationService.API.Fearture.Command
 {
-    public class CreateLessonCommand : IRequest<int>
+    public class CreateLessonCommand : IRequest<LessonDTO>
     {
         public int ChapterId { get; set; }
         public LessonDTO Lesson { get; set; }
     }
 
-    public class CreateLessonCommandHandler : IRequestHandler<CreateLessonCommand, int>
+    public class CreateLessonCommandHandler : IRequestHandler<CreateLessonCommand, LessonDTO>
     {
         private readonly Content_ModerationContext _context;
 
@@ -20,7 +20,7 @@ namespace ModerationService.API.Fearture.Command
             _context = moderationContext;
         }
 
-        public async Task<int> Handle(CreateLessonCommand request, CancellationToken cancellationToken)
+        public async Task<LessonDTO> Handle(CreateLessonCommand request, CancellationToken cancellationToken)
         {
             var chapter = await _context.Chapters
                  .Include(c => c.Lessons)
@@ -28,28 +28,7 @@ namespace ModerationService.API.Fearture.Command
                          .ThenInclude(tq => tq.AnswerOptions)
                  .FirstOrDefaultAsync(c => c.Id == request.ChapterId);
 
-            if (chapter != null)
-            {
-                
-                foreach (var lesson in chapter.Lessons)
-                {
-                    foreach (var theoryQuestion in lesson.TheoryQuestions)
-                    {
-                        _context.AnswerOptions.RemoveRange(theoryQuestion.AnswerOptions);
-                    }
-                }
-
-               
-                _context.TheoryQuestions.RemoveRange(chapter.Lessons.SelectMany(l => l.TheoryQuestions));
-
-               
-                _context.Lessons.RemoveRange(chapter.Lessons);
-
-                
-                await _context.SaveChangesAsync();
-
-               
-            }
+           
             var newLesson = new Lesson
             {
                 ChapterId = request.ChapterId,
@@ -91,8 +70,34 @@ namespace ModerationService.API.Fearture.Command
 
             // Save changes to the database
             await _context.SaveChangesAsync();
+            var lessonDTO = new LessonDTO
+            {
+                Id = newLesson.Id,
+                ChapterId = newLesson.ChapterId,
+                Title = newLesson.Title,
+                VideoUrl = newLesson.VideoUrl,
+                Description = newLesson.Description,
+                Duration = newLesson.Duration,
+                ContentLesson = newLesson.ContentLesson,
+                Questions = newLesson.TheoryQuestions.Select(tq => new TheoryQuestionDTO
+                {
+                    Id = tq.Id,
+                    VideoId = tq.VideoId,
+                    ContentQuestion = tq.ContentQuestion,
+                    Time = tq.Time,
+                    AnswerOptions = tq.AnswerOptions.Select(ao => new AnswerOptionsDTO
+                    {
+                        Id = ao.Id,
+                        QuestionId = ao.QuestionId,
+                        OptionsText = ao.OptionsText,
+                        CorrectAnswer = ao.CorrectAnswer
+                    }).ToList()
+                }).ToList()
+            };
 
-            return newLesson.Id;
+            return lessonDTO;
+
+            
 
 
            
