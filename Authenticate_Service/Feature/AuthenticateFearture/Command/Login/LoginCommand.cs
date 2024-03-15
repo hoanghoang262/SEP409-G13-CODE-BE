@@ -45,8 +45,8 @@ namespace Authenticate_Service.Feature.AuthenticateFearture.Command.Login
 
                         var userId = user.Id;
                         var userRoles = (from u in _context.Users
-                                         where user.UserName == request.UserName
                                          join role in _context.Roles on u.RoleId equals role.Id
+                                         where u.UserName == request.UserName
                                          select role.Name).ToList();
 
                         var tokenGenerator = new GenerateJwtToken(_configuration);

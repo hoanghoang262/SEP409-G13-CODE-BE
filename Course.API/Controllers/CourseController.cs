@@ -2,7 +2,8 @@
 
 using CloudinaryDotNet;
 using CourseService.API.Feartures.CourseFearture.Queries.CourseQueries;
-
+using CourseService.API.Models;
+using MassTransit;
 using MediatR;
 
 using Microsoft.AspNetCore.Mvc;
@@ -15,11 +16,13 @@ namespace CourseService.Controllers
     {
         private readonly IMediator _mediator;
         private readonly Cloudinary _cloudinary;
+        private readonly CourseContext context;
 
-        public CourseController(IMediator mediator, Cloudinary cloudinary)
+        public CourseController(IMediator mediator, Cloudinary cloudinary,CourseContext _context)
         {
             _mediator = mediator;
-            _cloudinary = cloudinary;   
+            _cloudinary = cloudinary; 
+            context=_context;
         }
 
 
@@ -106,6 +109,19 @@ namespace CourseService.Controllers
             {
                 return StatusCode(500, $"Error getting practice question by id: {ex.Message}");
             }
+        }
+        [HttpPost]
+        public async Task<IActionResult> CompletedLesson(int userId, int lessonId)
+        {
+            var completed = new CompleteLesson
+            {
+                LessonId = lessonId,
+                UserId = userId
+            };
+            context.CompleteLessons.Add(completed);
+            await context.SaveChangesAsync();
+            return Ok(completed);
+
         }
 
 

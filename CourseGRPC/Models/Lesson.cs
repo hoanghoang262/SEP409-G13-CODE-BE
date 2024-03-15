@@ -8,6 +8,7 @@ namespace CourseGRPC.Models
         public Lesson()
         {
             CompleteLessons = new HashSet<CompleteLesson>();
+            Notes = new HashSet<Note>();
             TheoryQuestions = new HashSet<TheoryQuestion>();
         }
 
@@ -21,6 +22,7 @@ namespace CourseGRPC.Models
 
         public virtual Chapter? Chapter { get; set; }
         public virtual ICollection<CompleteLesson> CompleteLessons { get; set; }
+        public virtual ICollection<Note> Notes { get; set; }
         public virtual ICollection<TheoryQuestion> TheoryQuestions { get; set; }
     }
 }

@@ -72,6 +72,7 @@ namespace ModerationService.API.Feature.Queries
                         UserName = userName.Name,
                         CoursePicture=moderation.Course.Picture,
                         CourseDescription=moderation.Course.Description,
+                        Tag=moderation.Course.Tag,
 
                        
                     };

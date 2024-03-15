@@ -5,8 +5,8 @@ namespace CourseGRPC.Services
 {
     public class GetCoursesId : GetCourseByIdService.GetCourseByIdServiceBase
     {
-        private readonly Course_DeployContext _context;
-        public GetCoursesId(Course_DeployContext context)
+        private readonly CourseContext _context;
+        public GetCoursesId(CourseContext context)
         {
             _context = context;
         }

@@ -3,7 +3,7 @@ using ModerationService.API.Models;
 
 namespace ModerationService.API.Fearture.Command
 {
-    public class CreateChapterCommand : IRequest<int>
+    public class CreateChapterCommand : IRequest<Chapter>
     {
         public string? Name { get; set; }
         public int? CourseId { get; set; }
@@ -11,7 +11,7 @@ namespace ModerationService.API.Fearture.Command
         public bool? IsNew { get; set; }
     }
 
-    public class AddChapterCommandHandler : IRequestHandler<CreateChapterCommand, int>
+    public class AddChapterCommandHandler : IRequestHandler<CreateChapterCommand, Chapter>
     {
         private readonly Content_ModerationContext _context;
 
@@ -20,7 +20,7 @@ namespace ModerationService.API.Fearture.Command
             _context = moderationContext;
         }
 
-        public async Task<int> Handle(CreateChapterCommand request, CancellationToken cancellationToken)
+        public async Task<Chapter> Handle(CreateChapterCommand request, CancellationToken cancellationToken)
         {
             var chapter = new Chapter
             {
@@ -33,7 +33,7 @@ namespace ModerationService.API.Fearture.Command
             _context.Chapters.Add(chapter);
             await _context.SaveChangesAsync();
 
-            return chapter.Id;
+            return chapter;
         }
 
     }

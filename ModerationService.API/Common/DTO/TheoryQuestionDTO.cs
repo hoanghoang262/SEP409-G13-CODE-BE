@@ -10,8 +10,9 @@ namespace ModerationService.API.Common.ModelDTO
         public int? VideoId { get; set; }
         public string? ContentQuestion { get; set; }
         public long? Time { get; set; }
+        public string? TimeQuestion { get; set; }
 
-       
+
         public virtual ICollection<AnswerOptionsDTO> AnswerOptions { get; set; }
        
 

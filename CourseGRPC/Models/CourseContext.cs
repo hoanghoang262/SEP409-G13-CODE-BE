@@ -5,13 +5,14 @@ using Microsoft.EntityFrameworkCore.Metadata;
 
 namespace CourseGRPC.Models
 {
-    public partial class Course_DeployContext : DbContext
+    public partial class CourseContext : DbContext
     {
-        public Course_DeployContext()
+
+        public CourseContext()
         {
         }
 
-        public Course_DeployContext(DbContextOptions<Course_DeployContext> options)
+        public CourseContext(DbContextOptions<CourseContext> options)
             : base(options)
         {
         }
@@ -22,6 +23,7 @@ namespace CourseGRPC.Models
         public virtual DbSet<Course> Courses { get; set; } = null!;
         public virtual DbSet<Enrollment> Enrollments { get; set; } = null!;
         public virtual DbSet<Lesson> Lessons { get; set; } = null!;
+        public virtual DbSet<Note> Notes { get; set; } = null!;
         public virtual DbSet<PracticeQuestion> PracticeQuestions { get; set; } = null!;
         public virtual DbSet<TestCase> TestCases { get; set; } = null!;
         public virtual DbSet<TheoryQuestion> TheoryQuestions { get; set; } = null!;
@@ -33,7 +35,7 @@ namespace CourseGRPC.Models
             if (!optionsBuilder.IsConfigured)
             {
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-                optionsBuilder.UseSqlServer("Server=tcp:fptulearnserver.database.windows.net,1433;Initial Catalog=Course_Deploy;Persist Security Info=False;User ID=fptu;Password=24082002aA;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;");
+                optionsBuilder.UseSqlServer("Server=tcp:fptulearnserver.database.windows.net,1433;Initial Catalog=Course;Persist Security Info=False;User ID=fptu;Password=24082002aA;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;");
             }
         }
 
@@ -136,6 +138,25 @@ namespace CourseGRPC.Models
                     .HasConstraintName("FK_Videos_Chapter");
             });
 
+            modelBuilder.Entity<Note>(entity =>
+            {
+                entity.ToTable("Note");
+
+                entity.Property(e => e.ContentNote).HasColumnName("Content_Note");
+
+                entity.Property(e => e.LessonId).HasColumnName("Lesson_Id");
+
+                entity.Property(e => e.UserId).HasColumnName("User_Id");
+
+                entity.Property(e => e.VideoLink).HasColumnName("Video_Link");
+
+                entity.HasOne(d => d.Lesson)
+                    .WithMany(p => p.Notes)
+                    .HasForeignKey(d => d.LessonId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_Note_Lesson");
+            });
+
             modelBuilder.Entity<PracticeQuestion>(entity =>
             {
                 entity.ToTable("Practice_Question");
@@ -143,6 +164,8 @@ namespace CourseGRPC.Models
                 entity.Property(e => e.Id).ValueGeneratedNever();
 
                 entity.Property(e => e.CodeForm).HasColumnName("Code_Form");
+
+                entity.Property(e => e.TestCaseJava).HasColumnName("TestCase_Java");
 
                 entity.HasOne(d => d.Chapter)
                     .WithMany(p => p.PracticeQuestions)
@@ -187,8 +210,6 @@ namespace CourseGRPC.Models
             modelBuilder.Entity<UserAnswerCode>(entity =>
             {
                 entity.ToTable("User_Answer_Code");
-
-                entity.Property(e => e.Id).ValueGeneratedNever();
 
                 entity.Property(e => e.AnswerCode).HasColumnName("Answer_Code");
 

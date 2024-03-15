@@ -3,6 +3,7 @@ using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using ModerationService.API.Fearture.Command.Course;
+using ModerationService.API.Fearture.Querries.Moderations;
 using ModerationService.API.Models;
 
 namespace ModerationService.API.Controllers
@@ -40,6 +41,15 @@ namespace ModerationService.API.Controllers
 
             return Ok(result); 
         }
+        [HttpGet]
+        public async Task<IActionResult> GetCourseByUserId(int userId)
+        {
+            var command = new GetCourseByUserIdQuerry { UserId = userId };
+            var result = await _mediator.Send(command);
+
+            return Ok(result);
+        }
+
 
     }
 }

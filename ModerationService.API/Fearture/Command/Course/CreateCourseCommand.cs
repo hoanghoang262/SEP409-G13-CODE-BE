@@ -8,7 +8,7 @@ using ModerationService.API.Models;
 
 namespace CourseService.API.Feartures.CourseFearture.Command.CreateCourse
 {
-    public class CreateCourseCommand : IRequest<int>
+    public class CreateCourseCommand : IRequest<Course>
     {
         public string? Name { get; set; }
         public string? Description { get; set; }
@@ -19,7 +19,7 @@ namespace CourseService.API.Feartures.CourseFearture.Command.CreateCourse
 
        
 
-        public class CreateCourseHandler : IRequestHandler<CreateCourseCommand, int>
+        public class CreateCourseHandler : IRequestHandler<CreateCourseCommand, Course>
         {
             private readonly Content_ModerationContext _context;
 
@@ -31,7 +31,7 @@ namespace CourseService.API.Feartures.CourseFearture.Command.CreateCourse
                 _context = context;
                 service = _service;
             }
-            public async Task<int> Handle(CreateCourseCommand request, CancellationToken cancellationToken)
+            public async Task<Course> Handle(CreateCourseCommand request, CancellationToken cancellationToken)
             {
                 var user = await service.SendUserId(request.CreatedBy);
 
@@ -159,7 +159,7 @@ namespace CourseService.API.Feartures.CourseFearture.Command.CreateCourse
 
 
 
-                return newCourse.Id;
+                return newCourse;
             }
         }
     }

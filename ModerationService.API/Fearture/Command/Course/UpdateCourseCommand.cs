@@ -15,7 +15,7 @@ using System.Threading.Tasks;
 
 namespace CourseService.API.Feartures.CourseFearture.Command.CreateCourse
 {
-    public class UpdateCourseCommand : IRequest<IActionResult>
+    public class UpdateCourseCommand : IRequest<Course>
     {
         public int Id { get; set; }
         public string? Name { get; set; }
@@ -25,9 +25,9 @@ namespace CourseService.API.Feartures.CourseFearture.Command.CreateCourse
         public int CreatedBy { get; set; }
         public DateTime? CreatedAt { get; set; } = DateTime.UtcNow;
 
-        public List<ChapterDTO> Chapters { get; set; }
+       // public List<ChapterDTO> Chapters { get; set; }
 
-        public class UpdateCourseCommandHandler : IRequestHandler<UpdateCourseCommand, IActionResult>
+        public class UpdateCourseCommandHandler : IRequestHandler<UpdateCourseCommand, Course>
         {
             private readonly Content_ModerationContext _context;
             private readonly GetCourseIdGrpcServices services;
@@ -41,7 +41,7 @@ namespace CourseService.API.Feartures.CourseFearture.Command.CreateCourse
             }
 
 
-            public async Task<IActionResult> Handle(UpdateCourseCommand request, CancellationToken cancellationToken)
+            public async Task<Course> Handle(UpdateCourseCommand request, CancellationToken cancellationToken)
             {
                 var courseId = await services.SendCourseId(request.Id);
                 var user = await service.SendUserId(request.CreatedBy);
@@ -68,7 +68,7 @@ namespace CourseService.API.Feartures.CourseFearture.Command.CreateCourse
 
                 if (existingCourse == null)
                 {
-                    return new NotFoundResult();
+                    return null;
                 }
 
 
@@ -251,7 +251,7 @@ namespace CourseService.API.Feartures.CourseFearture.Command.CreateCourse
 
 
                 await _context.SaveChangesAsync(cancellationToken);
-                return new OkObjectResult("");
+                return existingCourse;
             }
         }
     }

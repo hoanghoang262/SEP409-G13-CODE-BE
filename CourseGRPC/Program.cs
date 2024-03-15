@@ -17,9 +17,8 @@ namespace CourseGRPC
 
             // Add services to the container.
             builder.Services.AddGrpc();
-            builder.Services.AddDbContext<Course_DeployContext>(
-    oprions => oprions.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"))
-    );
+            builder.Services.AddDbContext<CourseContext>(
+             oprions => oprions.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
             var app = builder.Build();
 
@@ -27,6 +26,7 @@ namespace CourseGRPC
             
             app.MapGrpcService<UserEnrollCourse>();
             app.MapGrpcService<GetCoursesId>();
+            app.MapGrpcService<CheckCourseIdServices>();
             //app.MapGrpcService<GreeterService>();
            
             app.MapGet("/", () => "Communication with gRPC endpoints must be made through a gRPC client. To learn how to create a client, visit: https://go.microsoft.com/fwlink/?linkid=2086909");
