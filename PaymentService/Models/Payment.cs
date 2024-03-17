@@ -25,6 +25,8 @@ namespace PaymentService.Models
         public decimal? PaidAmount { get; set; }
         public string? PaymentStatus { get; set; }
         public string? PaymentLastMessage { get; set; }
+        public int? UserCreateCourseId { get; set; }
+        public int? CourseId { get; set; }
 
         public virtual Merchant? Merchant { get; set; }
         public virtual PaymentDestination? PaymentDestination { get; set; }

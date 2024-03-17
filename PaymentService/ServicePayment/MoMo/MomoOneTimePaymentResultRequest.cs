@@ -20,6 +20,8 @@ namespace PaymentService.ServicePayment.MoMo
         public long responseTime { get; set; }
         public string? extraData { get; set; } = string.Empty;
         public string? signature { get; set; } = string.Empty;
+        public int? UserCreateCourseId { get; set; }
+        public int? CourseId { get; set; }
 
         public bool IsValidSignature(string accessKey, string secretKey)
         {

@@ -65,6 +65,8 @@ namespace PaymentService.Models
 
                 entity.Property(e => e.PaymentId).HasMaxLength(50);
 
+                entity.Property(e => e.CourseId).HasColumnName("Course_Id");
+
                 entity.Property(e => e.ExpireDate).HasColumnType("datetime");
 
                 entity.Property(e => e.MerchantId).HasMaxLength(50);
@@ -88,6 +90,8 @@ namespace PaymentService.Models
                 entity.Property(e => e.PaymentStatus).HasMaxLength(20);
 
                 entity.Property(e => e.RequriedAmount).HasColumnType("decimal(19, 2)");
+
+                entity.Property(e => e.UserCreateCourseId).HasColumnName("UserCreateCourse_Id");
 
                 entity.HasOne(d => d.Merchant)
                     .WithMany(p => p.Payments)
