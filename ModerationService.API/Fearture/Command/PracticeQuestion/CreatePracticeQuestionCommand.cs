@@ -29,17 +29,7 @@ namespace ModerationService.API.Feature.Command
                      .ThenInclude(l => l.TestCases)
                  .FirstOrDefaultAsync(c => c.Id == request.ChapterId);
 
-            if (chapter != null)
-            {
-                foreach (var prac in chapter.PracticeQuestions)
-                {
-                    _context.TestCases.RemoveRange(prac.TestCases);
-                }
-
-                _context.PracticeQuestions.RemoveRange(chapter.PracticeQuestions);
-
-                await _context.SaveChangesAsync();
-            }
+           
 
             var newPractice = new PracticeQuestion
             {
