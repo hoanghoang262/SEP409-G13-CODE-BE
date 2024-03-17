@@ -1,4 +1,5 @@
-﻿using MediatR;
+﻿using Contract.Service.Message;
+using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using ModerationService.API.Common.ModelDTO;
@@ -16,18 +17,12 @@ namespace ModerationService.API.Controllers
         {
             _mediator = mediator;
         }
-
         
         [HttpGet("{id}")]
         public async Task<ActionResult<TheoryQuestionDTO>> GetTheoryQuestionById(int id)
         {
             var query = new GetTheoryQuestionByIdQuery { TheoryQuestionId = id };
             var theoryQuestionDTO = await _mediator.Send(query);
-
-            if (theoryQuestionDTO == null)
-            {
-                return NotFound();
-            }
 
             return Ok(theoryQuestionDTO);
         }

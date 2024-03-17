@@ -1,15 +1,17 @@
-﻿using MediatR;
+﻿using Contract.Service.Message;
+using MediatR;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ModerationService.API.Common.ModelDTO;
 using ModerationService.API.Models;
 
 namespace ModerationService.API.Fearture.Querries.Lesson
 {
-    public class GetLessonByIdQuery : IRequest<LessonDTO>
+    public class GetLessonByIdQuery : IRequest<ActionResult<LessonDTO>>
     {
         public int LessonId { get; set; }
     }
-    public class GetLessonByIdQueryHandler : IRequestHandler<GetLessonByIdQuery, LessonDTO>
+    public class GetLessonByIdQueryHandler : IRequestHandler<GetLessonByIdQuery, ActionResult<LessonDTO>>
     {
         private readonly Content_ModerationContext _context;
 
@@ -18,15 +20,14 @@ namespace ModerationService.API.Fearture.Querries.Lesson
             _context = context;
         }
 
-        public async Task<LessonDTO> Handle(GetLessonByIdQuery request, CancellationToken cancellationToken)
+        public async Task<ActionResult<LessonDTO>> Handle(GetLessonByIdQuery request, CancellationToken cancellationToken)
         {
-            var lesson = await _context.Lessons.Include(c=>c.TheoryQuestions).ThenInclude(a=>a.AnswerOptions).FirstOrDefaultAsync(l => l.Id == request.LessonId);
+            var lesson = await _context.Lessons.Include(c => c.TheoryQuestions).ThenInclude(a => a.AnswerOptions).FirstOrDefaultAsync(l => l.Id == request.LessonId);
 
             if (lesson == null)
             {
-                return null; 
+                return new NotFoundObjectResult(Message.MSG22);
             }
-
 
             var lessonDTO = new LessonDTO
             {
@@ -47,17 +48,17 @@ namespace ModerationService.API.Fearture.Querries.Lesson
                     VideoId = n.VideoId,
                     AnswerOptions = n.AnswerOptions.Select(a => new AnswerOptionsDTO
                     {
-                        Id=a.Id,
-                        OptionsText=a.OptionsText,
-                        CorrectAnswer=a.CorrectAnswer,
-                        QuestionId = a.QuestionId   
+                        Id = a.Id,
+                        OptionsText = a.OptionsText,
+                        CorrectAnswer = a.CorrectAnswer,
+                        QuestionId = a.QuestionId
 
                     }).ToList()
 
                 }).ToList()
             };
 
-            return lessonDTO;
+            return new OkObjectResult(lessonDTO);
         }
     }
 }

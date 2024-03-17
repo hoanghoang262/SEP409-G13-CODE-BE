@@ -1,21 +1,13 @@
-﻿using CourseService.API.Common.ModelDTO;
+﻿using Contract.Service.Message;
 using GrpcServices;
-using MassTransit.Contracts;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using ModerationService.API.Common.ModelDTO;
 using ModerationService.API.GrpcServices;
 using ModerationService.API.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace CourseService.API.Feartures.CourseFearture.Command.CreateCourse
 {
-    public class UpdateCourseCommand : IRequest<Course>
+    public class UpdateCourseCommand : IRequest<ActionResult<Course>>
     {
         public int Id { get; set; }
         public string? Name { get; set; }
@@ -27,7 +19,7 @@ namespace CourseService.API.Feartures.CourseFearture.Command.CreateCourse
 
        // public List<ChapterDTO> Chapters { get; set; }
 
-        public class UpdateCourseCommandHandler : IRequestHandler<UpdateCourseCommand, Course>
+        public class UpdateCourseCommandHandler : IRequestHandler<UpdateCourseCommand, ActionResult<Course>>
         {
             private readonly Content_ModerationContext _context;
             private readonly GetCourseIdGrpcServices services;
@@ -40,37 +32,47 @@ namespace CourseService.API.Feartures.CourseFearture.Command.CreateCourse
                 service=_service;
             }
 
-
-            public async Task<Course> Handle(UpdateCourseCommand request, CancellationToken cancellationToken)
+            public async Task<ActionResult<Course>> Handle(UpdateCourseCommand request, CancellationToken cancellationToken)
             {
+                // check if the course exist
+                var courseId = await services.SendCourseId(request.Id);
+                if (courseId == null)
+                {
+                    return new BadRequestObjectResult(Message.MSG25);
+                }
                 
+                // Check if the user exist
                 var user = await service.SendUserId(request.CreatedBy);
+                if (user == null)
+                {
+                    return new BadRequestObjectResult(Message.MSG01);
+                }
 
                 var existingCourse = _context.Courses
-        //.Include(c => c.Chapters)
-        //    .ThenInclude(ch => ch.Lessons)
-        //        .ThenInclude(l => l.TheoryQuestions)
-        //.Include(c => c.Chapters)
-        //    .ThenInclude(ch => ch.PracticeQuestions)
-        //        .ThenInclude(cq => cq.TestCases)
-        //.Include(c => c.Chapters)
-        //    .ThenInclude(ch => ch.Lessons)
-        //        .ThenInclude(l => l.TheoryQuestions)
-        //          .ThenInclude(ans => ans.AnswerOptions)
-        //.Include(c => c.Chapters)
-        //    .ThenInclude(ch => ch.PracticeQuestions)
-        //            .ThenInclude(cq => cq.TestCases)
-        //.Include(c => c.Chapters)
-        //    .ThenInclude(ch => ch.PracticeQuestions)
-        //            .ThenInclude(cq => cq.UserAnswerCodes)
+                    //.Include(c => c.Chapters)
+                    //    .ThenInclude(ch => ch.Lessons)
+                    //        .ThenInclude(l => l.TheoryQuestions)
+                    //.Include(c => c.Chapters)
+                    //    .ThenInclude(ch => ch.PracticeQuestions)
+                    //        .ThenInclude(cq => cq.TestCases)
+                    //.Include(c => c.Chapters)
+                    //    .ThenInclude(ch => ch.Lessons)
+                    //        .ThenInclude(l => l.TheoryQuestions)
+                    //          .ThenInclude(ans => ans.AnswerOptions)
+                    //.Include(c => c.Chapters)
+                    //    .ThenInclude(ch => ch.PracticeQuestions)
+                    //            .ThenInclude(cq => cq.TestCases)
+                    //.Include(c => c.Chapters)
+                    //    .ThenInclude(ch => ch.PracticeQuestions)
+                    //            .ThenInclude(cq => cq.UserAnswerCodes)
                         .FirstOrDefault(course => course.Id == request.Id);
 
 
+                // Check if the course exist
                 if (existingCourse == null)
                 {
-                    return null;
+                    return new BadRequestObjectResult(Message.MSG25);
                 }
-
 
                 existingCourse.Name = request.Name;
                 existingCourse.Description = request.Description;
@@ -250,7 +252,7 @@ namespace CourseService.API.Feartures.CourseFearture.Command.CreateCourse
 
 
                 await _context.SaveChangesAsync(cancellationToken);
-                return existingCourse;
+                return new OkObjectResult(existingCourse);
             }
         }
     }

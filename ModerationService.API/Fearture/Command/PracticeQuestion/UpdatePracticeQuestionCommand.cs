@@ -1,17 +1,19 @@
-﻿using MediatR;
+﻿using Contract.Service.Message;
+using MediatR;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ModerationService.API.Common.ModelDTO;
 using ModerationService.API.Models;
 
 namespace ModerationService.API.Fearture.Command.PracticeQuestion
 {
-    public class UpdatePracticeQuestionCommand : IRequest<PracticeQuestionDTO>
+    public class UpdatePracticeQuestionCommand : IRequest<ActionResult<PracticeQuestionDTO>>
     {
-        public int PracticeQuestionId { get; set; } 
-        public PracticeQuestionDTO PracticeQuestion { get; set; } 
+        public int PracticeQuestionId { get; set; }
+        public PracticeQuestionDTO PracticeQuestion { get; set; }
     }
 
-    public class UpdatePracticeQuestionCommandHandler : IRequestHandler<UpdatePracticeQuestionCommand, PracticeQuestionDTO>
+    public class UpdatePracticeQuestionCommandHandler : IRequestHandler<UpdatePracticeQuestionCommand, ActionResult<PracticeQuestionDTO>>
     {
         private readonly Content_ModerationContext _context;
 
@@ -20,26 +22,31 @@ namespace ModerationService.API.Fearture.Command.PracticeQuestion
             _context = moderationContext;
         }
 
-        public async Task<PracticeQuestionDTO> Handle(UpdatePracticeQuestionCommand request, CancellationToken cancellationToken)
+        public async Task<ActionResult<PracticeQuestionDTO>> Handle(UpdatePracticeQuestionCommand request, CancellationToken cancellationToken)
         {
+            // Validate input
+            if (string.IsNullOrEmpty(request.PracticeQuestion.CodeForm)
+                || string.IsNullOrEmpty(request.PracticeQuestion.Description)
+                || string.IsNullOrEmpty(request.PracticeQuestion.TestCaseJava))
+            {
+                return new BadRequestObjectResult(Message.MSG11);
+            }
+
             var existingPracticeQuestion = await _context.PracticeQuestions
                 .Include(pq => pq.TestCases)
                 .FirstOrDefaultAsync(pq => pq.Id == request.PracticeQuestionId);
 
+            // Check if practice question is exist
             if (existingPracticeQuestion == null)
             {
-                throw new Exception("Practice question not found"); 
+                return new BadRequestObjectResult(Message.MSG31);
             }
 
-          
             existingPracticeQuestion.CodeForm = request.PracticeQuestion.CodeForm;
             existingPracticeQuestion.Description = request.PracticeQuestion.Description;
             existingPracticeQuestion.TestCaseJava = request.PracticeQuestion.TestCaseJava;
-
-           
             existingPracticeQuestion.TestCases.Clear();
 
-            
             foreach (var testCaseDTO in request.PracticeQuestion.TestCases)
             {
                 var newTestCase = new TestCase
@@ -57,10 +64,8 @@ namespace ModerationService.API.Fearture.Command.PracticeQuestion
                 existingPracticeQuestion.TestCases.Add(newTestCase);
             }
 
-         
             await _context.SaveChangesAsync();
 
-          
             var practiceQuestionDTO = new PracticeQuestionDTO
             {
                 Id = existingPracticeQuestion.Id,
@@ -83,7 +88,7 @@ namespace ModerationService.API.Fearture.Command.PracticeQuestion
                 }).ToList()
             };
 
-            return practiceQuestionDTO;
+            return new OkObjectResult(practiceQuestionDTO);
         }
     }
 }

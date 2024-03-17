@@ -1,6 +1,8 @@
-﻿using CourseService.API.Common.ModelDTO;
+﻿using Contract.Service.Message;
+using CourseService.API.Common.ModelDTO;
 using CourseService.API.Models;
 using MediatR;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
 using System.Threading;
@@ -8,11 +10,11 @@ using System.Threading.Tasks;
 
 namespace CourseService.API.Feartures.CourseFearture.Queries.CourseQueries
 {
-    public class GetChapterByIdQuerry : IRequest<ChapterDTO>
+    public class GetChapterByIdQuerry : IRequest<ActionResult<ChapterDTO>>
     {
         public int ChapterId { get; set; }
 
-        public class GetChapterByIdQuerryHandler : IRequestHandler<GetChapterByIdQuerry, ChapterDTO>
+        public class GetChapterByIdQuerryHandler : IRequestHandler<GetChapterByIdQuerry, ActionResult<ChapterDTO>>
         {
             private readonly CourseContext _context;
             public GetChapterByIdQuerryHandler(CourseContext context)
@@ -20,13 +22,13 @@ namespace CourseService.API.Feartures.CourseFearture.Queries.CourseQueries
                 _context = context;
             }
 
-            public async Task<ChapterDTO> Handle(GetChapterByIdQuerry request, CancellationToken cancellationToken)
+            public async Task<ActionResult<ChapterDTO>> Handle(GetChapterByIdQuerry request, CancellationToken cancellationToken)
             {
-                var chapter = await _context.Chapters.Include(c=>c.Lessons).Include(pc=>pc.PracticeQuestions).FirstOrDefaultAsync(c => c.Id.Equals(request.ChapterId));
+                var chapter = await _context.Chapters.Include(c => c.Lessons).Include(pc => pc.PracticeQuestions).FirstOrDefaultAsync(c => c.Id.Equals(request.ChapterId));
 
                 if (chapter == null)
                 {
-                    return null;
+                    return new NotFoundObjectResult(Message.MSG22);
                 }
 
                 var chapterDTO = new ChapterDTO
@@ -55,7 +57,7 @@ namespace CourseService.API.Feartures.CourseFearture.Queries.CourseQueries
                     }).ToList()
                 };
 
-                return chapterDTO;
+                return new OkObjectResult(chapterDTO);
             }
         }
     }

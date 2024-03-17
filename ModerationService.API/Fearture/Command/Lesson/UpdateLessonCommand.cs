@@ -1,17 +1,19 @@
-﻿using MediatR;
+﻿using Contract.Service.Message;
+using MediatR;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ModerationService.API.Common.ModelDTO;
 using ModerationService.API.Models;
 
 namespace ModerationService.API.Fearture.Command
 {
-    public class UpdateLessonCommand : IRequest<LessonDTO>
+    public class UpdateLessonCommand : IRequest<ActionResult<LessonDTO>>
     {
-        public int LessonId { get; set; } 
-        public LessonDTO Lesson { get; set; } 
+        public int LessonId { get; set; }
+        public LessonDTO Lesson { get; set; }
     }
 
-    public class UpdateLessonCommandHandler : IRequestHandler<UpdateLessonCommand, LessonDTO>
+    public class UpdateLessonCommandHandler : IRequestHandler<UpdateLessonCommand, ActionResult<LessonDTO>>
     {
         private readonly Content_ModerationContext _context;
 
@@ -20,19 +22,29 @@ namespace ModerationService.API.Fearture.Command
             _context = moderationContext;
         }
 
-        public async Task<LessonDTO> Handle(UpdateLessonCommand request, CancellationToken cancellationToken)
+        public async Task<ActionResult<LessonDTO>> Handle(UpdateLessonCommand request, CancellationToken cancellationToken)
         {
+            // validate input
+            if (string.IsNullOrEmpty(request.Lesson.Title)
+                || string.IsNullOrEmpty(request.Lesson.VideoUrl)
+                || string.IsNullOrEmpty(request.Lesson.Description)
+                || request.Lesson.Duration == null
+                || string.IsNullOrEmpty(request.Lesson.ContentLesson))
+            {
+                return new BadRequestObjectResult(Message.MSG11);
+            }
+
             var existingLesson = await _context.Lessons
                 .Include(l => l.TheoryQuestions)
                     .ThenInclude(tq => tq.AnswerOptions)
                 .FirstOrDefaultAsync(l => l.Id == request.LessonId);
 
+            // Check if lesson exists
             if (existingLesson == null)
             {
-                throw new Exception("Lesson not found"); 
+                return new BadRequestObjectResult(Message.MSG29);
             }
 
-          
             existingLesson.Title = request.Lesson.Title;
             existingLesson.VideoUrl = request.Lesson.VideoUrl;
             existingLesson.Description = request.Lesson.Description;
@@ -67,10 +79,8 @@ namespace ModerationService.API.Fearture.Command
                 existingLesson.TheoryQuestions.Add(newTheoryQuestion);
             }
 
-      
             await _context.SaveChangesAsync();
 
-          
             var lessonDTO = new LessonDTO
             {
                 Id = existingLesson.Id,
@@ -96,7 +106,7 @@ namespace ModerationService.API.Fearture.Command
                 }).ToList()
             };
 
-            return lessonDTO;
+            return new OkObjectResult(lessonDTO);
         }
     }
 }

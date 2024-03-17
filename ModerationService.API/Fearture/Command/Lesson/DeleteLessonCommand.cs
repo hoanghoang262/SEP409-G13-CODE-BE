@@ -1,15 +1,17 @@
-﻿using MediatR;
+﻿using Contract.Service.Message;
+using MediatR;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ModerationService.API.Models;
 
 namespace ModerationService.API.Fearture.Command
 {
-    public class DeleteLessonCommand : IRequest<int>
+    public class DeleteLessonCommand : IRequest<ActionResult<int>>
     {
         public int Id { get; set; }
     }
 
-    public class DeleteLessonCommandHandler : IRequestHandler<DeleteLessonCommand, int>
+    public class DeleteLessonCommandHandler : IRequestHandler<DeleteLessonCommand, ActionResult<int>>
     {
         private readonly Content_ModerationContext _context;
 
@@ -18,12 +20,17 @@ namespace ModerationService.API.Fearture.Command
             _context = moderationContext;
         }
 
-        public async Task<int> Handle(DeleteLessonCommand request, CancellationToken cancellationToken)
+        public async Task<ActionResult<int>> Handle(DeleteLessonCommand request, CancellationToken cancellationToken)
         {
-            var lesson = await _context.Lessons.Include(c=>c.TheoryQuestions).ThenInclude(l=>l.AnswerOptions).FirstOrDefaultAsync(x=>x.Id.Equals(request.Id));
+            var lesson = await _context.Lessons
+                .Include(c => c.TheoryQuestions)
+                .ThenInclude(l => l.AnswerOptions)
+                .FirstOrDefaultAsync(x => x.Id.Equals(request.Id));
 
             if (lesson == null)
-                return 0;
+            {
+                return new BadRequestObjectResult(Message.MSG29);
+            }
 
             foreach (var theoryQuestion in lesson.TheoryQuestions)
             {
@@ -35,7 +42,7 @@ namespace ModerationService.API.Fearture.Command
 
             await _context.SaveChangesAsync();
 
-            return lesson.Id;  
+            return new OkObjectResult(lesson.Id);
         }
     }
 }

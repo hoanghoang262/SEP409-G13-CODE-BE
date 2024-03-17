@@ -1,10 +1,10 @@
 ﻿using Authenticate_Service.Models;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using AuthenticateService.API.MessageOutput;
 using Microsoft.EntityFrameworkCore;
 using System.Text.RegularExpressions;
 using System.Globalization;
+using Contract.Service.Message;
 
 namespace AuthenticateService.API.Feature.AuthenticateFearture.Command.Users.UserCommand
 {

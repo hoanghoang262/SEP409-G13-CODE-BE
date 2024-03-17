@@ -31,15 +31,20 @@ namespace ModerationService.API.Feature.Queries
 
             public async Task<PageList<ModerationDTO>> Handle(GetModerationCourseQuerry request, CancellationToken cancellationToken)
             {
-           
+
                 List<Moderation> moderations;
                 if (string.IsNullOrEmpty(request.CourseName))
                 {
-                    moderations = await _context.Moderations.Include(c=>c.Course).Where(x=>x.Course.IsCompleted == true).ToListAsync();
+                    moderations = await _context.Moderations
+                        .Include(c => c.Course)
+                        .Where(x => x.Course.IsCompleted == true).ToListAsync();
                 }
                 else
                 {
-                    moderations = await _context.Moderations.Include(c => c.Course).Where(x => x.CourseName.Contains(request.CourseName) && x.Course.IsCompleted == true).ToListAsync();
+                    moderations = await _context.Moderations
+                        .Include(c => c.Course)
+                        .Where(x => x.CourseName
+                        .Contains(request.CourseName) && x.Course.IsCompleted == true).ToListAsync();
                 }
 
                 if (moderations == null)
@@ -70,11 +75,11 @@ namespace ModerationService.API.Feature.Queries
                         Status = moderation.Status,
                         CourseName = moderation.CourseName,
                         UserName = userName.Name,
-                        CoursePicture=moderation.Course.Picture,
-                        CourseDescription=moderation.Course.Description,
-                        Tag=moderation.Course.Tag,
+                        CoursePicture = moderation.Course.Picture,
+                        CourseDescription = moderation.Course.Description,
+                        Tag = moderation.Course.Tag,
 
-                       
+
                     };
                     moderationDTOs.Add(moderationDTO);
                 }

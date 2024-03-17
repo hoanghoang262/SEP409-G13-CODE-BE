@@ -1,17 +1,17 @@
-﻿using CourseService.API.Common.ModelDTO;
+﻿using Contract.Service.Message;
+using CourseService.API.Common.ModelDTO;
 using CourseService.API.Models;
 using MediatR;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace CourseService.API.Feartures.CourseFearture.Queries.CourseQueries
 {
-    public class GetLessonByIdQuerry : IRequest<LessonDTO>
+    public class GetLessonByIdQuerry : IRequest<ActionResult<LessonDTO>>
     {
         public int LessonId { get; set; }
 
-        public class GetLessonByIdQuerryHandler : IRequestHandler<GetLessonByIdQuerry, LessonDTO>
+        public class GetLessonByIdQuerryHandler : IRequestHandler<GetLessonByIdQuerry, ActionResult<LessonDTO>>
         {
             private readonly CourseContext _context;
             public GetLessonByIdQuerryHandler(CourseContext context)
@@ -19,18 +19,18 @@ namespace CourseService.API.Feartures.CourseFearture.Queries.CourseQueries
                 _context = context;
             }
 
-            public async Task<LessonDTO> Handle(GetLessonByIdQuerry request, CancellationToken cancellationToken)
+            public async Task<ActionResult<LessonDTO>> Handle(GetLessonByIdQuerry request, CancellationToken cancellationToken)
             {
                 var lesson = await _context.Lessons
                     .Include(l => l.Chapter)
-                    .ThenInclude(c=>c.Course)
-                    .Include(les=>les.TheoryQuestions)
-                    .ThenInclude(ans=>ans.AnswerOptions)
+                    .ThenInclude(c => c.Course)
+                    .Include(les => les.TheoryQuestions)
+                    .ThenInclude(ans => ans.AnswerOptions)
                     .FirstOrDefaultAsync(l => l.Id == request.LessonId);
 
                 if (lesson == null)
                 {
-                    return null;
+                    return new NotFoundObjectResult(Message.MSG22);
                 }
 
                 var lessonDTO = new LessonDTO
@@ -42,25 +42,25 @@ namespace CourseService.API.Feartures.CourseFearture.Queries.CourseQueries
                     Duration = lesson.Duration,
                     Title = lesson.Title,
                     VideoUrl = lesson.VideoUrl,
-                    CourseName=lesson.Chapter.Course.Name,
+                    CourseName = lesson.Chapter.Course.Name,
                     TheoryQuestions = lesson.TheoryQuestions.Select(l => new TheoryQuestionDTO
                     {
-                       Id=l.Id,
-                       ContentQuestion=l.ContentQuestion,
-                       Time=l.Time,
-                       VideoId=l.VideoId,
-                       TimeQuestion = l.TimeQuestion,
-                       AnswerOptions=l.AnswerOptions.Select(c=>new AnswerOptionDTO
-                       {
-                           Id=c.Id,
-                           CorrectAnswer=c.CorrectAnswer,
-                           OptionsText=c.OptionsText,
-                           QuestionId = c.QuestionId    
-                       }).ToList()
+                        Id = l.Id,
+                        ContentQuestion = l.ContentQuestion,
+                        Time = l.Time,
+                        VideoId = l.VideoId,
+                        TimeQuestion = l.TimeQuestion,
+                        AnswerOptions = l.AnswerOptions.Select(c => new AnswerOptionDTO
+                        {
+                            Id = c.Id,
+                            CorrectAnswer = c.CorrectAnswer,
+                            OptionsText = c.OptionsText,
+                            QuestionId = c.QuestionId
+                        }).ToList()
                     }).ToList()
                 };
 
-                return lessonDTO;
+                return new OkObjectResult(lessonDTO);
             }
         }
     }
