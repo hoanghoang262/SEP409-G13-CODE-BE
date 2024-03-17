@@ -5,6 +5,7 @@ using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ModerationService.API.Fearture.Command;
+using ModerationService.API.Fearture.Command.Forum;
 using ModerationService.API.Fearture.Command.Moderations;
 using ModerationService.API.Fearture.Querries.Moderations;
 using ModerationService.API.Feature.Queries;
@@ -54,6 +55,16 @@ namespace ModerationService.API.Controllers
         public async Task<ActionResult> CreatePost(CreatePostCommand command)
         {
             return Ok(await _mediator.Send(command));
+        }
+        [HttpPut]
+        public async Task<IActionResult> UpdatePost(int id, [FromBody] UpdatePostCommand command)
+        {
+            if (id != command.Id)
+            {
+                return BadRequest("Mismatched Id in request URL and command body");
+            }
+            return Ok(await _mediator.Send(command));
+
         }
 
         [HttpGet]

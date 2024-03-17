@@ -16,11 +16,14 @@ namespace CourseService.API.Models
         {
         }
 
+        public virtual DbSet<AnswerExam> AnswerExams { get; set; } = null!;
         public virtual DbSet<AnswerOption> AnswerOptions { get; set; } = null!;
         public virtual DbSet<Chapter> Chapters { get; set; } = null!;
         public virtual DbSet<CompleteLesson> CompleteLessons { get; set; } = null!;
         public virtual DbSet<Course> Courses { get; set; } = null!;
         public virtual DbSet<Enrollment> Enrollments { get; set; } = null!;
+        public virtual DbSet<Exam> Exams { get; set; } = null!;
+        public virtual DbSet<LastExam> LastExams { get; set; } = null!;
         public virtual DbSet<Lesson> Lessons { get; set; } = null!;
         public virtual DbSet<Note> Notes { get; set; } = null!;
         public virtual DbSet<PracticeQuestion> PracticeQuestions { get; set; } = null!;
@@ -40,6 +43,24 @@ namespace CourseService.API.Models
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<AnswerExam>(entity =>
+            {
+                entity.ToTable("AnswerExam");
+
+                entity.Property(e => e.Id).ValueGeneratedNever();
+
+                entity.Property(e => e.CorrectAnswer).HasColumnName("Correct_Answer");
+
+                entity.Property(e => e.ExamId).HasColumnName("exam_id");
+
+                entity.Property(e => e.OptionsText).HasColumnName("options_text");
+
+                entity.HasOne(d => d.Exam)
+                    .WithMany(p => p.AnswerExams)
+                    .HasForeignKey(d => d.ExamId)
+                    .HasConstraintName("FK_AnswerExam_Exam");
+            });
+
             modelBuilder.Entity<AnswerOption>(entity =>
             {
                 entity.Property(e => e.Id).ValueGeneratedNever();
@@ -115,6 +136,40 @@ namespace CourseService.API.Models
                     .WithMany(p => p.Enrollments)
                     .HasForeignKey(d => d.CourseId)
                     .HasConstraintName("FK_Enrollment_Course");
+            });
+
+            modelBuilder.Entity<Exam>(entity =>
+            {
+                entity.ToTable("Exam");
+
+                entity.Property(e => e.Id).ValueGeneratedNever();
+
+                entity.Property(e => e.ContentQuestion).HasColumnName("Content_Question");
+
+                entity.Property(e => e.LastExamId).HasColumnName("LastExam_Id");
+
+                entity.HasOne(d => d.LastExam)
+                    .WithMany(p => p.Exams)
+                    .HasForeignKey(d => d.LastExamId)
+                    .HasConstraintName("FK_Exam_LastExam");
+            });
+
+            modelBuilder.Entity<LastExam>(entity =>
+            {
+                entity.ToTable("LastExam");
+
+                entity.Property(e => e.Id).ValueGeneratedNever();
+
+                entity.Property(e => e.ChapterId).HasColumnName("Chapter_Id");
+
+                entity.Property(e => e.Name).HasMaxLength(50);
+
+                entity.Property(e => e.PercentageCompleted).HasColumnName("Percentage_Completed");
+
+                entity.HasOne(d => d.Chapter)
+                    .WithMany(p => p.LastExams)
+                    .HasForeignKey(d => d.ChapterId)
+                    .HasConstraintName("FK_LastExam_Chapter");
             });
 
             modelBuilder.Entity<Lesson>(entity =>

@@ -43,7 +43,7 @@ namespace CourseService.API.Feartures.CourseFearture.Command.CreateCourse
 
             public async Task<Course> Handle(UpdateCourseCommand request, CancellationToken cancellationToken)
             {
-                var courseId = await services.SendCourseId(request.Id);
+                
                 var user = await service.SendUserId(request.CreatedBy);
 
                 var existingCourse = _context.Courses
@@ -76,7 +76,6 @@ namespace CourseService.API.Feartures.CourseFearture.Command.CreateCourse
                 existingCourse.Description = request.Description;
                 existingCourse.Picture = request.Picture;
                 existingCourse.Tag = request.Tag;
-                existingCourse.CreatedBy = (int)request.CreatedBy;
                 existingCourse.CreatedAt = request.CreatedAt;
 
 

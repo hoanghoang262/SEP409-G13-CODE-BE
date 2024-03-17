@@ -16,9 +16,12 @@ namespace ModerationService.API.Models
         {
         }
 
+        public virtual DbSet<AnswerExam> AnswerExams { get; set; } = null!;
         public virtual DbSet<AnswerOption> AnswerOptions { get; set; } = null!;
         public virtual DbSet<Chapter> Chapters { get; set; } = null!;
         public virtual DbSet<Course> Courses { get; set; } = null!;
+        public virtual DbSet<Exam> Exams { get; set; } = null!;
+        public virtual DbSet<LastExam> LastExams { get; set; } = null!;
         public virtual DbSet<Lesson> Lessons { get; set; } = null!;
         public virtual DbSet<Moderation> Moderations { get; set; } = null!;
         public virtual DbSet<Post> Posts { get; set; } = null!;
@@ -38,6 +41,22 @@ namespace ModerationService.API.Models
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<AnswerExam>(entity =>
+            {
+                entity.ToTable("AnswerExam");
+
+                entity.Property(e => e.CorrectAnswer).HasColumnName("Correct_Answer");
+
+                entity.Property(e => e.ExamId).HasColumnName("exam_id");
+
+                entity.Property(e => e.OptionsText).HasColumnName("options_text");
+
+                entity.HasOne(d => d.Exam)
+                    .WithMany(p => p.AnswerExams)
+                    .HasForeignKey(d => d.ExamId)
+                    .HasConstraintName("FK_AnswerExam_Exam");
+            });
+
             modelBuilder.Entity<AnswerOption>(entity =>
             {
                 entity.Property(e => e.CorrectAnswer).HasColumnName("Correct_Answer");
@@ -81,6 +100,38 @@ namespace ModerationService.API.Models
                 entity.Property(e => e.IsCompleted).HasColumnName("Is_Completed");
 
                 entity.Property(e => e.Tag).HasMaxLength(50);
+            });
+
+            modelBuilder.Entity<Exam>(entity =>
+            {
+                entity.ToTable("Exam");
+
+                entity.Property(e => e.ContentQuestion).HasColumnName("Content_Question");
+
+                entity.Property(e => e.LastExamId).HasColumnName("LastExam_Id");
+
+                entity.HasOne(d => d.LastExam)
+                    .WithMany(p => p.Exams)
+                    .HasForeignKey(d => d.LastExamId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_Exam_LastExam");
+            });
+
+            modelBuilder.Entity<LastExam>(entity =>
+            {
+                entity.ToTable("LastExam");
+
+                entity.Property(e => e.ChapterId).HasColumnName("Chapter_Id");
+
+                entity.Property(e => e.Name).HasMaxLength(50);
+
+                entity.Property(e => e.PercentageCompleted).HasColumnName("Percentage_Completed");
+
+                entity.HasOne(d => d.Chapter)
+                    .WithMany(p => p.LastExams)
+                    .HasForeignKey(d => d.ChapterId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_LastExam_Chapter");
             });
 
             modelBuilder.Entity<Lesson>(entity =>
