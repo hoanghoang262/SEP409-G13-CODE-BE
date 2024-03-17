@@ -1,15 +1,17 @@
-﻿using MediatR;
+﻿using Contract.Service.Message;
+using MediatR;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ModerationService.API.Common.ModelDTO;
 using ModerationService.API.Models;
 
 namespace ModerationService.API.Fearture.Querries.Chapter
 {
-    public class GetChapterByIdQuery : IRequest<ChapterDTO>
+    public class GetChapterByIdQuery : IRequest<ActionResult<ChapterDTO>>
     {
         public int ChapterId { get; set; }
     }
-    public class GetChapterByIdQueryHandler : IRequestHandler<GetChapterByIdQuery, ChapterDTO>
+    public class GetChapterByIdQueryHandler : IRequestHandler<GetChapterByIdQuery, ActionResult<ChapterDTO>>
     {
         private readonly Content_ModerationContext _context;
 
@@ -18,16 +20,15 @@ namespace ModerationService.API.Fearture.Querries.Chapter
             _context = context;
         }
 
-        public async Task<ChapterDTO> Handle(GetChapterByIdQuery request, CancellationToken cancellationToken)
+        public async Task<ActionResult<ChapterDTO>> Handle(GetChapterByIdQuery request, CancellationToken cancellationToken)
         {
             var chapter = await _context.Chapters.FirstOrDefaultAsync(c => c.Id == request.ChapterId);
 
             if (chapter == null)
             {
-                return null;
+                return new NotFoundObjectResult(Message.MSG22);
             }
 
-            
             var chapterDTO = new ChapterDTO
             {
                 Id = chapter.Id,
@@ -37,7 +38,7 @@ namespace ModerationService.API.Fearture.Querries.Chapter
                 IsNew = chapter.IsNew
             };
 
-            return chapterDTO;
+            return new OkObjectResult(chapterDTO);
         }
     }
 }

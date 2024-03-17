@@ -1,9 +1,7 @@
-﻿
-
-using CloudinaryDotNet;
+﻿using CloudinaryDotNet;
+using Contract.Service.Message;
 using CourseService.API.Feartures.CourseFearture.Queries.CourseQueries;
 using CourseService.API.Models;
-using MassTransit;
 using MediatR;
 
 using Microsoft.AspNetCore.Mvc;
@@ -18,31 +16,25 @@ namespace CourseService.Controllers
         private readonly Cloudinary _cloudinary;
         private readonly CourseContext context;
 
-        public CourseController(IMediator mediator, Cloudinary cloudinary,CourseContext _context)
+        public CourseController(IMediator mediator, Cloudinary cloudinary, CourseContext _context)
         {
             _mediator = mediator;
-            _cloudinary = cloudinary; 
-            context=_context;
+            _cloudinary = cloudinary;
+            context = _context;
         }
-
 
         [HttpGet]
         public async Task<IActionResult> GetAllCourses([FromQuery] GetAllCourseQuerry query)
         {
-           
             var result = await _mediator.Send(query);
-
-            if (result == null)
-            {
-                return NotFound();
-            }
 
             return Ok(result);
         }
+
         [HttpGet]
         public async Task<IActionResult> GetCourseByUser(int Id)
         {
-            return Ok(await _mediator.Send(new GetCourseByUserIdQuerry{UserId=Id}));
+            return Ok(await _mediator.Send(new GetCourseByUserIdQuerry { UserId = Id }));
         }
 
         [HttpGet]
@@ -50,26 +42,7 @@ namespace CourseService.Controllers
         {
             return Ok(await _mediator.Send(new GetCourseByCourseIdQuerry { CourseId = Id }));
         }
-        [HttpGet]
-        public async Task<IActionResult> GetLessonById(int lessonId)
-        {
-            try
-            {
-                var query = new GetLessonByIdQuerry { LessonId = lessonId };
-                var result = await _mediator.Send(query);
 
-                if (result == null)
-                {
-                    return NotFound();
-                }
-
-                return Ok(result);
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, $"Error getting lesson by id: {ex.Message}");
-            }
-        }
         [HttpGet]
         public async Task<IActionResult> GetChapterById(int chapterId)
         {
@@ -78,18 +51,30 @@ namespace CourseService.Controllers
                 var query = new GetChapterByIdQuerry { ChapterId = chapterId };
                 var result = await _mediator.Send(query);
 
-                if (result == null)
-                {
-                    return NotFound();
-                }
+                return Ok(result);
+            }
+            catch (Exception)
+            {
+                return BadRequest(Message.MSG30);
+            }
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetLessonById(int lessonId)
+        {
+            try
+            {
+                var query = new GetLessonByIdQuerry { LessonId = lessonId };
+                var result = await _mediator.Send(query);
 
                 return Ok(result);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                return StatusCode(500, $"Error getting lesson by id: {ex.Message}");
+                return BadRequest(Message.MSG30);
             }
         }
+
         [HttpGet]
         public async Task<IActionResult> GetPracticeQuestionById(int practiceQuestionId)
         {
@@ -98,18 +83,14 @@ namespace CourseService.Controllers
                 var query = new GetPracticeQuestionByIdQuerry { PracticeQuestionId = practiceQuestionId };
                 var result = await _mediator.Send(query);
 
-                if (result == null)
-                {
-                    return NotFound();
-                }
-
                 return Ok(result);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                return StatusCode(500, $"Error getting practice question by id: {ex.Message}");
+                return BadRequest(Message.MSG30);
             }
         }
+
         [HttpPost]
         public async Task<IActionResult> CompletedLesson(int userId, int lessonId)
         {
@@ -118,12 +99,10 @@ namespace CourseService.Controllers
                 LessonId = lessonId,
                 UserId = userId
             };
+
             context.CompleteLessons.Add(completed);
             await context.SaveChangesAsync();
             return Ok(completed);
-
         }
-
-
     }
 }

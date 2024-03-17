@@ -7,9 +7,9 @@ using Microsoft.EntityFrameworkCore;
 using Contract.Service.Configuration;
 using Authenticate_Service.Common;
 using AuthenticateService.API.Common.DTO;
-using AuthenticateService.API.MessageOutput;
 using System.Text.RegularExpressions;
 using Authenticate_Service.Models;
+using Contract.Service.Message;
 
 
 
@@ -50,6 +50,13 @@ namespace Authenticated.Controllers
             if (String.IsNullOrEmpty(request.UserName) || String.IsNullOrEmpty(request.Password) || String.IsNullOrEmpty(request.Email))
             {
                 return new BadRequestObjectResult(Message.MSG11);
+            }
+
+            // Validate username
+            string userNamePattern = @"^[^\s]{8,32}$";
+            if (!Regex.IsMatch(request.UserName, userNamePattern))
+            {
+                return new BadRequestObjectResult(Message.MSG21);
             }
 
             // Validate email

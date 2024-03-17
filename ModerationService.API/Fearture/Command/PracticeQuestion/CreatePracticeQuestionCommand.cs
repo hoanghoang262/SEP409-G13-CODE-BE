@@ -1,19 +1,19 @@
-﻿using MediatR;
+﻿using Contract.Service.Message;
+using MediatR;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ModerationService.API.Common.ModelDTO;
 using ModerationService.API.Models;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace ModerationService.API.Feature.Command
 {
-    public class CreatePracticeQuestionCommand : IRequest<PracticeQuestionDTO>
+    public class CreatePracticeQuestionCommand : IRequest<ActionResult<PracticeQuestionDTO>>
     {
         public int ChapterId { get; set; }
         public PracticeQuestionDTO PracticeQuestion { get; set; }
     }
 
-    public class CreatePracticeQuestionCommandHandler : IRequestHandler<CreatePracticeQuestionCommand, PracticeQuestionDTO>
+    public class CreatePracticeQuestionCommandHandler : IRequestHandler<CreatePracticeQuestionCommand, ActionResult<PracticeQuestionDTO>>
     {
         private readonly Content_ModerationContext _context;
 
@@ -22,14 +22,35 @@ namespace ModerationService.API.Feature.Command
             _context = moderationContext;
         }
 
-        public async Task<PracticeQuestionDTO> Handle(CreatePracticeQuestionCommand request, CancellationToken cancellationToken)
+        public async Task<ActionResult<PracticeQuestionDTO>> Handle(CreatePracticeQuestionCommand request, CancellationToken cancellationToken)
         {
+            // Validate input
+            if (string.IsNullOrEmpty(request.PracticeQuestion.CodeForm)
+                || string.IsNullOrEmpty(request.PracticeQuestion.Description)
+                || string.IsNullOrEmpty(request.PracticeQuestion.TestCaseJava))
+            {
+                return new BadRequestObjectResult(Message.MSG11);
+            }
+
             var chapter = await _context.Chapters
                  .Include(c => c.PracticeQuestions)
                      .ThenInclude(l => l.TestCases)
                  .FirstOrDefaultAsync(c => c.Id == request.ChapterId);
 
-           
+            // Check if chapter is exist
+            if (chapter == null)
+            {
+                return new BadRequestObjectResult(Message.MSG28);
+            }
+
+            foreach (var prac in chapter.PracticeQuestions)
+            {
+                _context.TestCases.RemoveRange(prac.TestCases);
+            }
+
+            _context.PracticeQuestions.RemoveRange(chapter.PracticeQuestions);
+
+            await _context.SaveChangesAsync();
 
             var newPractice = new PracticeQuestion
             {
@@ -83,7 +104,7 @@ namespace ModerationService.API.Feature.Command
                 }).ToList()
             };
 
-            return practiceQuestionDTO;
+            return new OkObjectResult(practiceQuestionDTO);
         }
     }
 }

@@ -1,4 +1,4 @@
-﻿namespace AuthenticateService.API.MessageOutput
+﻿namespace Contract.Service.Message
 {
     public static class Message
     {
@@ -190,6 +190,126 @@
             MsgCode = "MSG19",
             MsgTextVN = "Sửa thông tin thành công",
             MsgTextEN = "Update information successfully"
+        };
+
+        /// <summary>
+        /// MSG20: Số điện thoại không hợp lệ
+        /// </summary>
+        public static readonly MessageModel MSG20 = new MessageModel
+        {
+            MsgCode = "MSG20",
+            MsgTextVN = "Số điện thoại không hợp lệ",
+            MsgTextEN = "Invalid phone number"
+        };
+
+        /// <summary>
+        /// MSG21: Tên tài khoản không hợp lệ
+        /// </summary>
+        public static readonly MessageModel MSG21 = new MessageModel
+        {
+            MsgCode = "MSG21",
+            MsgTextVN = "Tên tài khoản không hợp lệ",
+            MsgTextEN = "Invalid username"
+        };
+
+        /// <summary>
+        /// MSG22: Trống
+        /// </summary>
+        public static readonly MessageModel MSG22 = new MessageModel
+        {
+            MsgCode = "MSG22",
+            MsgTextVN = "Trống",
+            MsgTextEN = "Empty"
+        };
+
+        /// <summary>
+        /// MSG23: Tên không hơp lệ
+        /// </summary>
+        public static readonly MessageModel MSG23 = new MessageModel
+        {
+            MsgCode = "MSG23",
+            MsgTextVN = "Tên không hơp lệ",
+            MsgTextEN = "Invalid name"
+        };
+
+        /// <summary>
+        /// MSG24: Người dùng không tồn tại
+        /// </summary>
+        public static readonly MessageModel MSG24 = new MessageModel
+        {
+            MsgCode = "MSG24",
+            MsgTextVN = "Người dùng không tồn tại",
+            MsgTextEN = "User does not exist"
+        };
+
+        /// <summary>
+        /// MSG25: Khóa học không tồn tại
+        /// </summary>
+        public static readonly MessageModel MSG25 = new MessageModel
+        {
+            MsgCode = "MSG25",
+            MsgTextVN = "Khóa học không tồn tại",
+            MsgTextEN = "Course does not exist"
+        };
+
+        /// <summary>
+        /// MSG26: Số không hợp lệ
+        /// </summary>
+        public static readonly MessageModel MSG26 = new MessageModel
+        {
+            MsgCode = "MSG26",
+            MsgTextVN = "Số không hợp lệ",
+            MsgTextEN = "Invalid number"
+        };
+
+        /// <summary>
+        /// MSG27: Độ dài không hợp lệ
+        /// </summary>
+        public static readonly MessageModel MSG27 = new MessageModel
+        {
+            MsgCode = "MSG27",
+            MsgTextVN = "Độ dài không hợp lệ",
+            MsgTextEN = "Invalid length"
+        };
+
+        /// <summary>
+        /// MSG28: Chương không tồn tại
+        /// </summary>
+        public static readonly MessageModel MSG28 = new MessageModel
+        {
+            MsgCode = "MSG28",
+            MsgTextVN = "Chương không tồn tại",
+            MsgTextEN = "Chapter does not exist"
+        };
+
+        /// <summary>
+        /// MSG29: Bài học không tồn tại
+        /// </summary>
+        public static readonly MessageModel MSG29 = new MessageModel
+        {
+            MsgCode = "MSG29",
+            MsgTextVN = "Bài học không tồn tại",
+            MsgTextEN = "Lesson does not exist"
+        };
+
+        /// <summary>
+        /// MSG30: Lỗi
+        /// </summary>
+        public static readonly MessageModel MSG30 = new MessageModel
+        {
+            MsgCode = "MSG30",
+            MsgTextVN = "Lỗi",
+            MsgTextEN = "Error"
+        };
+
+        /// <summary>
+        /// MSG31: Câu hỏi không tồn tại
+        /// </summary>
+        public static readonly MessageModel MSG31 = new MessageModel
+        {
+            MsgCode = "MSG31",
+            MsgTextVN = "Câu hỏi không tồn tại",
+            MsgTextEN = "Question does not exist"
         };
     }
 }

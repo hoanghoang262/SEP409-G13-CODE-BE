@@ -1,7 +1,6 @@
 ﻿using Authenticate_Service.Feature.AuthenticateFearture.Command.ChangePassword;
 using Authenticate_Service.Models;
 using AuthenticateService.API.Feature.AuthenticateFearture.Command.Users.UserCommand;
-
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -40,16 +39,21 @@ namespace AuthenticateService.API.Controllers
                 return StatusCode(500, ex.Message);
             }
         }
+
         [HttpDelete]
         public async Task<IActionResult> DeleteUser(string email)
         {
             var user = await _context.Users.FirstOrDefaultAsync(c => c.Email.Equals(email));
+            if (user == null)
+            {
+                return BadRequest();
+            }
             _context.Users.Remove(user);
             await _context.SaveChangesAsync();
             return Ok("Delete Ok");
         }
-        [HttpPost]
 
+        [HttpPost]
         public async Task<IActionResult> ChangePass(ChangePasswordCommand command)
         {
             return Ok(await mediator.Send(command));

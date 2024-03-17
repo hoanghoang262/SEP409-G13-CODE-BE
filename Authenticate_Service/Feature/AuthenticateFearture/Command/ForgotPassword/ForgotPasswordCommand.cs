@@ -1,7 +1,7 @@
 ﻿using Authenticate_Service.Models;
-using AuthenticateService.API.MessageOutput;
 using Contract.Service;
 using Contract.Service.Configuration;
+using Contract.Service.Message;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -37,6 +37,7 @@ namespace Authenticate_Service.Feature.AuthenticateFearture.Command.ForgotPasswo
                     return new BadRequestObjectResult(Message.MSG09);
                 }
 
+                // Check email exists
                 var user = await _context.Users.FirstOrDefaultAsync(u => u.Email.Equals(request.Email));
                 if (user == null)
                 {

@@ -1,4 +1,5 @@
-﻿using MediatR;
+﻿using Contract.Service.Message;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ModerationService.API.Models;
@@ -19,20 +20,24 @@ namespace ModerationService.API.Fearture.Command.PracticeQuestion
 
         public async Task<IActionResult> Handle(DeletePracticeQuestionCommand request, CancellationToken cancellationToken)
         {
-            var practiceQuestion = await _context.PracticeQuestions.Include(c=>c.TestCases).FirstOrDefaultAsync(x=>x.Id.Equals(request.PracticeQuestionId));
+            var practiceQuestion = await _context.PracticeQuestions
+                .Include(c => c.TestCases)
+                .FirstOrDefaultAsync(x => x.Id.Equals(request.PracticeQuestionId));
+
+            if (practiceQuestion == null)
+            {
+                return new NotFoundObjectResult(Message.MSG31);
+            }
 
             foreach (var test in practiceQuestion.TestCases)
             {
                 _context.TestCases.RemoveRange(test);
             }
-            if (practiceQuestion == null)
-            {
-                return new BadRequestObjectResult("Not found");
-            }
+
             _context.PracticeQuestions.Remove(practiceQuestion);
             await _context.SaveChangesAsync();
 
-            return new OkObjectResult("OK");
+            return new OkObjectResult(Message.MSG16);
         }
     }
 }

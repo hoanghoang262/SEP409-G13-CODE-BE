@@ -1,4 +1,5 @@
-﻿using MediatR;
+﻿using Contract.Service.Message;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using ModerationService.API.Fearture.Command;
 using ModerationService.API.Fearture.Querries.Lesson;
@@ -15,6 +16,7 @@ namespace ModerationService.API.Controllers
         {
             _mediator = mediator;
         }
+
         [HttpPost]
         public async Task<IActionResult> CreateLesson([FromBody] CreateLessonCommand command)
         {
@@ -40,11 +42,6 @@ namespace ModerationService.API.Controllers
         {
             var query = new GetLessonByIdQuery { LessonId = id };
             var lessonDTO = await _mediator.Send(query);
-
-            if (lessonDTO == null)
-            {
-                return NotFound();
-            }
 
             return Ok(lessonDTO);
         }
