@@ -1,5 +1,5 @@
-﻿using MediatR;
-using Microsoft.AspNetCore.Http;
+﻿using Contract.Service.Message;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using ModerationService.API.Fearture.Command;
 using ModerationService.API.Fearture.Querries.Chapter;
@@ -16,6 +16,7 @@ namespace ModerationService.API.Controllers
         {
             _mediator = mediator;
         }
+
         [HttpPost]
         public async Task<IActionResult> AddChapter([FromBody] CreateChapterCommand command)
         {
@@ -28,7 +29,7 @@ namespace ModerationService.API.Controllers
         {
             if (id != command.Id)
             {
-                return BadRequest();
+                return BadRequest(Message.MSG30);
             }
 
             var result = await _mediator.Send(command);
@@ -42,6 +43,7 @@ namespace ModerationService.API.Controllers
             var result = await _mediator.Send(command);
             return Ok(result);
         }
+
         [HttpGet]
         public async Task<IActionResult> GetChapterById(int id)
         {
@@ -50,7 +52,7 @@ namespace ModerationService.API.Controllers
 
             if (chapterDTO == null)
             {
-                return NotFound();
+                return NotFound(Message.MSG22);
             }
 
             return Ok(chapterDTO);

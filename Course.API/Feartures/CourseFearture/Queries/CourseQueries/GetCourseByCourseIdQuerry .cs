@@ -1,11 +1,10 @@
-﻿using GrpcServices;
-using MediatR;
+﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using AutoMapper;
-using CourseService.API.Common.ModelDTO;
 using Microsoft.EntityFrameworkCore;
 using CourseService.API.Models;
 using CourseService.API.GrpcServices;
+using Contract.Service.Message;
 
 namespace CourseService.API.Feartures.CourseFearture.Queries.CourseQueries
 {
@@ -30,7 +29,7 @@ namespace CourseService.API.Feartures.CourseFearture.Queries.CourseQueries
             public async Task<IActionResult> Handle(GetCourseByCourseIdQuerry request, CancellationToken cancellationToken)
             {
                 var courses = await _context.Courses.
-                    Include(c=>c.Enrollments)
+                    Include(c => c.Enrollments)
                     .Include(c => c.Chapters)
                         .ThenInclude(ch => ch.Lessons)
                             .ThenInclude(l => l.TheoryQuestions)
@@ -51,11 +50,11 @@ namespace CourseService.API.Feartures.CourseFearture.Queries.CourseQueries
                     .Include(c => c.Chapters)
                         .ThenInclude(ch => ch.PracticeQuestions)
                             .ThenInclude(cq => cq.UserAnswerCodes)
-                    .FirstOrDefaultAsync(course => course.Id == request.CourseId  );
+                    .FirstOrDefaultAsync(course => course.Id == request.CourseId);
 
                 if (courses == null)
                 {
-                    return new NotFoundObjectResult("There is no course in here"); // Không tìm thấy khóa học
+                    return new NotFoundResult();
                 }
 
                 courses.Chapters.OrderBy(c => c.Part);
@@ -71,7 +70,7 @@ namespace CourseService.API.Feartures.CourseFearture.Queries.CourseQueries
                     courses.CreatedBy,
                     courses.CreatedAt,
                     Created_Name = user.Name,
-                    Avatar=user.Picture,
+                    Avatar = user.Picture,
                     Chapters = courses.Chapters.Select(chapter => new
                     {
                         chapter.Id,

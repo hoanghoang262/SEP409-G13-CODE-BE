@@ -1,6 +1,6 @@
-﻿using CourseService.API.Feartures.CourseFearture.Command.CreateCourse;
+﻿using Contract.Service.Message;
+using CourseService.API.Feartures.CourseFearture.Command.CreateCourse;
 using MediatR;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using ModerationService.API.Fearture.Command.Course;
 using ModerationService.API.Fearture.Querries.Moderations;
@@ -21,18 +21,19 @@ namespace ModerationService.API.Controllers
             _context = context;
 
         }
+
         [HttpPost]
         public async Task<ActionResult> AddCourse(CreateCourseCommand command)
         {
-
             return Ok(await _mediator.Send(command));
         }
-        [HttpPut]
 
+        [HttpPut]
         public async Task<ActionResult> UpdateCourse(UpdateCourseCommand command)
         {
             return Ok(await _mediator.Send(command));
         }
+
         [HttpDelete]
         public async Task<IActionResult> DeleteCourse(int courseId)
         {
@@ -41,15 +42,18 @@ namespace ModerationService.API.Controllers
 
             return Ok(result); 
         }
+
         [HttpGet]
         public async Task<IActionResult> GetCourseByUserId(int userId)
         {
             var command = new GetCourseByUserIdQuerry { UserId = userId };
             var result = await _mediator.Send(command);
+            if (result == null)
+            {
+                return NotFound(Message.MSG22);
+            }
 
             return Ok(result);
         }
-
-
     }
 }

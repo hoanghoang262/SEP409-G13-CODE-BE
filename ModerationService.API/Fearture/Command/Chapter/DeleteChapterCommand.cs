@@ -1,15 +1,17 @@
-﻿using MediatR;
+﻿using Contract.Service.Message;
+using MediatR;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ModerationService.API.Models;
 
 namespace ModerationService.API.Fearture.Command
 {
-    public class DeleteChapterCommand : IRequest<int>
+    public class DeleteChapterCommand : IRequest<ActionResult<int>>
     {
         public int ChapterId { get; set; }
     }
 
-    public class DeleteChapterCommandHandler : IRequestHandler<DeleteChapterCommand, int>
+    public class DeleteChapterCommandHandler : IRequestHandler<DeleteChapterCommand, ActionResult<int>>
     {
         private readonly Content_ModerationContext _context;
 
@@ -18,7 +20,7 @@ namespace ModerationService.API.Fearture.Command
             _context = moderationContext;
         }
 
-        public async Task<int> Handle(DeleteChapterCommand request, CancellationToken cancellationToken)
+        public async Task<ActionResult<int>> Handle(DeleteChapterCommand request, CancellationToken cancellationToken)
         {
             var chapter = await _context.Chapters
                  .Include(c => c.Lessons)
@@ -31,19 +33,18 @@ namespace ModerationService.API.Fearture.Command
                  .FirstOrDefaultAsync(c => c.Id == request.ChapterId);
 
             if (chapter == null)
-                return 0;
+            {
+                return new BadRequestObjectResult(Message.MSG28);
+            }
 
-            
             foreach (var practiceQuestion in chapter.PracticeQuestions)
             {
                 _context.TestCases.RemoveRange(practiceQuestion.TestCases);
                 _context.UserAnswerCodes.RemoveRange(practiceQuestion.UserAnswerCodes);
             }
 
-            
             _context.PracticeQuestions.RemoveRange(chapter.PracticeQuestions);
 
-            
             foreach (var lesson in chapter.Lessons)
             {
                 foreach (var theoryQuestion in lesson.TheoryQuestions)
@@ -53,9 +54,7 @@ namespace ModerationService.API.Fearture.Command
                 _context.TheoryQuestions.RemoveRange(lesson.TheoryQuestions);
             }
 
-            
             _context.Lessons.RemoveRange(chapter.Lessons);
-
             _context.Chapters.Remove(chapter);
 
             await _context.SaveChangesAsync();

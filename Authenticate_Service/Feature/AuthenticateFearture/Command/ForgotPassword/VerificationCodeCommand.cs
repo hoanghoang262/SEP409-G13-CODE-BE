@@ -1,5 +1,5 @@
 ﻿using Authenticate_Service.Models;
-using AuthenticateService.API.MessageOutput;
+using Contract.Service.Message;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;

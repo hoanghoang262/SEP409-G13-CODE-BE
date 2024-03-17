@@ -25,6 +25,7 @@ namespace ModerationService.API.Fearture.Querries.Moderations
                 {
                     return null;
                 }
+
                 return course;
             }
 

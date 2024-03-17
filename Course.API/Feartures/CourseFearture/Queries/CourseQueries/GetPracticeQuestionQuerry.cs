@@ -21,7 +21,7 @@ namespace CourseService.API.Feartures.CourseFearture.Queries.CourseQueries
             {
                 var practiceQuestion = await _context.PracticeQuestions
                                               .Include(pq => pq.Chapter)
-                                              .ThenInclude(c=>c.Course)
+                                              .ThenInclude(c => c.Course)
                                               .Include(pq => pq.TestCases)
                                               .Include(pq => pq.UserAnswerCodes)
                                               .FirstOrDefaultAsync(pq => pq.Id == request.PracticeQuestionId);
@@ -39,7 +39,7 @@ namespace CourseService.API.Feartures.CourseFearture.Queries.CourseQueries
                     CodeForm = practiceQuestion.CodeForm,
                     TestCaseJava = practiceQuestion.TestCaseJava,
                     ChapterName = practiceQuestion.Chapter.Name,
-                    CourseName=practiceQuestion.Chapter.Course.Name,
+                    CourseName = practiceQuestion.Chapter.Course.Name,
                     TestCases = practiceQuestion.TestCases.Select(tc => new TestCase
                     {
                         Id = tc.Id,
@@ -56,14 +56,13 @@ namespace CourseService.API.Feartures.CourseFearture.Queries.CourseQueries
                     UserAnswerCodes = practiceQuestion.UserAnswerCodes.Select(uac => new UserAnswerCode
                     {
                         Id = uac.Id,
-                        AnswerCode=uac.AnswerCode,
-                        CodeQuestionId=uac.CodeQuestionId,
-                        UserId= uac.UserId  
+                        AnswerCode = uac.AnswerCode,
+                        CodeQuestionId = uac.CodeQuestionId,
+                        UserId = uac.UserId
                     }).ToList()
                 };
 
                 return practiceQuestionDTO;
-               
             }
         }
     }

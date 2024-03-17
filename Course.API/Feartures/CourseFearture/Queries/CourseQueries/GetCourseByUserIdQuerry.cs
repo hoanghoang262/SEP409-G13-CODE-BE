@@ -27,10 +27,13 @@ namespace CourseService.API.Feartures.CourseFearture.Queries.CourseQueries
             }
             public async Task<IActionResult> Handle(GetCourseByUserIdQuerry request, CancellationToken cancellationToken)
             {
-
                 var user = await service.SendUserId(request.UserId);
-
                 var courses = _context.Courses.Where(c => c.CreatedBy.Equals(user.Id)).ToList();
+
+                if (courses == null)
+                {
+                    return new NotFoundResult();
+                }
 
 
                 //var result = new

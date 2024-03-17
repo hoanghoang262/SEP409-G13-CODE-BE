@@ -7,9 +7,9 @@ using Microsoft.EntityFrameworkCore;
 using Contract.Service.Configuration;
 using Authenticate_Service.Common;
 using AuthenticateService.API.Common.DTO;
-using AuthenticateService.API.MessageOutput;
 using System.Text.RegularExpressions;
 using Authenticate_Service.Models;
+using Contract.Service.Message;
 
 
 

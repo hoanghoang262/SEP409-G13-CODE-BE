@@ -25,22 +25,20 @@ namespace CourseService.API.Feartures.CourseFearture.Queries.CourseQueries
             private readonly GetUserInfoService _service;
             public GetAllCoursesHandler(IMediator _mediator, IMapper mapper, CourseContext context,GetUserInfoService service)
             {
-
                 mediator = _mediator;
                 _mapper = mapper;
                 _context = context;
                 _service = service;
-
             }
             public async Task<PageList<CourseDTO>> Handle(GetAllCourseQuerry request, CancellationToken cancellation)
             {
-
                 IQueryable<Course> query = _context.Courses;
 
                 if (!string.IsNullOrEmpty(request.CourseName))
                 {
                     query = query.Where(c => c.Name.Contains(request.CourseName));
                 }
+
                 List<CourseDTO> courseDTOList = new List<CourseDTO>();
                 foreach(var item in query)
                 {
@@ -55,29 +53,14 @@ namespace CourseService.API.Feartures.CourseFearture.Queries.CourseQueries
                         Tag = item.Tag,
                         UserId = item.CreatedBy,
                         UserName = userInfo.Name
-
                     };
                     courseDTOList.Add(dto); 
                 }
 
                 var totalItems = await query.CountAsync();
-
-                var courseList = await query
-                    .Skip((request.Page - 1) * request.PageSize)
-                    .Take(request.PageSize)
-                    .ToListAsync();
-
-              
-
                 var result = new PageList<CourseDTO>(courseDTOList, totalItems, request.Page, request.PageSize);
                 return result;
             }
-
         }
-
     }
-
-
 }
-
-

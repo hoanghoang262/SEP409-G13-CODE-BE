@@ -1,13 +1,15 @@
-﻿using MediatR;
+﻿using Contract.Service.Message;
+using MediatR;
+using Microsoft.AspNetCore.Mvc;
 using ModerationService.API.Models;
 
 namespace ModerationService.API.Fearture.Command.PracticeQuestion
 {
-    public class DeletePracticeQuestionCommand : IRequest<bool>
+    public class DeletePracticeQuestionCommand : IRequest<ActionResult<bool>>
     {
         public int PracticeQuestionId { get; set; }
     }
-    public class DeletePracticeQuestionCommandHandler : IRequestHandler<DeletePracticeQuestionCommand, bool>
+    public class DeletePracticeQuestionCommandHandler : IRequestHandler<DeletePracticeQuestionCommand, ActionResult<bool>>
     {
         private readonly Content_ModerationContext _context;
 
@@ -16,13 +18,13 @@ namespace ModerationService.API.Fearture.Command.PracticeQuestion
             _context = context;
         }
 
-        public async Task<bool> Handle(DeletePracticeQuestionCommand request, CancellationToken cancellationToken)
+        public async Task<ActionResult<bool>> Handle(DeletePracticeQuestionCommand request, CancellationToken cancellationToken)
         {
             var practiceQuestion = await _context.PracticeQuestions.FindAsync(request.PracticeQuestionId);
 
             if (practiceQuestion == null)
             {
-                throw new Exception("Practice question not found");
+                return new BadRequestObjectResult(Message.MSG31);
             }
 
             _context.PracticeQuestions.Remove(practiceQuestion);

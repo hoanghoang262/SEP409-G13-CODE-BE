@@ -1,39 +1,50 @@
-﻿
-using CourseService.API.Common.ModelDTO;
+﻿using Contract.Service.Message;
 using GrpcServices;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using ModerationService.API.Common.ModelDTO;
 using ModerationService.API.Models;
 
 namespace CourseService.API.Feartures.CourseFearture.Command.CreateCourse
 {
-    public class CreateCourseCommand : IRequest<Course>
+    public class CreateCourseCommand : IRequest<ActionResult<Course>>
     {
         public string? Name { get; set; }
         public string? Description { get; set; }
         public string? Picture { get; set; }
         public string? Tag { get; set; }
         public int CreatedBy { get; set; }
-       
 
-       
-
-        public class CreateCourseHandler : IRequestHandler<CreateCourseCommand, Course>
+        public class CreateCourseHandler : IRequestHandler<CreateCourseCommand, ActionResult<Course>>
         {
             private readonly Content_ModerationContext _context;
-
             private readonly UserIdCourseGrpcService service;
-
 
             public CreateCourseHandler(Content_ModerationContext context, UserIdCourseGrpcService _service)
             {
                 _context = context;
                 service = _service;
             }
-            public async Task<Course> Handle(CreateCourseCommand request, CancellationToken cancellationToken)
+
+            public async Task<ActionResult<Course>> Handle(CreateCourseCommand request, CancellationToken cancellationToken)
             {
+                // Check if user exists
                 var user = await service.SendUserId(request.CreatedBy);
+                if (user == null)
+                {
+                    return new BadRequestObjectResult(Message.MSG24);
+                }
+
+                // validate input
+                if (string.IsNullOrEmpty(request.Name) || string.IsNullOrEmpty(request.Description) || string.IsNullOrEmpty(request.Picture) || string.IsNullOrEmpty(request.Tag))
+                {
+                    return new BadRequestObjectResult(Message.MSG11);
+                }
+
+                // string length
+                if (request.Name.Length > 256)
+                {
+                    return new BadRequestObjectResult(Message.MSG27);
+                }
 
                 var newCourse = new Course
                 {
@@ -43,13 +54,11 @@ namespace CourseService.API.Feartures.CourseFearture.Command.CreateCourse
                     Tag = request.Tag,
                     CreatedBy = request.CreatedBy,
                     CreatedAt = DateTime.Now,
-                    IsCompleted=false
-
+                    IsCompleted = false
                 };
 
                 _context.Courses.Add(newCourse);
                 await _context.SaveChangesAsync(cancellationToken);
-
 
                 //foreach (var chapterDto in request.Chapters)
                 //{
@@ -95,7 +104,7 @@ namespace CourseService.API.Feartures.CourseFearture.Command.CreateCourse
 
                 //        }
 
-                       
+
                 //    }
 
 
@@ -154,10 +163,7 @@ namespace CourseService.API.Feartures.CourseFearture.Command.CreateCourse
 
                 //};
                 //await _context.Moderations.AddAsync(moderation);
-               // await _context.SaveChangesAsync(cancellationToken);
-
-
-
+                // await _context.SaveChangesAsync(cancellationToken);
 
                 return newCourse;
             }

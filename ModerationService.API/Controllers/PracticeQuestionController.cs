@@ -1,8 +1,7 @@
-﻿using MediatR;
-using Microsoft.AspNetCore.Http;
+﻿using Contract.Service.Message;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using ModerationService.API.Common.ModelDTO;
-using ModerationService.API.Fearture.Command;
 using ModerationService.API.Fearture.Command.PracticeQuestion;
 using ModerationService.API.Fearture.Querries.PracticeQuestion;
 using ModerationService.API.Feature.Command;
@@ -24,50 +23,39 @@ namespace ModerationService.API.Controllers
         public async Task<IActionResult> CreatePracticeQuestion([FromBody] CreatePracticeQuestionCommand command)
         {
             var result = await _mediator.Send(command);
+
             return Ok(result);
         }
+
         [HttpPut]
         public async Task<ActionResult<PracticeQuestionDTO>> UpdatePracticeQuestion(int id, UpdatePracticeQuestionCommand command)
         {
             if (id != command.PracticeQuestionId)
             {
-                return BadRequest();
+                return BadRequest(Message.MSG30);
             }
 
             var practiceQuestionDTO = await _mediator.Send(command);
 
-            if (practiceQuestionDTO == null)
-            {
-                return NotFound();
-            }
-
             return Ok(practiceQuestionDTO);
         }
+
         [HttpGet]
         public async Task<ActionResult<PracticeQuestionDTO>> GetPracticeQuestionById(int id)
         {
             var query = new GetPracticeQuestionByIdQuery { PracticeQuestionId = id };
             var practiceQuestionDTO = await _mediator.Send(query);
 
-            if (practiceQuestionDTO == null)
-            {
-                return NotFound();
-            }
-
             return Ok(practiceQuestionDTO);
         }
+
         [HttpDelete]
         public async Task<IActionResult> DeletePracticeQuestion(int id)
         {
             var command = new DeletePracticeQuestionCommand { PracticeQuestionId = id };
             var success = await _mediator.Send(command);
 
-            if (!success)
-            {
-                return NotFound();
-            }
-
-            return NoContent();
+            return Ok(success);
         }
     }
 }

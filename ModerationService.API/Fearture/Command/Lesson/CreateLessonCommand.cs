@@ -1,17 +1,19 @@
-﻿using MediatR;
+﻿using Contract.Service.Message;
+using MediatR;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ModerationService.API.Common.ModelDTO;
 using ModerationService.API.Models;
 
 namespace ModerationService.API.Fearture.Command
 {
-    public class CreateLessonCommand : IRequest<LessonDTO>
+    public class CreateLessonCommand : IRequest<ActionResult<LessonDTO>>
     {
         public int ChapterId { get; set; }
         public LessonDTO Lesson { get; set; }
     }
 
-    public class CreateLessonCommandHandler : IRequestHandler<CreateLessonCommand, LessonDTO>
+    public class CreateLessonCommandHandler : IRequestHandler<CreateLessonCommand, ActionResult<LessonDTO>>
     {
         private readonly Content_ModerationContext _context;
 
@@ -20,19 +22,33 @@ namespace ModerationService.API.Fearture.Command
             _context = moderationContext;
         }
 
-        public async Task<LessonDTO> Handle(CreateLessonCommand request, CancellationToken cancellationToken)
+        public async Task<ActionResult<LessonDTO>> Handle(CreateLessonCommand request, CancellationToken cancellationToken)
         {
+            // validate input
+            if (string.IsNullOrEmpty(request.Lesson.Title)
+                || string.IsNullOrEmpty(request.Lesson.VideoUrl)
+                || string.IsNullOrEmpty(request.Lesson.Description)
+                || request.Lesson.Duration == null
+                || string.IsNullOrEmpty(request.Lesson.ContentLesson))
+            {
+                return new BadRequestObjectResult(Message.MSG11);
+            }
+
             var chapter = await _context.Chapters
                  .Include(c => c.Lessons)
                      .ThenInclude(l => l.TheoryQuestions)
                          .ThenInclude(tq => tq.AnswerOptions)
                  .FirstOrDefaultAsync(c => c.Id == request.ChapterId);
 
-           
+            // check if chapter exists
+            if (chapter == null)
+            {
+                return new BadRequestObjectResult(Message.MSG28);
+            }
+
             var newLesson = new Lesson
             {
                 ChapterId = request.ChapterId,
-              
                 Title = request.Lesson.Title,
                 VideoUrl = request.Lesson.VideoUrl,
                 Description = request.Lesson.Description,
@@ -40,10 +56,8 @@ namespace ModerationService.API.Fearture.Command
                 ContentLesson = request.Lesson.ContentLesson
             };
 
-            
             chapter.Lessons.Add(newLesson);
 
-            
             foreach (var theoryQuestionDTO in request.Lesson.Questions)
             {
                 var newTheoryQuestion = new TheoryQuestion
@@ -57,7 +71,7 @@ namespace ModerationService.API.Fearture.Command
                 {
                     var newAnswerOption = new AnswerOption
                     {
-                        QuestionId= newTheoryQuestion.Id,
+                        QuestionId = newTheoryQuestion.Id,
                         OptionsText = answerOptionDTO.OptionsText,
                         CorrectAnswer = answerOptionDTO.CorrectAnswer
                     };
@@ -68,7 +82,6 @@ namespace ModerationService.API.Fearture.Command
                 newLesson.TheoryQuestions.Add(newTheoryQuestion);
             }
 
-            // Save changes to the database
             await _context.SaveChangesAsync();
             var lessonDTO = new LessonDTO
             {
@@ -96,11 +109,6 @@ namespace ModerationService.API.Fearture.Command
             };
 
             return lessonDTO;
-
-            
-
-
-           
         }
     }
 

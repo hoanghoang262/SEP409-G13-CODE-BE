@@ -5,9 +5,8 @@ using MassTransit;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-
 using ModerationService.API.Models;
-using System.Threading;
+using Contract.Service.Message;
 
 namespace ModerationService.API.Fearture.Command.Moderations
 {
@@ -21,39 +20,38 @@ namespace ModerationService.API.Fearture.Command.Moderations
             private readonly Content_ModerationContext _context;
             private readonly IMapper _mapper;
             private readonly UserEnrollCourseGrpcServices _services;
-            public ModerationCourseCommandHandler(IPublishEndpoint publish, Content_ModerationContext context,IMapper mapper,UserEnrollCourseGrpcServices service)
+            public ModerationCourseCommandHandler(IPublishEndpoint publish, Content_ModerationContext context, IMapper mapper, UserEnrollCourseGrpcServices service)
             {
                 _context = context;
                 _publish = publish;
                 _mapper = mapper;
-                _services=service;
-
+                _services = service;
             }
-            public  async Task<IActionResult> Handle(ModerationCourseCommand request, CancellationToken cancellationToken)
+            public async Task<IActionResult> Handle(ModerationCourseCommand request, CancellationToken cancellationToken)
             {
                 var courseIdEvent = new CourseIdEvent
                 {
                     CourseId = request.CourseId,
                 };
                 await _publish.Publish(courseIdEvent);
-                var userId=_services.SendCourseId(request.CourseId);
-               
+                var userId = _services.SendCourseId(request.CourseId);
+
                 var course = _context.Courses.FirstOrDefault(c => c.Id.Equals(request.CourseId));
-               
+
                 var courseEvent = new CourseEvent
                 {
-                    Id=course.Id,
+                    Id = course.Id,
                     Name = course.Name,
                     CreatedBy = course.CreatedBy,
                     Description = course.Description,
                     Tag = course.Tag,
                     Picture = course.Picture,
                     CreatedAt = course.CreatedAt,
-                };  
-               await  _publish.Publish(courseEvent);
-                
-               
-                var chapter =  _context.Chapters.Where(c => c.CourseId.Equals(request.CourseId)).ToList();
+                };
+                await _publish.Publish(courseEvent);
+
+
+                var chapter = _context.Chapters.Where(c => c.CourseId.Equals(request.CourseId)).ToList();
                 foreach (var chap in chapter)
                 {
                     var chapterEvent = new ChapterEvent
@@ -65,8 +63,8 @@ namespace ModerationService.API.Fearture.Command.Moderations
                         Part = chap.Part
                     };
                     await _publish.Publish(chapterEvent);
-                    
-                    var codequestion =  _context.PracticeQuestions.Where(c => c.ChapterId.Equals(chap.Id)).ToList();
+
+                    var codequestion = _context.PracticeQuestions.Where(c => c.ChapterId.Equals(chap.Id)).ToList();
 
                     foreach (var code in codequestion)
                     {
@@ -75,13 +73,13 @@ namespace ModerationService.API.Fearture.Command.Moderations
                             Description = code.Description,
                             ChapterId = code.ChapterId,
                             Id = code.Id,
-                            CodeForm=code.CodeForm,
-                            TestCaseJava=code.TestCaseJava,
+                            CodeForm = code.CodeForm,
+                            TestCaseJava = code.TestCaseJava,
                         };
                         await _publish.Publish(codequestionEvent);
-                   
-                        var testcase=  _context.TestCases.Where(c => c.CodeQuestionId.Equals(code.Id)).ToList();
-                        foreach(var test in testcase)
+
+                        var testcase = _context.TestCases.Where(c => c.CodeQuestionId.Equals(code.Id)).ToList();
+                        foreach (var test in testcase)
                         {
                             var testcaseEvent = new TestCaseEvent
                             {
@@ -97,13 +95,13 @@ namespace ModerationService.API.Fearture.Command.Moderations
                                 InputTypeString = test.InputTypeString
                             };
                             await _publish.Publish(testcaseEvent);
-                            
+
                         }
-                        
+
                     }
-                    
-                    var lesson =  _context.Lessons.Where(l => l.ChapterId.Equals(chap.Id)).ToList();
-                   
+
+                    var lesson = _context.Lessons.Where(l => l.ChapterId.Equals(chap.Id)).ToList();
+
                     foreach (var less in lesson)
                     {
                         var lessonEvent = new LessonEvent
@@ -114,12 +112,12 @@ namespace ModerationService.API.Fearture.Command.Moderations
                             VideoUrl = less.VideoUrl,
                             Title = less.Title,
                             Duration = less.Duration,
-                            IsCompleted=false
-                            
+                            IsCompleted = false
+
                         };
                         await _publish.Publish(lessonEvent);
-                    
-                        var question =  _context.TheoryQuestions.Where(q => q.VideoId.Equals(less.Id)).ToList();
+
+                        var question = _context.TheoryQuestions.Where(q => q.VideoId.Equals(less.Id)).ToList();
                         foreach (var ques in question)
                         {
                             var questionEvent = new TheoryQuestionEvent
@@ -130,21 +128,21 @@ namespace ModerationService.API.Fearture.Command.Moderations
                                 VideoId = ques.VideoId
                             };
                             await _publish.Publish(questionEvent);
-                        
-                            var answerOption =  _context.AnswerOptions.Where(q => q.QuestionId.Equals(ques.Id)).ToList();
-                            foreach(var ansOptio in answerOption)
+
+                            var answerOption = _context.AnswerOptions.Where(q => q.QuestionId.Equals(ques.Id)).ToList();
+                            foreach (var ansOptio in answerOption)
                             {
                                 var ansOpEvent = new AnswerOptionsEvent
                                 {
                                     Id = ansOptio.Id,
                                     QuestionId = ansOptio.QuestionId,
                                     OptionsText = ansOptio.OptionsText,
-                                    CorrectAnswer=ansOptio.CorrectAnswer
+                                    CorrectAnswer = ansOptio.CorrectAnswer
                                 };
                                 await _publish.Publish(ansOpEvent);
-                             
+
                             }
-                           
+
                         }
                     }
                 }
@@ -172,8 +170,6 @@ namespace ModerationService.API.Fearture.Command.Moderations
                         };
                         await _publish.Publish(notification);
                     }
-
-
                 }
                 else
                 {
@@ -188,12 +184,8 @@ namespace ModerationService.API.Fearture.Command.Moderations
                     await _publish.Publish(notificationForAdminBussiness);
 
                 }
-                
 
-
-
-
-               return  new OkObjectResult("ok");
+                return new OkObjectResult("ok");
             }
         }
     }

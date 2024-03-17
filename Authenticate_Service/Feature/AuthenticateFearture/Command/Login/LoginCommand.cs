@@ -1,6 +1,6 @@
 ﻿using Authenticate_Service.Common;
 using Authenticate_Service.Models;
-using AuthenticateService.API.MessageOutput;
+using Contract.Service.Message;
 using Google;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;

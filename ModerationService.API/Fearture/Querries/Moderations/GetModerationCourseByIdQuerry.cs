@@ -61,7 +61,7 @@ namespace ModerationService.API.Fearture.Querries.Moderations
                     courses.CreatedBy,
                     courses.CreatedAt,
                     Created_Name = user.Name,
-                    Avatar=user.Picture,
+                    Avatar = user.Picture,
                     Chapters = courses.Chapters.Select(chapter => new
                     {
                         chapter.Id,

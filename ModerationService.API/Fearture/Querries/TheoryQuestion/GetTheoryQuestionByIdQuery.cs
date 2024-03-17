@@ -26,7 +26,7 @@ namespace ModerationService.API.Fearture.Querries.TheoryQuestion
 
             if (theoryQuestion == null)
             {
-                throw new Exception("Theory question not found");
+                return null;
             }
 
             // Mapping TheoryQuestion entity to TheoryQuestionDTO

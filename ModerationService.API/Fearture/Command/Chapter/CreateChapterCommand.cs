@@ -1,9 +1,11 @@
-﻿using MediatR;
+﻿using Contract.Service.Message;
+using MediatR;
+using Microsoft.AspNetCore.Mvc;
 using ModerationService.API.Models;
 
 namespace ModerationService.API.Fearture.Command
 {
-    public class CreateChapterCommand : IRequest<Chapter>
+    public class CreateChapterCommand : IRequest<ActionResult<Chapter>>
     {
         public string? Name { get; set; }
         public int? CourseId { get; set; }
@@ -11,7 +13,7 @@ namespace ModerationService.API.Fearture.Command
         public bool? IsNew { get; set; }
     }
 
-    public class AddChapterCommandHandler : IRequestHandler<CreateChapterCommand, Chapter>
+    public class AddChapterCommandHandler : IRequestHandler<CreateChapterCommand, ActionResult<Chapter>>
     {
         private readonly Content_ModerationContext _context;
 
@@ -20,8 +22,26 @@ namespace ModerationService.API.Fearture.Command
             _context = moderationContext;
         }
 
-        public async Task<Chapter> Handle(CreateChapterCommand request, CancellationToken cancellationToken)
+        public async Task<ActionResult<Chapter>> Handle(CreateChapterCommand request, CancellationToken cancellationToken)
         {
+            // validate input
+            if (request.Name == null || request.CourseId == null || request.Part == null || request.IsNew == null)
+            {
+                return new BadRequestObjectResult(Message.MSG11);
+            }
+
+            // invalid part number
+            if (request.Part < 0)
+            {
+                return new BadRequestObjectResult(Message.MSG26);
+            }
+
+            // string length
+            if (request.Name.Length > 256)
+            {
+                return new BadRequestObjectResult(Message.MSG27);
+            }
+
             var chapter = new Chapter
             {
                 Name = request.Name,

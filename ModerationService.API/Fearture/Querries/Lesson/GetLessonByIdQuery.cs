@@ -27,7 +27,6 @@ namespace ModerationService.API.Fearture.Querries.Lesson
                 return null; 
             }
 
-            
             var lessonDTO = new LessonDTO
             {
                 Id = lesson.Id,
