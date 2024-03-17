@@ -53,7 +53,7 @@ namespace ModerationService.API.Fearture.Command
             _context.Chapters.Add(chapter);
             await _context.SaveChangesAsync();
 
-            return chapter;
+            return new OkObjectResult(chapter);
         }
 
     }

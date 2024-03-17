@@ -41,7 +41,12 @@ namespace CourseService.API.Feartures.CourseFearture.Command.CreateCourse
                     return new BadRequestObjectResult(Message.MSG25);
                 }
                 
+                // Check if the user exist
                 var user = await service.SendUserId(request.CreatedBy);
+                if (user == null)
+                {
+                    return new BadRequestObjectResult(Message.MSG01);
+                }
 
                 var existingCourse = _context.Courses
                     //.Include(c => c.Chapters)
@@ -63,6 +68,7 @@ namespace CourseService.API.Feartures.CourseFearture.Command.CreateCourse
                         .FirstOrDefault(course => course.Id == request.Id);
 
 
+                // Check if the course exist
                 if (existingCourse == null)
                 {
                     return new BadRequestObjectResult(Message.MSG25);
@@ -246,7 +252,7 @@ namespace CourseService.API.Feartures.CourseFearture.Command.CreateCourse
 
 
                 await _context.SaveChangesAsync(cancellationToken);
-                return existingCourse;
+                return new OkObjectResult(existingCourse);
             }
         }
     }

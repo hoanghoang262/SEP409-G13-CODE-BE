@@ -23,7 +23,6 @@ namespace ModerationService.API.Controllers
             _mediator = mediator;
             _context = context;
             service = _service;
-
         }
 
         // Bỏ
@@ -71,11 +70,6 @@ namespace ModerationService.API.Controllers
             {
                 var query = new GetModerationCourseQuerry { Page = page, PageSize = pageSize, CourseName = courseName };
                 var result = await _mediator.Send(query);
-
-                if (result == null)
-                {
-                    return NotFound();
-                }
 
                 return Ok(result);
             }
@@ -155,7 +149,6 @@ namespace ModerationService.API.Controllers
                 };
                 await _context.Moderations.AddAsync(moderation);
                 await _context.SaveChangesAsync();
-
             }
 
             return Ok("Send successfully");

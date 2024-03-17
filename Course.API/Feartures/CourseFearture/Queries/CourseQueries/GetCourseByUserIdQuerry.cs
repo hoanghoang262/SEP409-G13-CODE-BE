@@ -2,9 +2,8 @@
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using AutoMapper;
-using CourseService.API.Common.ModelDTO;
-using Microsoft.EntityFrameworkCore;
 using CourseService.API.Models;
+using Contract.Service.Message;
 
 namespace CourseService.API.Feartures.CourseFearture.Queries.CourseQueries
 {
@@ -28,11 +27,16 @@ namespace CourseService.API.Feartures.CourseFearture.Queries.CourseQueries
             public async Task<IActionResult> Handle(GetCourseByUserIdQuerry request, CancellationToken cancellationToken)
             {
                 var user = await service.SendUserId(request.UserId);
+                if (user == null)
+                {
+                    return new NotFoundObjectResult(Message.MSG01);
+                }
+
                 var courses = _context.Courses.Where(c => c.CreatedBy.Equals(user.Id)).ToList();
 
                 if (courses == null)
                 {
-                    return new NotFoundResult();
+                    return new NotFoundObjectResult(Message.MSG22);
                 }
 
 

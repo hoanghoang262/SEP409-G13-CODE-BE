@@ -43,11 +43,6 @@ namespace ModerationService.API.Controllers
             var query = new GetLessonByIdQuery { LessonId = id };
             var lessonDTO = await _mediator.Send(query);
 
-            if (lessonDTO == null)
-            {
-                return NotFound(Message.MSG22);
-            }
-
             return Ok(lessonDTO);
         }
 

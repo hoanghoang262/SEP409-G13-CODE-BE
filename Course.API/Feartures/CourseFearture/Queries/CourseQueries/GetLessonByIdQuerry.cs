@@ -1,17 +1,17 @@
-﻿using CourseService.API.Common.ModelDTO;
+﻿using Contract.Service.Message;
+using CourseService.API.Common.ModelDTO;
 using CourseService.API.Models;
 using MediatR;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace CourseService.API.Feartures.CourseFearture.Queries.CourseQueries
 {
-    public class GetLessonByIdQuerry : IRequest<LessonDTO>
+    public class GetLessonByIdQuerry : IRequest<ActionResult<LessonDTO>>
     {
         public int LessonId { get; set; }
 
-        public class GetLessonByIdQuerryHandler : IRequestHandler<GetLessonByIdQuerry, LessonDTO>
+        public class GetLessonByIdQuerryHandler : IRequestHandler<GetLessonByIdQuerry, ActionResult<LessonDTO>>
         {
             private readonly CourseContext _context;
             public GetLessonByIdQuerryHandler(CourseContext context)
@@ -19,7 +19,7 @@ namespace CourseService.API.Feartures.CourseFearture.Queries.CourseQueries
                 _context = context;
             }
 
-            public async Task<LessonDTO> Handle(GetLessonByIdQuerry request, CancellationToken cancellationToken)
+            public async Task<ActionResult<LessonDTO>> Handle(GetLessonByIdQuerry request, CancellationToken cancellationToken)
             {
                 var lesson = await _context.Lessons
                     .Include(l => l.Chapter)
@@ -30,7 +30,7 @@ namespace CourseService.API.Feartures.CourseFearture.Queries.CourseQueries
 
                 if (lesson == null)
                 {
-                    return null;
+                    return new NotFoundObjectResult(Message.MSG22);
                 }
 
                 var lessonDTO = new LessonDTO
@@ -60,7 +60,7 @@ namespace CourseService.API.Feartures.CourseFearture.Queries.CourseQueries
                     }).ToList()
                 };
 
-                return lessonDTO;
+                return new OkObjectResult(lessonDTO);
             }
         }
     }

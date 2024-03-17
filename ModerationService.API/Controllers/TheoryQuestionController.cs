@@ -24,11 +24,6 @@ namespace ModerationService.API.Controllers
             var query = new GetTheoryQuestionByIdQuery { TheoryQuestionId = id };
             var theoryQuestionDTO = await _mediator.Send(query);
 
-            if (theoryQuestionDTO == null)
-            {
-                return NotFound(Message.MSG22);
-            }
-
             return Ok(theoryQuestionDTO);
         }
     }

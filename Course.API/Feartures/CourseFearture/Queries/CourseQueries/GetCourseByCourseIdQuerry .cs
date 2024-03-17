@@ -54,10 +54,11 @@ namespace CourseService.API.Feartures.CourseFearture.Queries.CourseQueries
 
                 if (courses == null)
                 {
-                    return new NotFoundResult();
+                    return new NotFoundObjectResult(Message.MSG22);
                 }
 
                 courses.Chapters.OrderBy(c => c.Part);
+
                 var user = await service.SendUserId(courses.CreatedBy);
 
                 var result = new

@@ -88,7 +88,7 @@ namespace ModerationService.API.Fearture.Command.PracticeQuestion
                 }).ToList()
             };
 
-            return practiceQuestionDTO;
+            return new OkObjectResult(practiceQuestionDTO);
         }
     }
 }

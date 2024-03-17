@@ -50,11 +50,6 @@ namespace ModerationService.API.Controllers
             var query = new GetChapterByIdQuery { ChapterId = id };
             var chapterDTO = await _mediator.Send(query);
 
-            if (chapterDTO == null)
-            {
-                return NotFound(Message.MSG22);
-            }
-
             return Ok(chapterDTO);
         }
     }

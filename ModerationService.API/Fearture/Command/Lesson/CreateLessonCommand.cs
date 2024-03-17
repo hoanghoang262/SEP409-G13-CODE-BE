@@ -108,7 +108,7 @@ namespace ModerationService.API.Fearture.Command
                 }).ToList()
             };
 
-            return lessonDTO;
+            return new OkObjectResult(lessonDTO);
         }
     }
 

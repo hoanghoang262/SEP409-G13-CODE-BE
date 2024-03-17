@@ -48,10 +48,6 @@ namespace ModerationService.API.Controllers
         {
             var command = new GetCourseByUserIdQuerry { UserId = userId };
             var result = await _mediator.Send(command);
-            if (result == null)
-            {
-                return NotFound(Message.MSG22);
-            }
 
             return Ok(result);
         }

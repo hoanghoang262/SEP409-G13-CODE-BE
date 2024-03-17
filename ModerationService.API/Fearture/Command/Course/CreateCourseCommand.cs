@@ -165,7 +165,7 @@ namespace CourseService.API.Feartures.CourseFearture.Command.CreateCourse
                 //await _context.Moderations.AddAsync(moderation);
                 // await _context.SaveChangesAsync(cancellationToken);
 
-                return newCourse;
+                return new OkObjectResult(newCourse);
             }
         }
     }

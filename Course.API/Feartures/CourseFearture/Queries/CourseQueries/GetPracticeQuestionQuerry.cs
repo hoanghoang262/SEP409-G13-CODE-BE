@@ -1,15 +1,17 @@
-﻿using CourseService.API.Common.ModelDTO;
+﻿using Contract.Service.Message;
+using CourseService.API.Common.ModelDTO;
 using CourseService.API.Models;
 using MediatR;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace CourseService.API.Feartures.CourseFearture.Queries.CourseQueries
 {
-    public class GetPracticeQuestionByIdQuerry : IRequest<PracticeQuestionDTO>
+    public class GetPracticeQuestionByIdQuerry : IRequest<ActionResult<PracticeQuestionDTO>>
     {
         public int PracticeQuestionId { get; set; }
 
-        public class GetPracticeQuestionQuerryHandler : IRequestHandler<GetPracticeQuestionByIdQuerry, PracticeQuestionDTO>
+        public class GetPracticeQuestionQuerryHandler : IRequestHandler<GetPracticeQuestionByIdQuerry, ActionResult<PracticeQuestionDTO>>
         {
             private readonly CourseContext _context;
             public GetPracticeQuestionQuerryHandler(CourseContext context)
@@ -17,7 +19,7 @@ namespace CourseService.API.Feartures.CourseFearture.Queries.CourseQueries
                 _context = context;
             }
 
-            public async Task<PracticeQuestionDTO> Handle(GetPracticeQuestionByIdQuerry request, CancellationToken cancellationToken)
+            public async Task<ActionResult<PracticeQuestionDTO>> Handle(GetPracticeQuestionByIdQuerry request, CancellationToken cancellationToken)
             {
                 var practiceQuestion = await _context.PracticeQuestions
                                               .Include(pq => pq.Chapter)
@@ -28,7 +30,7 @@ namespace CourseService.API.Feartures.CourseFearture.Queries.CourseQueries
 
                 if (practiceQuestion == null)
                 {
-                    return null;
+                    return new NotFoundObjectResult(Message.MSG22);
                 }
 
                 var practiceQuestionDTO = new PracticeQuestionDTO
@@ -62,7 +64,7 @@ namespace CourseService.API.Feartures.CourseFearture.Queries.CourseQueries
                     }).ToList()
                 };
 
-                return practiceQuestionDTO;
+                return new OkObjectResult(practiceQuestionDTO);
             }
         }
     }

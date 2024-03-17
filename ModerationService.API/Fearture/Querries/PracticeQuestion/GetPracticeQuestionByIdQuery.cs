@@ -52,7 +52,7 @@ namespace ModerationService.API.Fearture.Querries.PracticeQuestion
                 }).ToList()
             };
 
-            return practiceQuestionDTO;
+            return new OkObjectResult(practiceQuestionDTO);
         }
     }
 }

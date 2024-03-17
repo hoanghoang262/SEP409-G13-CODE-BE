@@ -1,15 +1,17 @@
-﻿using MediatR;
+﻿using Contract.Service.Message;
+using MediatR;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ModerationService.API.Common.ModelDTO;
 using ModerationService.API.Models;
 
 namespace ModerationService.API.Fearture.Querries.TheoryQuestion
 {
-    public class GetTheoryQuestionByIdQuery : IRequest<TheoryQuestionDTO>
+    public class GetTheoryQuestionByIdQuery : IRequest<ActionResult<TheoryQuestionDTO>>
     {
         public int TheoryQuestionId { get; set; }
     }
-    public class GetTheoryQuestionByIdQueryHandler : IRequestHandler<GetTheoryQuestionByIdQuery, TheoryQuestionDTO>
+    public class GetTheoryQuestionByIdQueryHandler : IRequestHandler<GetTheoryQuestionByIdQuery, ActionResult<TheoryQuestionDTO>>
     {
         private readonly Content_ModerationContext _context;
 
@@ -18,15 +20,16 @@ namespace ModerationService.API.Fearture.Querries.TheoryQuestion
             _context = context;
         }
 
-        public async Task<TheoryQuestionDTO> Handle(GetTheoryQuestionByIdQuery request, CancellationToken cancellationToken)
+        public async Task<ActionResult<TheoryQuestionDTO>> Handle(GetTheoryQuestionByIdQuery request, CancellationToken cancellationToken)
         {
             var theoryQuestion = await _context.TheoryQuestions
                 .Include(tq => tq.AnswerOptions)
                 .FirstOrDefaultAsync(tq => tq.Id == request.TheoryQuestionId);
 
+            // Check if question is exist
             if (theoryQuestion == null)
             {
-                return null;
+                return new NotFoundObjectResult(Message.MSG22);
             }
 
             // Mapping TheoryQuestion entity to TheoryQuestionDTO
@@ -46,7 +49,7 @@ namespace ModerationService.API.Fearture.Querries.TheoryQuestion
                 }).ToList()
             };
 
-            return theoryQuestionDTO;
+            return new OkObjectResult(theoryQuestionDTO);
         }
     }
 }

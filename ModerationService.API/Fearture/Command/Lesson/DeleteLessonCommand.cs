@@ -42,7 +42,7 @@ namespace ModerationService.API.Fearture.Command
 
             await _context.SaveChangesAsync();
 
-            return lesson.Id;
+            return new OkObjectResult(lesson.Id);
         }
     }
 }

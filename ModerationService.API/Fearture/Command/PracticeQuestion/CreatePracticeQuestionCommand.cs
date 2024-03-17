@@ -42,17 +42,15 @@ namespace ModerationService.API.Feature.Command
             {
                 return new BadRequestObjectResult(Message.MSG28);
             }
-            else
+
+            foreach (var prac in chapter.PracticeQuestions)
             {
-                foreach (var prac in chapter.PracticeQuestions)
-                {
-                    _context.TestCases.RemoveRange(prac.TestCases);
-                }
-
-                _context.PracticeQuestions.RemoveRange(chapter.PracticeQuestions);
-
-                await _context.SaveChangesAsync();
+                _context.TestCases.RemoveRange(prac.TestCases);
             }
+
+            _context.PracticeQuestions.RemoveRange(chapter.PracticeQuestions);
+
+            await _context.SaveChangesAsync();
 
             var newPractice = new PracticeQuestion
             {
@@ -106,7 +104,7 @@ namespace ModerationService.API.Feature.Command
                 }).ToList()
             };
 
-            return practiceQuestionDTO;
+            return new OkObjectResult(practiceQuestionDTO);
         }
     }
 }

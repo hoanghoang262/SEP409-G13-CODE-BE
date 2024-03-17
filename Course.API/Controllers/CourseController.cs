@@ -27,10 +27,6 @@ namespace CourseService.Controllers
         public async Task<IActionResult> GetAllCourses([FromQuery] GetAllCourseQuerry query)
         {
             var result = await _mediator.Send(query);
-            if (result == null)
-            {
-                return NotFound(Message.MSG22);
-            }
 
             return Ok(result);
         }
@@ -55,11 +51,6 @@ namespace CourseService.Controllers
                 var query = new GetChapterByIdQuerry { ChapterId = chapterId };
                 var result = await _mediator.Send(query);
 
-                if (result == null)
-                {
-                    return NotFound(Message.MSG22);
-                }
-
                 return Ok(result);
             }
             catch (Exception)
@@ -76,11 +67,6 @@ namespace CourseService.Controllers
                 var query = new GetLessonByIdQuerry { LessonId = lessonId };
                 var result = await _mediator.Send(query);
 
-                if (result == null)
-                {
-                    return NotFound(Message.MSG22);
-                }
-
                 return Ok(result);
             }
             catch (Exception)
@@ -96,11 +82,6 @@ namespace CourseService.Controllers
             {
                 var query = new GetPracticeQuestionByIdQuerry { PracticeQuestionId = practiceQuestionId };
                 var result = await _mediator.Send(query);
-
-                if (result == null)
-                {
-                    return NotFound(Message.MSG22);
-                }
 
                 return Ok(result);
             }

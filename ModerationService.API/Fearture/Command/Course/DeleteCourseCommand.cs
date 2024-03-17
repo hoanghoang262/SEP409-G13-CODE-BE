@@ -72,7 +72,7 @@ namespace ModerationService.API.Fearture.Command.Course
                 _context.Courses.Remove(course);
                 await _context.SaveChangesAsync();
 
-                return course.Id;
+                return new OkObjectResult(course.Id);
             }
         }
     }
