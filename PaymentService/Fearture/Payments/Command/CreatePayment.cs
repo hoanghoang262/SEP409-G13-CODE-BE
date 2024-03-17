@@ -16,6 +16,8 @@ namespace PaymentService.Fearture.Payments.Command
         public decimal? RequiredAmount { get; set; }
         public DateTime? PaymentDate { get; set; } = DateTime.Now;
         public DateTime? ExpireDate { get; set; } = DateTime.Now.AddMinutes(15);
+        public int? UserCreateCourseId { get; set; }
+        public int? CourseId { get; set; }
         public string? PaymentDestinationId { get; set; } ="MOMO";
        
 
@@ -36,8 +38,21 @@ namespace PaymentService.Fearture.Payments.Command
             {
 
                 var outputIdParam = Guid.NewGuid();
-             
+                
                 var paymentUrl = string.Empty;
+                var payment = new Payment
+                {
+                    PaymentId = outputIdParam.ToString(),
+                    PaidAmount=request.RequiredAmount,
+                    MerchantId="MER001",
+                    PaymentLanguage="vn",
+                    PaymentCurrency="VND",
+                    UserCreateCourseId=request.UserCreateCourseId,
+                    CourseId=request.CourseId,
+                    RequriedAmount=request.RequiredAmount
+                };
+                 _context.Payments.Add(payment);
+                await _context.SaveChangesAsync();
 
                 switch (request.PaymentDestinationId)
                 {

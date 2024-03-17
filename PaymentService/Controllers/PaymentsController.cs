@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using PaymentService.Base;
 using PaymentService.Common;
 using PaymentService.Fearture.Payments.Command;
+using PaymentService.Fearture.Payments.Querry;
 using PaymentService.Models;
 using PaymentService.ServicePayment.MoMo;
 
@@ -47,6 +48,18 @@ namespace PaymentService.Controllers
             if (returnUrl.EndsWith("/"))
                 returnUrl = returnUrl.Remove(returnUrl.Length - 1, 1);
             return Ok(returnModel);
+        }
+        [HttpGet]
+        public async Task<ActionResult<List<PaymentDtos>>> GetHistoryPaymentsOfUser(int userId)
+        {
+            var query = new GetHistoryPaymentsOfUserQuerry { Id = userId };
+            var result = await mediator.Send(query);
+
+            if (result.Result is NoContentResult)
+            {
+                return NoContent();
+            }
+            return Ok(result.Value);
         }
     }
 }
