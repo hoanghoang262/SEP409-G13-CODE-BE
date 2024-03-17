@@ -99,9 +99,47 @@ namespace ModerationService.API.Fearture.Command.Moderations
                         }
 
                     }
-
-                    var lesson = _context.Lessons.Where(l => l.ChapterId.Equals(chap.Id)).ToList();
-
+                    var lastEx = _context.LastExams.Where(l => l.ChapterId.Equals(chap.Id)).ToList();
+                    foreach (var last in lastEx)
+                    {
+                        var lastEvent = new LastExamEvent
+                        {
+                            Id = last.Id,
+                            ChapterId = last.ChapterId,
+                            Name = last.Name,
+                            PercentageCompleted = last.PercentageCompleted,
+                        };
+                        await _publish.Publish(lastEvent);
+                        var exam = _context.Exams.Where(e => e.LastExamId.Equals(last.Id)).ToList();
+                        foreach (var ex in exam)
+                        {
+                            var examEvent = new ExamEvent
+                            {
+                                Id = ex.Id,
+                                LastExamId=ex.LastExamId,
+                                ContentQuestion = ex.ContentQuestion,
+                                Score = ex.Score,
+                                Status = ex.Status,
+                                Time = ex.Time
+                            };
+                            await _publish.Publish(examEvent);
+                            var exAns = _context.AnswerExams.Where(ex => ex.ExamId.Equals(ex.Id)).ToList();
+                            foreach (var ans in exAns)
+                            {
+                                var exAnswer = new AnswerExamEvent
+                                {
+                                    Id = ans.Id,
+                                    ExamId = ans.ExamId,
+                                    CorrectAnswer = ans.CorrectAnswer,
+                                    OptionsText = ans.OptionsText
+                                };
+                                await _publish.Publish(exAnswer);
+                            }
+                        }
+                    }
+                    
+                    var lesson =  _context.Lessons.Where(l => l.ChapterId.Equals(chap.Id)).ToList();
+                   
                     foreach (var less in lesson)
                     {
                         var lessonEvent = new LessonEvent

@@ -36,6 +36,9 @@ namespace CourseService
                 config.AddConsumersFromNamespaceContaining<EventPracticeQuestionHandler>();
                 config.AddConsumersFromNamespaceContaining<EventTestCaseHandler>();
                 config.AddConsumersFromNamespaceContaining<EventAnswerOptionsHandler>();
+                config.AddConsumersFromNamespaceContaining<EventExamHandler>();
+                config.AddConsumersFromNamespaceContaining<EventExamAnswerHandler>();
+                config.AddConsumersFromNamespaceContaining<EventLastExamHandler>();
             
 
 

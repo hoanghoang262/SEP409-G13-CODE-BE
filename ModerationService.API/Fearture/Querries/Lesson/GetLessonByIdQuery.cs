@@ -20,7 +20,7 @@ namespace ModerationService.API.Fearture.Querries.Lesson
 
         public async Task<LessonDTO> Handle(GetLessonByIdQuery request, CancellationToken cancellationToken)
         {
-            var lesson = await _context.Lessons.FirstOrDefaultAsync(l => l.Id == request.LessonId);
+            var lesson = await _context.Lessons.Include(c=>c.TheoryQuestions).ThenInclude(a=>a.AnswerOptions).FirstOrDefaultAsync(l => l.Id == request.LessonId);
 
             if (lesson == null)
             {
@@ -36,7 +36,24 @@ namespace ModerationService.API.Fearture.Querries.Lesson
                 Description = lesson.Description,
                 IsCompleted = lesson.IsCompleted,
                 Duration = lesson.Duration,
-                ContentLesson = lesson.ContentLesson
+                ContentLesson = lesson.ContentLesson,
+                Questions = lesson.TheoryQuestions.Select(n => new TheoryQuestionDTO
+                {
+                    Id = n.Id,
+                    ContentQuestion = n.ContentQuestion,
+                    Time = n.Time,
+                    TimeQuestion = n.TimeQuestion,
+                    VideoId = n.VideoId,
+                    AnswerOptions = n.AnswerOptions.Select(a => new AnswerOptionsDTO
+                    {
+                        Id=a.Id,
+                        OptionsText=a.OptionsText,
+                        CorrectAnswer=a.CorrectAnswer,
+                        QuestionId = a.QuestionId   
+
+                    }).ToList()
+
+                }).ToList()
             };
 
             return lessonDTO;

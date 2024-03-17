@@ -27,6 +27,9 @@ namespace PaymentService
             builder.Services.AddScoped<ICurrentUserService, CurrentUserService>();
             builder.Services.Configure<VnpayConfig>(
              builder.Configuration.GetSection(VnpayConfig.ConfigName));
+
+            builder.Services.Configure<MomoConfig>(
+             builder.Configuration.GetSection(MomoConfig.ConfigName));
             builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly()));
             var app = builder.Build();
 

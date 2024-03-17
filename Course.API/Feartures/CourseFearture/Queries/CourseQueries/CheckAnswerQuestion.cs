@@ -1,6 +1,5 @@
 ﻿using CourseService.API.Models;
-using MediatR;
-using Microsoft.AspNetCore.Mvc;
+using MediatR; 
 using Microsoft.EntityFrameworkCore;
 
 namespace CourseService.API.Feartures.CourseFearture.Queries.CourseQueries

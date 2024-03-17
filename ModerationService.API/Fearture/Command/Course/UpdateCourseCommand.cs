@@ -14,6 +14,7 @@ namespace CourseService.API.Feartures.CourseFearture.Command.CreateCourse
         public string? Description { get; set; }
         public string? Picture { get; set; }
         public string? Tag { get; set; }
+        public int CreatedBy { get; set; }
         public DateTime? CreatedAt { get; set; } = DateTime.UtcNow;
 
        // public List<ChapterDTO> Chapters { get; set; }
@@ -39,6 +40,8 @@ namespace CourseService.API.Feartures.CourseFearture.Command.CreateCourse
                 {
                     return new BadRequestObjectResult(Message.MSG25);
                 }
+                
+                var user = await service.SendUserId(request.CreatedBy);
 
                 var existingCourse = _context.Courses
                     //.Include(c => c.Chapters)

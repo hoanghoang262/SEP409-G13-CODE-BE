@@ -54,7 +54,6 @@ namespace ModerationService.API.Controllers
         {
             var command = new DeletePracticeQuestionCommand { PracticeQuestionId = id };
             var success = await _mediator.Send(command);
-
             return Ok(success);
         }
     }
