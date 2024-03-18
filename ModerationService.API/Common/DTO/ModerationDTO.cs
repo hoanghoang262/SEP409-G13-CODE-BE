@@ -16,5 +16,8 @@
         public int? PostId { get; set; }
         public string? PostTitle { get; set; }
         public string? Tag { get; set; }
+        public string? PostDescription { get; set; }
+        public string? PostContent { get; set; }
+        public DateTime? PostCreateAt { get; set; }
     }
 }

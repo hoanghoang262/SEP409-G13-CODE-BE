@@ -11,14 +11,9 @@ namespace PaymentService.Fearture.Payments.Command
     public class CreatePayment : IRequest<PaymentDTO>
     {
         public string PaymentContent { get; set; } = string.Empty;
-        public string PaymentCurrency { get; set; } = "VND";
-        public string PaymentRefId { get; set; } = string.Empty;
         public decimal? RequiredAmount { get; set; }
-        public DateTime? PaymentDate { get; set; } = DateTime.Now;
-        public DateTime? ExpireDate { get; set; } = DateTime.Now.AddMinutes(15);
         public int? UserCreateCourseId { get; set; }
         public int? CourseId { get; set; }
-        public string? PaymentDestinationId { get; set; } ="MOMO";
        
 
         public class CreatePaymentHandler : IRequestHandler<CreatePayment, PaymentDTO>
@@ -54,14 +49,14 @@ namespace PaymentService.Fearture.Payments.Command
                  _context.Payments.Add(payment);
                 await _context.SaveChangesAsync();
 
-                switch (request.PaymentDestinationId)
+                switch ("MOMO")
                 {
-                    case "VNPAY":
-                        var vnpayPayRequest = new VnpayPayRequest(vnpayConfig.Version,
-                            vnpayConfig.TmnCode, DateTime.Now, currentUserService.IpAddress ?? string.Empty, request.RequiredAmount ?? 0, request.PaymentCurrency ?? string.Empty,
-                            "other", request.PaymentContent ?? string.Empty, vnpayConfig.ReturnUrl, outputIdParam.ToString() ?? string.Empty);
-                        paymentUrl = vnpayPayRequest.GetLink(vnpayConfig.PaymentUrl, vnpayConfig.HashSecret);
-                        break;
+                    //case "VNPAY":
+                    //    var vnpayPayRequest = new VnpayPayRequest(vnpayConfig.Version,
+                    //        vnpayConfig.TmnCode, DateTime.Now, currentUserService.IpAddress ?? string.Empty, request.RequiredAmount ?? 0, request.PaymentCurrency ?? string.Empty,
+                    //        "other", request.PaymentContent ?? string.Empty, vnpayConfig.ReturnUrl, outputIdParam.ToString() ?? string.Empty);
+                    //    paymentUrl = vnpayPayRequest.GetLink(vnpayConfig.PaymentUrl, vnpayConfig.HashSecret);
+                    //    break;
                     case "MOMO":
                         var momoOneTimePayRequest = new MomoOneTimePaymentRequest(momoConfig.PartnerCode,
                             outputIdParam.ToString() ?? string.Empty, (long)request.RequiredAmount!, outputIdParam.ToString() ?? string.Empty,

@@ -1,5 +1,6 @@
 ﻿using Contract.SeedWork;
 using GrpcServices;
+using MassTransit.Initializers;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -58,6 +59,7 @@ namespace ModerationService.API.Feature.Queries
                 {
                     // Call the microservice to get the UserName for the given CreatedBy
                     var userName = await _service.SendUserId(moderation.CreatedBy);
+                    var postDes = await _context.Posts.FirstOrDefaultAsync(x => x.Id.Equals(moderation.PostId));
                     var moderationDTO = new ModerationDTO
                     {
                         Id = moderation.Id,
@@ -68,7 +70,11 @@ namespace ModerationService.API.Feature.Queries
                         CreatedAt = moderation.CreatedAt,
                         Status = moderation.Status,
                         PostTitle = moderation.PostTitle,
-                        UserName = userName.Name // Set the UserName obtained from the service
+                        UserName = userName.Name,
+                        PostDescription = postDes.Description,
+                        PostContent= postDes.PostContent,
+                        PostCreateAt=postDes.LastUpdate,
+
                     };
                     moderationDTOs.Add(moderationDTO);
                 }
