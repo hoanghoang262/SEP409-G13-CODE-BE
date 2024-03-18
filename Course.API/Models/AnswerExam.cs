@@ -10,6 +10,6 @@ namespace CourseService.API.Models
         public string? OptionsText { get; set; }
         public bool? CorrectAnswer { get; set; }
 
-        public virtual Exam? Exam { get; set; }
+        public virtual QuestionExam? Exam { get; set; }
     }
 }

@@ -26,7 +26,7 @@ namespace ModerationService.API.Fearture.Querries.Moderations
                     return new NoContentResult();
                 }
 
-                return new OkObjectResult(post); 
+                return post; 
             }
         }
     }

@@ -108,19 +108,20 @@ namespace ModerationService.API.Fearture.Command.Moderations
                             ChapterId = last.ChapterId,
                             Name = last.Name,
                             PercentageCompleted = last.PercentageCompleted,
+                            Time=last.Time
                         };
                         await _publish.Publish(lastEvent);
-                        var exam = _context.Exams.Where(e => e.LastExamId.Equals(last.Id)).ToList();
+                        var exam = _context.QuestionExams.Where(e => e.LastExamId.Equals(last.Id)).ToList();
                         foreach (var ex in exam)
                         {
-                            var examEvent = new ExamEvent
+                            var examEvent = new QuestionExamEvent
                             {
                                 Id = ex.Id,
                                 LastExamId=ex.LastExamId,
                                 ContentQuestion = ex.ContentQuestion,
                                 Score = ex.Score,
-                                Status = ex.Status,
-                                Time = ex.Time
+                                Status = ex.Status
+                             
                             };
                             await _publish.Publish(examEvent);
                             var exAns = _context.AnswerExams.Where(ex => ex.ExamId.Equals(ex.Id)).ToList();

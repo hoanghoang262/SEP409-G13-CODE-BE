@@ -1,5 +1,8 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿
+using MediatR;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using ModerationService.API.Fearture.Command.LastExams;
 using ModerationService.API.Models;
 
 namespace ModerationService.API.Controllers
@@ -8,12 +11,40 @@ namespace ModerationService.API.Controllers
     [ApiController]
     public class LastExamController : ControllerBase
     {
-        private readonly Content_ModerationContext _context;
-        public LastExamController(Content_ModerationContext context) 
+        private readonly IMediator _mediator;
+        public LastExamController(IMediator mediator) 
         { 
-            _context = context;
+            _mediator = mediator;
         }
-        //[HttpPost]
+        [HttpPost]
+        public async Task<ActionResult<LastExam>> CreateLastExam(CreateLastExamCommand command)
+        {
+            var result = await _mediator.Send(command);
+
+            return result;
+        }
+        [HttpDelete]
+        public async Task<ActionResult> DeleteLastExam(int id)
+        {
+            var command = new DeleteLastExamCommand { LastExamId = id };
+            return await _mediator.Send(command);
+        }
+        [HttpPut]
+        public async Task<ActionResult<LastExam>> UpdateLastExam(int id, UpdateLastExamCommand command)
+        {
+            if (id != command.LastExamId)
+            {
+                return BadRequest();
+            }
+
+            return await _mediator.Send(command);
+        }
+        [HttpGet]
+        public async Task<ActionResult<LastExam>> GetLastExamById(int id)
+        {
+            var query = new GetLastExamByIdQuery { LastExamId = id };
+            return await _mediator.Send(query);
+        }
 
 
     }

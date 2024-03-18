@@ -20,12 +20,12 @@ namespace ModerationService.API.Models
         public virtual DbSet<AnswerOption> AnswerOptions { get; set; } = null!;
         public virtual DbSet<Chapter> Chapters { get; set; } = null!;
         public virtual DbSet<Course> Courses { get; set; } = null!;
-        public virtual DbSet<Exam> Exams { get; set; } = null!;
         public virtual DbSet<LastExam> LastExams { get; set; } = null!;
         public virtual DbSet<Lesson> Lessons { get; set; } = null!;
         public virtual DbSet<Moderation> Moderations { get; set; } = null!;
         public virtual DbSet<Post> Posts { get; set; } = null!;
         public virtual DbSet<PracticeQuestion> PracticeQuestions { get; set; } = null!;
+        public virtual DbSet<QuestionExam> QuestionExams { get; set; } = null!;
         public virtual DbSet<TestCase> TestCases { get; set; } = null!;
         public virtual DbSet<TheoryQuestion> TheoryQuestions { get; set; } = null!;
         public virtual DbSet<UserAnswerCode> UserAnswerCodes { get; set; } = null!;
@@ -100,21 +100,6 @@ namespace ModerationService.API.Models
                 entity.Property(e => e.IsCompleted).HasColumnName("Is_Completed");
 
                 entity.Property(e => e.Tag).HasMaxLength(50);
-            });
-
-            modelBuilder.Entity<Exam>(entity =>
-            {
-                entity.ToTable("Exam");
-
-                entity.Property(e => e.ContentQuestion).HasColumnName("Content_Question");
-
-                entity.Property(e => e.LastExamId).HasColumnName("LastExam_Id");
-
-                entity.HasOne(d => d.LastExam)
-                    .WithMany(p => p.Exams)
-                    .HasForeignKey(d => d.LastExamId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_Exam_LastExam");
             });
 
             modelBuilder.Entity<LastExam>(entity =>
@@ -213,6 +198,21 @@ namespace ModerationService.API.Models
                     .WithMany(p => p.PracticeQuestions)
                     .HasForeignKey(d => d.ChapterId)
                     .HasConstraintName("FK_Code_Question_Chapter");
+            });
+
+            modelBuilder.Entity<QuestionExam>(entity =>
+            {
+                entity.ToTable("Question_Exam");
+
+                entity.Property(e => e.ContentQuestion).HasColumnName("Content_Question");
+
+                entity.Property(e => e.LastExamId).HasColumnName("LastExam_Id");
+
+                entity.HasOne(d => d.LastExam)
+                    .WithMany(p => p.QuestionExams)
+                    .HasForeignKey(d => d.LastExamId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_Exam_LastExam");
             });
 
             modelBuilder.Entity<TestCase>(entity =>
