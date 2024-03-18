@@ -17,13 +17,10 @@ namespace ModerationService.API.Controllers
             _mediator = mediator;
         }
         [HttpGet]
-        public async Task<ActionResult<Post>> GetPostById(int postId)
+        public async Task<IActionResult> GetPostById(int postId)
         {
-           
-            var post = await _mediator.Send(new GetModerationPostByIdQuerry { PostId=postId});
 
-
-            return Ok(post); 
+            return Ok(await _mediator.Send(new GetModerationPostByIdQuerry { PostId = postId })); 
         }
 
     }

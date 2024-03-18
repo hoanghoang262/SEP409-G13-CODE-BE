@@ -19,6 +19,7 @@ namespace ModerationService.API.Models
         public int CreatedBy { get; set; }
         public DateTime? CreatedAt { get; set; }
         public bool? IsCompleted { get; set; }
+
         public virtual ICollection<Chapter> Chapters { get; set; }
         public virtual ICollection<Moderation> Moderations { get; set; }
     }

@@ -6,11 +6,11 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace CourseService.API.Feartures.CourseFearture.Command.SyncCourse
 {
-    public class SyncExamCommand : IRequest<IActionResult>, IMapFrom<ExamEvent>
+    public class SyncExamCommand : IRequest<IActionResult>, IMapFrom<QuestionExamEvent>
     {
         public int Id { get; set; }
         public string? ContentQuestion { get; set; }
-        public int? Time { get; set; }
+      
         public int? Score { get; set; }
         public bool? Status { get; set; }
         public int LastExamId { get; set; }
@@ -25,21 +25,22 @@ namespace CourseService.API.Feartures.CourseFearture.Command.SyncCourse
             }
             public async Task<IActionResult> Handle(SyncExamCommand request, CancellationToken cancellationToken)
             {
-                var ex = _context.Exams.FirstOrDefault(x => x.Id.Equals(request.Id));
+                var ex = _context.QuestionExams.FirstOrDefault(x => x.Id.Equals(request.Id));
                 if (ex == null)
                 {
-                    var newEx = new Exam
+                    var newEx = new QuestionExam
                     {
                         Id = request.Id,
                        
                         ContentQuestion=request.ContentQuestion,
                         Score=request.Score,
-                        Status=request.Status,
-                        Time=request.Time
+                        Status=request.Status
+                        
+                    
 
                     };
 
-                    _context.Exams.Add(newEx);
+                    _context.QuestionExams.Add(newEx);
                     await _context.SaveChangesAsync(cancellationToken);
 
                 }
@@ -50,7 +51,7 @@ namespace CourseService.API.Feartures.CourseFearture.Command.SyncCourse
                     ex.ContentQuestion = request.ContentQuestion;
                     ex.Score = request.Score;
                     ex.Status = request.Status;
-                    ex.Time = request.Time;
+     
                     ex.LastExamId = request.LastExamId;
 
 

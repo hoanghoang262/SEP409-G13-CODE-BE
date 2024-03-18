@@ -15,7 +15,7 @@ namespace CourseService.API.Feartures.CourseFearture.Command.SyncCourse
         public int ChapterId { get; set; }
         public int? PercentageCompleted { get; set; }
         public string? Name { get; set; }
-
+        public int? Time { get; set; }
         public class SyncLastExamCommandHandler : IRequestHandler<SyncLastExamCommand, IActionResult>
         {
             private readonly CourseContext _context;
@@ -34,7 +34,9 @@ namespace CourseService.API.Feartures.CourseFearture.Command.SyncCourse
                         Id = request.Id,
                         PercentageCompleted = request.PercentageCompleted,
                         ChapterId=request.ChapterId,
-                        Name=request.Name
+                        Name=request.Name,
+                        Time=request.Time
+                        
 
                     };
 
@@ -48,6 +50,7 @@ namespace CourseService.API.Feartures.CourseFearture.Command.SyncCourse
                     exAns.PercentageCompleted = request.PercentageCompleted;
                     exAns.ChapterId = request.ChapterId;
                     exAns.Name = request.Name;
+                    exAns.Time = request.Time;
 
 
 

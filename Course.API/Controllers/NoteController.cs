@@ -16,14 +16,14 @@ namespace CourseService.API.Controllers
             _mediator = mediator;
         }
         [HttpPost]
-        public async Task<IActionResult> Create(CreateNoteCommand command)
+        public async Task<IActionResult> CreateNote(CreateNoteCommand command)
         {
             var noteId = await _mediator.Send(command);
             return Ok(noteId);
         }
 
         [HttpPut]
-        public async Task<IActionResult> Update(int id, UpdateNoteCommand command)
+        public async Task<IActionResult> UpdateNote(int id, UpdateNoteCommand command)
         {
             if (id != command.Id)
             {
@@ -36,7 +36,7 @@ namespace CourseService.API.Controllers
         }
 
         [HttpDelete]
-        public async Task<IActionResult> Delete(int id)
+        public async Task<IActionResult> DeleteNote(int id)
         {
             await _mediator.Send(new DeleteNoteCommand { Id = id });
             return Ok(id);

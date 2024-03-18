@@ -6,7 +6,7 @@ using MediatR;
 
 namespace CourseService.API.MessageBroker
 {
-    public class EventExamHandler : IConsumer<ExamEvent>
+    public class EventExamHandler : IConsumer<QuestionExamEvent>
     {
         private readonly IMediator _mediator;
         private readonly IMapper _mapper;
@@ -17,7 +17,7 @@ namespace CourseService.API.MessageBroker
             _mapper = mapper;
 
         }
-        public async Task Consume(ConsumeContext<ExamEvent> context)
+        public async Task Consume(ConsumeContext<QuestionExamEvent> context)
         {
             var command = _mapper.Map<SyncExamCommand>(context.Message);
             var result = await _mediator.Send(command);
