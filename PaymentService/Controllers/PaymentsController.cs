@@ -25,7 +25,7 @@ namespace PaymentService.Controllers
         }
         [HttpPost]
       
-        public async Task<IActionResult> Create( CreatePayment request)
+        public async Task<IActionResult> CreatePayment( CreatePayment request)
         {
  
             var response = await mediator.Send(request);
@@ -40,8 +40,8 @@ namespace PaymentService.Controllers
 
             if (processResult.Success)
             {
-                returnModel = processResult.Data.Item1 as PaymentReturnDTO;
-                returnUrl = processResult.Data.Item2 as string;
+                returnModel = processResult.Data.Item1 ;
+                returnUrl = processResult.Data.Item2;
             }
 
 

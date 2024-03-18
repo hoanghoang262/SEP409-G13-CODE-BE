@@ -26,6 +26,7 @@ namespace ForumService.API.Fearture.Command
                     Title = request.Title,
                     Description = request.Description,
                     CreatedBy = request.CreatedBy,
+                    PostContent=request.PostContent,
                     LastUpdate = DateTime.Now,
                 };
                 _context.Posts.Add(post);

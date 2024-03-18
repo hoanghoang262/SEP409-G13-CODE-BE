@@ -27,6 +27,7 @@ namespace ModerationService.API.Fearture.Command
                     Description = request.Description,
                     CreatedBy = request.CreatedBy,
                     LastUpdate = request.LastUpdate,
+                    PostContent=request.PostContent,
                 };
                 _context.Posts.Add(post);
                 await _context.SaveChangesAsync();

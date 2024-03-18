@@ -1,15 +1,16 @@
 ﻿using MediatR;
+using Microsoft.AspNetCore.Mvc;
 using ModerationService.API.Models;
 
 namespace ModerationService.API.Fearture.Command.LastExams
 {
-    public class CreateLastExamCommand : IRequest<LastExam>
+    public class CreateLastExamCommand : IRequest<ActionResult <LastExam>>
     {
         public int ChapterId { get; set; }
         public int? PercentageCompleted { get; set; }
         public string? Name { get; set; }
 
-        public class CreateLastExamCommandHandler : IRequestHandler<CreateLastExamCommand, LastExam>
+        public class CreateLastExamCommandHandler : IRequestHandler<CreateLastExamCommand, ActionResult<LastExam>>
         {
             private readonly Content_ModerationContext _context;
 
@@ -18,7 +19,7 @@ namespace ModerationService.API.Fearture.Command.LastExams
                 _context = context;
             }
 
-            public async Task<LastExam> Handle(CreateLastExamCommand request, CancellationToken cancellationToken)
+            public async Task<ActionResult<LastExam>> Handle(CreateLastExamCommand request, CancellationToken cancellationToken)
             {
                 var lastExam = new LastExam
                 {
@@ -30,7 +31,7 @@ namespace ModerationService.API.Fearture.Command.LastExams
                 _context.LastExams.Add(lastExam);
                 await _context.SaveChangesAsync();
 
-                return lastExam;
+                return new OkObjectResult(lastExam);
             }
         }
     }

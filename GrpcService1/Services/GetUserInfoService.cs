@@ -21,7 +21,12 @@ namespace UserGrpc.Services
             var response = _context.Users.FirstOrDefault(u => u.Id.Equals(request.UserId));
             if (response == null)
             {
-                return Task.FromResult<GetUserInfoResponse>(null);
+                return Task.FromResult( new GetUserInfoResponse
+                {
+                    Id = 0,
+                    Name = "null",
+                    Picture = "null"
+                });
             }
 
             var userInfoResponse = new GetUserInfoResponse()
