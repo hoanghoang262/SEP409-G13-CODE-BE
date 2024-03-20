@@ -15,6 +15,7 @@ namespace ModerationService.API.Models
         public string? CourseName { get; set; }
         public int? PostId { get; set; }
         public string? PostTitle { get; set; }
+        public string? Tag { get; set; }
 
         public virtual Course? Course { get; set; }
     }

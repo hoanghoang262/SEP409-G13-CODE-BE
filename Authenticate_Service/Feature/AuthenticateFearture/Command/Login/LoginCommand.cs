@@ -50,7 +50,7 @@ namespace Authenticate_Service.Feature.AuthenticateFearture.Command.Login
                                          select role.Name).ToList();
 
                         var tokenGenerator = new GenerateJwtToken(_configuration);
-                        var token = tokenGenerator.GenerateToken(userId, request.UserName, userRoles);
+                        var token = tokenGenerator.GenerateToken(userId, request.UserName,user.ProfilePict, userRoles);
 
                         return new OkObjectResult(new
                         {

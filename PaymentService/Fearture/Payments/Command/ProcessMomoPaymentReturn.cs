@@ -37,26 +37,31 @@ namespace PaymentService.Fearture.Payments.Command
 
                     if (isValidSignature)
                     {
-                        var payment = await _context.Payments.FirstOrDefaultAsync(x => x.PaymentId.Equals(request.orderId));
+                        var payment = await _context.PaymentTransactions.FirstOrDefaultAsync(x => x.Id.Equals(request.orderId));
 
                         if (payment != null)
                         {
-                            var merchant = await _context.Merchants.FirstOrDefaultAsync(x => x.Id.Equals(payment.MerchantId));
-                            returnUrl = merchant?.MerchantReturnUrl ?? string.Empty;
+                            //var merchant = await _context.Merchants.FirstOrDefaultAsync(x => x.Id.Equals(payment.MerchantId));
+                            //returnUrl = merchant?.MerchantReturnUrl ?? string.Empty;
 
                             if (request.resultCode == 0)
                             {
 
                                 resultData.PaymentStatus = "0000";
                                 resultData.PaymentId = payment.PaymentId;
-                                resultData.PaidAmount = payment.RequriedAmount;
-
+                                resultData.PaidAmount = payment.TransAmount;
+                                resultData.UserCreateCourseId=payment.UserCreateCourseId;
+                                resultData.CourseId=payment.CourseId;
+    
                                 resultData.Signature = Guid.NewGuid().ToString();
                             }
                             else
                             {
                                 resultData.PaymentStatus = "10";
                                 resultData.PaymentMessage = "Payment process failed";
+                                _context.PaymentTransactions.Remove(payment);
+                                _context.SaveChanges(); 
+                                
                             }
 
                             result.Success = true;

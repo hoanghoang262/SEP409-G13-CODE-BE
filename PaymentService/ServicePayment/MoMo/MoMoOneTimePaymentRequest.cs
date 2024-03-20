@@ -10,7 +10,7 @@ namespace PaymentService.ServicePayment.MoMo
     {
         public MomoOneTimePaymentRequest(string partnerCode, string requestId,
             long amount, string orderId, string orderInfo, string redirectUrl,
-            string ipnUrl, string requestType, string extraData, string lang = "vi")
+            string ipnUrl, string requestType, int userId, int courseId, string extraData,  string lang = "vi")
         {
             this.partnerCode = partnerCode;
             this.requestId = requestId;
@@ -22,8 +22,12 @@ namespace PaymentService.ServicePayment.MoMo
             this.requestType = requestType;
             this.extraData = extraData;
             this.lang = lang;
+            this.userId = userId;
+            this.courseId = courseId;
         }
         public string partnerCode { get; set; } = string.Empty;
+        public int userId { get; set; } 
+        public int courseId { get; set; } 
         public string requestId { get; set; } = string.Empty;
         public long amount { get; set; }
         public string orderId { get; set; } = string.Empty;

@@ -65,6 +65,8 @@ namespace PaymentService.Models
 
                 entity.Property(e => e.PaymentId).HasMaxLength(50);
 
+                entity.Property(e => e.BuyerId).HasColumnName("Buyer_Id");
+
                 entity.Property(e => e.CourseId).HasColumnName("Course_Id");
 
                 entity.Property(e => e.ExpireDate).HasColumnType("datetime");
@@ -92,16 +94,6 @@ namespace PaymentService.Models
                 entity.Property(e => e.RequriedAmount).HasColumnType("decimal(19, 2)");
 
                 entity.Property(e => e.UserCreateCourseId).HasColumnName("UserCreateCourse_Id");
-
-                entity.HasOne(d => d.Merchant)
-                    .WithMany(p => p.Payments)
-                    .HasForeignKey(d => d.MerchantId)
-                    .HasConstraintName("FK_Payment_Merchant");
-
-                entity.HasOne(d => d.PaymentDestination)
-                    .WithMany(p => p.Payments)
-                    .HasForeignKey(d => d.PaymentDestinationId)
-                    .HasConstraintName("FK_Payment_PaymentDestination");
             });
 
             modelBuilder.Entity<PaymentDestination>(entity =>
@@ -184,6 +176,10 @@ namespace PaymentService.Models
 
                 entity.Property(e => e.Id).HasMaxLength(50);
 
+                entity.Property(e => e.BuyerId).HasColumnName("Buyer_Id");
+
+                entity.Property(e => e.CourseId).HasColumnName("Course_Id");
+
                 entity.Property(e => e.PaymentId).HasMaxLength(50);
 
                 entity.Property(e => e.TranDate).HasColumnType("datetime");
@@ -196,10 +192,7 @@ namespace PaymentService.Models
 
                 entity.Property(e => e.TransAmount).HasColumnType("decimal(19, 2)");
 
-                entity.HasOne(d => d.Payment)
-                    .WithMany(p => p.PaymentTransactions)
-                    .HasForeignKey(d => d.PaymentId)
-                    .HasConstraintName("FK_PaymentTransaction_Payment");
+                entity.Property(e => e.UserCreateCourseId).HasColumnName("UserCreateCourse_Id");
             });
 
             OnModelCreatingPartial(modelBuilder);

@@ -8,7 +8,6 @@ namespace PaymentService.Models
         public PaymentDestination()
         {
             InverseParent = new HashSet<PaymentDestination>();
-            Payments = new HashSet<Payment>();
         }
 
         public string Id { get; set; } = null!;
@@ -21,6 +20,5 @@ namespace PaymentService.Models
 
         public virtual PaymentDestination? Parent { get; set; }
         public virtual ICollection<PaymentDestination> InverseParent { get; set; }
-        public virtual ICollection<Payment> Payments { get; set; }
     }
 }

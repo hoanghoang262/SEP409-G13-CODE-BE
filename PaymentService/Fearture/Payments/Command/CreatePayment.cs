@@ -12,8 +12,8 @@ namespace PaymentService.Fearture.Payments.Command
     {
         public string PaymentContent { get; set; } = string.Empty;
         public decimal? RequiredAmount { get; set; }
-        public int? UserCreateCourseId { get; set; }
-        public int? CourseId { get; set; }
+        public int UserCreateCourseId { get; set; }
+        public int CourseId { get; set; }
        
 
         public class CreatePaymentHandler : IRequestHandler<CreatePayment, PaymentDTO>
@@ -35,18 +35,16 @@ namespace PaymentService.Fearture.Payments.Command
                 var outputIdParam = Guid.NewGuid();
                 
                 var paymentUrl = string.Empty;
-                var payment = new Payment
+                var paymenttrans = new PaymentTransaction
                 {
-                    PaymentId = outputIdParam.ToString(),
-                    PaidAmount=request.RequiredAmount,
-                    MerchantId="MER001",
-                    PaymentLanguage="vn",
-                    PaymentCurrency="VND",
-                    UserCreateCourseId=request.UserCreateCourseId,
-                    CourseId=request.CourseId,
-                    RequriedAmount=request.RequiredAmount
+                    Id= outputIdParam.ToString(),
+                    
+                  
+                    UserCreateCourseId = request.UserCreateCourseId,
+                    CourseId = request.CourseId,
+                    TransAmount = request.RequiredAmount
                 };
-                 _context.Payments.Add(payment);
+                _context.PaymentTransactions.Add(paymenttrans);
                 await _context.SaveChangesAsync();
 
                 switch ("MOMO")
@@ -61,6 +59,7 @@ namespace PaymentService.Fearture.Payments.Command
                         var momoOneTimePayRequest = new MomoOneTimePaymentRequest(momoConfig.PartnerCode,
                             outputIdParam.ToString() ?? string.Empty, (long)request.RequiredAmount!, outputIdParam.ToString() ?? string.Empty,
                             request.PaymentContent ?? string.Empty, momoConfig.ReturnUrl, momoConfig.IpnUrl, "captureWallet",
+                            request.UserCreateCourseId,request.CourseId,
                             string.Empty);
                         momoOneTimePayRequest.MakeSignature(momoConfig.AccessKey, momoConfig.SecretKey);
                         (bool createMomoLinkResult, string? createMessage) = momoOneTimePayRequest.GetLink(momoConfig.PaymentUrl);

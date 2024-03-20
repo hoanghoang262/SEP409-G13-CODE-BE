@@ -7,11 +7,11 @@ using ModerationService.API.Models;
 
 namespace ModerationService.API.Fearture.Querries.PracticeQuestion
 {
-    public class GetPracticeQuestionByIdQuery : IRequest<ActionResult<PracticeQuestionDTO>>
+    public class GetPracticeQuestionByIdQuery : IRequest<IActionResult>
     {
         public int PracticeQuestionId { get; set; }
     }
-    public class GetPracticeQuestionByIdQueryHandler : IRequestHandler<GetPracticeQuestionByIdQuery, ActionResult<PracticeQuestionDTO>>
+    public class GetPracticeQuestionByIdQueryHandler : IRequestHandler<GetPracticeQuestionByIdQuery, IActionResult>
     {
         private readonly Content_ModerationContext _context;
 
@@ -20,7 +20,7 @@ namespace ModerationService.API.Fearture.Querries.PracticeQuestion
             _context = context;
         }
 
-        public async Task<ActionResult<PracticeQuestionDTO>> Handle(GetPracticeQuestionByIdQuery request, CancellationToken cancellationToken)
+        public async Task<IActionResult> Handle(GetPracticeQuestionByIdQuery request, CancellationToken cancellationToken)
         {
             var practiceQuestion = await _context.PracticeQuestions.Include(pq => pq.TestCases)
                 .FirstOrDefaultAsync(pq => pq.Id == request.PracticeQuestionId);
