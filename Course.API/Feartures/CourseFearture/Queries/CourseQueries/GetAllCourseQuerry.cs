@@ -12,12 +12,12 @@ using Microsoft.EntityFrameworkCore;
 
 namespace CourseService.API.Feartures.CourseFearture.Queries.CourseQueries
 {
-    public class GetAllCourseQuerry : IRequest<ActionResult<PageList<CourseDTO>>>
+    public class GetAllCourseQuerry : IRequest<IActionResult>
     {
         public int Page { get; set; } = 1;
         public int PageSize { get; set; } = 5;
         public string? CourseName { get; set; }
-        public class GetAllCoursesHandler : IRequestHandler<GetAllCourseQuerry, ActionResult<PageList<CourseDTO>>>
+        public class GetAllCoursesHandler : IRequestHandler<GetAllCourseQuerry, IActionResult>
         {
             private readonly IMediator mediator;
             private readonly IMapper _mapper;
@@ -30,7 +30,7 @@ namespace CourseService.API.Feartures.CourseFearture.Queries.CourseQueries
                 _context = context;
                 _service = service;
             }
-            public async Task<ActionResult<PageList<CourseDTO>>> Handle(GetAllCourseQuerry request, CancellationToken cancellation)
+            public async Task<IActionResult> Handle(GetAllCourseQuerry request, CancellationToken cancellation)
             {
                 IQueryable<Course> query = _context.Courses;
 
@@ -69,7 +69,7 @@ namespace CourseService.API.Feartures.CourseFearture.Queries.CourseQueries
                 //    .ToListAsync();
 
                 var result = new PageList<CourseDTO>(courseDTOList, totalItems, request.Page, request.PageSize);
-                return result;
+                return new OkObjectResult(result);
             }
         }
     }

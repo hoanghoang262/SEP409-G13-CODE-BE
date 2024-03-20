@@ -34,6 +34,7 @@ namespace ModerationService.API.Controllers
             }
 
             var result = await _mediator.Send(command);
+
             return Ok(result);
         }
 
@@ -51,6 +52,7 @@ namespace ModerationService.API.Controllers
         {
             var command = new DeleteLessonCommand { Id = id };
             var result = await _mediator.Send(command);
+
             return Ok(result);
         }
     }

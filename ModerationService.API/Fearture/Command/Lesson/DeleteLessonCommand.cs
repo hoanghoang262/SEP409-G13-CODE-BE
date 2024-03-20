@@ -6,12 +6,12 @@ using ModerationService.API.Models;
 
 namespace ModerationService.API.Fearture.Command
 {
-    public class DeleteLessonCommand : IRequest<ActionResult<int>>
+    public class DeleteLessonCommand : IRequest<IActionResult>
     {
         public int Id { get; set; }
     }
 
-    public class DeleteLessonCommandHandler : IRequestHandler<DeleteLessonCommand, ActionResult<int>>
+    public class DeleteLessonCommandHandler : IRequestHandler<DeleteLessonCommand, IActionResult>
     {
         private readonly Content_ModerationContext _context;
 
@@ -20,7 +20,7 @@ namespace ModerationService.API.Fearture.Command
             _context = moderationContext;
         }
 
-        public async Task<ActionResult<int>> Handle(DeleteLessonCommand request, CancellationToken cancellationToken)
+        public async Task<IActionResult> Handle(DeleteLessonCommand request, CancellationToken cancellationToken)
         {
             var lesson = await _context.Lessons
                 .Include(c => c.TheoryQuestions)

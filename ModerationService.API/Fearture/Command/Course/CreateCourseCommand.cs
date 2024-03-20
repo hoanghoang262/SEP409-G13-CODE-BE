@@ -6,7 +6,7 @@ using ModerationService.API.Models;
 
 namespace CourseService.API.Feartures.CourseFearture.Command.CreateCourse
 {
-    public class CreateCourseCommand : IRequest<ActionResult<Course>>
+    public class CreateCourseCommand : IRequest<IActionResult>
     {
         public string? Name { get; set; }
         public string? Description { get; set; }
@@ -14,7 +14,7 @@ namespace CourseService.API.Feartures.CourseFearture.Command.CreateCourse
         public string? Tag { get; set; }
         public int CreatedBy { get; set; }
 
-        public class CreateCourseHandler : IRequestHandler<CreateCourseCommand, ActionResult<Course>>
+        public class CreateCourseHandler : IRequestHandler<CreateCourseCommand, IActionResult>
         {
             private readonly Content_ModerationContext _context;
             private readonly UserIdCourseGrpcService service;
@@ -25,15 +25,8 @@ namespace CourseService.API.Feartures.CourseFearture.Command.CreateCourse
                 service = _service;
             }
 
-            public async Task<ActionResult<Course>> Handle(CreateCourseCommand request, CancellationToken cancellationToken)
+            public async Task<IActionResult> Handle(CreateCourseCommand request, CancellationToken cancellationToken)
             {
-                // Check if user exists
-                var user = await service.SendUserId(request.CreatedBy);
-                if (user == null)
-                {
-                    return new BadRequestObjectResult(Message.MSG24);
-                }
-
                 // validate input
                 if (string.IsNullOrEmpty(request.Name) || string.IsNullOrEmpty(request.Description) || string.IsNullOrEmpty(request.Picture) || string.IsNullOrEmpty(request.Tag))
                 {
@@ -44,6 +37,13 @@ namespace CourseService.API.Feartures.CourseFearture.Command.CreateCourse
                 if (request.Name.Length > 256)
                 {
                     return new BadRequestObjectResult(Message.MSG27);
+                }
+
+                // Check if user exists
+                var user = await service.SendUserId(request.CreatedBy);
+                if (user == null)
+                {
+                    return new BadRequestObjectResult(Message.MSG24);
                 }
 
                 var newCourse = new Course

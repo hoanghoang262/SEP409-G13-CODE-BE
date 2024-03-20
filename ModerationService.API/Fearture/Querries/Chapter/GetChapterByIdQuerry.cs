@@ -7,11 +7,11 @@ using ModerationService.API.Models;
 
 namespace ModerationService.API.Fearture.Querries.Chapter
 {
-    public class GetChapterByIdQuery : IRequest<ActionResult<ChapterDTO>>
+    public class GetChapterByIdQuery : IRequest<IActionResult>
     {
         public int ChapterId { get; set; }
     }
-    public class GetChapterByIdQueryHandler : IRequestHandler<GetChapterByIdQuery, ActionResult<ChapterDTO>>
+    public class GetChapterByIdQueryHandler : IRequestHandler<GetChapterByIdQuery, IActionResult>
     {
         private readonly Content_ModerationContext _context;
 
@@ -20,7 +20,7 @@ namespace ModerationService.API.Fearture.Querries.Chapter
             _context = context;
         }
 
-        public async Task<ActionResult<ChapterDTO>> Handle(GetChapterByIdQuery request, CancellationToken cancellationToken)
+        public async Task<IActionResult> Handle(GetChapterByIdQuery request, CancellationToken cancellationToken)
         {
             var chapter = await _context.Chapters.FirstOrDefaultAsync(c => c.Id == request.ChapterId);
 
