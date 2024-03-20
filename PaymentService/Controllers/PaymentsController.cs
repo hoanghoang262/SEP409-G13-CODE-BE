@@ -1,4 +1,6 @@
-﻿using Mapster;
+﻿using EventBus.Message.Event;
+using Mapster;
+using MassTransit;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using PaymentService.Base;
@@ -17,10 +19,12 @@ namespace PaymentService.Controllers
     {
         private readonly IMediator mediator;
         private readonly PaymentContext _context;
-        // private readonly VnpayConfig vnpayConfig;
-        public PaymentsController(IMediator _mediator) 
+         private readonly IPublishEndpoint publish;
+        public PaymentsController(IMediator _mediator,IPublishEndpoint _publish,PaymentContext context) 
         { 
             mediator = _mediator;
+            publish=_publish;
+            _context = context;
           
         }
         [HttpPost]
@@ -43,7 +47,28 @@ namespace PaymentService.Controllers
                 returnModel = processResult.Data.Item1 ;
                 returnUrl = processResult.Data.Item2;
             }
+            var outputIdParam = Guid.NewGuid();
 
+            var payment = new Payment
+            {
+                PaymentId = outputIdParam.ToString(),
+                PaidAmount = returnModel.PaidAmount,
+                MerchantId = "MER001",
+                PaymentLanguage = "vn",
+                PaymentCurrency = "VND",
+                UserCreateCourseId = returnModel.UserCreateCourseId,
+                CourseId = returnModel.CourseId,
+                RequriedAmount = returnModel.PaidAmount
+            };
+            _context.Payments.Add(payment);
+            _context.SaveChanges();
+            var Enroll = new UserEnrollEvent
+            {
+                UserId = returnModel.UserCreateCourseId,
+                CourseId = returnModel.CourseId,
+
+            };
+            await publish.Publish(Enroll);
 
             if (returnUrl.EndsWith("/"))
                 returnUrl = returnUrl.Remove(returnUrl.Length - 1, 1);

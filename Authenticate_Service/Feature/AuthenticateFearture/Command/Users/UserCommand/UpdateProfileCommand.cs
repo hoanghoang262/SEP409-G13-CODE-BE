@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using System.Text.RegularExpressions;
 using System.Globalization;
 using Contract.Service.Message;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace AuthenticateService.API.Feature.AuthenticateFearture.Command.Users.UserCommand
 {
@@ -60,7 +61,7 @@ namespace AuthenticateService.API.Feature.AuthenticateFearture.Command.Users.Use
 
             // Check username is exist
             var userExist = await _context.Users.FirstOrDefaultAsync(x => x.UserName.Equals(request.UserName));
-            if (userExist != null)
+            if (userExist != null && userExist.Id != user.Id)
             {
                 return new BadRequestObjectResult(Message.MSG07);
             }

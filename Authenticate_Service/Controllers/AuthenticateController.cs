@@ -143,7 +143,7 @@ namespace Authenticated.Controllers
             var user = await context.Users.FirstOrDefaultAsync(c => c.Email.Equals(email));
             if (user != null)
             {
-                return BadRequest("Email has exist");
+                return Ok("Email has exist");
             }
             return Ok("Not found Email");
         }

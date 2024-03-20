@@ -20,6 +20,7 @@ namespace CourseService
             var builder = WebApplication.CreateBuilder(args);
             builder.Services.AddScoped<DynamicCodeCompiler>();
             builder.Services.AddScoped<DynamicCodeCompilerJava>();
+            builder.Services.AddScoped<CompileCode>();
             
 
             // rabbitMQ

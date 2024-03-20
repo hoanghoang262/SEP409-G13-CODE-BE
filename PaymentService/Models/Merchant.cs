@@ -5,11 +5,6 @@ namespace PaymentService.Models
 {
     public partial class Merchant
     {
-        public Merchant()
-        {
-            Payments = new HashSet<Payment>();
-        }
-
         public string Id { get; set; } = null!;
         public string? MerchantName { get; set; }
         public string? MerchantWebLink { get; set; }
@@ -21,7 +16,5 @@ namespace PaymentService.Models
         public string? LastUpdateBy { get; set; }
         public DateTime? CreatedAt { get; set; }
         public DateTime? LastUpdateAt { get; set; }
-
-        public virtual ICollection<Payment> Payments { get; set; }
     }
 }

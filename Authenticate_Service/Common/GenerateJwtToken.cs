@@ -13,12 +13,13 @@ namespace Authenticate_Service.Common
             _configuration = configuration;
         }
 
-        public JwtSecurityToken GenerateToken(int UserId,string userName, List<string> userRoles)
+        public JwtSecurityToken GenerateToken(int UserId,string userName,string UserPict, List<string> userRoles)
         {
             var authClaims = new List<Claim>
             {
                   
                   new Claim("UserID", UserId.ToString()),
+                  new Claim("UserName", userName)
 
             };
 

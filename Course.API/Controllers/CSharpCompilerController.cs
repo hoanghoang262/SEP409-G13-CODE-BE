@@ -23,24 +23,24 @@ namespace DynamicCodeCompilerAPI.Controllers
         }
 
         [HttpPost]
-        public IActionResult CompileCodeCSharp( CodeRequestModel request)
+        public IActionResult CompileCodeCSharp(CodeRequestModel request)
         {
             var testCases = (from codeQuestion in _context.PracticeQuestions
-                            join testCase in _context.TestCases
-                            on codeQuestion.Id equals testCase.CodeQuestionId
-                            where testCase.CodeQuestionId == request.PracticeQuestionId
-                            select new
-                            {
-                                codeQuestion.Description,
-                                testCase.ExpectedResultInt,
-                                testCase.InputTypeInt,
-                                testCase.InputTypeString,
-                                testCase.ExpectedResultString,
-                                testCase.InputTypeArrayInt,
-                                testCase.InputTypeBoolean,
-                                testCase.ExpectedResultBoolean,
-                                testCase.InputTypeArrayString
-                            }).ToList();
+                             join testCase in _context.TestCases
+                             on codeQuestion.Id equals testCase.CodeQuestionId
+                             where testCase.CodeQuestionId == request.PracticeQuestionId
+                             select new
+                             {
+                                 codeQuestion.Description,
+                                 testCase.ExpectedResultInt,
+                                 testCase.InputTypeInt,
+                                 testCase.InputTypeString,
+                                 testCase.ExpectedResultString,
+                                 testCase.InputTypeArrayInt,
+                                 testCase.InputTypeBoolean,
+                                 testCase.ExpectedResultBoolean,
+                                 testCase.InputTypeArrayString
+                             }).ToList();
             if (testCases.Count == 0)
             {
                 return BadRequest("Not found question id");
@@ -215,6 +215,3 @@ public class CodeRequestModel
     public string UserCode { get; set; }
     public int UserId { get; set; }
 }
-
-
-

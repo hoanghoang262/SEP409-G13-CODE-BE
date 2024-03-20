@@ -7,11 +7,11 @@ using ModerationService.API.Models;
 
 namespace ModerationService.API.Fearture.Querries.TheoryQuestion
 {
-    public class GetTheoryQuestionByIdQuery : IRequest<ActionResult<TheoryQuestionDTO>>
+    public class GetTheoryQuestionByIdQuery : IRequest<IActionResult>
     {
         public int TheoryQuestionId { get; set; }
     }
-    public class GetTheoryQuestionByIdQueryHandler : IRequestHandler<GetTheoryQuestionByIdQuery, ActionResult<TheoryQuestionDTO>>
+    public class GetTheoryQuestionByIdQueryHandler : IRequestHandler<GetTheoryQuestionByIdQuery, IActionResult>
     {
         private readonly Content_ModerationContext _context;
 
@@ -20,7 +20,7 @@ namespace ModerationService.API.Fearture.Querries.TheoryQuestion
             _context = context;
         }
 
-        public async Task<ActionResult<TheoryQuestionDTO>> Handle(GetTheoryQuestionByIdQuery request, CancellationToken cancellationToken)
+        public async Task<IActionResult> Handle(GetTheoryQuestionByIdQuery request, CancellationToken cancellationToken)
         {
             var theoryQuestion = await _context.TheoryQuestions
                 .Include(tq => tq.AnswerOptions)
@@ -49,7 +49,7 @@ namespace ModerationService.API.Fearture.Querries.TheoryQuestion
                 }).ToList()
             };
 
-            return new OkObjectResult(theoryQuestionDTO);
+            return  new OkObjectResult(theoryQuestionDTO);
         }
     }
 }

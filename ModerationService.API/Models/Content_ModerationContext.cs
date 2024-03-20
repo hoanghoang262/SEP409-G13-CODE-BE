@@ -108,6 +108,8 @@ namespace ModerationService.API.Models
 
                 entity.Property(e => e.ChapterId).HasColumnName("Chapter_Id");
 
+                entity.Property(e => e.IsPass).HasMaxLength(50);
+
                 entity.Property(e => e.Name).HasMaxLength(50);
 
                 entity.Property(e => e.PercentageCompleted).HasColumnName("Percentage_Completed");
@@ -164,6 +166,8 @@ namespace ModerationService.API.Models
                 entity.Property(e => e.PostTitle).HasColumnName("Post_Title");
 
                 entity.Property(e => e.Status).HasMaxLength(50);
+
+                entity.Property(e => e.Tag).HasMaxLength(50);
 
                 entity.HasOne(d => d.Course)
                     .WithMany(p => p.Moderations)

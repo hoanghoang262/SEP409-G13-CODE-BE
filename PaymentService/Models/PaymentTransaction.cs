@@ -12,7 +12,8 @@ namespace PaymentService.Models
         public decimal? TransAmount { get; set; }
         public DateTime? TranDate { get; set; }
         public string? PaymentId { get; set; }
-
-        public virtual Payment? Payment { get; set; }
+        public int? CourseId { get; set; }
+        public int? BuyerId { get; set; }
+        public int? UserCreateCourseId { get; set; }
     }
 }
