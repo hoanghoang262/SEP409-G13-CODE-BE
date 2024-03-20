@@ -7,11 +7,11 @@ using ModerationService.API.Models;
 
 namespace ModerationService.API.Fearture.Querries.Lesson
 {
-    public class GetLessonByIdQuery : IRequest<ActionResult<LessonDTO>>
+    public class GetLessonByIdQuery : IRequest<IActionResult>
     {
         public int LessonId { get; set; }
     }
-    public class GetLessonByIdQueryHandler : IRequestHandler<GetLessonByIdQuery, ActionResult<LessonDTO>>
+    public class GetLessonByIdQueryHandler : IRequestHandler<GetLessonByIdQuery, IActionResult>
     {
         private readonly Content_ModerationContext _context;
 
@@ -20,7 +20,7 @@ namespace ModerationService.API.Fearture.Querries.Lesson
             _context = context;
         }
 
-        public async Task<ActionResult<LessonDTO>> Handle(GetLessonByIdQuery request, CancellationToken cancellationToken)
+        public async Task<IActionResult> Handle(GetLessonByIdQuery request, CancellationToken cancellationToken)
         {
             var lesson = await _context.Lessons.Include(c => c.TheoryQuestions).ThenInclude(a => a.AnswerOptions).FirstOrDefaultAsync(l => l.Id == request.LessonId);
 

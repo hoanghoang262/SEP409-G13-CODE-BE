@@ -7,11 +7,11 @@ using Microsoft.EntityFrameworkCore;
 
 namespace CourseService.API.Feartures.CourseFearture.Queries.CourseQueries
 {
-    public class GetPracticeQuestionByIdQuerry : IRequest<ActionResult<PracticeQuestionDTO>>
+    public class GetPracticeQuestionByIdQuerry : IRequest<IActionResult>
     {
         public int PracticeQuestionId { get; set; }
 
-        public class GetPracticeQuestionQuerryHandler : IRequestHandler<GetPracticeQuestionByIdQuerry, ActionResult<PracticeQuestionDTO>>
+        public class GetPracticeQuestionQuerryHandler : IRequestHandler<GetPracticeQuestionByIdQuerry, IActionResult>
         {
             private readonly CourseContext _context;
             public GetPracticeQuestionQuerryHandler(CourseContext context)
@@ -19,7 +19,7 @@ namespace CourseService.API.Feartures.CourseFearture.Queries.CourseQueries
                 _context = context;
             }
 
-            public async Task<ActionResult<PracticeQuestionDTO>> Handle(GetPracticeQuestionByIdQuerry request, CancellationToken cancellationToken)
+            public async Task<IActionResult> Handle(GetPracticeQuestionByIdQuerry request, CancellationToken cancellationToken)
             {
                 var practiceQuestion = await _context.PracticeQuestions
                                               .Include(pq => pq.Chapter)

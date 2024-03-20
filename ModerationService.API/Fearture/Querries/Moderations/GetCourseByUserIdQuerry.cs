@@ -6,11 +6,11 @@ using ModerationService.API.Models;
 
 namespace ModerationService.API.Fearture.Querries.Moderations
 {
-    public class GetCourseByUserIdQuerry : IRequest<ActionResult<List<Course>>>
+    public class GetCourseByUserIdQuerry : IRequest<IActionResult>
     {
         public int UserId { get; set; }
 
-        public class GetCourseByUserIdQuerryHandler : IRequestHandler<GetCourseByUserIdQuerry, ActionResult<List<Course>>>
+        public class GetCourseByUserIdQuerryHandler : IRequestHandler<GetCourseByUserIdQuerry, IActionResult>
         {
             private readonly Content_ModerationContext _context;
 
@@ -19,7 +19,7 @@ namespace ModerationService.API.Fearture.Querries.Moderations
                 _context = context;
 
             }
-            public async Task<ActionResult<List<Course>>> Handle(GetCourseByUserIdQuerry request, CancellationToken cancellationToken)
+            public async Task<IActionResult> Handle(GetCourseByUserIdQuerry request, CancellationToken cancellationToken)
             {
                 var course = await _context.Courses.Where(x => x.CreatedBy.Equals(request.UserId)).ToListAsync();
                 if (course == null)

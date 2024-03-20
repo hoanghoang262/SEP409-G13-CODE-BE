@@ -7,11 +7,11 @@ using Microsoft.EntityFrameworkCore;
 
 namespace CourseService.API.Feartures.CourseFearture.Queries.CourseQueries
 {
-    public class GetLessonByIdQuerry : IRequest<ActionResult<LessonDTO>>
+    public class GetLessonByIdQuerry : IRequest<IActionResult>
     {
         public int LessonId { get; set; }
 
-        public class GetLessonByIdQuerryHandler : IRequestHandler<GetLessonByIdQuerry, ActionResult<LessonDTO>>
+        public class GetLessonByIdQuerryHandler : IRequestHandler<GetLessonByIdQuerry, IActionResult>
         {
             private readonly CourseContext _context;
             public GetLessonByIdQuerryHandler(CourseContext context)
@@ -19,7 +19,7 @@ namespace CourseService.API.Feartures.CourseFearture.Queries.CourseQueries
                 _context = context;
             }
 
-            public async Task<ActionResult<LessonDTO>> Handle(GetLessonByIdQuerry request, CancellationToken cancellationToken)
+            public async Task<IActionResult> Handle(GetLessonByIdQuerry request, CancellationToken cancellationToken)
             {
                 var lesson = await _context.Lessons
                     .Include(l => l.Chapter)
