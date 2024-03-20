@@ -13,15 +13,14 @@ using System.Threading.Tasks;
 
 namespace ModerationService.API.Feature.Queries
 {
-    public class GetModerationPostQuerry : IRequest<PageList<ModerationDTO>>
+    public class GetModerationPostQuerry : IRequest<IActionResult>
     {
         public int Page { get; set; }
         public int PageSize { get; set; }
         public string? PostTitle { get; set; }
-
         public string Status { get; set; }
 
-        public class GetModerationPostQuerryHandler : IRequestHandler<GetModerationPostQuerry, PageList<ModerationDTO>>
+        public class GetModerationPostQuerryHandler : IRequestHandler<GetModerationPostQuerry, IActionResult>
         {
             private readonly Content_ModerationContext _context;
             private readonly UserIdCourseGrpcService _service;
@@ -32,7 +31,7 @@ namespace ModerationService.API.Feature.Queries
                 _service = service;
             }
 
-            public async Task<PageList<ModerationDTO>> Handle(GetModerationPostQuerry request, CancellationToken cancellationToken)
+            public async Task<IActionResult> Handle(GetModerationPostQuerry request, CancellationToken cancellationToken)
             {
                 List<Moderation> moderations;
                 if (string.IsNullOrEmpty(request.PostTitle))
@@ -46,7 +45,7 @@ namespace ModerationService.API.Feature.Queries
 
                 if (moderations == null)
                 {
-                    return null;
+                    return new NotFoundObjectResult("Not Found");
                 }
 
                 var totalItems = moderations.Count;
@@ -81,7 +80,9 @@ namespace ModerationService.API.Feature.Queries
                     moderationDTOs.Add(moderationDTO);
                 }
 
-                return new PageList<ModerationDTO>(moderationDTOs, totalItems, request.Page, request.PageSize);
+                var newModerationDTO = new PageList<ModerationDTO>(moderationDTOs, totalItems, request.Page, request.PageSize);
+
+                return new OkObjectResult(newModerationDTO);
             }
         }
     }
