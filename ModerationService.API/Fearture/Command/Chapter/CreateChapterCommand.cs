@@ -5,7 +5,7 @@ using ModerationService.API.Models;
 
 namespace ModerationService.API.Fearture.Command
 {
-    public class CreateChapterCommand : IRequest<ActionResult<Chapter>>
+    public class CreateChapterCommand : IRequest<IActionResult>
     {
         public string? Name { get; set; }
         public int? CourseId { get; set; }
@@ -13,7 +13,7 @@ namespace ModerationService.API.Fearture.Command
         public bool? IsNew { get; set; }
     }
 
-    public class AddChapterCommandHandler : IRequestHandler<CreateChapterCommand, ActionResult<Chapter>>
+    public class AddChapterCommandHandler : IRequestHandler<CreateChapterCommand, IActionResult>
     {
         private readonly Content_ModerationContext _context;
 
@@ -22,7 +22,7 @@ namespace ModerationService.API.Fearture.Command
             _context = moderationContext;
         }
 
-        public async Task<ActionResult<Chapter>> Handle(CreateChapterCommand request, CancellationToken cancellationToken)
+        public async Task<IActionResult> Handle(CreateChapterCommand request, CancellationToken cancellationToken)
         {
             // validate input
             if (request.Name == null || request.CourseId == null || request.Part == null || request.IsNew == null)

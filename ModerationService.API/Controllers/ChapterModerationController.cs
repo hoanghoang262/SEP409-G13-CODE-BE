@@ -21,6 +21,7 @@ namespace ModerationService.API.Controllers
         public async Task<IActionResult> AddChapter([FromBody] CreateChapterCommand command)
         {
             var result = await _mediator.Send(command);
+
             return Ok(result);
         }
 
@@ -33,6 +34,7 @@ namespace ModerationService.API.Controllers
             }
 
             var result = await _mediator.Send(command);
+
             return Ok(result);
         }
 
@@ -41,6 +43,7 @@ namespace ModerationService.API.Controllers
         {
             var command = new DeleteChapterCommand { ChapterId = id };
             var result = await _mediator.Send(command);
+
             return Ok(result);
         }
 

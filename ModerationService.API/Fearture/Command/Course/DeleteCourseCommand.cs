@@ -6,11 +6,11 @@ using ModerationService.API.Models;
 
 namespace ModerationService.API.Fearture.Command.Course
 {
-    public class DeleteCourseCommand : IRequest<ActionResult<int>>
+    public class DeleteCourseCommand : IRequest<IActionResult>
     {
         public int CourseId { get; set; }
 
-        public class DeleteCourseCommandHandler : IRequestHandler<DeleteCourseCommand, ActionResult<int>>
+        public class DeleteCourseCommandHandler : IRequestHandler<DeleteCourseCommand, IActionResult>
         {
             private readonly Content_ModerationContext _context;
 
@@ -18,7 +18,7 @@ namespace ModerationService.API.Fearture.Command.Course
             {
                 _context = moderationContext;
             }
-            public async Task<ActionResult<int>> Handle(DeleteCourseCommand request, CancellationToken cancellationToken)
+            public async Task<IActionResult> Handle(DeleteCourseCommand request, CancellationToken cancellationToken)
             {
                 var course = await _context.Courses
                       .Include(c => c.Chapters)

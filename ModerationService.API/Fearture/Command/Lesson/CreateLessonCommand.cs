@@ -7,13 +7,13 @@ using ModerationService.API.Models;
 
 namespace ModerationService.API.Fearture.Command
 {
-    public class CreateLessonCommand : IRequest<ActionResult<LessonDTO>>
+    public class CreateLessonCommand : IRequest<IActionResult>
     {
         public int ChapterId { get; set; }
         public LessonDTO Lesson { get; set; }
     }
 
-    public class CreateLessonCommandHandler : IRequestHandler<CreateLessonCommand, ActionResult<LessonDTO>>
+    public class CreateLessonCommandHandler : IRequestHandler<CreateLessonCommand, IActionResult>
     {
         private readonly Content_ModerationContext _context;
 
@@ -22,7 +22,7 @@ namespace ModerationService.API.Fearture.Command
             _context = moderationContext;
         }
 
-        public async Task<ActionResult<LessonDTO>> Handle(CreateLessonCommand request, CancellationToken cancellationToken)
+        public async Task<IActionResult> Handle(CreateLessonCommand request, CancellationToken cancellationToken)
         {
             // validate input
             if (string.IsNullOrEmpty(request.Lesson.Title)

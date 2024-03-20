@@ -7,7 +7,7 @@ using ModerationService.API.Models;
 
 namespace CourseService.API.Feartures.CourseFearture.Command.CreateCourse
 {
-    public class UpdateCourseCommand : IRequest<ActionResult<Course>>
+    public class UpdateCourseCommand : IRequest<IActionResult>
     {
         public int Id { get; set; }
         public string? Name { get; set; }
@@ -19,7 +19,7 @@ namespace CourseService.API.Feartures.CourseFearture.Command.CreateCourse
 
        // public List<ChapterDTO> Chapters { get; set; }
 
-        public class UpdateCourseCommandHandler : IRequestHandler<UpdateCourseCommand, ActionResult<Course>>
+        public class UpdateCourseCommandHandler : IRequestHandler<UpdateCourseCommand, IActionResult>
         {
             private readonly Content_ModerationContext _context;
             private readonly GetCourseIdGrpcServices services;
@@ -32,8 +32,20 @@ namespace CourseService.API.Feartures.CourseFearture.Command.CreateCourse
                 service=_service;
             }
 
-            public async Task<ActionResult<Course>> Handle(UpdateCourseCommand request, CancellationToken cancellationToken)
+            public async Task<IActionResult> Handle(UpdateCourseCommand request, CancellationToken cancellationToken)
             {
+                // validate input
+                if (string.IsNullOrEmpty(request.Name) || string.IsNullOrEmpty(request.Description) || string.IsNullOrEmpty(request.Picture) || string.IsNullOrEmpty(request.Tag))
+                {
+                    return new BadRequestObjectResult(Message.MSG11);
+                }
+
+                // string length
+                if (request.Name.Length > 256)
+                {
+                    return new BadRequestObjectResult(Message.MSG27);
+                }
+
                 // check if the course exist
                 var courseId = await services.SendCourseId(request.Id);
                 if (courseId == null)
