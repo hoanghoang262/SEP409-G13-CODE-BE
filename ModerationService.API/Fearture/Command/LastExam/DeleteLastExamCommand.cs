@@ -1,5 +1,7 @@
-﻿using MediatR;
+﻿using Contract.Service.Message;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using ModerationService.API.Models;
 
 namespace ModerationService.API.Fearture.Command.LastExams
@@ -19,17 +21,27 @@ namespace ModerationService.API.Fearture.Command.LastExams
 
             public async Task<ActionResult> Handle(DeleteLastExamCommand request, CancellationToken cancellationToken)
             {
-                var lastExam = await _context.LastExams.FindAsync(request.LastExamId);
+                var lastExam = await _context.LastExams
+                .Include(c => c.QuestionExams)
+                .ThenInclude(l => l.AnswerExams)
+                .FirstOrDefaultAsync(x => x.Id.Equals(request.LastExamId));
 
                 if (lastExam == null)
                 {
-                    return new NotFoundResult();
+                    return new BadRequestObjectResult(Message.MSG29);
                 }
 
+                foreach (var theoryQuestion in lastExam.QuestionExams)
+                {
+                    _context.AnswerExams.RemoveRange(theoryQuestion.AnswerExams);
+                }
+                _context.QuestionExams.RemoveRange(lastExam.QuestionExams);
+
                 _context.LastExams.Remove(lastExam);
+
                 await _context.SaveChangesAsync();
 
-                return new OkResult();
+                return new OkObjectResult(lastExam.Id);
             }
         }
     }

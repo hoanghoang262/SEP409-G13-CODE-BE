@@ -1,3 +1,4 @@
+using MassTransit;
 using Microsoft.EntityFrameworkCore;
 using PaymentService.Interface;
 using PaymentService.Models;
@@ -21,7 +22,17 @@ namespace PaymentService
             builder.Services.AddDbContext<PaymentContext>(
             options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-           
+            var configuration = builder.Configuration.GetSection("EventBusSetting:HostAddress").Value;
+            var mqConnection = new Uri(configuration);
+            builder.Services.AddMassTransit(config =>
+            {
+                config.UsingRabbitMq((ctx, cfg) =>
+                {
+                    cfg.Host(mqConnection);
+                });
+               
+            });
+
 
             builder.Services.AddHttpContextAccessor();
             builder.Services.AddScoped<ICurrentUserService, CurrentUserService>();

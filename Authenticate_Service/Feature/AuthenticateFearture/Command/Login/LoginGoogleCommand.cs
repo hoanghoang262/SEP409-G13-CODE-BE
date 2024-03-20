@@ -68,7 +68,7 @@ namespace Authenticate_Service.Feature.AuthenticateFearture.Command.Login
                                      where u.Email == request.Email
                                      select role.Name).ToList();
 
-                    var token = tokenGenerator.GenerateToken(getUserId, request.Email, roles);
+                    var token = tokenGenerator.GenerateToken(getUserId, user.UserName,user.ProfilePict, roles);
 
                     return new OkObjectResult(new
                     {

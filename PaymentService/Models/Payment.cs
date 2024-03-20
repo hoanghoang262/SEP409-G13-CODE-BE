@@ -9,7 +9,6 @@ namespace PaymentService.Models
         {
             PaymentNotifications = new HashSet<PaymentNotification>();
             PaymentSignatures = new HashSet<PaymentSignature>();
-            PaymentTransactions = new HashSet<PaymentTransaction>();
         }
 
         public string PaymentId { get; set; } = null!;
@@ -27,11 +26,9 @@ namespace PaymentService.Models
         public string? PaymentLastMessage { get; set; }
         public int? UserCreateCourseId { get; set; }
         public int? CourseId { get; set; }
+        public int? BuyerId { get; set; }
 
-        public virtual Merchant? Merchant { get; set; }
-        public virtual PaymentDestination? PaymentDestination { get; set; }
         public virtual ICollection<PaymentNotification> PaymentNotifications { get; set; }
         public virtual ICollection<PaymentSignature> PaymentSignatures { get; set; }
-        public virtual ICollection<PaymentTransaction> PaymentTransactions { get; set; }
     }
 }

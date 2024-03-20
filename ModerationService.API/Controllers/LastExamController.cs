@@ -2,6 +2,7 @@
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using ModerationService.API.Common.DTO;
 using ModerationService.API.Fearture.Command.LastExams;
 using ModerationService.API.Models;
 
@@ -17,7 +18,7 @@ namespace ModerationService.API.Controllers
             _mediator = mediator;
         }
         [HttpPost]
-        public async Task<ActionResult<LastExam>> CreateLastExam(CreateLastExamCommand command)
+        public async Task<ActionResult<LastExamDTO>> CreateLastExam(CreateLastExamCommand command)
         {
             var result = await _mediator.Send(command);
 
@@ -30,7 +31,7 @@ namespace ModerationService.API.Controllers
             return await _mediator.Send(command);
         }
         [HttpPut]
-        public async Task<ActionResult<LastExam>> UpdateLastExam(int id, UpdateLastExamCommand command)
+        public async Task<ActionResult<LastExamDTO>> UpdateLastExam(int id, UpdateLastExamCommand command)
         {
             if (id != command.LastExamId)
             {

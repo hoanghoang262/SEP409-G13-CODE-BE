@@ -33,6 +33,10 @@ namespace ModerationService.API.Fearture.Command.Moderations
                     PostContent= post.PostContent,
                     Title = post.Title  
                 };
+                var moderation = _context.Moderations.FirstOrDefault(c => c.PostId.Equals(request.PostId));
+                moderation.Status = "Approve";
+                await _context.SaveChangesAsync();
+
                 await _publish.Publish(postEvent);
                 return  new OkObjectResult (postEvent);
 

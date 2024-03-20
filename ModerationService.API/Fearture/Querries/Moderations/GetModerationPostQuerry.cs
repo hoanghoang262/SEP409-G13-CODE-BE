@@ -13,13 +13,15 @@ using System.Threading.Tasks;
 
 namespace ModerationService.API.Feature.Queries
 {
-    public class GetModerationPostQuerry : IRequest<IActionResult>
+    public class GetModerationPostQuerry : IRequest<PageList<ModerationDTO>>
     {
         public int Page { get; set; }
         public int PageSize { get; set; }
         public string? PostTitle { get; set; }
 
-        public class GetModerationPostQuerryHandler : IRequestHandler<GetModerationPostQuerry, IActionResult>
+        public string Status { get; set; }
+
+        public class GetModerationPostQuerryHandler : IRequestHandler<GetModerationPostQuerry, PageList<ModerationDTO>>
         {
             private readonly Content_ModerationContext _context;
             private readonly UserIdCourseGrpcService _service;
@@ -35,11 +37,11 @@ namespace ModerationService.API.Feature.Queries
                 List<Moderation> moderations;
                 if (string.IsNullOrEmpty(request.PostTitle))
                 {
-                    moderations = await _context.Moderations.Where(x => x.PostId != null).ToListAsync();
+                    moderations = await _context.Moderations.Where(x => x.PostId != null&& x.Status.Equals(request.Status)).ToListAsync();
                 }
                 else
                 {
-                    moderations = await _context.Moderations.Where(x => x.PostTitle.Contains(request.PostTitle) && x.PostId != null).ToListAsync();
+                    moderations = await _context.Moderations.Where(x => x.PostTitle.Contains(request.PostTitle) && x.PostId != null && x.Status.Equals(request.Status)).ToListAsync();
                 }
 
                 if (moderations == null)
