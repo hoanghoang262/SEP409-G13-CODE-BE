@@ -13,15 +13,14 @@ using System.Threading.Tasks;
 
 namespace ModerationService.API.Feature.Queries
 {
-    public class GetModerationPostQuerry : IRequest<PageList<ModerationDTO>>
+    public class GetModerationPostQuerry : IRequest<IActionResult>
     {
         public int Page { get; set; }
         public int PageSize { get; set; }
         public string? PostTitle { get; set; }
-
         public string Status { get; set; }
 
-        public class GetModerationPostQuerryHandler : IRequestHandler<GetModerationPostQuerry, PageList<ModerationDTO>>
+        public class GetModerationPostQuerryHandler : IRequestHandler<GetModerationPostQuerry, IActionResult>
         {
             private readonly Content_ModerationContext _context;
             private readonly UserIdCourseGrpcService _service;
