@@ -1,6 +1,7 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using ModerationService.API.Fearture.Command.Forum;
 using ModerationService.API.Fearture.Querries.Moderations;
 using ModerationService.API.Models;
 
@@ -21,6 +22,21 @@ namespace ModerationService.API.Controllers
         {
 
             return Ok(await _mediator.Send(new GetModerationPostByIdQuerry { PostId = postId })); 
+        }
+        [HttpDelete]
+        public async Task<IActionResult> DeletePost(int postId)
+        {
+            var command = new DeletePostCommand { postId = postId };
+            var result = await _mediator.Send(command);
+
+            if (result > 0)
+            {
+                return Ok("Post deleted successfully.");
+            }
+            else
+            {
+                return NotFound("Post not found.");
+            }
         }
 
     }

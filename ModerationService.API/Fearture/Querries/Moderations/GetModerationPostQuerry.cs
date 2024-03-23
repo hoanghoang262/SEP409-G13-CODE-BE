@@ -18,7 +18,7 @@ namespace ModerationService.API.Feature.Queries
         public int Page { get; set; }
         public int PageSize { get; set; }
         public string? PostTitle { get; set; }
-        public string Status { get; set; }
+        public string? Status { get; set; }
 
         public class GetModerationPostQuerryHandler : IRequestHandler<GetModerationPostQuerry, IActionResult>
         {
@@ -33,20 +33,25 @@ namespace ModerationService.API.Feature.Queries
 
             public async Task<IActionResult> Handle(GetModerationPostQuerry request, CancellationToken cancellationToken)
             {
-                List<Moderation> moderations;
-                if (string.IsNullOrEmpty(request.PostTitle))
+                List<Moderation> moderations =new List<Moderation>();
+                if (string.IsNullOrEmpty(request.PostTitle) && string.IsNullOrEmpty(request.Status))
                 {
-                    moderations = await _context.Moderations.Where(x => x.PostId != null&& x.Status.Equals(request.Status)).ToListAsync();
+                    moderations = await _context.Moderations.Where(x => x.PostId != null).ToListAsync();
                 }
-                else
+                if(string.IsNullOrEmpty(request.PostTitle) && !string.IsNullOrEmpty(request.Status) )
                 {
-                    moderations = await _context.Moderations.Where(x => x.PostTitle.Contains(request.PostTitle) && x.PostId != null && x.Status.Equals(request.Status)).ToListAsync();
+                    moderations = await _context.Moderations.Where(x => x.PostId != null && x.Status.Equals(request.Status)).ToListAsync();
+                } 
+                if (string.IsNullOrEmpty(request.Status) && !string.IsNullOrEmpty(request.PostTitle))
+                {
+                    moderations = await _context.Moderations.Where(x => x.PostId != null && x.PostTitle.Equals(request.PostTitle)).ToListAsync();
+                }
+                if (!string.IsNullOrEmpty(request.Status) && !string.IsNullOrEmpty(request.PostTitle))
+                {
+                    moderations = await _context.Moderations.Where(x => x.PostId != null && x.PostTitle.Equals(request.PostTitle)&& x.Status.Equals(request.Status) ).ToListAsync();
                 }
 
-                if (moderations == null)
-                {
-                    return new NotFoundObjectResult("Not Found");
-                }
+ 
 
                 var totalItems = moderations.Count;
                 var items = moderations

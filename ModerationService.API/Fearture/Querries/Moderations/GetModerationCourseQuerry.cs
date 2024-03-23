@@ -15,7 +15,10 @@ namespace ModerationService.API.Feature.Queries
         public int PageSize { get; set; }
         public string? CourseName { get; set; }
 
+        public string? Status { get; set; }
+
         public class GetModerationQuerryHandler : IRequestHandler<GetModerationCourseQuerry, IActionResult>
+
         {
             private readonly Content_ModerationContext _context;
             private readonly UserIdCourseGrpcService _service;
@@ -29,25 +32,38 @@ namespace ModerationService.API.Feature.Queries
             public async Task<IActionResult> Handle(GetModerationCourseQuerry request, CancellationToken cancellationToken)
             {
 
-                List<Moderation> moderations;
-                if (string.IsNullOrEmpty(request.CourseName))
+                List<Moderation> moderations=new List<Moderation>();
+                if (string.IsNullOrEmpty(request.CourseName) && string.IsNullOrEmpty(request.Status))
                 {
                     moderations = await _context.Moderations
                         .Include(c => c.Course)
                         .Where(x => x.Course.IsCompleted == true).ToListAsync();
                 }
-                else
+                if(!string.IsNullOrEmpty(request.CourseName) && string.IsNullOrEmpty(request.Status))
                 {
                     moderations = await _context.Moderations
                         .Include(c => c.Course)
                         .Where(x => x.CourseName
                         .Contains(request.CourseName) && x.Course.IsCompleted == true).ToListAsync();
                 }
-
-                if (moderations == null)
+                if (string.IsNullOrEmpty(request.CourseName) && !string.IsNullOrEmpty(request.Status))
                 {
-                    return new NotFoundObjectResult(Message.MSG22);
+                    moderations = await _context.Moderations
+                        .Include(c => c.Course)
+                        .Where(x => x.Status
+                        .Contains(request.Status) && x.Course.IsCompleted == true).ToListAsync();
                 }
+                if (!string.IsNullOrEmpty(request.CourseName) && !string.IsNullOrEmpty(request.Status))
+                {
+
+                    moderations = await _context.Moderations
+                        .Include(c => c.Course)
+                        .Where(x => x.Status
+                        .Contains(request.Status)&& x.CourseName.Contains(request.CourseName) && x.Course.IsCompleted == true).ToListAsync();
+
+                }
+
+
 
                 var totalItems = moderations.Count;
                 var items = moderations

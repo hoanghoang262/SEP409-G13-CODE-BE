@@ -8,8 +8,9 @@ FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
 COPY ["Course.API/CourseService.API.csproj", "Course.API/"]
+COPY ["Contract/Contract.csproj", "Contract/"]
 COPY ["EventBus.Message/EventBus.Message.csproj", "EventBus.Message/"]
-RUN dotnet restore "./Course.API/./CourseService.API.csproj"
+RUN dotnet restore "./Course.API/CourseService.API.csproj"
 COPY . .
 WORKDIR "/src/Course.API"
 RUN dotnet build "./CourseService.API.csproj" -c $BUILD_CONFIGURATION -o /app/build

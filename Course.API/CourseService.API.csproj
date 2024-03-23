@@ -9,6 +9,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="CCompiler\**" />
+    <Content Remove="CCompiler\**" />
+    <EmbeddedResource Remove="CCompiler\**" />
+    <None Remove="CCompiler\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Remove="Protos\getuserinfo.proto" />
     <None Remove="Protos\user.proto" />
   </ItemGroup>
