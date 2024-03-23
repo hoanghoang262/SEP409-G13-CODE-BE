@@ -1,24 +1,21 @@
 ﻿using Contract.SeedWork;
+using Contract.Service.Message;
 using GrpcServices;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ModerationService.API.Common.DTO;
 using ModerationService.API.Models;
-using System;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace ModerationService.API.Feature.Queries
 {
-    public class GetModerationCourseQuerry : IRequest<PageList<ModerationDTO>>
+    public class GetModerationCourseQuerry : IRequest<IActionResult>
     {
         public int Page { get; set; }
         public int PageSize { get; set; }
         public string? CourseName { get; set; }
 
-        public class GetModerationQuerryHandler : IRequestHandler<GetModerationCourseQuerry, PageList<ModerationDTO>>
+        public class GetModerationQuerryHandler : IRequestHandler<GetModerationCourseQuerry, IActionResult>
         {
             private readonly Content_ModerationContext _context;
             private readonly UserIdCourseGrpcService _service;
@@ -29,7 +26,7 @@ namespace ModerationService.API.Feature.Queries
                 _service = service;
             }
 
-            public async Task<PageList<ModerationDTO>> Handle(GetModerationCourseQuerry request, CancellationToken cancellationToken)
+            public async Task<IActionResult> Handle(GetModerationCourseQuerry request, CancellationToken cancellationToken)
             {
 
                 List<Moderation> moderations;
@@ -49,7 +46,7 @@ namespace ModerationService.API.Feature.Queries
 
                 if (moderations == null)
                 {
-                    return null;
+                    return new NotFoundObjectResult(Message.MSG22);
                 }
 
                 var totalItems = moderations.Count;
@@ -84,7 +81,9 @@ namespace ModerationService.API.Feature.Queries
                     moderationDTOs.Add(moderationDTO);
                 }
 
-                return new PageList<ModerationDTO>(moderationDTOs, totalItems, request.Page, request.PageSize);
+                var result = new PageList<ModerationDTO>(moderationDTOs, totalItems, request.Page, request.PageSize);
+
+                return new OkObjectResult(result);
             }
         }
     }

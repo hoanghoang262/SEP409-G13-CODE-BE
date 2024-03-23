@@ -7,11 +7,8 @@
         public int? PercentageCompleted { get; set; }
         public string? Name { get; set; }
         public int? Time { get; set; }
-
-       
         public virtual ICollection<QuestionExamDTO> QuestionExams { get; set; }
     }
-
     public class QuestionExamDTO
     {
         public int Id { get; set; }
@@ -22,8 +19,7 @@
         public virtual ICollection<AnswerExamDTO> AnswerExams { get; set; }
 
     }
-
-    public class AnswerExamDTO 
+    public class AnswerExamDTO
     {
         public int Id { get; set; }
         public int? ExamId { get; set; }

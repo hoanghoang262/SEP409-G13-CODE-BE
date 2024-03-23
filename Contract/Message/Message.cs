@@ -311,5 +311,25 @@
             MsgTextVN = "Câu hỏi không tồn tại",
             MsgTextEN = "Question does not exist"
         };
+
+        /// <summary>
+        /// MSG32: Bài kiểm tra không tồn tại
+        /// </summary>
+        public static readonly MessageModel MSG32 = new MessageModel
+        {
+            MsgCode = "MSG32",
+            MsgTextVN = "Bài kiểm tra không tồn tại",
+            MsgTextEN = "Exam does not exist"
+        };
+
+        /// <summary>
+        /// MSG33: Tài khoản đã bị khóa
+        /// </summary>
+        public static readonly MessageModel MSG33 = new MessageModel
+        {
+            MsgCode = "MSG33",
+            MsgTextVN = "Tài khoản đã bị khóa",
+            MsgTextEN = "Account has been locked"
+        };
     }
 }

@@ -1,4 +1,5 @@
-﻿using GrpcServices;
+﻿using Contract.Service.Message;
+using GrpcServices;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -45,7 +46,7 @@ namespace ModerationService.API.Fearture.Querries.Moderations
 
                 if (courses == null)
                 {
-                    return new NotFoundObjectResult("There is no course in here"); // Không tìm thấy khóa học
+                    return new NotFoundObjectResult(Message.MSG22);
                 }
 
                 courses.Chapters.OrderBy(c => c.Part);

@@ -25,7 +25,7 @@ namespace ModerationService.API.Fearture.Command
         public async Task<IActionResult> Handle(CreateChapterCommand request, CancellationToken cancellationToken)
         {
             // validate input
-            if (request.Name == null || request.CourseId == null || request.Part == null || request.IsNew == null)
+            if (request.Name == null || request.CourseId == null || request.Part == null)
             {
                 return new BadRequestObjectResult(Message.MSG11);
             }

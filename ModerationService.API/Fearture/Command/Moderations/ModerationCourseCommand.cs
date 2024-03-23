@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Contract.Service.Message;
 using CourseGRPC.Services;
 using EventBus.Message.Event;
 using MassTransit;
@@ -6,7 +7,6 @@ using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ModerationService.API.Models;
-using Contract.Service.Message;
 
 namespace ModerationService.API.Fearture.Command.Moderations
 {
@@ -35,8 +35,11 @@ namespace ModerationService.API.Fearture.Command.Moderations
                 };
                 await _publish.Publish(courseIdEvent);
                 var userId = _services.SendCourseId(request.CourseId);
-
                 var course = _context.Courses.FirstOrDefault(c => c.Id.Equals(request.CourseId));
+                if (userId == null || course == null)
+                {
+                    return new BadRequestObjectResult(Message.MSG25);
+                }
 
                 var courseEvent = new CourseEvent
                 {
@@ -108,7 +111,7 @@ namespace ModerationService.API.Fearture.Command.Moderations
                             ChapterId = last.ChapterId,
                             Name = last.Name,
                             PercentageCompleted = last.PercentageCompleted,
-                            Time=last.Time
+                            Time = last.Time
                         };
                         await _publish.Publish(lastEvent);
                         var exam = _context.QuestionExams.Where(e => e.LastExamId.Equals(last.Id)).ToList();
@@ -117,11 +120,11 @@ namespace ModerationService.API.Fearture.Command.Moderations
                             var examEvent = new QuestionExamEvent
                             {
                                 Id = ex.Id,
-                                LastExamId=ex.LastExamId,
+                                LastExamId = ex.LastExamId,
                                 ContentQuestion = ex.ContentQuestion,
                                 Score = ex.Score,
                                 Status = ex.Status
-                             
+
                             };
                             await _publish.Publish(examEvent);
                             var exAns = _context.AnswerExams.Where(ex => ex.ExamId.Equals(ex.Id)).ToList();
@@ -138,9 +141,9 @@ namespace ModerationService.API.Fearture.Command.Moderations
                             }
                         }
                     }
-                    
-                    var lesson =  _context.Lessons.Where(l => l.ChapterId.Equals(chap.Id)).ToList();
-                   
+
+                    var lesson = _context.Lessons.Where(l => l.ChapterId.Equals(chap.Id)).ToList();
+
                     foreach (var less in lesson)
                     {
                         var lessonEvent = new LessonEvent
@@ -189,12 +192,13 @@ namespace ModerationService.API.Fearture.Command.Moderations
 
                 if (moderation == null)
                 {
-                    return new BadRequestObjectResult("Not Found");
+                    return new BadRequestObjectResult(Message.MSG25);
                 }
                 else
                 {
                     moderation.Status = "Approved";
                 }
+
                 if (userId != null)
                 {
                     foreach (var id in userId.Result.UserId)
@@ -224,7 +228,7 @@ namespace ModerationService.API.Fearture.Command.Moderations
 
                 }
 
-                return new OkObjectResult("ok");
+                return new OkObjectResult(Message.MSG16);
             }
         }
     }
