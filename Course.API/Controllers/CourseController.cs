@@ -3,7 +3,6 @@ using Contract.Service.Message;
 using CourseService.API.Feartures.CourseFearture.Queries.CourseQueries;
 using CourseService.API.Models;
 using MediatR;
-
 using Microsoft.AspNetCore.Mvc;
 
 namespace CourseService.Controllers

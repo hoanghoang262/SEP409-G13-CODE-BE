@@ -1,7 +1,7 @@
-﻿using CourseService.API.Feartures.CourseFearture.Queries.CourseQueries;
+﻿using Contract.Service.Message;
+using CourseService.API.Feartures.CourseFearture.Queries.CourseQueries;
 using CourseService.API.Feartures.EnrollmentFeature.Command;
 using MediatR;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CourseService.API.Controllers
@@ -25,21 +25,17 @@ namespace CourseService.API.Controllers
                 var enrollmentId = await _mediator.Send(command);
                 return Ok(enrollmentId);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                return StatusCode(500, $"Error creating enrollment: {ex.Message}");
+                return BadRequest(Message.MSG30);
             }
         }
+
         [HttpGet]
         public async Task<IActionResult> GetCourseUserEnrollment(int courseId, int userId)
         {
             var query = new GetCourseUserEnrollQuerry { CourseId = courseId, UserId = userId };
             var result = await _mediator.Send(query);
-
-            if (result == null)
-            {
-                return NotFound();
-            }
 
             return Ok(result);
         }
