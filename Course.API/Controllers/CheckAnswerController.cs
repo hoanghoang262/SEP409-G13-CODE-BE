@@ -14,8 +14,9 @@ namespace CourseService.API.Controllers
         {
             _mediator = mediator;
         }
+
         [HttpPost]
-        public async Task<ActionResult<bool>> CheckAnswer(int questionId,  List<int> selectedOptionIds)
+        public async Task<IActionResult> CheckAnswer(int questionId,  List<int> selectedOptionIds)
         {
             var command = new CheckAnswerQuestion { QuestionId = questionId, SelectedOptionIds = selectedOptionIds };
             var isCorrect = await _mediator.Send(command);

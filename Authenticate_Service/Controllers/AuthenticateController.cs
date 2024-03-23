@@ -1,17 +1,16 @@
-﻿
-using Microsoft.AspNetCore.Mvc;
-using MediatR;
+﻿using Authenticate_Service.Common;
 using Authenticate_Service.Feature.AuthenticateFearture.Command.Login;
-using Contract.Service;
-using Microsoft.EntityFrameworkCore;
-using Contract.Service.Configuration;
-using Authenticate_Service.Common;
-using AuthenticateService.API.Common.DTO;
-using System.Text.RegularExpressions;
 using Authenticate_Service.Models;
+using AuthenticateService.API.Common.DTO;
+using Contract.SeedWork;
+using Contract.Service;
+using Contract.Service.Configuration;
 using Contract.Service.Message;
-
-
+using MassTransit.Initializers;
+using MediatR;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using System.Text.RegularExpressions;
 
 namespace Authenticated.Controllers
 {
@@ -47,7 +46,9 @@ namespace Authenticated.Controllers
         public async Task<IActionResult> SignUp(SignUpModel request)
         {
             // Validate input
-            if (String.IsNullOrEmpty(request.UserName) || String.IsNullOrEmpty(request.Password) || String.IsNullOrEmpty(request.Email))
+            if (String.IsNullOrEmpty(request.UserName)
+                || String.IsNullOrEmpty(request.Password)
+                || String.IsNullOrEmpty(request.Email))
             {
                 return new BadRequestObjectResult(Message.MSG11);
             }
@@ -61,16 +62,14 @@ namespace Authenticated.Controllers
 
             // Validate email
             string emailPattern = @"^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$";
-            Regex emailRegex = new Regex(emailPattern);
-            if (!emailRegex.IsMatch(request.Email))
+            if (!Regex.IsMatch(request.Email, emailPattern))
             {
                 return new BadRequestObjectResult(Message.MSG09);
             }
 
             // Validate password
             string passwordPattern = "^(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*()-_+=])[A-Za-z0-9!@#$%^&*()-_+=]{8,32}$";
-            Regex passwordRegex = new Regex(passwordPattern);
-            if (!passwordRegex.IsMatch(request.Password))
+            if (!Regex.IsMatch(request.Password, passwordPattern))
             {
                 return new BadRequestObjectResult(Message.MSG17);
             }
@@ -120,33 +119,113 @@ namespace Authenticated.Controllers
 
             }
         }
+
         [HttpGet]
         public async Task<IActionResult> GetUser(int id)
         {
-            var user = await context.Users.FirstOrDefaultAsync(u => u.Id.Equals(id));
+            var user = await context.Users.Include(c => c.Role).FirstOrDefaultAsync(u => u.Id.Equals(id));
 
-            return Ok(user);
+            if (user == null || user.Role == null)
+            {
+                return BadRequest(Message.MSG01);
+            }
+
+            var userDto = new UserDto()
+            {
+                Id = user.Id,
+                FullName = user.FullName,
+                Email = user.Email,
+                UserName = user.UserName,
+                Phone = user.Phone,
+                Address = user.Address,
+                BirthDate = user.BirthDate,
+                FacebookLink = user.FacebookLink,
+                ProfilePict = user.ProfilePict,
+                Status = user.Status,
+                RoleId = user.RoleId,
+                RoleName = user.Role.Name
+            };
+
+            return Ok(userDto);
         }
+
+        [HttpGet]
+        public async Task<IActionResult> GetAllUsers(int roleId, int Page = 1, int PageSize = 5)
+        {
+            var users = await context.Users.Include(c => c.Role).Select(u => new UserDto()
+            {
+                Id = u.Id,
+                FullName = u.FullName,
+                Email = u.Email,
+                UserName = u.UserName,
+                Phone = u.Phone,
+                Address = u.Address,
+                BirthDate = u.BirthDate,
+                FacebookLink = u.FacebookLink,
+                ProfilePict = u.ProfilePict,
+                Status = u.Status,
+                RoleId = u.RoleId,
+                RoleName = u.Role.Name
+            }).ToListAsync();
+            
+            if (users == null)
+            {
+                return BadRequest(Message.MSG22);
+            }
+
+            if (roleId != 0)
+            {
+                users = users.Where(u => u.RoleId == roleId).ToList();
+            }
+
+            var userList = users.Skip((Page - 1) * PageSize).Take(PageSize).ToList();
+            var totalItems = users.Count;
+            var result = new PageList<UserDto>(userList, totalItems, Page, PageSize);
+
+            return Ok(result);
+        }
+
+        [HttpPut]
+        public async Task<IActionResult> ChangeStatus(int userId)
+        {
+            var user = await context.Users.FirstOrDefaultAsync(u => u.Id.Equals(userId));
+
+            if (user == null)
+            {
+                return BadRequest(Message.MSG01);
+            }
+
+            user.Status = !user.Status;
+            context.Users.Update(user);
+            await context.SaveChangesAsync();
+
+            return Ok(Message.MSG16);
+        }
+
         [HttpGet]
         public async Task<IActionResult> ConfirmEmail(int userId)
         {
             var user = await context.Users.FindAsync(userId);
+            if (user == null)
+            {
+                return BadRequest(Message.MSG01);
+            }
+
             user.EmailConfirmed = true;
             await context.SaveChangesAsync();
 
             return RedirectToPage("/ConfirmEmail");
-
         }
+
         [HttpPost]
         public async Task<IActionResult> CheckEmailExist(string email)
         {
             var user = await context.Users.FirstOrDefaultAsync(c => c.Email.Equals(email));
             if (user != null)
             {
-                return Ok("Email has exist");
+                return BadRequest(Message.MSG06);
             }
-            return Ok("Not found Email");
+            return Ok(Message.MSG10);
         }
-      
     }
 }

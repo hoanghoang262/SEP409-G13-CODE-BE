@@ -1,15 +1,17 @@
-﻿using CourseService.API.Models;
-using MediatR; 
+﻿using Contract.Service.Message;
+using CourseService.API.Models;
+using MediatR;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace CourseService.API.Feartures.CourseFearture.Queries.CourseQueries
 {
-    public class CheckAnswerQuestion : IRequest<bool>
+    public class CheckAnswerQuestion : IRequest<IActionResult>
     {
         public int QuestionId { get; set; }
         public List<int> SelectedOptionIds { get; set; }
 
-        public class CheckAnswerQuestionHandler : IRequestHandler<CheckAnswerQuestion, bool>
+        public class CheckAnswerQuestionHandler : IRequestHandler<CheckAnswerQuestion, IActionResult>
         {
             private readonly CourseContext _context;
 
@@ -18,7 +20,7 @@ namespace CourseService.API.Feartures.CourseFearture.Queries.CourseQueries
                 _context = context;
             }
 
-            public async Task<bool> Handle(CheckAnswerQuestion request, CancellationToken cancellationToken)
+            public async Task<IActionResult> Handle(CheckAnswerQuestion request, CancellationToken cancellationToken)
             {
                 var question = await _context.TheoryQuestions
                               .Include(q => q.AnswerOptions)
@@ -26,14 +28,15 @@ namespace CourseService.API.Feartures.CourseFearture.Queries.CourseQueries
 
                 if (question == null)
                 {
-                    throw new InvalidOperationException("Question not found.");
+                    return new NotFoundObjectResult(Message.MSG31);
                 }
 
                 var correctOptionIds = question.AnswerOptions
                     .Where(o => o.CorrectAnswer == true)
                     .Select(o => o.Id);
+                var result = correctOptionIds.All(optionId => request.SelectedOptionIds.Contains(optionId));
 
-                return correctOptionIds.All(optionId => request.SelectedOptionIds.Contains(optionId));
+                return new OkObjectResult(result);
             }
         }
     }

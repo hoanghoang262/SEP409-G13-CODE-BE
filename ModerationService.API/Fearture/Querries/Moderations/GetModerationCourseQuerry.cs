@@ -1,18 +1,15 @@
 ﻿using Contract.SeedWork;
+using Contract.Service.Message;
 using GrpcServices;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ModerationService.API.Common.DTO;
 using ModerationService.API.Models;
-using System;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace ModerationService.API.Feature.Queries
 {
-    public class GetModerationCourseQuerry : IRequest<PageList<ModerationDTO>>
+    public class GetModerationCourseQuerry : IRequest<IActionResult>
     {
         public int Page { get; set; }
         public int PageSize { get; set; }
@@ -20,7 +17,8 @@ namespace ModerationService.API.Feature.Queries
 
         public string? Status { get; set; }
 
-        public class GetModerationQuerryHandler : IRequestHandler<GetModerationCourseQuerry, PageList<ModerationDTO>>
+        public class GetModerationQuerryHandler : IRequestHandler<GetModerationCourseQuerry, IActionResult>
+
         {
             private readonly Content_ModerationContext _context;
             private readonly UserIdCourseGrpcService _service;
@@ -31,7 +29,7 @@ namespace ModerationService.API.Feature.Queries
                 _service = service;
             }
 
-            public async Task<PageList<ModerationDTO>> Handle(GetModerationCourseQuerry request, CancellationToken cancellationToken)
+            public async Task<IActionResult> Handle(GetModerationCourseQuerry request, CancellationToken cancellationToken)
             {
 
                 List<Moderation> moderations=new List<Moderation>();
@@ -57,10 +55,12 @@ namespace ModerationService.API.Feature.Queries
                 }
                 if (!string.IsNullOrEmpty(request.CourseName) && !string.IsNullOrEmpty(request.Status))
                 {
+
                     moderations = await _context.Moderations
                         .Include(c => c.Course)
                         .Where(x => x.Status
                         .Contains(request.Status)&& x.CourseName.Contains(request.CourseName) && x.Course.IsCompleted == true).ToListAsync();
+
                 }
 
 
@@ -97,7 +97,9 @@ namespace ModerationService.API.Feature.Queries
                     moderationDTOs.Add(moderationDTO);
                 }
 
-                return new PageList<ModerationDTO>(moderationDTOs, totalItems, request.Page, request.PageSize);
+                var result = new PageList<ModerationDTO>(moderationDTOs, totalItems, request.Page, request.PageSize);
+
+                return new OkObjectResult(result);
             }
         }
     }

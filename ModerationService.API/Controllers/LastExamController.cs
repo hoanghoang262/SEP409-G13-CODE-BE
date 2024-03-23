@@ -1,4 +1,5 @@
 ﻿
+using Contract.Service.Message;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -18,35 +19,36 @@ namespace ModerationService.API.Controllers
             _mediator = mediator;
         }
         [HttpPost]
-        public async Task<ActionResult<LastExamDTO>> CreateLastExam(CreateLastExamCommand command)
+        public async Task<IActionResult> CreateLastExam(CreateLastExamCommand command)
         {
             var result = await _mediator.Send(command);
 
             return result;
         }
+
+        [HttpPut]
+        public async Task<IActionResult> UpdateLastExam(int id, UpdateLastExamCommand command)
+        {
+            if (id != command.LastExamId)
+            {
+                return BadRequest(Message.MSG30);
+            }
+
+            return await _mediator.Send(command);
+        }
+
         [HttpDelete]
         public async Task<ActionResult> DeleteLastExam(int id)
         {
             var command = new DeleteLastExamCommand { LastExamId = id };
             return await _mediator.Send(command);
         }
-        [HttpPut]
-        public async Task<ActionResult<LastExamDTO>> UpdateLastExam(int id, UpdateLastExamCommand command)
-        {
-            if (id != command.LastExamId)
-            {
-                return BadRequest();
-            }
 
-            return await _mediator.Send(command);
-        }
         [HttpGet]
         public async Task<ActionResult<LastExam>> GetLastExamById(int id)
         {
             var query = new GetLastExamByIdQuery { LastExamId = id };
             return await _mediator.Send(query);
         }
-
-
     }
 }

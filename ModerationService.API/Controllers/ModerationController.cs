@@ -1,4 +1,5 @@
-﻿using CourseGRPC.Services;
+﻿using Contract.Service.Message;
+using CourseGRPC.Services;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using ModerationService.API.Fearture.Command;
@@ -36,19 +37,19 @@ namespace ModerationService.API.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> ModerationCourse(int courseId)
+        public async Task<IActionResult> ModerationCourse(int courseId)
         {
             return Ok(await _mediator.Send(new ModerationCourseCommand { CourseId = courseId }));
         }
 
         [HttpPost]
-        public async Task<ActionResult> ModerationPost(int postId)
+        public async Task<IActionResult> ModerationPost(int postId)
         {
             return Ok(await _mediator.Send(new ModerationPostCommand { PostId = postId }));
         }
 
         [HttpPost]
-        public async Task<ActionResult> CreatePost(CreatePostCommand command)
+        public async Task<IActionResult> CreatePost(CreatePostCommand command)
         {
             return Ok(await _mediator.Send(command));
         }
@@ -73,9 +74,9 @@ namespace ModerationService.API.Controllers
 
                 return Ok(result);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                return StatusCode(500, $"Internal server error: {ex.Message}");
+                return BadRequest(Message.MSG30);
             }
         }
         [HttpGet]
@@ -100,16 +101,19 @@ namespace ModerationService.API.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> SendToModeration(int CourseId)
+        public async Task<IActionResult> SendToModeration(int CourseId)
         {
             var course = _context.Courses.FirstOrDefault(x => x.Id.Equals(CourseId));
 
-            course.IsCompleted = true;
+            if (course == null)
+            {
+                return NotFound(Message.MSG25);
+            }
 
+            course.IsCompleted = true;
             await _context.SaveChangesAsync();
 
             var moderationcourse = _context.Moderations.FirstOrDefault(x => x.CourseId.Equals(CourseId));
-
             var isExist = await service.SendCourseId(CourseId);
             if (moderationcourse == null)
             {
@@ -151,7 +155,7 @@ namespace ModerationService.API.Controllers
                 await _context.SaveChangesAsync();
             }
 
-            return Ok("Send successfully");
+            return Ok(Message.MSG16);
         }
     }
 }

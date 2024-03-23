@@ -7,12 +7,12 @@ using ModerationService.API.Models;
 
 namespace ModerationService.API.Fearture.Command.LastExams
 {
-    public class CreateLastExamCommand : IRequest<ActionResult <LastExamDTO>>
+    public class CreateLastExamCommand : IRequest<IActionResult>
     {
         public int ChapterId { get; set; }
         public LastExamDTO LastExam { get; set; }
 
-        public class CreateLastExamCommandHandler : IRequestHandler<CreateLastExamCommand, ActionResult<LastExamDTO>>
+        public class CreateLastExamCommandHandler : IRequestHandler<CreateLastExamCommand, IActionResult>
         {
             private readonly Content_ModerationContext _context;
 
@@ -20,44 +20,102 @@ namespace ModerationService.API.Fearture.Command.LastExams
             {
                 _context = context;
             }
-
-            public async Task<ActionResult<LastExamDTO>> Handle(CreateLastExamCommand request, CancellationToken cancellationToken)
+            public async Task<IActionResult> Handle(CreateLastExamCommand request, CancellationToken cancellationToken)
             {
                 var chapter = await _context.Chapters
                 .Include(c => c.Lessons)
                     .ThenInclude(l => l.TheoryQuestions)
-                        .ThenInclude(tq => tq.AnswerOptions)
+                    .ThenInclude(tq => tq.AnswerOptions)
                 .FirstOrDefaultAsync(c => c.Id == request.ChapterId);
+
+                // Check if chapter is exist
                 if (chapter == null)
                 {
                     return new BadRequestObjectResult(Message.MSG28);
                 }
+
+                // Validate input
+                if (string.IsNullOrEmpty(request.LastExam.Name)
+                    || request.LastExam.PercentageCompleted == null
+                    || request.LastExam.Time == null)
+                {
+                    return new BadRequestObjectResult(Message.MSG11);
+                }
+
+                // Invalid length
+                if (request.LastExam.Name.Length > 256)
+                {
+                    return new BadRequestObjectResult(Message.MSG27);
+                }
+
+                // Invalid number
+                if (request.LastExam.PercentageCompleted < 0
+                    || request.LastExam.PercentageCompleted > 100
+                    || request.LastExam.Time < 0)
+                {
+                    return new BadRequestObjectResult(Message.MSG26);
+                }
+
                 var lastExam = new LastExam
                 {
                     ChapterId = request.ChapterId,
                     PercentageCompleted = request.LastExam.PercentageCompleted,
                     Name = request.LastExam.Name,
-                    Time=request.LastExam.Time,
+                    Time = request.LastExam.Time,
                 };
                 chapter.LastExams.Add(lastExam);
 
                 foreach (var qeDTO in request.LastExam.QuestionExams)
                 {
+                    // Validate input
+                    if (string.IsNullOrEmpty(qeDTO.ContentQuestion)
+                        || qeDTO.Score == null
+                        || qeDTO.Status == null)
+                    {
+                        return new BadRequestObjectResult(Message.MSG11);
+                    }
+
+                    // Invalid length
+                    if (qeDTO.ContentQuestion.Length > 256)
+                    {
+                        return new BadRequestObjectResult(Message.MSG27);
+                    }
+
+                    // Invalid number
+                    if (qeDTO.Score < 0)
+                    {
+                        return new BadRequestObjectResult(Message.MSG26);
+                    }
+
                     var qe = new QuestionExam
                     {
-                        ContentQuestion=qeDTO.ContentQuestion,
-                        Score=qeDTO.Score, 
-                        Status=qeDTO.Status,
-                        LastExamId=qeDTO.LastExamId
+                        ContentQuestion = qeDTO.ContentQuestion,
+                        Score = qeDTO.Score,
+                        Status = qeDTO.Status,
+                        LastExamId = qeDTO.LastExamId
                     };
 
                     foreach (var answerOptionDTO in qe.AnswerExams)
                     {
+                        // Validate input
+                        if (answerOptionDTO.CorrectAnswer == null
+                            && string.IsNullOrEmpty(answerOptionDTO.OptionsText))
+                        {
+                            return new BadRequestObjectResult(Message.MSG11);
+                        }
+
+                        // Invalid length
+                        if (!string.IsNullOrEmpty(answerOptionDTO.OptionsText)
+                            && answerOptionDTO.OptionsText.Length > 256)
+                        {
+                            return new BadRequestObjectResult(Message.MSG27);
+                        }
+
                         var newAnswerOption = new AnswerExam
                         {
-                           CorrectAnswer=answerOptionDTO.CorrectAnswer, 
-                           Exam=answerOptionDTO.Exam,
-                           OptionsText=answerOptionDTO.OptionsText,
+                            CorrectAnswer = answerOptionDTO.CorrectAnswer,
+                            Exam = answerOptionDTO.Exam,
+                            OptionsText = answerOptionDTO.OptionsText,
                         };
 
                         qe.AnswerExams.Add(newAnswerOption);
@@ -68,25 +126,26 @@ namespace ModerationService.API.Fearture.Command.LastExams
 
                 _context.LastExams.Add(lastExam);
                 await _context.SaveChangesAsync();
+
                 var lastexamDTO = new LastExamDTO
                 {
-                    Id=lastExam.Id,
-                    Name=lastExam.Name,
-                    ChapterId=lastExam.ChapterId,
-                    PercentageCompleted=lastExam.PercentageCompleted,
-                    Time=lastExam.Time,
+                    Id = lastExam.Id,
+                    Name = lastExam.Name,
+                    ChapterId = lastExam.ChapterId,
+                    PercentageCompleted = lastExam.PercentageCompleted,
+                    Time = lastExam.Time,
 
                     QuestionExams = lastExam.QuestionExams.Select(tq => new QuestionExamDTO
                     {
                         Id = tq.Id,
-                      ContentQuestion=tq.ContentQuestion,
-                      Score=tq.Score,
-                      Status=tq.Status,
-                      LastExamId=tq.LastExamId,
+                        ContentQuestion = tq.ContentQuestion,
+                        Score = tq.Score,
+                        Status = tq.Status,
+                        LastExamId = tq.LastExamId,
                         AnswerExams = tq.AnswerExams.Select(ao => new AnswerExamDTO
                         {
                             Id = ao.Id,
-                            ExamId=ao.ExamId,
+                            ExamId = ao.ExamId,
                             OptionsText = ao.OptionsText,
                             CorrectAnswer = ao.CorrectAnswer
                         }).ToList()

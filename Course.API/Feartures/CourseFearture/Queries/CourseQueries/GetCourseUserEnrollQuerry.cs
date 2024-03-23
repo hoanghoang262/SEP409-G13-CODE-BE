@@ -1,4 +1,5 @@
-﻿using CourseService.API.GrpcServices;
+﻿using Contract.Service.Message;
+using CourseService.API.GrpcServices;
 using CourseService.API.Models;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -50,10 +51,14 @@ namespace CourseService.API.Feartures.CourseFearture.Queries.CourseQueries
                                                .ThenInclude(c => c.Chapters)
                                                  .ThenInclude(ch => ch.PracticeQuestions)
                                                    .ThenInclude(cq => cq.UserAnswerCodes)
-
                                                   .FirstOrDefaultAsync(enroll => enroll.CourseId == request.CourseId && enroll.UserId == request.UserId);
 
             var user = await service.SendUserId(courses.Course.CreatedBy);
+            if (courses == null || user == null)
+            {
+                return new NotFoundObjectResult(Message.MSG22);
+            }
+
             var result = new
             {
                 courses.Course.Id,
@@ -131,7 +136,6 @@ namespace CourseService.API.Feartures.CourseFearture.Queries.CourseQueries
             };
 
             return new OkObjectResult(result);
-
         }
     }
 }

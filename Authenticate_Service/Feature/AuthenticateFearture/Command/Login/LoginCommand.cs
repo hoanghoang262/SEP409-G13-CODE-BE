@@ -38,6 +38,13 @@ namespace Authenticate_Service.Feature.AuthenticateFearture.Command.Login
                     var user = _context.Users.FirstOrDefault(u => u.UserName == request.UserName && u.Password == request.Password);
                     if (user != null)
                     {
+                        // Check account status
+                        if (user.Status == false)
+                        {
+                            return new BadRequestObjectResult(Message.MSG33);
+                        }
+
+                        // Check email confirmed
                         if (user.EmailConfirmed == false)
                         {
                             return new BadRequestObjectResult(Message.MSG03);
