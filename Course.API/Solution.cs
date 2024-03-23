@@ -1,1 +1,0 @@
-using System; public class Solution { public static void Main2() { Console.WriteLine("Hello, World!"); } }

@@ -21,6 +21,8 @@ namespace CourseService
             builder.Services.AddScoped<DynamicCodeCompiler>();
             builder.Services.AddScoped<DynamicCodeCompilerJava>();
             builder.Services.AddScoped<CompileCode>();
+            builder.Services.AddScoped<CCompiler>();
+            builder.Services.AddScoped<CPlushCompiler>();
             
 
             // rabbitMQ
@@ -65,10 +67,11 @@ namespace CourseService
             builder.Services.AddCors(options =>
             {
                 options.AddPolicy("AllowSpecificOrigin",
-                    builder => builder.WithOrigins(new string[] { "http://localhost:5118" }) // Thay thế bằng nguồn gốc thực tế của bạn
-                                        .AllowAnyMethod()
-                                        .AllowAnyHeader());
+                    builder => builder.WithOrigins("http://localhost:5173")
+                                      .AllowAnyHeader()
+                                      .AllowAnyMethod());
             });
+
             //grpc
             var config = builder.Configuration.GetSection("GrpcSetting:UserUrl").Value;
             builder.Services.AddSingleton(config);

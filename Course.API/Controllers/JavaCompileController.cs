@@ -1,9 +1,6 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Hosting;
-using System;
 using System.Diagnostics;
-using System.IO;
 using CourseService.API.Models;
 
 namespace CourseService.API.Controllers
