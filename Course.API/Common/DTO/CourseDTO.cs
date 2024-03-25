@@ -18,6 +18,7 @@ namespace CourseService.API.Common.ModelDTO
         public int? UserId { get; set; }
         public string? UserName { get; set; }
         public DateTime? CreatedAt { get; set; }
+        public string? Enrolled { get; set; }
 
         public virtual ICollection<ChapterDTO> Chapters { get; set; }
     }
@@ -48,6 +49,8 @@ namespace CourseService.API.Common.ModelDTO
         public string? ContentLesson { get; set; }
         public string? ChapterName { get; set; }
         public string? CourseName { get; set; }
+
+        public bool? IsCompleted { get; set; }
 
 
 

@@ -50,7 +50,7 @@ namespace ModerationService.API.Fearture.Command
                 Name = request.Name,
                 CourseId = request.CourseId,
                 Part = request.Part,
-                IsNew = request.IsNew
+                IsNew = false
             };
 
             _context.Chapters.Add(chapter);

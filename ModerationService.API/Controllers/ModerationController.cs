@@ -63,9 +63,15 @@ namespace ModerationService.API.Controllers
             return Ok(await _mediator.Send(command));
 
         }
+        [HttpPost]
+        public async Task<IActionResult> RejectCourse([FromBody] RejectCourseCommand command)
+        {
+            var result = await _mediator.Send(command);
+            return result;
+        }
 
         [HttpGet]
-        public async Task<IActionResult> GetModerationsCourse(string? courseName, string status, int page = 1, int pageSize = 5)
+        public async Task<IActionResult> GetModerationsCourse(string? courseName, string? status, int page = 1, int pageSize = 5)
         {
             try
             {
@@ -135,6 +141,7 @@ namespace ModerationService.API.Controllers
             if (moderationcourse != null && isExist.IsCourseExist.Equals(0))
             {
                 moderationcourse.CreatedAt = DateTime.Now;
+                moderationcourse.Status = "Pending";
                 await _context.SaveChangesAsync();
 
             }

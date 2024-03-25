@@ -1,4 +1,5 @@
 ﻿using CommentService.API.Fearture.Command;
+using CommentService.API.Feature.Command;
 using ForumService.API.Fearture.Queries;
 using MediatR;
 using Microsoft.AspNetCore.Http;
@@ -73,6 +74,27 @@ namespace CommentService.API.Controllers
             {
                 return StatusCode(500, $"Error creating comment: {ex.Message}");
             }
+        }
+        [HttpDelete]
+        public async Task<IActionResult> Delete(int id)
+        {
+            var command = new DeleteCommentCommand { CommentId = id };
+            var result = await _mediator.Send(command);
+            return result;
+        }
+        [HttpDelete]
+        public async Task<IActionResult> DeleteReply(int id)
+        {
+            var command = new DeleteReplyCommand { ReplyId = id };
+            var result = await _mediator.Send(command);
+            return result;
+        }
+        [HttpPut]
+        public async Task<IActionResult> Update(int id, [FromBody] UpdateReplyCommand command)
+        {
+            command.ReplyId = id;
+            var result = await _mediator.Send(command);
+            return result;
         }
     }
 }

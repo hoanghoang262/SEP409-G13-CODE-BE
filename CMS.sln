@@ -57,7 +57,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CommentGrpc", "CommentGrpc\
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "PaymentService", "PaymentService", "{8F0FD229-0F2A-4A04-B9A7-17F96BB98395}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PaymentService", "PaymentService\PaymentService.csproj", "{C03FC0A0-45E9-4E3C-BF03-19B35B8E3A39}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PaymentService.API", "PaymentService\PaymentService.API.csproj", "{C03FC0A0-45E9-4E3C-BF03-19B35B8E3A39}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConsoleApp2", "..\ConsoleApp2\ConsoleApp2.csproj", "{E8CFA030-FA2B-4427-8731-91256955DC99}"
 EndProject
