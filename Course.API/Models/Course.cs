@@ -18,6 +18,7 @@ namespace CourseService.API.Models
         public string? Tag { get; set; }
         public int CreatedBy { get; set; }
         public DateTime? CreatedAt { get; set; }
+        public int? Price { get; set; }
 
         public virtual ICollection<Chapter> Chapters { get; set; }
         public virtual ICollection<Enrollment> Enrollments { get; set; }
