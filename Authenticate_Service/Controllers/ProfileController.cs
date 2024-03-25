@@ -1,8 +1,8 @@
 ﻿using Authenticate_Service.Feature.AuthenticateFearture.Command.ChangePassword;
 using Authenticate_Service.Models;
 using AuthenticateService.API.Feature.AuthenticateFearture.Command.Users.UserCommand;
+using Contract.Service.Message;
 using MediatR;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -26,7 +26,7 @@ namespace AuthenticateService.API.Controllers
         {
             if (id != updateUserCommand.UserId)
             {
-                return BadRequest();
+                return BadRequest(Message.MSG30);
             }
 
             try
@@ -34,9 +34,9 @@ namespace AuthenticateService.API.Controllers
                 var result = await mediator.Send(updateUserCommand);
                 return Ok(result);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                return StatusCode(500, ex.Message);
+                return BadRequest(Message.MSG30);
             }
         }
 
@@ -46,11 +46,12 @@ namespace AuthenticateService.API.Controllers
             var user = await _context.Users.FirstOrDefaultAsync(c => c.Email.Equals(email));
             if (user == null)
             {
-                return BadRequest();
+                return BadRequest(Message.MSG30);
             }
+
             _context.Users.Remove(user);
             await _context.SaveChangesAsync();
-            return Ok("Delete Ok");
+            return Ok(Message.MSG16);
         }
 
         [HttpPost]
