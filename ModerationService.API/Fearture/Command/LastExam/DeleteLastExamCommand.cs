@@ -28,7 +28,7 @@ namespace ModerationService.API.Fearture.Command.LastExams
 
                 if (lastExam == null)
                 {
-                    return new BadRequestObjectResult(Message.MSG29);
+                    return new BadRequestObjectResult(Message.MSG32);
                 }
 
                 foreach (var theoryQuestion in lastExam.QuestionExams)
