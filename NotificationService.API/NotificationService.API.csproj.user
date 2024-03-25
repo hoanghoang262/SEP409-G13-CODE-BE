@@ -4,7 +4,7 @@
     <Controller_SelectedScaffolderID>ApiControllerEmptyScaffolder</Controller_SelectedScaffolderID>
     <Controller_SelectedScaffolderCategoryPath>root/Common/Api</Controller_SelectedScaffolderCategoryPath>
     <ActiveDebugProfile>NotificationService.API</ActiveDebugProfile>
-    <NameOfLastUsedPublishProfile>C:\Users\fpt\Desktop\HappLearning 3\SEP490-G13-CODE-BE\NotificationService.API\Properties\PublishProfiles\NotificationService - Web Deploy.pubxml</NameOfLastUsedPublishProfile>
+    <NameOfLastUsedPublishProfile>C:\Users\fpt\Desktop\HappLearning_3\SEP490-G13-CODE-BE\NotificationService.API\Properties\PublishProfiles\NotificationService - Web Deploy.pubxml</NameOfLastUsedPublishProfile>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
     <DebuggerFlavor>ProjectDebugger</DebuggerFlavor>

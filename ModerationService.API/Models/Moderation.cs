@@ -6,7 +6,7 @@ namespace ModerationService.API.Models
     public partial class Moderation
     {
         public int Id { get; set; }
-        public int? CourseId { get; set; }
+        public int CourseId { get; set; }
         public string? ChangeType { get; set; }
         public string? ApprovedContent { get; set; }
         public int CreatedBy { get; set; }

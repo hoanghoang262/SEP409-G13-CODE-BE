@@ -23,5 +23,11 @@ namespace CourseService.API.Controllers
 
             return isCorrect;
         }
+        [HttpPost]
+        public async Task<IActionResult> SubmitLastExam([FromBody] SubmitLastExam command)
+        {
+            var result = await _mediator.Send(command);
+            return result;
+        }
     }
 }

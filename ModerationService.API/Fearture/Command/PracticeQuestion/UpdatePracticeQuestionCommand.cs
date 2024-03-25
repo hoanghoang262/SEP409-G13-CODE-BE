@@ -7,13 +7,13 @@ using ModerationService.API.Models;
 
 namespace ModerationService.API.Fearture.Command.PracticeQuestion
 {
-    public class UpdatePracticeQuestionCommand : IRequest<ActionResult<PracticeQuestionDTO>>
+    public class UpdatePracticeQuestionCommand : IRequest<IActionResult>
     {
         public int PracticeQuestionId { get; set; }
         public PracticeQuestionDTO PracticeQuestion { get; set; }
     }
 
-    public class UpdatePracticeQuestionCommandHandler : IRequestHandler<UpdatePracticeQuestionCommand, ActionResult<PracticeQuestionDTO>>
+    public class UpdatePracticeQuestionCommandHandler : IRequestHandler<UpdatePracticeQuestionCommand, IActionResult>
     {
         private readonly Content_ModerationContext _context;
 
@@ -22,7 +22,7 @@ namespace ModerationService.API.Fearture.Command.PracticeQuestion
             _context = moderationContext;
         }
 
-        public async Task<ActionResult<PracticeQuestionDTO>> Handle(UpdatePracticeQuestionCommand request, CancellationToken cancellationToken)
+        public async Task<IActionResult> Handle(UpdatePracticeQuestionCommand request, CancellationToken cancellationToken)
         {
             // Validate input
             if (string.IsNullOrEmpty(request.PracticeQuestion.CodeForm)

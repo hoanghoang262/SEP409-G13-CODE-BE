@@ -2,7 +2,7 @@
 <Project ToolsVersion="Current" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <ActiveDebugProfile>CourseGRPC</ActiveDebugProfile>
-    <NameOfLastUsedPublishProfile>C:\Users\fpt\Desktop\HappLearning 3\SEP490-G13-CODE-BE\CourseGRPC\Properties\PublishProfiles\CourseGrpc - Zip Deploy.pubxml</NameOfLastUsedPublishProfile>
+    <NameOfLastUsedPublishProfile>C:\Users\fpt\Desktop\HappLearning_3\SEP490-G13-CODE-BE\CourseGRPC\Properties\PublishProfiles\CourseGrpcService - Zip Deploy.pubxml</NameOfLastUsedPublishProfile>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <DebuggerFlavor>ProjectDebugger</DebuggerFlavor>

@@ -1,4 +1,6 @@
 ﻿using Contract.Service.Message;
+using CourseGRPC;
+using CourseGRPC.Services;
 using GrpcServices;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -22,10 +24,10 @@ namespace CourseService.API.Feartures.CourseFearture.Command.CreateCourse
         public class UpdateCourseCommandHandler : IRequestHandler<UpdateCourseCommand, IActionResult>
         {
             private readonly Content_ModerationContext _context;
-            private readonly GetCourseIdGrpcServices services;
-            private readonly UserIdCourseGrpcService service;
+            private readonly GetUserInfoService services;
+            private readonly CheckCourseIdServicesGrpc service;
 
-            public UpdateCourseCommandHandler(Content_ModerationContext context, GetCourseIdGrpcServices _services, UserIdCourseGrpcService _service)
+            public UpdateCourseCommandHandler(Content_ModerationContext context, GetUserInfoService _services, CheckCourseIdServicesGrpc _service)
             {
                 _context = context;
                 services = _services;
@@ -46,16 +48,16 @@ namespace CourseService.API.Feartures.CourseFearture.Command.CreateCourse
                     return new BadRequestObjectResult(Message.MSG27);
                 }
 
-                // check if the course exist
-                var courseId = await services.SendCourseId(request.Id);
-                if (courseId == null)
-                {
-                    return new BadRequestObjectResult(Message.MSG25);
-                }
+                //// check if the course exist
+                //var courseId = await service.SendCourseId(request.Id);
+                //if (courseId.IsCourseExist==0)
+                //{
+                //    return new BadRequestObjectResult(Message.MSG25);
+                //}
                 
                 // Check if the user exist
-                var user = await service.SendUserId(request.CreatedBy);
-                if (user == null)
+                var user = await services.SendUserId(request.CreatedBy);
+                if (user.Id == 0)
                 {
                     return new BadRequestObjectResult(Message.MSG01);
                 }

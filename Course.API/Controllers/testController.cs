@@ -1,131 +1,181 @@
-﻿using CompileCodeOnline;
-using CourseService.API.Models;
+﻿
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.CodeAnalysis;
-using Microsoft.CodeAnalysis.CSharp;
-using Microsoft.CodeAnalysis.Emit;
-using System.Reflection;
+using System.Diagnostics;
+using CourseService.API.Models;
 
-
-
-namespace DynamicCodeCompilerAPI.Controllers
+namespace CourseService.API.Controllers
 {
-    [ApiController]
     [Route("api/[controller]/[action]")]
+    [ApiController]
     public class testController : ControllerBase
     {
-        private readonly DynamicCodeCompiler _codeCompiler;
+        private readonly TestDynamicCodeCompilerJava _compile;
+        private readonly IWebHostEnvironment _hostingEnvironment;
         private readonly CourseContext _context;
-        private readonly CompileCode compileCode;
 
-        public testController(DynamicCodeCompiler codeCompiler, CourseContext context, CompileCode _compileCode)
+
+        public testController(TestDynamicCodeCompilerJava compile, IWebHostEnvironment env, CourseContext context)
         {
-            _codeCompiler = codeCompiler;
+            _compile = compile;
+            _hostingEnvironment = env;
             _context = context;
-            compileCode = _compileCode;
         }
 
         [HttpPost]
-        public IActionResult CompileCodeCSharp(CodeRequestModel request)
+        public IActionResult JavaCompileCode([FromBody] CodeRequestModel javaCode)
         {
+            string rootPath = _hostingEnvironment.ContentRootPath;
+            string javaFilePath = Path.Combine(rootPath, "Solution.java");
+
+            if (string.IsNullOrWhiteSpace(javaCode.UserCode))
+            {
+                return BadRequest("Java code is missing.");
+            }
+
             try
             {
+                _compile.TestWriteJavaCodeToFile(javaCode.UserCode, javaFilePath);
+
+                string compilationResult = _compile.CompileAndRun(javaFilePath);
+
                 var userAnswerCode = new UserAnswerCode
                 {
-                    CodeQuestionId = request.PracticeQuestionId,
-                    AnswerCode = request.UserCode,
-                    UserId = request.UserId
+                    CodeQuestionId = javaCode.PracticeQuestionId,
+                    AnswerCode = javaCode.UserCode,
+                    UserId = javaCode.UserId
                 };
-
                 _context.UserAnswerCodes.Add(userAnswerCode);
-                _context.SaveChanges();
+                _context.SaveChangesAsync();
 
-                string result = compileCode.CompileAndRun(request.UserCode);
 
-                if (result != null)
-                {
-                    // Log the result of the compilation
-                    Console.WriteLine("Compilation result: " + result);
-                }
-                else
-                {
-                    // Log that no result was returned
-                    Console.WriteLine("No result returned from compilation");
-                }
-
-                return Ok(result);
+                // Return compilation result
+                return Ok(compilationResult);
             }
             catch (Exception ex)
             {
-                // Log the exception
-                Console.WriteLine("Exception occurred: " + ex.Message);
-                return StatusCode(500, $"Internal server error: {ex.Message}");
+                // Return error message
+                return StatusCode(500, $"Error compiling Java code: {ex.Message}");
             }
         }
     }
 
-
-}
-public class CompileCode
-{
-    public string CompileAndRun(string code)
+    public class TestDynamicCodeCompilerJava
     {
-        SyntaxTree syntaxTree = CSharpSyntaxTree.ParseText(code);
-        string assemblyName = Path.GetRandomFileName();
-        var refPaths = new[]
+        private readonly IWebHostEnvironment _hostingEnvironment;
+
+        public TestDynamicCodeCompilerJava(IWebHostEnvironment env)
         {
-                typeof(object).GetTypeInfo().Assembly.Location,
-                typeof(Console).GetTypeInfo().Assembly.Location,
-                Path.Combine(Path.GetDirectoryName(typeof(System.Runtime.GCSettings).GetTypeInfo().Assembly.Location), "System.Runtime.dll"),
-                Path.Combine(Path.GetDirectoryName(typeof(System.Linq.Enumerable).GetTypeInfo().Assembly.Location), "System.Linq.dll"),
-                Path.Combine(Path.GetDirectoryName(typeof(object).GetTypeInfo().Assembly.Location), "System.dll"),
+            _hostingEnvironment = env;
+        }
 
-            };
-        MetadataReference[] references = refPaths.Select(r => MetadataReference.CreateFromFile(r)).ToArray();
-
-        CSharpCompilation compilation = CSharpCompilation.Create(
-            assemblyName,
-            syntaxTrees: new[] { syntaxTree },
-            references: references,
-            options: new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary));
-
-        // Perform compilation
-        using (var ms = new MemoryStream())
+        public void TestWriteJavaCodeToFile(string javaCode, string javaFilePath)
         {
-            var emitResult = compilation.Emit(ms);
-
-            if (!emitResult.Success)
+            try
             {
-                // If compilation fails, return error messages
-                var errors = emitResult.Diagnostics
-                    .Where(diagnostic => diagnostic.Severity == DiagnosticSeverity.Error)
-                    .Select(diagnostic => diagnostic.GetMessage());
-
-                return string.Join("\n", errors);
+                File.WriteAllText(javaFilePath, javaCode);
             }
-            else
+            catch (Exception e)
             {
-                // Compilation succeeded, load the assembly and return success message
-                ms.Seek(0, System.IO.SeekOrigin.Begin);
-                var assembly = System.Reflection.Assembly.Load(ms.ToArray());
-                var type = assembly.GetType("DynamicCode");
-                var method = type.GetMethod("Execute");
-
-                try
-                {
-                    object result = method.Invoke(null, null);
-                    return "Compilation successful! Result: " + result.ToString();
-                }
-                catch (Exception ex)
-                {
-                    return "Error executing compiled code: " + ex.Message;
-                }
+                Console.WriteLine("Error writing Java code to file: " + e.Message);
+                throw;
             }
         }
+
+        public string CompileAndRun(string javaFilePath)
+        {
+            string result = "";
+
+            // Compile Java code
+            string compileResult = CompileJava(javaFilePath);
+
+
+            if (compileResult.Contains("Compilation error:"))
+            {
+                result = compileResult;
+            }
+            else if (!(string.IsNullOrEmpty(compileResult)))
+            {
+                result = ExecuteJavaProgram(javaFilePath);
+            }
+
+            return result;
+        }
+
+        private string CompileJava(string javaFilePath)
+        {
+            string result = "";
+
+            var startInfo = new ProcessStartInfo
+            {
+                FileName = "javac",
+                Arguments = "javac -cp \"libs/junit-platform-console-standalone-1.8.2.jar:.\" Solution.java ",
+                UseShellExecute = false,
+                RedirectStandardOutput = true,
+                RedirectStandardError = true,
+                CreateNoWindow = true
+            };
+
+            try
+            {
+                using (var compileProcess = Process.Start(startInfo))
+                {
+                    string output = compileProcess.StandardOutput.ReadToEnd();
+                    string error = compileProcess.StandardError.ReadToEnd();
+
+                    if (!string.IsNullOrEmpty(error))
+                    {
+                        result = "Compilation error: " + error;
+                    }
+                    else
+                    {
+                        result = "Compilation successful: " + output;
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                result = "Error compiling Java code: " + e.Message;
+            }
+
+            return result;
+        }
+
+        private string ExecuteJavaProgram(string javaFilePath)
+        {
+            string result = "";
+
+            var startInfo = new ProcessStartInfo
+            {
+                FileName = "java",
+                Arguments = "-jar junit-platform-console-standalone.jar --class-path . --scan-class-path",
+                UseShellExecute = false,
+                RedirectStandardOutput = true,
+                RedirectStandardError = true,
+                CreateNoWindow = true
+            };
+
+            try
+            {
+                using (var process = Process.Start(startInfo))
+                {
+
+                    var outputTask = process.StandardOutput.ReadToEndAsync();
+                    var errorTask = process.StandardError.ReadToEndAsync();
+
+
+                    Task.WaitAll(outputTask, errorTask);
+
+
+                    result = outputTask.Result + "\n" + errorTask.Result;
+                }
+            }
+            catch (Exception e)
+            {
+                result = "Error executing Java program: " + e.Message;
+            }
+
+            return result;
+        }
+
     }
 }
-
-
-
-
-

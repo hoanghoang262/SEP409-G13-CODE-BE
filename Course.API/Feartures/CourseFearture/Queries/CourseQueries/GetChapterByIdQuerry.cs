@@ -13,6 +13,7 @@ namespace CourseService.API.Feartures.CourseFearture.Queries.CourseQueries
     public class GetChapterByIdQuerry : IRequest<IActionResult>
     {
         public int ChapterId { get; set; }
+        public int UserId { get; set; }
 
         public class GetChapterByIdQuerryHandler : IRequestHandler<GetChapterByIdQuerry, IActionResult>
         {
@@ -47,6 +48,7 @@ namespace CourseService.API.Feartures.CourseFearture.Queries.CourseQueries
                         Description = lesson.Description,
                         Duration = lesson.Duration,
                         ContentLesson = lesson.ContentLesson,
+                        IsCompleted =  IsLessonCompleted(lesson.Id, request.UserId)
                     }).ToList(),
                     PracticeQuestions = chapter.PracticeQuestions.Select(practiceQuestion => new PracticeQuestionDTO
                     {
@@ -59,6 +61,12 @@ namespace CourseService.API.Feartures.CourseFearture.Queries.CourseQueries
 
                 return new OkObjectResult(chapterDTO);
             }
+            private bool IsLessonCompleted(int lessonId, int userId)
+            {
+                return  _context.CompleteLessons
+                                    .Any(cl => cl.LessonId == lessonId && cl.UserId == userId);
+            }
         }
+      
     }
 }

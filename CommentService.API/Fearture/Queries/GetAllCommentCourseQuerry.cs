@@ -46,6 +46,7 @@ namespace ForumService.API.Fearture.Queries
                             CreateDate=reply.CreateDate,
                             
                         });
+                   
                     }
                     course.Add(new CommentDTO
                     {
@@ -54,9 +55,10 @@ namespace ForumService.API.Fearture.Queries
                         CommentContent = c.CommentContent,
                         Date = c.Date,
                         Picture = userInfo.Picture,
-                        Id = userInfo.Id,
+                        Id = c.Id ,
                         Replies = replies
                     });
+
                 }
                 return course;
             }

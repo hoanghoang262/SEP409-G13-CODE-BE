@@ -51,7 +51,7 @@ namespace ModerationService.API.Fearture.Command
 
             chapter.Name = request.Name;
             chapter.Part = request.Part;
-            chapter.IsNew = request.IsNew;
+            chapter.IsNew = true;
 
             _context.Chapters.Update(chapter);
             await _context.SaveChangesAsync();
