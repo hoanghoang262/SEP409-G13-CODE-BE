@@ -32,11 +32,13 @@ namespace CourseService.API.Models
         public virtual DbSet<TheoryQuestion> TheoryQuestions { get; set; } = null!;
         public virtual DbSet<UserAnswerCode> UserAnswerCodes { get; set; } = null!;
         public virtual DbSet<UserCourseProgress> UserCourseProgresses { get; set; } = null!;
+        public virtual DbSet<Wishlist> Wishlists { get; set; } = null!;
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)
             {
+#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
                 optionsBuilder.UseSqlServer("Server=tcp:fptulearnserver.database.windows.net,1433;Initial Catalog=Course;Persist Security Info=False;User ID=fptu;Password=24082002aA;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;");
             }
         }
@@ -307,6 +309,11 @@ namespace CourseService.API.Models
                 entity.Property(e => e.CurrentLessonId).HasColumnName("Current_Lesson_Id");
 
                 entity.Property(e => e.UserId).HasColumnName("User_Id");
+            });
+
+            modelBuilder.Entity<Wishlist>(entity =>
+            {
+                entity.ToTable("Wishlist");
             });
 
             OnModelCreatingPartial(modelBuilder);

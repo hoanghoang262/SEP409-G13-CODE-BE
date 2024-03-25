@@ -2,17 +2,18 @@
 using ForumService.API.Models;
 using GrpcServices;
 using MediatR;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace ForumService.API.Fearture.Queries
 {
-    public class GetAllPostQuerry : IRequest<List<PostDTO>>
+    public class GetAllPostQuerry : IRequest<IActionResult>
     {
         public int page { get; set; } = 1;
         public int pageSize { get; set; } = 5;
 
 
-        public class GetAllPostQuerryHandler : IRequestHandler<GetAllPostQuerry, List<PostDTO>>
+        public class GetAllPostQuerryHandler : IRequestHandler<GetAllPostQuerry, IActionResult>
         {
             private readonly GetUserPostGrpcService _service;
             private readonly ForumContext _context;
@@ -21,7 +22,7 @@ namespace ForumService.API.Fearture.Queries
                 _service = service;
                 _context= context;
             }
-            public async Task<List<PostDTO>> Handle(GetAllPostQuerry request, CancellationToken cancellationToken)
+            public async Task<IActionResult> Handle(GetAllPostQuerry request, CancellationToken cancellationToken)
             {
                 
                 var querry= await _context.Posts.ToListAsync();
@@ -47,9 +48,11 @@ namespace ForumService.API.Fearture.Queries
                     });
                     
                 }
+                var total= post.Count;
+
                
 
-               return post;
+               return new OkObjectResult(post);
             }
         }
     }
