@@ -61,8 +61,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PaymentService.API", "Payme
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConsoleApp2", "..\ConsoleApp2\ConsoleApp2.csproj", "{E8CFA030-FA2B-4427-8731-91256955DC99}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConsoleApp1", "..\ConsoleApp1\ConsoleApp1.csproj", "{3708999F-9B8C-4515-9D29-F1F7A569A055}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -207,14 +205,6 @@ Global
 		{E8CFA030-FA2B-4427-8731-91256955DC99}.Release|Any CPU.Build.0 = Release|Any CPU
 		{E8CFA030-FA2B-4427-8731-91256955DC99}.Release|x64.ActiveCfg = Release|Any CPU
 		{E8CFA030-FA2B-4427-8731-91256955DC99}.Release|x64.Build.0 = Release|Any CPU
-		{3708999F-9B8C-4515-9D29-F1F7A569A055}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{3708999F-9B8C-4515-9D29-F1F7A569A055}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{3708999F-9B8C-4515-9D29-F1F7A569A055}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{3708999F-9B8C-4515-9D29-F1F7A569A055}.Debug|x64.Build.0 = Debug|Any CPU
-		{3708999F-9B8C-4515-9D29-F1F7A569A055}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{3708999F-9B8C-4515-9D29-F1F7A569A055}.Release|Any CPU.Build.0 = Release|Any CPU
-		{3708999F-9B8C-4515-9D29-F1F7A569A055}.Release|x64.ActiveCfg = Release|Any CPU
-		{3708999F-9B8C-4515-9D29-F1F7A569A055}.Release|x64.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

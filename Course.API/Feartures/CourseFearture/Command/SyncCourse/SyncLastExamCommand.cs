@@ -6,6 +6,7 @@ using EventBus.Message.Event;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using EventBus.Message.Event;
+using Microsoft.EntityFrameworkCore;
 
 namespace CourseService.API.Feartures.CourseFearture.Command.SyncCourse
 {
@@ -26,6 +27,8 @@ namespace CourseService.API.Feartures.CourseFearture.Command.SyncCourse
             }
             public async Task<IActionResult> Handle(SyncLastExamCommand request, CancellationToken cancellationToken)
             {
+             
+
                 var exAns = _context.LastExams.FirstOrDefault(x => x.Id.Equals(request.Id));
                 if (exAns == null)
                 {

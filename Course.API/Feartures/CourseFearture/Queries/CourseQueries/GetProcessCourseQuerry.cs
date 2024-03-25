@@ -23,19 +23,19 @@ namespace CourseService.API.Feartures.CourseFearture.Queries.CourseQueries
             {
 
 
-                var enrolledCourses = await _dbContext.Enrollments
-                    .Where(e => e.UserId == request.UserId)
-                    .Select(e => new
-                    {
-                        Course = e.Course,
-                        CompletedLessons = _dbContext.CompleteLessons
-                            .Count(cl => cl.UserId == request.UserId),
-                        TotalLessons = _dbContext.Chapters
-                        .Where(ch => ch.CourseId == e.CourseId)
-                        .SelectMany(ch => ch.Lessons)
-                        .Count()
-                    }).ToListAsync();
-
+             
+                var enrolledCourses = (from e in _dbContext.Enrollments
+                             join c in _dbContext.Courses on e.CourseId equals c.Id
+                             where e.UserId == request.UserId
+                             select new
+                             {
+                                 Course = c,
+                                 CompletedLessons = _dbContext.CompleteLessons
+                             .Count(cl => cl.UserId == request.UserId),
+                                 TotalLessons = _dbContext.Chapters
+                         .Where(ch => ch.CourseId == e.CourseId)
+                         .SelectMany(ch => ch.Lessons)
+                         .Count()}).ToList();
 
 
                 var userProfile = new UserProfileDto

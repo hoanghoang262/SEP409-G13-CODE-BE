@@ -43,11 +43,11 @@ namespace CourseService.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetChapterById(int chapterId)
+        public async Task<IActionResult> GetChapterById(int chapterId,int userId)
         {
             try
             {
-                var query = new GetChapterByIdQuerry { ChapterId = chapterId };
+                var query = new GetChapterByIdQuerry { ChapterId = chapterId, UserId=userId };
                 var result = await _mediator.Send(query);
 
                 return Ok(result);

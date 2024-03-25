@@ -9,5 +9,6 @@
         public string? Tag { get; set; }
         public int? CreatedBy { get; set; }
         public DateTime? CreatedAt { get; set; }
+        public int? Price { get; set; }
     }
 }

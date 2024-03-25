@@ -21,12 +21,22 @@ namespace CourseService.API.Feartures.CourseFearture.Queries.CourseQueries
 
             public async Task<IActionResult> Handle(GetPracticeQuestionByIdQuerry request, CancellationToken cancellationToken)
             {
-                var practiceQuestion = await _context.PracticeQuestions
-                                              .Include(pq => pq.Chapter)
-                                              .ThenInclude(c => c.Course)
-                                              .Include(pq => pq.TestCases)
-                                              .Include(pq => pq.UserAnswerCodes)
-                                              .FirstOrDefaultAsync(pq => pq.Id == request.PracticeQuestionId);
+                var practiceQuestion = await (from pq in _context.PracticeQuestions
+                                              join chapter in _context.Chapters on pq.ChapterId equals chapter.Id
+                                              join course in _context.Courses on chapter.CourseId equals course.Id
+                                              join testCase in _context.TestCases on pq.Id equals testCase.CodeQuestionId into testCases
+                                              join userAnswerCode in _context.UserAnswerCodes on pq.Id equals userAnswerCode.CodeQuestionId into userAnswerCodes
+                                              where pq.Id == request.PracticeQuestionId
+                                              select new
+                                              {
+                                                  PracticeQuestion = pq,
+                                                  Chapter = chapter,
+                                                  Course = course,
+                                                  TestCases = testCases,
+                                                  UserAnswerCodes = userAnswerCodes
+                                              }).FirstOrDefaultAsync();
+
+
 
                 if (practiceQuestion == null)
                 {
@@ -35,26 +45,13 @@ namespace CourseService.API.Feartures.CourseFearture.Queries.CourseQueries
 
                 var practiceQuestionDTO = new PracticeQuestionDTO
                 {
-                    Id = practiceQuestion.Id,
-                    Description = practiceQuestion.Description,
-                    ChapterId = practiceQuestion.ChapterId,
-                    CodeForm = practiceQuestion.CodeForm,
-                    TestCaseJava = practiceQuestion.TestCaseJava,
+                    Id = practiceQuestion.PracticeQuestion.Id,
+                    Description = practiceQuestion.PracticeQuestion.Description,
+                    ChapterId = practiceQuestion.Chapter.Id,
+                    CodeForm = practiceQuestion.PracticeQuestion.CodeForm,
+                    TestCaseJava = practiceQuestion.PracticeQuestion.TestCaseJava,
                     ChapterName = practiceQuestion.Chapter.Name,
-                    CourseName = practiceQuestion.Chapter.Course.Name,
-                    TestCases = practiceQuestion.TestCases.Select(tc => new TestCase
-                    {
-                        Id = tc.Id,
-                        InputTypeInt = tc.InputTypeInt,
-                        InputTypeString = tc.InputTypeString,
-                        ExpectedResultInt = tc.ExpectedResultInt,
-                        CodeQuestionId = tc.CodeQuestionId,
-                        ExpectedResultString = tc.ExpectedResultString,
-                        InputTypeBoolean = tc.InputTypeBoolean,
-                        ExpectedResultBoolean = tc.ExpectedResultBoolean,
-                        InputTypeArrayInt = tc.InputTypeArrayInt,
-                        InputTypeArrayString = tc.InputTypeArrayString
-                    }).ToList(),
+                    CourseName = practiceQuestion.Course.Name,
                     UserAnswerCodes = practiceQuestion.UserAnswerCodes.Select(uac => new UserAnswerCode
                     {
                         Id = uac.Id,
@@ -63,6 +60,7 @@ namespace CourseService.API.Feartures.CourseFearture.Queries.CourseQueries
                         UserId = uac.UserId
                     }).ToList()
                 };
+
 
                 return new OkObjectResult(practiceQuestionDTO);
             }

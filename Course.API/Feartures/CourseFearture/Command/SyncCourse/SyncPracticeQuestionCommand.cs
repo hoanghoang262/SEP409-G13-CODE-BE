@@ -3,6 +3,7 @@ using CourseService.API.Models;
 using EventBus.Message.Event;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace CourseService.API.Feartures.CourseFearture.Command.SyncCourse
 {
@@ -25,6 +26,7 @@ namespace CourseService.API.Feartures.CourseFearture.Command.SyncCourse
             }
             public async Task<IActionResult> Handle(SyncPracticeQuestionCommand request, CancellationToken cancellationToken)
             {
+
                 var existingCodeQuestion = await _context.PracticeQuestions.FindAsync(request.Id);
                 if (existingCodeQuestion == null)
                 {

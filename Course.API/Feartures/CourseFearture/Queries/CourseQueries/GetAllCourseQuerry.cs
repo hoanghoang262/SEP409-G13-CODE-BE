@@ -34,7 +34,7 @@ namespace CourseService.API.Feartures.CourseFearture.Queries.CourseQueries
             }
             public async Task<IActionResult> Handle(GetAllCourseQuerry request, CancellationToken cancellation)
             {
-                IQueryable<Course> query = _context.Courses.Include(c=>c.Enrollments);
+                IQueryable<Course> query = _context.Courses.Include(c => c.Enrollments);
 
                 if (!string.IsNullOrEmpty(request.CourseName))
                 {
@@ -44,7 +44,7 @@ namespace CourseService.API.Feartures.CourseFearture.Queries.CourseQueries
                 List<CourseDTO> courseDTOList = new List<CourseDTO>();
                 foreach (var item in query)
                 {
-                  
+
                     var userInfo = await _service.SendUserId(item.CreatedBy);
                     bool isUserEnrolled = item.Enrollments.Any(e => e.UserId == request.UserId);
 
@@ -58,7 +58,7 @@ namespace CourseService.API.Feartures.CourseFearture.Queries.CourseQueries
                         Tag = item.Tag,
                         UserId = item.CreatedBy,
                         UserName = userInfo.Name,
-                        Enrolled=  isUserEnrolled ? "Continue Studying" : "Enroll"
+                        Enrolled = isUserEnrolled ? "Continue Studying" : "Enroll"
                     };
                     courseDTOList.Add(dto);
                 }

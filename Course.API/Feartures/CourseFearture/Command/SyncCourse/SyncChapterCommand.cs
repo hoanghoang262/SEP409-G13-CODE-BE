@@ -5,6 +5,7 @@ using CourseService.API.Models;
 using EventBus.Message.Event;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 
 namespace CourseService.API.Feartures.CourseFearture.Command.SyncCourse
@@ -19,15 +20,16 @@ namespace CourseService.API.Feartures.CourseFearture.Command.SyncCourse
         public class asyncChapterHandler : IRequestHandler<SyncChapterCommand, IActionResult>
         {
             private readonly CourseContext _context;
-          
+
 
             public asyncChapterHandler(CourseContext context)
             {
                 _context = context;
-              
+
             }
             public async Task<IActionResult> Handle(SyncChapterCommand request, CancellationToken cancellationToken)
             {
+              
                 var chapter = await _context.Chapters.FindAsync(request.Id);
                 if (chapter == null)
                 {

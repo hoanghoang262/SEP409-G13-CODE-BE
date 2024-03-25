@@ -18,8 +18,9 @@ namespace CourseService.API.Feartures.CourseFearture.Command.CreateCourse
         public string? Tag { get; set; }
         public int CreatedBy { get; set; }
         public DateTime? CreatedAt { get; set; } = DateTime.UtcNow;
+        public int? Price { get; set; }
 
-       // public List<ChapterDTO> Chapters { get; set; }
+        // public List<ChapterDTO> Chapters { get; set; }
 
         public class UpdateCourseCommandHandler : IRequestHandler<UpdateCourseCommand, IActionResult>
         {
@@ -80,8 +81,6 @@ namespace CourseService.API.Feartures.CourseFearture.Command.CreateCourse
                     //    .ThenInclude(ch => ch.PracticeQuestions)
                     //            .ThenInclude(cq => cq.UserAnswerCodes)
                         .FirstOrDefault(course => course.Id == request.Id);
-
-
                 // Check if the course exist
                 if (existingCourse == null)
                 {
@@ -93,6 +92,7 @@ namespace CourseService.API.Feartures.CourseFearture.Command.CreateCourse
                 existingCourse.Picture = request.Picture;
                 existingCourse.Tag = request.Tag;
                 existingCourse.CreatedAt = request.CreatedAt;
+                existingCourse.Price=request.Price;
 
 
                 //foreach (var chapterDto in request.Chapters)
