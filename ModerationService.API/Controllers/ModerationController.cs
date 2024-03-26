@@ -64,7 +64,7 @@ namespace ModerationService.API.Controllers
 
         }
         [HttpPost]
-        public async Task<IActionResult> RejectCourse([FromBody] RejectCourseCommand command)
+        public async Task<IActionResult> Reject([FromBody] RejectCourseCommand command)
         {
             var result = await _mediator.Send(command);
             return result;
@@ -88,9 +88,7 @@ namespace ModerationService.API.Controllers
         [HttpGet]
         public async Task<IActionResult> GetModerationsPost(string? postTitle, string? status, int page = 1, int pageSize = 5)
         {
-            try
-            {
-                var query = new GetModerationPostQuerry { Page = page, PageSize = pageSize, PostTitle = postTitle,Status=status };
+                var query = new GetModerationPostQuerry { PostTitle = postTitle, Status = status, Page = page, PageSize = pageSize };
                 var result = await _mediator.Send(query);
 
                 if (result == null)
@@ -99,11 +97,8 @@ namespace ModerationService.API.Controllers
                 }
 
                 return Ok(result);
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, $"Internal server error: {ex.Message}");
-            }
+            
+           
         }
 
         [HttpPost]

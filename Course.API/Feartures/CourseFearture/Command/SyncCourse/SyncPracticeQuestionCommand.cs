@@ -14,6 +14,8 @@ namespace CourseService.API.Feartures.CourseFearture.Command.SyncCourse
         public int? ChapterId { get; set; }
         public string? CodeForm { get; set; }
         public string? TestCaseJava { get; set; }
+        public string? TestCaseC { get; set; }
+        public string? TestCaseCplus { get; set; }
         public class SyncCodeQuestionCommandHandler : IRequestHandler<SyncPracticeQuestionCommand, IActionResult>
         {
             private readonly CourseContext _context;
@@ -37,6 +39,8 @@ namespace CourseService.API.Feartures.CourseFearture.Command.SyncCourse
                         Description = request.Description,
                         CodeForm = request.CodeForm,
                         TestCaseJava=request.TestCaseJava,
+                        TestCaseC=request.TestCaseC,
+                        TestCaseCplus=request.TestCaseCplus,
 
                     };
                     _context.PracticeQuestions.Add(newCodeQuestion);
@@ -49,6 +53,8 @@ namespace CourseService.API.Feartures.CourseFearture.Command.SyncCourse
                     existingCodeQuestion.Description = request.Description;
                     existingCodeQuestion.CodeForm = request.CodeForm;
                     existingCodeQuestion.TestCaseJava = request.TestCaseJava;
+                    existingCodeQuestion.TestCaseC = request.TestCaseC;
+                    existingCodeQuestion.TestCaseCplus = request.TestCaseCplus;
                     await _context.SaveChangesAsync(cancellationToken);
 
                 }

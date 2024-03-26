@@ -88,7 +88,7 @@ namespace CourseService.API.Feartures.CourseFearture.Command.SyncCourse
                     }
 
                     _context.Remove(courseDelete);
-                    await _context.SaveChangesAsync();
+                 
                 }
 
 

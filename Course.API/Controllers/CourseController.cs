@@ -37,9 +37,9 @@ namespace CourseService.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetCourseByCourseId(int Id)
+        public async Task<IActionResult> GetCourseByCourseId(int Id,int userId)
         {
-            return Ok(await _mediator.Send(new GetCourseByCourseIdQuerry { CourseId = Id }));
+            return Ok(await _mediator.Send(new GetCourseByCourseIdQuerry { CourseId = Id,UserId=userId }));
         }
 
         [HttpGet]

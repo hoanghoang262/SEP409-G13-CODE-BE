@@ -13,5 +13,7 @@ namespace EventBus.Message.Event
         public int? ChapterId { get; set; }
         public string? CodeForm { get; set; }
         public string? TestCaseJava { get; set; }
+        public string? TestCaseC { get; set; }
+        public string? TestCaseCplus { get; set; }
     }
 }
