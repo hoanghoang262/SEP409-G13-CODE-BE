@@ -331,5 +331,15 @@
             MsgTextVN = "Tài khoản đã bị khóa",
             MsgTextEN = "Account has been locked"
         };
+
+        /// <summary>
+        /// MSG34: Bài viết không tồn tại
+        /// </summary>
+        public static readonly MessageModel MSG34 = new MessageModel
+        {
+            MsgCode = "MSG34",
+            MsgTextVN = "Bài viết không tồn tại",
+            MsgTextEN = "Post does not exist"
+        };
     }
 }

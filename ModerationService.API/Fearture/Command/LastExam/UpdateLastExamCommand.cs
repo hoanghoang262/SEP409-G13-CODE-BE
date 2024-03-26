@@ -29,12 +29,6 @@ namespace ModerationService.API.Fearture.Command.LastExams
                  .ThenInclude(tq => tq.AnswerExams)
              .FirstOrDefaultAsync(l => l.Id == request.LastExamId);
 
-            // Check if lesson exists
-            if (existingLastExam == null)
-            {
-                return new BadRequestObjectResult(Message.MSG32);
-            }
-
             // Validate input
             if (string.IsNullOrEmpty(request.LastExam.Name)
                 || request.LastExam.Time == null
@@ -55,6 +49,12 @@ namespace ModerationService.API.Fearture.Command.LastExams
                 || request.LastExam.Time < 0)
             {
                 return new BadRequestObjectResult(Message.MSG26);
+            }
+
+            // Check if lesson exists
+            if (existingLastExam == null)
+            {
+                return new BadRequestObjectResult(Message.MSG32);
             }
 
             existingLastExam.Time = request.LastExam.Time;
