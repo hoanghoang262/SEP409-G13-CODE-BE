@@ -17,26 +17,21 @@ namespace ModerationService.API.Controllers
         {
             _mediator = mediator;
         }
+
         [HttpGet]
         public async Task<IActionResult> GetPostById(int postId)
         {
 
             return Ok(await _mediator.Send(new GetModerationPostByIdQuerry { PostId = postId })); 
         }
+
         [HttpDelete]
         public async Task<IActionResult> DeletePost(int postId)
         {
             var command = new DeletePostCommand { postId = postId };
             var result = await _mediator.Send(command);
 
-            if (result > 0)
-            {
-                return Ok("Post deleted successfully.");
-            }
-            else
-            {
-                return NotFound("Post not found.");
-            }
+            return Ok(result);
         }
 
     }

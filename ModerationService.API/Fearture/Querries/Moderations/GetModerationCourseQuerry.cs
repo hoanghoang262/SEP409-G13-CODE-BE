@@ -1,5 +1,4 @@
 ﻿using Contract.SeedWork;
-using Contract.Service.Message;
 using GrpcServices;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -14,7 +13,6 @@ namespace ModerationService.API.Feature.Queries
         public int Page { get; set; }
         public int PageSize { get; set; }
         public string? CourseName { get; set; }
-
         public string? Status { get; set; }
 
         public class GetModerationQuerryHandler : IRequestHandler<GetModerationCourseQuerry, IActionResult>
@@ -28,18 +26,17 @@ namespace ModerationService.API.Feature.Queries
                 _context = context;
                 _service = service;
             }
-
             public async Task<IActionResult> Handle(GetModerationCourseQuerry request, CancellationToken cancellationToken)
             {
 
-                List<Moderation> moderations=new List<Moderation>();
+                List<Moderation> moderations = new List<Moderation>();
                 if (string.IsNullOrEmpty(request.CourseName) && string.IsNullOrEmpty(request.Status))
                 {
                     moderations = await _context.Moderations
                         .Include(c => c.Course)
                         .Where(x => x.CourseId!=null).ToListAsync();
                 }
-                if(!string.IsNullOrEmpty(request.CourseName) && string.IsNullOrEmpty(request.Status))
+                if (!string.IsNullOrEmpty(request.CourseName) && string.IsNullOrEmpty(request.Status))
                 {
                     moderations = await _context.Moderations
                         .Include(c => c.Course)
@@ -62,8 +59,6 @@ namespace ModerationService.API.Feature.Queries
                         .Contains(request.Status)&& x.CourseName.Contains(request.CourseName) && x.CourseId!=null).ToListAsync();
 
                 }
-
-
 
                 var totalItems = moderations.Count;
                 var items = moderations

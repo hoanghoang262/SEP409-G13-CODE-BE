@@ -28,12 +28,6 @@ namespace ModerationService.API.Fearture.Command.LastExams
                     .ThenInclude(tq => tq.AnswerOptions)
                 .FirstOrDefaultAsync(c => c.Id == request.ChapterId);
 
-                // Check if chapter is exist
-                if (chapter == null)
-                {
-                    return new BadRequestObjectResult(Message.MSG28);
-                }
-
                 // Validate input
                 if (string.IsNullOrEmpty(request.LastExam.Name)
                     || request.LastExam.PercentageCompleted == null
@@ -54,6 +48,12 @@ namespace ModerationService.API.Fearture.Command.LastExams
                     || request.LastExam.Time < 0)
                 {
                     return new BadRequestObjectResult(Message.MSG26);
+                }
+
+                // Check if chapter is exist
+                if (chapter == null)
+                {
+                    return new BadRequestObjectResult(Message.MSG28);
                 }
 
                 var lastExam = new LastExam
