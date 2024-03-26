@@ -24,34 +24,11 @@ namespace CourseService.API.Feartures.CourseFearture.Queries.CourseQueries
         }
         public async Task<IActionResult> Handle(GetCourseUserEnrollQuerry request, CancellationToken cancellationToken)
         {
-            var courses = await _context.Enrollments
-                                         .Include(c => c.Course)
-                                           .ThenInclude(c => c.Chapters)
-                                             .ThenInclude(ch => ch.Lessons)
-                                               .ThenInclude(l => l.TheoryQuestions)
-                                                 .ThenInclude(ans => ans.AnswerOptions)
-                                                 .Include(c=>c.Course)
-                                                  .ThenInclude(c => c.Chapters)
-                                                     .ThenInclude(ch => ch.Lessons)
-                                                       .ThenInclude(cq => cq.Notes)
-                                            .Include(c => c.Course)
-                                              .ThenInclude(c => c.Chapters)
-                                                .ThenInclude(ch => ch.PracticeQuestions)
-                                                  .ThenInclude(cq => cq.TestCases)
-                                             .Include(c => c.Course)
-                                               .ThenInclude(c => c.Chapters)
-                                                 .ThenInclude(ch => ch.Lessons)
-                                                   .ThenInclude(l => l.TheoryQuestions)
-                                                     .ThenInclude(ans => ans.AnswerOptions)
-                                             .Include(c => c.Course)
-                                               .ThenInclude(c => c.Chapters)
-                                                 .ThenInclude(ch => ch.PracticeQuestions)
-                                                   .ThenInclude(cq => cq.TestCases)
-                                             .Include(c => c.Course)
-                                               .ThenInclude(c => c.Chapters)
-                                                 .ThenInclude(ch => ch.PracticeQuestions)
-                                                   .ThenInclude(cq => cq.UserAnswerCodes)
-                                                  .FirstOrDefaultAsync(enroll => enroll.CourseId == request.CourseId && enroll.UserId == request.UserId);
+            var courses = await (from enrollment in _context.Enrollments
+                                 join course in _context.Courses on enrollment.CourseId equals course.Id
+                                 where enrollment.CourseId == request.CourseId && enrollment.UserId == request.UserId
+                                 select new { Enrollment = enrollment, Course = course })
+                                  .FirstOrDefaultAsync();
 
             var user = await service.SendUserId(courses.Course.CreatedBy);
             if (courses == null || user == null)
@@ -70,69 +47,6 @@ namespace CourseService.API.Feartures.CourseFearture.Queries.CourseQueries
                 courses.Course.CreatedAt,
                 Created_Name = user.Name,
                 Avatar = user.Picture,
-                Chapters = courses.Course.Chapters.Select(chapter => new
-                {
-                    chapter.Id,
-                    chapter.Name,
-                    chapter.CourseId,
-                    chapter.Part,
-                    chapter.IsNew,
-                    CodeQuestions = chapter.PracticeQuestions.Select(codeQuestion => new
-                    {
-                        codeQuestion.Id,
-                        codeQuestion.Description,
-                        TestCases = codeQuestion.TestCases.Select(testCase => new
-                        {
-                            testCase.Id,
-                            testCase.InputTypeInt,
-                            testCase.InputTypeString,
-                            testCase.ExpectedResultInt,
-                            testCase.CodeQuestionId,
-                            testCase.ExpectedResultString,
-                            testCase.InputTypeBoolean,
-                            testCase.ExpectedResultBoolean,
-                            testCase.InputTypeArrayInt,
-                            testCase.InputTypeArrayString
-                        }).ToList(),
-                        UserAnswerCodes = codeQuestion.UserAnswerCodes.Select(userAnswerCode => new
-                        {
-                            userAnswerCode.Id,
-                            userAnswerCode.CodeQuestionId,
-                            userAnswerCode.AnswerCode,
-                            userAnswerCode.UserId
-                        }).ToList()
-                    }).ToList(),
-                    Lessons = chapter.Lessons.Select(lesson => new
-                    {
-                        lesson.Id,
-                        lesson.Title,
-                        lesson.VideoUrl,
-                        lesson.ChapterId,
-                        lesson.Description,
-                        lesson.Duration,
-                        lesson.ContentLesson,
-                        Notes = lesson.Notes.Select(note => new
-                        {
-                            note.VideoLink,
-                            note.ContentNote,
-
-                        }).ToList(),
-                        Questions = lesson.TheoryQuestions.Select(question => new
-                        {
-                            question.Id,
-                            question.VideoId,
-                            question.ContentQuestion,
-                            question.Time,
-                            AnswerOptions = question.AnswerOptions.Select(answerOption => new
-                            {
-                                answerOption.Id,
-                                answerOption.QuestionId,
-                                answerOption.OptionsText,
-                                answerOption.CorrectAnswer
-                            }).ToList()
-                        }).ToList()
-                    }).ToList()
-                }).ToList()
             };
 
             return new OkObjectResult(result);

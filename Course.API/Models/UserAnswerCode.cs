@@ -9,7 +9,5 @@ namespace CourseService.API.Models
         public int? CodeQuestionId { get; set; }
         public string? AnswerCode { get; set; }
         public int? UserId { get; set; }
-
-        public virtual PracticeQuestion? CodeQuestion { get; set; }
     }
 }

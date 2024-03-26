@@ -13,6 +13,7 @@ namespace CourseService.API.Feartures.CourseFearture.Command.CreateCourse
         public string? Picture { get; set; }
         public string? Tag { get; set; }
         public int CreatedBy { get; set; }
+        public int? Price { get; set; }
 
         public class CreateCourseHandler : IRequestHandler<CreateCourseCommand, IActionResult>
         {

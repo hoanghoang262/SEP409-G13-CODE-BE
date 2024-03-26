@@ -104,11 +104,6 @@ namespace CourseService.API.Models
                 entity.Property(e => e.LessonId).HasColumnName("Lesson_Id");
 
                 entity.Property(e => e.UserId).HasColumnName("User_id");
-
-                entity.HasOne(d => d.Lesson)
-                    .WithMany(p => p.CompleteLessons)
-                    .HasForeignKey(d => d.LessonId)
-                    .HasConstraintName("FK_Complete_Lesson_Lesson");
             });
 
             modelBuilder.Entity<CompletedExam>(entity =>
@@ -208,12 +203,6 @@ namespace CourseService.API.Models
                 entity.Property(e => e.UserId).HasColumnName("User_Id");
 
                 entity.Property(e => e.VideoLink).HasColumnName("Video_Link");
-
-                entity.HasOne(d => d.Lesson)
-                    .WithMany(p => p.Notes)
-                    .HasForeignKey(d => d.LessonId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_Note_Lesson");
             });
 
             modelBuilder.Entity<PracticeQuestion>(entity =>
@@ -291,11 +280,6 @@ namespace CourseService.API.Models
                 entity.Property(e => e.CodeQuestionId).HasColumnName("Code_Question_Id");
 
                 entity.Property(e => e.UserId).HasColumnName("User_Id");
-
-                entity.HasOne(d => d.CodeQuestion)
-                    .WithMany(p => p.UserAnswerCodes)
-                    .HasForeignKey(d => d.CodeQuestionId)
-                    .HasConstraintName("FK_User_Answer_Code_Code_Question");
             });
 
             modelBuilder.Entity<UserCourseProgress>(entity =>

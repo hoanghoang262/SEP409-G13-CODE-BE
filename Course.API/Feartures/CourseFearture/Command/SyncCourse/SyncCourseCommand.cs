@@ -6,6 +6,7 @@ using EventBus.Message.Event;
 
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace CourseService.API.Feartures.CourseFearture.Command.SyncCourse
 {
@@ -18,6 +19,7 @@ namespace CourseService.API.Feartures.CourseFearture.Command.SyncCourse
         public string? Tag { get; set; }
         public int CreatedBy { get; set; }
         public DateTime? CreatedAt { get; set; }
+        public int? Price { get; set; }
         public class asyncCourseCommandHandler : IRequestHandler<SyncCourseCommand, IActionResult>
         {
             private readonly CourseContext _context;
@@ -30,6 +32,66 @@ namespace CourseService.API.Feartures.CourseFearture.Command.SyncCourse
             }
             public async Task<IActionResult> Handle(SyncCourseCommand request, CancellationToken cancellationToken)
             {
+                var courseDelete = await _context.Courses
+                      .Include(c => c.Chapters)
+                          .ThenInclude(ch => ch.Lessons)
+                              .ThenInclude(l => l.TheoryQuestions)
+                                  .ThenInclude(ans => ans.AnswerOptions)
+                      .Include(c => c.Chapters)
+                          .ThenInclude(ch => ch.PracticeQuestions)
+                              .ThenInclude(cq => cq.TestCases)
+                      .Include(c => c.Chapters)
+                          .ThenInclude(ch => ch.LastExams)
+                              .ThenInclude(l => l.QuestionExams)
+                                  .ThenInclude(ans => ans.AnswerExams)
+                      .Include(c => c.Chapters)
+                          .ThenInclude(ch => ch.PracticeQuestions)
+                              .ThenInclude(cq => cq.TestCases)
+                      .Include(c => c.Chapters)
+                          .ThenInclude(ch => ch.PracticeQuestions)
+                            
+                      .FirstOrDefaultAsync(course => course.Id == request.Id);
+
+                if (courseDelete != null)
+                {
+
+                    foreach (var chapter in courseDelete.Chapters)
+                    {
+                        foreach (var lesson in chapter.Lessons)
+                        {
+                            foreach (var question in lesson.TheoryQuestions)
+                            {
+                                _context.RemoveRange(question.AnswerOptions);
+                                _context.Remove(question);
+                            }
+                            _context.Remove(lesson);
+                        }
+
+                        foreach (var practiceQuestion in chapter.PracticeQuestions)
+                        {
+                            _context.RemoveRange(practiceQuestion.TestCases);
+                          
+                            _context.Remove(practiceQuestion);
+                        }
+
+                        foreach (var lastExam in chapter.LastExams)
+                        {
+                            foreach (var questionExam in lastExam.QuestionExams)
+                            {
+                                _context.Remove(questionExam.AnswerExams);
+                                _context.Remove(questionExam);
+                            }
+                            _context.Remove(lastExam);
+                        }
+
+                        _context.Remove(chapter);
+                    }
+
+                    _context.Remove(courseDelete);
+                    await _context.SaveChangesAsync();
+                }
+
+
                 var course = await _context.Courses.FindAsync(request.Id);
                 if (course == null)
                 {
@@ -41,12 +103,12 @@ namespace CourseService.API.Feartures.CourseFearture.Command.SyncCourse
                         Picture = request.Picture,
                         Tag = request.Tag,
                         CreatedBy = request.CreatedBy,
-                        CreatedAt=request.CreatedAt
+                        CreatedAt=request.CreatedAt,
+                        Price = request.Price,  
 
                     };
 
                     _context.Courses.Add(newCourse);
-                    await _context.SaveChangesAsync(cancellationToken);
 
                 }
                 else
@@ -57,10 +119,12 @@ namespace CourseService.API.Feartures.CourseFearture.Command.SyncCourse
                     course.Picture = request.Picture;
                     course.Tag = request.Tag;
                     course.CreatedBy = request.CreatedBy;
+                    course.Price = request.Price;
 
 
-                    await _context.SaveChangesAsync(cancellationToken);
+                  
                 }
+                await _context.SaveChangesAsync(cancellationToken);
 
 
 

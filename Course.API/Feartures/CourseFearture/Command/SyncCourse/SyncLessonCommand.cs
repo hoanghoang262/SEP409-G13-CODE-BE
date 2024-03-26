@@ -5,6 +5,7 @@ using CourseService.API.Models;
 using EventBus.Message.Event;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 
 namespace CourseService.API.Feartures.CourseFearture.Command.SyncCourse
@@ -31,6 +32,7 @@ namespace CourseService.API.Feartures.CourseFearture.Command.SyncCourse
             }
             public async Task<IActionResult> Handle(SyncLessonCommand request, CancellationToken cancellationToken)
             {
+                
                 var lesson = await _context.Lessons.FindAsync(request.Id);
                 if (lesson == null)
                 {
