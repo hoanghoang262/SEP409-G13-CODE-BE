@@ -53,6 +53,7 @@ namespace ModerationService.API.Controllers
         {
             return Ok(await _mediator.Send(command));
         }
+
         [HttpPut]
         public async Task<IActionResult> UpdatePost(int id, [FromBody] UpdatePostCommand command)
         {
@@ -63,6 +64,7 @@ namespace ModerationService.API.Controllers
             return Ok(await _mediator.Send(command));
 
         }
+
         [HttpPost]
         public async Task<IActionResult> RejectCourse([FromBody] RejectCourseCommand command)
         {
@@ -85,6 +87,7 @@ namespace ModerationService.API.Controllers
                 return BadRequest(Message.MSG30);
             }
         }
+
         [HttpGet]
         public async Task<IActionResult> GetModerationsPost(string? postTitle, string? status, int page = 1, int pageSize = 5)
         {

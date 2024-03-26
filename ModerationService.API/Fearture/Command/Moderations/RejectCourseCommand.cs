@@ -1,4 +1,5 @@
-﻿using EventBus.Message.Event;
+﻿using Contract.Service.Message;
+using EventBus.Message.Event;
 using MassTransit;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -10,7 +11,6 @@ namespace ModerationService.API.Fearture.Command.Moderations
     public class RejectCourseCommand : IRequest<IActionResult>
     {
         public int ModerationId { get; set; }
-
         public string ReasonWhyReject { get; set; }
 
         public class RejectCourseCommandHandler : IRequestHandler<RejectCourseCommand, IActionResult>
@@ -25,12 +25,17 @@ namespace ModerationService.API.Fearture.Command.Moderations
             }
             public async Task<IActionResult> Handle(RejectCourseCommand request, CancellationToken cancellationToken)
             {
+                if (string.IsNullOrEmpty(request.ReasonWhyReject))
+                {
+                    return new BadRequestObjectResult(Message.MSG11);
+                }
+
                 var moder = await _moderationContext.Moderations.FirstOrDefaultAsync(c => c.Id.Equals(request.ModerationId));
                 if (moder == null)
                 {
-                    return new BadRequestObjectResult("Not found");
-
+                    return new BadRequestObjectResult(Message.MSG25);
                 }
+
                 moder.Status = "Reject";
                 _moderationContext.Moderations.Update(moder);
                 await _moderationContext.SaveChangesAsync();
@@ -45,7 +50,7 @@ namespace ModerationService.API.Fearture.Command.Moderations
                 };
                 await _publish.Publish(notificationForAdminBussiness);
 
-                return new OkObjectResult(notificationForAdminBussiness);
+                return new OkObjectResult(Message.MSG16);
             }
         }
     }
