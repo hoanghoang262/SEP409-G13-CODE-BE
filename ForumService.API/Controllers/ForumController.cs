@@ -1,5 +1,6 @@
 ﻿using ForumService.API.Fearture.Command;
 using ForumService.API.Fearture.Queries;
+using ForumService.API.Feature.Posts.Command;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -18,10 +19,10 @@ namespace ForumService.API.Controllers
 
         [HttpGet]
 
-        public async Task<IActionResult> GetAllPost()
+        public async Task<IActionResult> GetAllPost(int page,int pageSize, string? PostTitle)
         {
 
-            return Ok(await _mediator.Send(new GetAllPostQuerry()));
+            return Ok(await _mediator.Send(new GetAllPostQuerry { page=page,pageSize=pageSize,PostTitle=PostTitle}));
 
         }
         [HttpPost]
@@ -53,6 +54,18 @@ namespace ForumService.API.Controllers
         public async Task<IActionResult> DeletePost(int postId)
         {
             var command = new DeletePostCommand { PostId = postId };
+            var result = await _mediator.Send(command);
+
+            return result;
+        }
+        [HttpPut]
+        public async Task<IActionResult> UpdatePost(int postId, [FromBody] UpdatePostCommand command)
+        {
+            if (postId != command.PostId)
+            {
+                return BadRequest("PostId in request body does not match the PostId in the URL.");
+            }
+
             var result = await _mediator.Send(command);
 
             return result;

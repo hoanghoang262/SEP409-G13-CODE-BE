@@ -55,6 +55,7 @@ namespace CourseService.API.Feartures.CourseFearture.Command.CreateCourse
                     Tag = request.Tag,
                     CreatedBy = request.CreatedBy,
                     CreatedAt = DateTime.Now,
+                    Price=request.Price,
                     IsCompleted = false
                 };
 

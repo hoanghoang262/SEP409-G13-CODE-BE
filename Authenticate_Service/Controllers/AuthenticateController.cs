@@ -150,40 +150,81 @@ namespace Authenticated.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetAllUsers(int roleId, int Page = 1, int PageSize = 5)
+        public async Task<IActionResult> GetAllStudent(string? Search, bool? Status, int Page = 1, int PageSize = 5)
         {
-            var users = await context.Users.Include(c => c.Role).Select(u => new UserDto()
+            IQueryable<User> query = context.Users.Include(u => u.Role).Where(u => u.Role.Id == 1);
+            if (!string.IsNullOrEmpty(Search))
             {
-                Id = u.Id,
-                FullName = u.FullName,
-                Email = u.Email,
-                UserName = u.UserName,
-                Phone = u.Phone,
-                Address = u.Address,
-                BirthDate = u.BirthDate,
-                FacebookLink = u.FacebookLink,
-                ProfilePict = u.ProfilePict,
-                Status = u.Status,
-                RoleId = u.RoleId,
-                RoleName = u.Role.Name
-            }).ToListAsync();
-            
-            if (users == null)
-            {
-                return BadRequest(Message.MSG22);
+                query = query.Where(u => u.UserName.Contains(Search) || u.Email.Contains(Search));
             }
 
-            if (roleId != 0)
+          
+            if (Status.HasValue)
             {
-                users = users.Where(u => u.RoleId == roleId).ToList();
+                query = query.Where(u => u.Status == Status.Value);
             }
 
-            var userList = users.Skip((Page - 1) * PageSize).Take(PageSize).ToList();
-            var totalItems = users.Count;
+            var totalItems = await query.CountAsync();
+            var userList = await query.Skip((Page - 1) * PageSize).Take(PageSize)
+                .Select(u => new UserDto
+                {
+                    Id = u.Id,
+                    FullName = u.FullName,
+                    Email = u.Email,
+                    UserName = u.UserName,
+                    Phone = u.Phone,
+                    Address = u.Address,
+                    BirthDate = u.BirthDate,
+                    FacebookLink = u.FacebookLink,
+                    ProfilePict = u.ProfilePict,
+                    Status = u.Status,
+                    RoleId = u.RoleId,
+                    RoleName = u.Role.Name
+                }).ToListAsync();
+
             var result = new PageList<UserDto>(userList, totalItems, Page, PageSize);
 
             return Ok(result);
         }
+
+        [HttpGet]
+        public async Task<IActionResult> GetAllAdminBussiness(string? Search, bool? Status, int Page = 1, int PageSize = 5)
+        {
+            IQueryable<User> query = context.Users.Include(u => u.Role).Where(u => u.Role.Id == 2);
+            if (!string.IsNullOrEmpty(Search))
+            {
+                query = query.Where(u => u.UserName.Contains(Search) || u.Email.Contains(Search));
+            }
+
+
+            if (Status.HasValue)
+            {
+                query = query.Where(u => u.Status == Status.Value);
+            }
+
+            var totalItems = await query.CountAsync();
+            var userList = await query.Skip((Page - 1) * PageSize).Take(PageSize)
+                .Select(u => new UserDto
+                {
+                    Id = u.Id,
+                    FullName = u.FullName,
+                    Email = u.Email,
+                    UserName = u.UserName,
+                    Phone = u.Phone,
+                    Address = u.Address,
+                    BirthDate = u.BirthDate,
+                    FacebookLink = u.FacebookLink,
+                    ProfilePict = u.ProfilePict,
+                    Status = u.Status,
+                    RoleId = u.RoleId,
+                    RoleName = u.Role.Name
+                }).ToListAsync();
+
+            var result = new PageList<UserDto>(userList, totalItems, Page, PageSize);
+
+            return Ok(result);
+        }
+
 
         [HttpPut]
         public async Task<IActionResult> ChangeStatus(int userId)
@@ -223,7 +264,7 @@ namespace Authenticated.Controllers
             var user = await context.Users.FirstOrDefaultAsync(c => c.Email.Equals(email));
             if (user != null)
             {
-                return BadRequest(Message.MSG06);
+                return Ok(Message.MSG06);
             }
             return Ok(Message.MSG10);
         }
