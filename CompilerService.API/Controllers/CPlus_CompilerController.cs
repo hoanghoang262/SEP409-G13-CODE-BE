@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Hosting;
+﻿using CompilerService.API.Models;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Diagnostics;
@@ -12,21 +13,31 @@ namespace CourseService.API.Controllers
     {
         private readonly CPlushCompiler _cCompiler;
         private readonly IWebHostEnvironment _hostingEnvironment;
+        private readonly CourseContext _context;
 
-        public CPlus_CompilerController(CPlushCompiler cCompiler, IWebHostEnvironment env)
+        public CPlus_CompilerController(CPlushCompiler cCompiler, IWebHostEnvironment env, CourseContext context)
         {
             _hostingEnvironment = env;
             _cCompiler = cCompiler;
-        }
+            _context = context;
+        }   
 
         [HttpPost]
-        public IActionResult CompileCodeC([FromBody] string cCode)
+        public IActionResult CompileCodeC([FromBody] CodeRequestModel request)
         {
             try
             {
                 string rootPath = _hostingEnvironment.ContentRootPath;
                 string filePath = Path.Combine(rootPath, "main.cpp");
-                string compilationResult = _cCompiler.CompileCCode(cCode, filePath);
+                string compilationResult = _cCompiler.CompileCCode(request.UserCode, filePath);
+                var userAnswerCode = new UserAnswerCode
+                {
+                    CodeQuestionId = request.PracticeQuestionId,
+                    AnswerCode = request.UserCode,
+                    UserId = request.UserId
+                };
+                _context.UserAnswerCodes.Add(userAnswerCode);
+                _context.SaveChangesAsync();
                 return Ok(compilationResult);
             }
             catch (Exception ex)
