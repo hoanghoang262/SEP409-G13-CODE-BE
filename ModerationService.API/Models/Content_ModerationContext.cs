@@ -196,6 +196,10 @@ namespace ModerationService.API.Models
 
                 entity.Property(e => e.CodeForm).HasColumnName("Code_Form");
 
+                entity.Property(e => e.TestCaseC).HasColumnName("TestCase_C");
+
+                entity.Property(e => e.TestCaseCplus).HasColumnName("TestCase_CPlus");
+
                 entity.Property(e => e.TestCaseJava).HasColumnName("TestCase_Java");
 
                 entity.HasOne(d => d.Chapter)

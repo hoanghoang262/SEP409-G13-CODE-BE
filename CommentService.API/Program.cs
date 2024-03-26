@@ -29,6 +29,13 @@ namespace CommentService.API
   oprions => oprions.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"))
   );
             builder.Services.AddAutoMapper(Assembly.GetExecutingAssembly());
+            builder.Services.AddCors(options =>
+            {
+                options.AddPolicy("AllowSpecificOrigin",
+                    builder => builder.WithOrigins("http://localhost:5173")
+                                      .AllowAnyHeader()
+                                      .AllowAnyMethod());
+            });
 
             var configuration = builder.Configuration.GetSection("EventBusSetting:HostAddress").Value;
 
@@ -59,6 +66,7 @@ namespace CommentService.API
             
 
             app.UseAuthorization();
+            app.UseCors("AllowSpecificOrigin");
 
 
             app.MapControllers();

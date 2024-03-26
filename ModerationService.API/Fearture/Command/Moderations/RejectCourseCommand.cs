@@ -46,7 +46,7 @@ namespace ModerationService.API.Fearture.Command.Moderations
                     IsSeen = false,
                     NotificationContent = request.ReasonWhyReject,
                     SendDate = DateTime.Now,
-                    Course_Id = moder.CourseId,
+                    Course_Id = (int)moder.CourseId,
                 };
                 await _publish.Publish(notificationForAdminBussiness);
 
