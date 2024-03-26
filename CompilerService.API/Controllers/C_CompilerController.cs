@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using CompilerService.API.Models;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 using System.Diagnostics;
@@ -11,20 +12,31 @@ namespace CourseService.API.Controllers
     {
         private readonly CCompiler _cCompiler;
         private readonly IWebHostEnvironment _hostingEnvironment;
+        private readonly CourseContext _context;
 
-        public C_CompilerController(CCompiler cCompiler, IWebHostEnvironment env)
+        public C_CompilerController(CCompiler cCompiler, IWebHostEnvironment env, CourseContext context)
         {
             _hostingEnvironment = env;
             _cCompiler = cCompiler;
+            _context = context;
         }
 
         [HttpPost]
-        public IActionResult CompileCodeC([FromBody] string cCode)
+        public IActionResult CompileCodeC(CodeRequestModel request)
         {
 
             string rootPath = _hostingEnvironment.ContentRootPath;
             string filePath = Path.Combine(rootPath, "main");
-            string compilationResult = _cCompiler.CompileCCode(cCode,filePath);
+            string compilationResult = _cCompiler.CompileCCode(request.UserCode,filePath);
+            var userAnswerCode = new UserAnswerCode
+            {
+                CodeQuestionId = request.PracticeQuestionId,
+                AnswerCode = request.UserCode,
+                UserId = request.UserId
+            };
+            _context.UserAnswerCodes.Add(userAnswerCode);
+            _context.SaveChangesAsync();
+
             return Ok(compilationResult);
         }
     }

@@ -1,20 +1,21 @@
 ﻿
+using CompilerService.API.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
-using CourseService.API.Models;
+
 
 namespace CourseService.API.Controllers
 {
     [Route("api/[controller]/[action]")]
     [ApiController]
-    public class testController : ControllerBase
+    public class JavaCompileController : ControllerBase
     {
-        private readonly TestDynamicCodeCompilerJava _compile;
+        private readonly DynamicCodeCompilerJava _compile;
         private readonly IWebHostEnvironment _hostingEnvironment;
         private readonly CourseContext _context;
 
 
-        public testController(TestDynamicCodeCompilerJava compile, IWebHostEnvironment env, CourseContext context)
+        public JavaCompileController(DynamicCodeCompilerJava compile, IWebHostEnvironment env, CourseContext context)
         {
             _compile = compile;
             _hostingEnvironment = env;
@@ -34,7 +35,7 @@ namespace CourseService.API.Controllers
 
             try
             {
-                _compile.TestWriteJavaCodeToFile(javaCode.UserCode, javaFilePath);
+                _compile.WriteJavaCodeToFile(javaCode.UserCode, javaFilePath);
 
                 string compilationResult = _compile.CompileAndRun(javaFilePath);
 
@@ -59,16 +60,16 @@ namespace CourseService.API.Controllers
         }
     }
 
-    public class TestDynamicCodeCompilerJava
+    public class DynamicCodeCompilerJava
     {
         private readonly IWebHostEnvironment _hostingEnvironment;
 
-        public TestDynamicCodeCompilerJava(IWebHostEnvironment env)
+        public DynamicCodeCompilerJava(IWebHostEnvironment env)
         {
             _hostingEnvironment = env;
         }
 
-        public void TestWriteJavaCodeToFile(string javaCode, string javaFilePath)
+        public void WriteJavaCodeToFile(string javaCode, string javaFilePath)
         {
             try
             {
@@ -108,7 +109,7 @@ namespace CourseService.API.Controllers
             var startInfo = new ProcessStartInfo
             {
                 FileName = "javac",
-                Arguments = "javac -cp \"libs/junit-platform-console-standalone-1.8.2.jar:.\" Solution.java ",
+                Arguments = $"\"{javaFilePath}\"",
                 UseShellExecute = false,
                 RedirectStandardOutput = true,
                 RedirectStandardError = true,
@@ -147,7 +148,7 @@ namespace CourseService.API.Controllers
             var startInfo = new ProcessStartInfo
             {
                 FileName = "java",
-                Arguments = "-jar junit-platform-console-standalone.jar --class-path . --scan-class-path",
+                Arguments = "Solution", 
                 UseShellExecute = false,
                 RedirectStandardOutput = true,
                 RedirectStandardError = true,
