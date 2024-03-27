@@ -35,8 +35,13 @@ namespace ModerationService.API.Fearture.Command.Moderations
                 };
                 await _publish.Publish(courseIdEvent);
                 var userId = _services.SendCourseId(request.CourseId);
+                if (userId == null)
+                {
+                    return new BadRequestObjectResult(Message.MSG01);
+                }
+
                 var course = _context.Courses.FirstOrDefault(c => c.Id.Equals(request.CourseId));
-                if ( course == null)
+                if (course == null)
                 {
                     return new BadRequestObjectResult(Message.MSG25);
                 }

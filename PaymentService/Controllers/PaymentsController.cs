@@ -3,7 +3,6 @@ using Mapster;
 using MassTransit;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using PaymentService.Base;
 using PaymentService.Common;
 using PaymentService.Fearture.Payments.Command;
 using PaymentService.Fearture.Payments.Querry;
@@ -19,22 +18,23 @@ namespace PaymentService.Controllers
     {
         private readonly IMediator mediator;
         private readonly PaymentContext _context;
-         private readonly IPublishEndpoint publish;
-        public PaymentsController(IMediator _mediator,IPublishEndpoint _publish,PaymentContext context) 
-        { 
-            mediator = _mediator;
-            publish=_publish;
-            _context = context;
-          
-        }
-        [HttpPost]
-      
-        public async Task<IActionResult> CreatePayment( CreatePayment request)
+        private readonly IPublishEndpoint publish;
+        public PaymentsController(IMediator _mediator, IPublishEndpoint _publish, PaymentContext context)
         {
- 
+            mediator = _mediator;
+            publish = _publish;
+            _context = context;
+
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> CreatePayment(CreatePayment request)
+        {
+
             var response = await mediator.Send(request);
             return Ok(response);
         }
+
         [HttpGet]
         public async Task<IActionResult> MomoReturn([FromQuery] MomoOneTimePaymentResultRequest response)
         {
@@ -44,7 +44,7 @@ namespace PaymentService.Controllers
 
             if (processResult.Success)
             {
-                returnModel = processResult.Data.Item1 ;
+                returnModel = processResult.Data.Item1;
                 returnUrl = processResult.Data.Item2;
             }
             var outputIdParam = Guid.NewGuid();
@@ -71,9 +71,13 @@ namespace PaymentService.Controllers
             await publish.Publish(Enroll);
 
             if (returnUrl.EndsWith("/"))
+            {
                 returnUrl = returnUrl.Remove(returnUrl.Length - 1, 1);
+            }
+
             return Ok(returnModel);
         }
+
         [HttpGet]
         public async Task<ActionResult<List<PaymentDtos>>> GetHistoryPaymentsOfUser(int userId)
         {
@@ -84,6 +88,7 @@ namespace PaymentService.Controllers
             {
                 return NoContent();
             }
+
             return Ok(result.Value);
         }
     }

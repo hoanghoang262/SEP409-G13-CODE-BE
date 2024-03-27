@@ -1,9 +1,11 @@
 ﻿using CommentService.API.Models;
+using Contract.Service.Message;
 using MediatR;
+using Microsoft.AspNetCore.Mvc;
 
 namespace CommentService.API.Fearture.Command
 {
-    public class CreateCommentCommand : IRequest<Comment>
+    public class CreateCommentCommand : IRequest<IActionResult>
     {
         public int Id { get; set; }
         public int? LessonId { get; set; }
@@ -13,15 +15,27 @@ namespace CommentService.API.Fearture.Command
         public int? ForumPostId { get; set; }
         public int UserId { get; set; }
 
-        public class CreateCommentCommandHandler : IRequestHandler<CreateCommentCommand, Comment>
+        public class CreateCommentCommandHandler : IRequestHandler<CreateCommentCommand, IActionResult>
         {
             private readonly CommentContext _context;
             public CreateCommentCommandHandler(CommentContext context)
             {
                 _context = context;
             }
-            public async Task<Comment> Handle(CreateCommentCommand request, CancellationToken cancellationToken)
+            public async Task<IActionResult> Handle(CreateCommentCommand request, CancellationToken cancellationToken)
             {
+                if (request.CourseId == null
+                    && request.LessonId == null
+                    && request.ForumPostId == null)
+                {
+                    return new BadRequestObjectResult(Message.MSG30);
+                }
+
+                if (string.IsNullOrEmpty(request.CommentContent))
+                {
+                    return new BadRequestObjectResult(Message.MSG11);
+                }
+
                 var comment = new Comment
                 {
                     LessonId = request.LessonId,
@@ -35,10 +49,8 @@ namespace CommentService.API.Fearture.Command
                 _context.Comments.Add(comment);
                 await _context.SaveChangesAsync(cancellationToken);
 
-                return comment;
-
+                return new OkObjectResult(comment);
             }
         }
-
     }
 }

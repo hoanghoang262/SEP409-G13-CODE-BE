@@ -1,4 +1,5 @@
-﻿using CourseService.API.Models;
+﻿using Contract.Service.Message;
+using CourseService.API.Models;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -24,11 +25,23 @@ namespace CourseService.API.Feartures.CourseFearture.Command.Notes
 
             public async Task<IActionResult> Handle(UpdateNoteCommand request, CancellationToken cancellationToken)
             {
+                // Validate input
+                if (string.IsNullOrEmpty(request.ContentNote))
+                {
+                    return new BadRequestObjectResult(Message.MSG11);
+                }
+
+                // Validate number
+                if (request.VideoLink != null && request.VideoLink < 0)
+                {
+                    return new BadRequestObjectResult(Message.MSG26);
+                }
+
                 var note = await _context.Notes.FindAsync(request.Id);
 
                 if (note == null)
                 {
-                    return new  BadRequestObjectResult("Not found note");
+                    return new  BadRequestObjectResult(Message.MSG39);
                 }
 
                 note.LessonId = request.LessonId;
@@ -38,7 +51,7 @@ namespace CourseService.API.Feartures.CourseFearture.Command.Notes
 
                 await _context.SaveChangesAsync(cancellationToken);
 
-                return new OkObjectResult("Update Successfully");
+                return new OkObjectResult(Message.MSG16);
             }
         }
     }
