@@ -1,16 +1,18 @@
 ﻿using CommentService.API.Models;
+using Contract.Service.Message;
 using MediatR;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace CommentService.API.Fearture.Command
 {
-    public class UpdateCommentCommand : IRequest<Comment>
+    public class UpdateCommentCommand : IRequest<IActionResult>
     {
         public int Id { get; set; }
         public string? CommentContent { get; set; }
         public DateTime? Date { get; set; }
         public int UserId { get; set; }
-        public class UpdateCommentCommandHandler : IRequestHandler<UpdateCommentCommand, Comment>
+        public class UpdateCommentCommandHandler : IRequestHandler<UpdateCommentCommand, IActionResult>
         {
             private readonly CommentContext _context;
 
@@ -19,13 +21,18 @@ namespace CommentService.API.Fearture.Command
                 _context = context;
             }
 
-            public async Task<Comment> Handle(UpdateCommentCommand request, CancellationToken cancellationToken)
+            public async Task<IActionResult> Handle(UpdateCommentCommand request, CancellationToken cancellationToken)
             {
+                if (string.IsNullOrEmpty(request.CommentContent))
+                {
+                    return new BadRequestObjectResult(Message.MSG11);
+                }
+
                 var comment = await _context.Comments.FirstOrDefaultAsync(x => x.Id == request.Id);
 
                 if (comment == null)
                 {
-                    throw new Exception("Comment not found.");
+                    return new NotFoundObjectResult(Message.MSG37);
                 }
 
                 // Update comment properties
@@ -35,13 +42,12 @@ namespace CommentService.API.Fearture.Command
                 }
                 if (request.Date != null)
                 {
-                    comment.Date = request.Date.Value;
+                    comment.Date = DateTime.Now;
                 }
-               
 
                 await _context.SaveChangesAsync(cancellationToken);
 
-                return comment;
+                return new OkObjectResult(comment);
             }
         }
     }

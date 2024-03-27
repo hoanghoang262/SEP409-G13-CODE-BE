@@ -1,4 +1,6 @@
-﻿using MediatR;
+﻿using Contract.Service.Message;
+using MediatR;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using PaymentService.Common;
 using PaymentService.Interface;
@@ -8,15 +10,15 @@ using PaymentService.ServicePayment.VnPay;
 
 namespace PaymentService.Fearture.Payments.Command
 {
-    public class CreatePayment : IRequest<PaymentDTO>
+    public class CreatePayment : IRequest<IActionResult>
     {
         public string PaymentContent { get; set; } = string.Empty;
         public decimal? RequiredAmount { get; set; }
         public int UserCreateCourseId { get; set; }
         public int CourseId { get; set; }
-       
 
-        public class CreatePaymentHandler : IRequestHandler<CreatePayment, PaymentDTO>
+
+        public class CreatePaymentHandler : IRequestHandler<CreatePayment, IActionResult>
         {
             private readonly PaymentContext _context;
             private readonly VnpayConfig vnpayConfig;
@@ -29,17 +31,18 @@ namespace PaymentService.Fearture.Payments.Command
                 currentUserService = _currentUserService;
                 momoConfig = _momo.Value;
             }
-            public async Task<PaymentDTO> Handle(CreatePayment request, CancellationToken cancellationToken)
+            public async Task<IActionResult> Handle(CreatePayment request, CancellationToken cancellationToken)
             {
+                if (request.RequiredAmount != null && request.RequiredAmount < 0)
+                {
+                    return new BadRequestObjectResult(Message.MSG26);
+                }
 
                 var outputIdParam = Guid.NewGuid();
-                
                 var paymentUrl = string.Empty;
                 var paymenttrans = new PaymentTransaction
                 {
-                    Id= outputIdParam.ToString(),
-                    
-                  
+                    Id = outputIdParam.ToString(),
                     UserCreateCourseId = request.UserCreateCourseId,
                     CourseId = request.CourseId,
                     TransAmount = request.RequiredAmount
@@ -59,7 +62,7 @@ namespace PaymentService.Fearture.Payments.Command
                         var momoOneTimePayRequest = new MomoOneTimePaymentRequest(momoConfig.PartnerCode,
                             outputIdParam.ToString() ?? string.Empty, (long)request.RequiredAmount!, outputIdParam.ToString() ?? string.Empty,
                             request.PaymentContent ?? string.Empty, momoConfig.ReturnUrl, momoConfig.IpnUrl, "captureWallet",
-                            request.UserCreateCourseId,request.CourseId,
+                            request.UserCreateCourseId, request.CourseId,
                             string.Empty);
                         momoOneTimePayRequest.MakeSignature(momoConfig.AccessKey, momoConfig.SecretKey);
                         (bool createMomoLinkResult, string? createMessage) = momoOneTimePayRequest.GetLink(momoConfig.PaymentUrl);
@@ -67,7 +70,7 @@ namespace PaymentService.Fearture.Payments.Command
                         {
                             paymentUrl = createMessage;
                         }
-                      
+
                         break;
                 }
                 var result = new PaymentDTO()
@@ -76,11 +79,11 @@ namespace PaymentService.Fearture.Payments.Command
                     PaymentUrl = paymentUrl,
                 };
 
-                return result;
+                return new OkObjectResult(result);
 
             }
         }
 
     }
-   
+
 }

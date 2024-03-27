@@ -1,4 +1,5 @@
 ﻿using CommentService.API.Models;
+using Contract.Service.Message;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -23,14 +24,13 @@ namespace CommentService.API.Fearture.Command
 
                 if (reply == null)
                 {
-                    return new NotFoundResult();
+                    return new NotFoundObjectResult(Message.MSG38);
                 }
 
                 _context.Replies.Remove(reply);
-
                 await _context.SaveChangesAsync();
 
-                return new OkResult();
+                return new OkObjectResult(Message.MSG16);
             }
         }
     }

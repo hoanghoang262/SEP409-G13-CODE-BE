@@ -1,4 +1,5 @@
-﻿using CourseService.API.Feartures.CourseFearture.Command.Notes;
+﻿using Contract.Service.Message;
+using CourseService.API.Feartures.CourseFearture.Command.Notes;
 using CourseService.API.Feartures.CourseFearture.Queries.Notes;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -27,19 +28,19 @@ namespace CourseService.API.Controllers
         {
             if (id != command.Id)
             {
-                return BadRequest();
+                return BadRequest(Message.MSG30);
             }
 
-            await _mediator.Send(command);
+            var result = await _mediator.Send(command);
 
-            return NoContent();
+            return Ok(result);
         }
 
         [HttpDelete]
         public async Task<IActionResult> DeleteNote(int id)
         {
-            await _mediator.Send(new DeleteNoteCommand { Id = id });
-            return Ok(id);
+            var result = await _mediator.Send(new DeleteNoteCommand { Id = id });
+            return Ok(result);
         }
 
         [HttpGet]
@@ -47,11 +48,6 @@ namespace CourseService.API.Controllers
         {
             var query = new GetAllNoteOfUserQuerry { UserId = userId, LessonId = lessonId };
             var notes = await _mediator.Send(query);
-
-            if (notes == null)
-            {
-                return NotFound();
-            }
 
             return Ok(notes);
         }

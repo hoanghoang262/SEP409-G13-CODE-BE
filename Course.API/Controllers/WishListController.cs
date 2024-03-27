@@ -12,8 +12,8 @@ namespace CourseService.API.Controllers
     {
         private readonly IMediator _mediator;
 
-        public WishListController(IMediator mediator) 
-        { 
+        public WishListController(IMediator mediator)
+        {
             _mediator = mediator;
         }
 
@@ -22,12 +22,14 @@ namespace CourseService.API.Controllers
         {
             return Ok(await _mediator.Send(new GetWishListByUserIdQuerry { UserId = userId }));
         }
+
         [HttpPost]
         public async Task<IActionResult> AddToWishlist([FromBody] CreateWishListCommand command)
         {
             var wishlistItemId = await _mediator.Send(command);
             return Ok(wishlistItemId);
         }
+
         [HttpDelete]
         public async Task<IActionResult> RemoveFromWishlist([FromBody] DeleteWishListCommand command)
         {

@@ -1,4 +1,5 @@
-﻿using CourseService.API.Models;
+﻿using Contract.Service.Message;
+using CourseService.API.Models;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -23,12 +24,12 @@ namespace CourseService.API.Feartures.CourseFearture.Command.Notes
 
                 if (note == null)
                 {
-                    return new BadRequestObjectResult("Not found note");
+                    return new BadRequestObjectResult(Message.MSG39);
                 }
                 _context.Notes.Remove(note);
                 await _context.SaveChangesAsync(cancellationToken);
 
-                return new OkObjectResult("Delete Successfully");
+                return new OkObjectResult(Message.MSG16);
             }
         }
     }
