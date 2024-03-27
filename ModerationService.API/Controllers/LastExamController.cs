@@ -45,10 +45,10 @@ namespace ModerationService.API.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<LastExam>> GetLastExamById(int id)
+        public async Task<ActionResult> GetLastExamById(int id)
         {
             var query = new GetLastExamByIdQuery { LastExamId = id };
-            return await _mediator.Send(query);
+            return Ok(await _mediator.Send(query));
         }
     }
 }

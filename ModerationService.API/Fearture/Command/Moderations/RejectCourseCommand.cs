@@ -36,8 +36,8 @@ namespace ModerationService.API.Fearture.Command.Moderations
                     return new BadRequestObjectResult(Message.MSG25);
                 }
 
-                moder.Status = "Reject";
-                _moderationContext.Moderations.Update(moder);
+               
+                _moderationContext.Moderations.Remove(moder);
                 await _moderationContext.SaveChangesAsync();
 
                 var notificationForAdminBussiness = new NotificationEvent

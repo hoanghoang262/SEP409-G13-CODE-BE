@@ -1,15 +1,11 @@
-﻿
+﻿using UserGrpc;
 
-
-
-using UserGrpc;
-
-namespace GrpcServices
+namespace ForumService.API.GrpcServices
 {
-    public class GetUserPostGrpcService 
+    public class GetUserInfoService
     {
-        private readonly GetUserService.GetUserServiceClient service ;
-        public GetUserPostGrpcService(GetUserService.GetUserServiceClient _service)
+        private readonly GetUserService.GetUserServiceClient service;
+        public GetUserInfoService(GetUserService.GetUserServiceClient _service)
         {
             service = _service;
         }
@@ -28,3 +24,4 @@ namespace GrpcServices
         }
     }
 }
+
