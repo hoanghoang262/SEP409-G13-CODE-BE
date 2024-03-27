@@ -2,14 +2,15 @@
 using ForumService.API.Common.DTO;
 using GrpcServices;
 using MediatR;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace ForumService.API.Fearture.Queries
 {
-    public class GetAllCommentCourseQuerry : IRequest<List<CommentDTO>>
+    public class GetAllCommentCourseQuerry : IRequest<IActionResult>
     {
         public int CoursesId { get; set; }
-        public class GetAllCommentCourseQuerryHandler : IRequestHandler<GetAllCommentCourseQuerry, List<CommentDTO>>
+        public class GetAllCommentCourseQuerryHandler : IRequestHandler<GetAllCommentCourseQuerry, IActionResult>
         {
             private readonly GetUserInfoGrpcService _service;
             private readonly CommentContext _context;
@@ -18,10 +19,10 @@ namespace ForumService.API.Fearture.Queries
                 _service = service;
                 _context = context;
             }
-            public async Task<List<CommentDTO>> Handle(GetAllCommentCourseQuerry request, CancellationToken cancellationToken)
+            public async Task<IActionResult> Handle(GetAllCommentCourseQuerry request, CancellationToken cancellationToken)
             {
-                var querry = await _context.Comments.Include(c => c.Replies).Where(c => c.CourseId != null&& c.CourseId.Equals(request.CoursesId)).ToListAsync();
-                if(querry == null)
+                var querry = await _context.Comments.Include(c => c.Replies).Where(c => c.CourseId != null && c.CourseId.Equals(request.CoursesId)).ToListAsync();
+                if (querry == null)
                 {
                     return null;
                 }
@@ -43,10 +44,10 @@ namespace ForumService.API.Fearture.Queries
                             Id = reply.Id,
                             UserName = replyUserInfo.Name,
                             UserPicture = replyUserInfo.Picture,
-                            CreateDate=reply.CreateDate,
-                            
+                            CreateDate = reply.CreateDate,
+
                         });
-                   
+
                     }
                     course.Add(new CommentDTO
                     {
@@ -55,12 +56,12 @@ namespace ForumService.API.Fearture.Queries
                         CommentContent = c.CommentContent,
                         Date = c.Date,
                         Picture = userInfo.Picture,
-                        Id = c.Id ,
+                        Id = c.Id,
                         Replies = replies
                     });
 
                 }
-                return course;
+                return new OkObjectResult(course);
             }
         }
     }

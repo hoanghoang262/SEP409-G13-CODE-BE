@@ -341,5 +341,55 @@
             MsgTextVN = "Bài viết không tồn tại",
             MsgTextEN = "Post does not exist"
         };
+
+        /// <summary>
+        /// MSG35: Chúc mừng bạn đã qua bài kiểm tra
+        /// </summary>
+        public static readonly MessageModel MSG35 = new MessageModel
+        {
+            MsgCode = "MSG35",
+            MsgTextVN = "Chúc mừng bạn đã qua bài kiểm tra",
+            MsgTextEN = "Congratulations on passing the exam"
+        };
+
+        /// <summary>
+        /// MSG36: Bạn không đủ điểm qua bài kiểm tra, vui lòng thử lại
+        /// </summary>
+        public static readonly MessageModel MSG36 = new MessageModel
+        {
+            MsgCode = "MSG36",
+            MsgTextVN = "Bạn không đủ điểm qua bài kiểm tra, vui lòng thử lại",
+            MsgTextEN = "You do not have enough points to pass the exam, please try again"
+        };
+
+        /// <summary>
+        /// MSG37: Bình luận không tồn tại
+        /// </summary>
+        public static readonly MessageModel MSG37 = new MessageModel
+        {
+            MsgCode = "MSG37",
+            MsgTextVN = "Bình luận không tồn tại",
+            MsgTextEN = "Comment does not exist"
+        };
+
+        /// <summary>
+        /// MSG38: Reply không tồn tại
+        /// </summary>
+        public static readonly MessageModel MSG38 = new MessageModel
+        {
+            MsgCode = "MSG38",
+            MsgTextVN = "Reply không tồn tại",
+            MsgTextEN = "Reply does not exist"
+        };
+
+        /// <summary>
+        /// MSG39: Ghi chú không tồn tại
+        /// </summary>
+        public static readonly MessageModel MSG39 = new MessageModel
+        {
+            MsgCode = "MSG39",
+            MsgTextVN = "Ghi chú không tồn tại",
+            MsgTextEN = "Note does not exist"
+        };
     }
 }

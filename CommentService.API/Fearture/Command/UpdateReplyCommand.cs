@@ -1,4 +1,5 @@
 ﻿using CommentService.API.Models;
+using Contract.Service.Message;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -20,18 +21,21 @@ namespace CommentService.API.Fearture.Command
 
             public async Task<IActionResult> Handle(UpdateReplyCommand request, CancellationToken cancellationToken)
             {
-                var reply = await _context.Replies.FindAsync(request.ReplyId);
+                if (string.IsNullOrEmpty(request.ReplyContent))
+                {
+                    return new BadRequestObjectResult(Message.MSG11);
+                }
 
+                var reply = await _context.Replies.FindAsync(request.ReplyId);
                 if (reply == null)
                 {
-                    return new NotFoundResult();
+                    return new NotFoundObjectResult(Message.MSG38);
                 }
 
                 reply.ReplyContent = request.ReplyContent;
-
                 await _context.SaveChangesAsync();
 
-                return new OkResult();
+                return new OkObjectResult(Message.MSG16);
             }
         }
     }

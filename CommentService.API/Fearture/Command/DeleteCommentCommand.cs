@@ -1,10 +1,8 @@
 ﻿using CommentService.API.Models;
+using Contract.Service.Message;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace CommentService.API.Feature.Command
 {
@@ -23,18 +21,20 @@ namespace CommentService.API.Feature.Command
 
             public async Task<IActionResult> Handle(DeleteCommentCommand request, CancellationToken cancellationToken)
             {
-                var comment = await _context.Comments.Include(c => c.Replies).FirstOrDefaultAsync(c => c.Id == request.CommentId);
+                var comment = await _context.Comments
+                    .Include(c => c.Replies)
+                    .FirstOrDefaultAsync(c => c.Id == request.CommentId);
 
                 if (comment == null)
                 {
-                    return new NotFoundResult();
+                    return new NotFoundObjectResult(Message.MSG37);
                 }
 
-                _context.Replies.RemoveRange(comment.Replies); 
-                _context.Comments.Remove(comment); 
+                _context.Replies.RemoveRange(comment.Replies);
+                _context.Comments.Remove(comment);
                 await _context.SaveChangesAsync();
 
-                return new OkResult();
+                return new OkObjectResult(Message.MSG16);
             }
         }
     }
