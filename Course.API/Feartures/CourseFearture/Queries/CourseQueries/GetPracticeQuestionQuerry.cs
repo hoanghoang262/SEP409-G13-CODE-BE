@@ -10,6 +10,7 @@ namespace CourseService.API.Feartures.CourseFearture.Queries.CourseQueries
     public class GetPracticeQuestionByIdQuerry : IRequest<IActionResult>
     {
         public int PracticeQuestionId { get; set; }
+        public int UserId { get; set; }
 
         public class GetPracticeQuestionQuerryHandler : IRequestHandler<GetPracticeQuestionByIdQuerry, IActionResult>
         {
@@ -21,22 +22,19 @@ namespace CourseService.API.Feartures.CourseFearture.Queries.CourseQueries
 
             public async Task<IActionResult> Handle(GetPracticeQuestionByIdQuerry request, CancellationToken cancellationToken)
             {
-                var practiceQuestion = await (from pq in _context.PracticeQuestions
-                                              join chapter in _context.Chapters on pq.ChapterId equals chapter.Id
-                                              join course in _context.Courses on chapter.CourseId equals course.Id
-                                              join testCase in _context.TestCases on pq.Id equals testCase.CodeQuestionId into testCases
-                                              join userAnswerCode in _context.UserAnswerCodes on pq.Id equals userAnswerCode.CodeQuestionId into userAnswerCodes
-                                              where pq.Id == request.PracticeQuestionId
+                var practiceQuestion = await (from c in _context.Courses
+                                              join ch in _context.Chapters on c.Id equals ch.CourseId
+                                              join pr in _context.PracticeQuestions on ch.Id equals pr.ChapterId
+                                              join ans in _context.UserAnswerCodes on pr.Id equals ans.CodeQuestionId into ansGroup
+                                              from ans in ansGroup.DefaultIfEmpty() 
+                                              where pr.Id == request.PracticeQuestionId
                                               select new
                                               {
-                                                  PracticeQuestion = pq,
-                                                  Chapter = chapter,
-                                                  Course = course,
-                                                  TestCases = testCases,
-                                                  UserAnswerCodes = userAnswerCodes
+                                                  PracticeQuestion = pr,
+                                                  Chapter = ch,
+                                                  Course = c,
+                                                  UserAnswerCode = ans 
                                               }).FirstOrDefaultAsync();
-
-
 
                 if (practiceQuestion == null)
                 {
@@ -52,13 +50,17 @@ namespace CourseService.API.Feartures.CourseFearture.Queries.CourseQueries
                     TestCaseJava = practiceQuestion.PracticeQuestion.TestCaseJava,
                     ChapterName = practiceQuestion.Chapter.Name,
                     CourseName = practiceQuestion.Course.Name,
-                    UserAnswerCodes = practiceQuestion.UserAnswerCodes.Select(uac => new UserAnswerCode
-                    {
-                        Id = uac.Id,
-                        AnswerCode = uac.AnswerCode,
-                        CodeQuestionId = uac.CodeQuestionId,
-                        UserId = uac.UserId
-                    }).ToList()
+                    UserAnswerCodes = _context.UserAnswerCodes
+                      .Where(uac => uac.UserId == request.UserId) 
+                     
+                      .Take(1)
+                      .Select(uac => new UserAnswerCode
+                      {
+                          Id = uac.Id,
+                          AnswerCode = uac.AnswerCode,
+                          CodeQuestionId = uac.CodeQuestionId,
+                          UserId = uac.UserId
+                      }).ToList()
                 };
 
 

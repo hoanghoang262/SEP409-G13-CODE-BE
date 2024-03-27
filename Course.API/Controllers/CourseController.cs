@@ -75,11 +75,11 @@ namespace CourseService.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetPracticeQuestionById(int practiceQuestionId)
+        public async Task<IActionResult> GetPracticeQuestionById(int practiceQuestionId,int userId)
         {
             try
             {
-                var query = new GetPracticeQuestionByIdQuerry { PracticeQuestionId = practiceQuestionId };
+                var query = new GetPracticeQuestionByIdQuerry { PracticeQuestionId = practiceQuestionId, UserId=userId };
                 var result = await _mediator.Send(query);
 
                 return Ok(result);

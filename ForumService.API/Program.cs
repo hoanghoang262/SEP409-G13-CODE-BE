@@ -1,4 +1,5 @@
 using ForumService.API.Fearture.Command;
+using ForumService.API.GrpcServices;
 using ForumService.API.MessageBroker;
 using ForumService.API.Models;
 using GrpcServices;
@@ -54,7 +55,7 @@ namespace ForumService.API
             var config = builder.Configuration.GetSection("GrpcSetting:UserUrl").Value;
             builder.Services.AddSingleton(config);
             builder.Services.AddGrpcClient<GetUserService.GetUserServiceClient>(x => x.Address = new Uri(config));
-            builder.Services.AddScoped<GetUserPostGrpcService>();
+            builder.Services.AddScoped<GetUserInfoService>();
 
 
             builder.Services.AddDbContext<ForumContext>(

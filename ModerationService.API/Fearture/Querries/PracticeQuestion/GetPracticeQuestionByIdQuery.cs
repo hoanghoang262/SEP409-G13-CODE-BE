@@ -37,19 +37,9 @@ namespace ModerationService.API.Fearture.Querries.PracticeQuestion
                 CodeForm = practiceQuestion.CodeForm,
                 Description = practiceQuestion.Description,
                 TestCaseJava = practiceQuestion.TestCaseJava,
-                TestCases = practiceQuestion.TestCases.Select(tc => new TestCaseDTO
-                {
-                    Id = tc.Id,
-                    CodeQuestionId = tc.CodeQuestionId,
-                    InputTypeInt = tc.InputTypeInt,
-                    InputTypeString = tc.InputTypeString,
-                    ExpectedResultInt = tc.ExpectedResultInt,
-                    ExpectedResultString = tc.ExpectedResultString,
-                    InputTypeBoolean = tc.InputTypeBoolean,
-                    ExpectedResultBoolean = tc.ExpectedResultBoolean,
-                    InputTypeArrayInt = tc.InputTypeArrayInt,
-                    InputTypeArrayString = tc.InputTypeArrayString
-                }).ToList()
+                TestCaseC=practiceQuestion.TestCaseC,
+                TestCaseCplus=practiceQuestion.TestCaseCplus,
+              
             };
 
             return new OkObjectResult(practiceQuestionDTO);

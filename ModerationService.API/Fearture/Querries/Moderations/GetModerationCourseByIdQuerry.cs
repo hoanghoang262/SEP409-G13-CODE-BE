@@ -24,7 +24,7 @@ namespace ModerationService.API.Fearture.Querries.Moderations
             }
             public async Task<IActionResult> Handle(GetModerationCourseByIdQuerry request, CancellationToken cancellationToken)
             {
-                var courses = await _context.Courses
+                var courses = await _context.Courses.Include(c=>c.Moderations)
                     .Include(c => c.Chapters)
                         .ThenInclude(ch => ch.Lessons)
                             .ThenInclude(l => l.TheoryQuestions)

@@ -55,6 +55,7 @@ namespace ModerationService.API.Fearture.Command.Moderations
                     Tag = course.Tag,
                     Picture = course.Picture,
                     CreatedAt = course.CreatedAt,
+                    Price=course.Price
                 };
                 await _publish.Publish(courseEvent);
 
@@ -201,7 +202,9 @@ namespace ModerationService.API.Fearture.Command.Moderations
                 }
                 else
                 {
-                    moderation.Status = "Approved";
+                   
+                    _context.Moderations.Remove(moderation);
+                    _context.SaveChanges();
                 }
 
                 if (userId != null)

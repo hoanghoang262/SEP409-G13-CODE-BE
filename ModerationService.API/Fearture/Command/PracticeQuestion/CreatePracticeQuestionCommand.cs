@@ -56,27 +56,13 @@ namespace ModerationService.API.Feature.Command
                 ChapterId = request.ChapterId,
                 CodeForm = request.PracticeQuestion.CodeForm,
                 Description = request.PracticeQuestion.Description,
-                TestCaseJava = request.PracticeQuestion.TestCaseJava
+                TestCaseJava = request.PracticeQuestion.TestCaseJava,
+
             };
 
             chapter.PracticeQuestions.Add(newPractice);
 
-            foreach (var test in request.PracticeQuestion.TestCases)
-            {
-                var newTestCase = new TestCase
-                {
-                    CodeQuestionId = newPractice.Id,
-                    InputTypeInt = test.InputTypeInt,
-                    InputTypeString = test.InputTypeString,
-                    ExpectedResultInt = test.ExpectedResultInt,
-                    ExpectedResultString = test.ExpectedResultString,
-                    InputTypeBoolean = test.InputTypeBoolean,
-                    ExpectedResultBoolean = test.ExpectedResultBoolean,
-                    InputTypeArrayInt = test.InputTypeArrayInt,
-                    InputTypeArrayString = test.InputTypeArrayString
-                };
-                newPractice.TestCases.Add(newTestCase);
-            }
+           
 
             await _context.SaveChangesAsync();
 
@@ -88,19 +74,9 @@ namespace ModerationService.API.Feature.Command
                 CodeForm = newPractice.CodeForm,
                 Description = newPractice.Description,
                 TestCaseJava = newPractice.TestCaseJava,
-                TestCases = newPractice.TestCases.Select(tc => new TestCaseDTO
-                {
-                    Id = tc.Id,
-                    CodeQuestionId = tc.CodeQuestionId,
-                    InputTypeInt = tc.InputTypeInt,
-                    InputTypeString = tc.InputTypeString,
-                    ExpectedResultInt = tc.ExpectedResultInt,
-                    ExpectedResultString = tc.ExpectedResultString,
-                    InputTypeBoolean = tc.InputTypeBoolean,
-                    ExpectedResultBoolean = tc.ExpectedResultBoolean,
-                    InputTypeArrayInt = tc.InputTypeArrayInt,
-                    InputTypeArrayString = tc.InputTypeArrayString
-                }).ToList()
+                TestCaseC=newPractice.TestCaseC,
+                TestCaseCplus=newPractice.TestCaseCplus
+              
             };
 
             return new OkObjectResult(practiceQuestionDTO);

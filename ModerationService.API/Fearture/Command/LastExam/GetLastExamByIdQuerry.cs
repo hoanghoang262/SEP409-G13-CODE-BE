@@ -4,12 +4,12 @@ using ModerationService.API.Models;
 
 namespace ModerationService.API.Fearture.Command.LastExams
 {
-    public class GetLastExamByIdQuery : IRequest<ActionResult<LastExam>>
+    public class GetLastExamByIdQuery : IRequest<IActionResult>
     {
         public int LastExamId { get; set; }
     }
 
-    public class GetLastExamByIdQueryHandler : IRequestHandler<GetLastExamByIdQuery, ActionResult<LastExam>>
+    public class GetLastExamByIdQueryHandler : IRequestHandler<GetLastExamByIdQuery, IActionResult>
     {
         private readonly Content_ModerationContext _context;
 
@@ -18,7 +18,7 @@ namespace ModerationService.API.Fearture.Command.LastExams
             _context = context;
         }
 
-        public async Task<ActionResult<LastExam>> Handle(GetLastExamByIdQuery request, CancellationToken cancellationToken)
+        public async Task<IActionResult> Handle(GetLastExamByIdQuery request, CancellationToken cancellationToken)
         {
             var lastExam = await _context.LastExams.FindAsync(request.LastExamId);
 

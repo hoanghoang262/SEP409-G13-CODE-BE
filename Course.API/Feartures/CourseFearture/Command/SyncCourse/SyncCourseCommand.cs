@@ -32,6 +32,7 @@ namespace CourseService.API.Feartures.CourseFearture.Command.SyncCourse
             }
             public async Task<IActionResult> Handle(SyncCourseCommand request, CancellationToken cancellationToken)
             {
+                
                 var courseDelete = await _context.Courses
                       .Include(c => c.Chapters)
                           .ThenInclude(ch => ch.Lessons)

@@ -13,7 +13,7 @@ namespace ModerationService.API.Feature.Queries
         public int Page { get; set; }
         public int PageSize { get; set; }
         public string? CourseName { get; set; }
-        public string? Status { get; set; }
+        public string? Tag { get; set; }
 
         public class GetModerationQuerryHandler : IRequestHandler<GetModerationCourseQuerry, IActionResult>
 
@@ -30,33 +30,33 @@ namespace ModerationService.API.Feature.Queries
             {
 
                 List<Moderation> moderations = new List<Moderation>();
-                if (string.IsNullOrEmpty(request.CourseName) && string.IsNullOrEmpty(request.Status))
+                if (string.IsNullOrEmpty(request.CourseName) && string.IsNullOrEmpty(request.Tag))
                 {
                     moderations = await _context.Moderations
                         .Include(c => c.Course)
                         .Where(x => x.CourseId!=null).ToListAsync();
                 }
-                if (!string.IsNullOrEmpty(request.CourseName) && string.IsNullOrEmpty(request.Status))
+                if (!string.IsNullOrEmpty(request.CourseName) && string.IsNullOrEmpty(request.Tag))
                 {
                     moderations = await _context.Moderations
                         .Include(c => c.Course)
                         .Where(x => x.CourseName
                         .Contains(request.CourseName) && x.CourseId != null).ToListAsync();
                 }
-                if (string.IsNullOrEmpty(request.CourseName) && !string.IsNullOrEmpty(request.Status))
+                if (string.IsNullOrEmpty(request.CourseName) && !string.IsNullOrEmpty(request.Tag))
                 {
                     moderations = await _context.Moderations
                         .Include(c => c.Course)
                         .Where(x => x.Status
-                        .Contains(request.Status) && x.CourseId != null).ToListAsync();
+                        .Equals(request.Tag) && x.CourseId != null).ToListAsync();
                 }
-                if (!string.IsNullOrEmpty(request.CourseName) && !string.IsNullOrEmpty(request.Status))
+                if (!string.IsNullOrEmpty(request.CourseName) && !string.IsNullOrEmpty(request.Tag))
                 {
 
                     moderations = await _context.Moderations
                         .Include(c => c.Course)
                         .Where(x => x.Status
-                        .Contains(request.Status)&& x.CourseName.Contains(request.CourseName) && x.CourseId!=null).ToListAsync();
+                        .Contains(request.Tag) && x.CourseName.Contains(request.CourseName) && x.CourseId!=null).ToListAsync();
 
                 }
 

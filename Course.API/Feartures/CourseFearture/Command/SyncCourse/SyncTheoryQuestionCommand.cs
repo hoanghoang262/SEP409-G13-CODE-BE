@@ -35,7 +35,6 @@ namespace CourseService.API.Feartures.CourseFearture.Command.SyncCourse
                         Id = request.Id,
 
                         ContentQuestion = request.ContentQuestion,
-
                         Time = request.Time,
                         VideoId = request.VideoId,
                         TimeQuestion = request.TimeQuestion

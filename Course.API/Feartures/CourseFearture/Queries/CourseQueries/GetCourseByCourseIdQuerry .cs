@@ -84,6 +84,10 @@ namespace CourseService.API.Feartures.CourseFearture.Queries.CourseQueries
                          {
                              codeQuestion.Id,
                              codeQuestion.Description,
+                             codeQuestion.CodeForm,
+                             codeQuestion.TestCaseC,
+                             codeQuestion.TestCaseJava,
+                             codeQuestion.TestCaseCplus,
                              TestCases = codeQuestion.TestCases.Select(testCase => new
                              {
                                  testCase.Id,

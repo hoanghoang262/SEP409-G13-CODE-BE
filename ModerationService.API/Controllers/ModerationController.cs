@@ -73,11 +73,11 @@ namespace ModerationService.API.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetModerationsCourse(string? courseName, string? status, int page = 1, int pageSize = 5)
+        public async Task<IActionResult> GetModerationsCourse(string? courseName, string? Tag, int page = 1, int pageSize = 5)
         {
             try
             {
-                var query = new GetModerationCourseQuerry { Page = page, PageSize = pageSize, CourseName = courseName, };
+                var query = new GetModerationCourseQuerry { Page = page, PageSize = pageSize, CourseName = courseName, Tag=Tag };
                 var result = await _mediator.Send(query);
 
                 return Ok(result);
@@ -89,10 +89,10 @@ namespace ModerationService.API.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetModerationsPost(string? postTitle, string? status, int page = 1, int pageSize = 5)
+        public async Task<IActionResult> GetModerationsPost(string? postTitle, string? Tag, int page = 1, int pageSize = 5)
         {
-            var query = new GetModerationPostQuerry { PostTitle = postTitle, Status = status, Page = page, PageSize = pageSize };
-            var result = await _mediator.Send(query);
+                var query = new GetModerationPostQuerry { PostTitle = postTitle, Tag = Tag, Page = page, PageSize = pageSize };
+                var result = await _mediator.Send(query);
 
             if (result == null)
             {
