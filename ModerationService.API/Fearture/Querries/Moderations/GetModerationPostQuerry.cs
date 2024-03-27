@@ -12,7 +12,7 @@ namespace ModerationService.API.Feature.Queries
     public class GetModerationPostQuerry : IRequest<IActionResult>
     {
         public string? PostTitle { get; set; }
-        public string? Status { get; set; }
+        public string? Tag { get; set; }
         public int Page { get; set; }
         public int PageSize { get; set; }
      
@@ -31,21 +31,21 @@ namespace ModerationService.API.Feature.Queries
             public async Task<IActionResult> Handle(GetModerationPostQuerry request, CancellationToken cancellationToken)
             {
                 List<Moderation> moderations = new List<Moderation>();
-                if (string.IsNullOrEmpty(request.PostTitle) && string.IsNullOrEmpty(request.Status))
+                if (string.IsNullOrEmpty(request.PostTitle) && string.IsNullOrEmpty(request.Tag))
                 {
                     moderations =  _context.Moderations.Where(x => !x.CourseId.HasValue).ToList();
                 }
-                if (string.IsNullOrEmpty(request.PostTitle) && !string.IsNullOrEmpty(request.Status))
+                if (string.IsNullOrEmpty(request.PostTitle) && !string.IsNullOrEmpty(request.Tag))
                 {
-                    moderations = await _context.Moderations.Where(x => !x.CourseId.HasValue && x.Status.Equals(request.Status)).ToListAsync();
+                    moderations = await _context.Moderations.Where(x => !x.CourseId.HasValue && x.Status.Equals(request.Tag)).ToListAsync();
                 }
-                if (string.IsNullOrEmpty(request.Status) && !string.IsNullOrEmpty(request.PostTitle))
+                if (string.IsNullOrEmpty(request.Tag) && !string.IsNullOrEmpty(request.PostTitle))
                 {
                     moderations = await _context.Moderations.Where(x => !x.CourseId.HasValue && x.PostTitle.Equals(request.PostTitle)).ToListAsync();
                 }
-                if (!string.IsNullOrEmpty(request.Status) && !string.IsNullOrEmpty(request.PostTitle))
+                if (!string.IsNullOrEmpty(request.Tag) && !string.IsNullOrEmpty(request.PostTitle))
                 {
-                    moderations = await _context.Moderations.Where(x => !x.CourseId.HasValue && x.PostTitle.Equals(request.PostTitle) && x.Status.Equals(request.Status)).ToListAsync();
+                    moderations = await _context.Moderations.Where(x => !x.CourseId.HasValue && x.PostTitle.Equals(request.PostTitle) && x.Status.Equals(request.Tag)).ToListAsync();
                 }
 
 
