@@ -15,6 +15,7 @@ namespace NotificationService.API.Fearture.NotificationFearture.Command
         public DateTime SendDate { get; set; }
 
         public bool IsSeen { get; set; }
+        public int Course_Id { get; set; }
 
         public class SendNotificationCommandHandle : IRequestHandler<SendNotificationCommand, IActionResult>
         {
@@ -32,6 +33,7 @@ namespace NotificationService.API.Fearture.NotificationFearture.Command
                     NotificationContent = request.NotificationContent,
                    RecipientId=request.RecipientId,
                    SendDate=DateTime.UtcNow,
+                   CourseId=request.Course_Id,
                 };
                  _context.Notifications.Add(notification);    
                 await _context.SaveChangesAsync();

@@ -77,7 +77,7 @@ namespace ModerationService.API.Controllers
         {
             try
             {
-                var query = new GetModerationCourseQuerry { Page = page, PageSize = pageSize, CourseName = courseName, };
+                var query = new GetModerationCourseQuerry { Page = page, PageSize = pageSize, CourseName = courseName, Status=status };
                 var result = await _mediator.Send(query);
 
                 return Ok(result);

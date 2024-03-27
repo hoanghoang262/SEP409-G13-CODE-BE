@@ -201,7 +201,9 @@ namespace ModerationService.API.Fearture.Command.Moderations
                 }
                 else
                 {
-                    moderation.Status = "Approved";
+                    moderation.Status = "Accepted";
+                    _context.Moderations.Update(moderation);
+                    _context.SaveChanges();
                 }
 
                 if (userId != null)
