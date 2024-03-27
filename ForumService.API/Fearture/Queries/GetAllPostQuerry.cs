@@ -1,7 +1,8 @@
 ﻿using Contract.SeedWork;
 using ForumService.API.Common.DTO;
+using ForumService.API.GrpcServices;
 using ForumService.API.Models;
-using GrpcServices;
+
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -10,16 +11,16 @@ namespace ForumService.API.Fearture.Queries
 {
     public class GetAllPostQuerry : IRequest<IActionResult>
     {
-        public int page { get; set; } = 1;
-        public int pageSize { get; set; } = 5;
+        public int Page { get; set; } 
+        public int PageSize { get; set; } 
         public string? PostTitle { get; set; }
 
 
         public class GetAllPostQuerryHandler : IRequestHandler<GetAllPostQuerry, IActionResult>
         {
-            private readonly GetUserPostGrpcService _service;
+            private readonly GetUserInfoService _service;
             private readonly ForumContext _context;
-            public GetAllPostQuerryHandler(GetUserPostGrpcService service,ForumContext context)
+            public GetAllPostQuerryHandler(GetUserInfoService service,ForumContext context)
             {
                 _service = service;
                 _context= context;
@@ -40,8 +41,15 @@ namespace ForumService.API.Fearture.Queries
                 {
                     return null;
                 }
+                var total = querry.Count();
+
+                var items = querry
+                .Skip((request.Page - 1) * request.PageSize)
+                .Take(request.PageSize)
+                .ToList();
+
                 List<PostDTO> post=new List<PostDTO>();  
-                foreach(var c in querry)
+                foreach(var c in items)
                 {
                     var id = c.CreatedBy;
                     var userInfo = await _service.SendUserId(id);
@@ -58,9 +66,9 @@ namespace ForumService.API.Fearture.Queries
                     });
                     
                 }
-                var total= post.Count;
+               
 
-                var result = new PageList<PostDTO>(post, total, request.page, request.pageSize);
+                var result = new PageList<PostDTO>(post, total, request.Page, request.PageSize);
                 return new OkObjectResult(result);
             }
         }

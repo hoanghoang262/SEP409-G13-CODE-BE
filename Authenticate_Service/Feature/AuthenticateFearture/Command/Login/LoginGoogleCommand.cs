@@ -15,7 +15,7 @@ namespace Authenticate_Service.Feature.AuthenticateFearture.Command.Login
     public class LoginGoogleCommand : IRequest<IActionResult>
     {
         public string Email { get; set; }
-        public string PhotoURL { get; set; }
+        public string? PhotoURL { get; set; }
         public string UserName { get; set; }
 
 

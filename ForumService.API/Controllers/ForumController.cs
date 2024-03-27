@@ -19,10 +19,10 @@ namespace ForumService.API.Controllers
 
         [HttpGet]
 
-        public async Task<IActionResult> GetAllPost(int page,int pageSize, string? PostTitle)
+        public async Task<IActionResult> GetAllPost(string? PostTitle,int page=1,int pageSize=5)
         {
 
-            return Ok(await _mediator.Send(new GetAllPostQuerry { page=page,pageSize=pageSize,PostTitle=PostTitle}));
+            return Ok(await _mediator.Send(new GetAllPostQuerry { Page=page,PageSize=pageSize,PostTitle=PostTitle}));
 
         }
         [HttpPost]
@@ -68,6 +68,19 @@ namespace ForumService.API.Controllers
 
             var result = await _mediator.Send(command);
 
+            return result;
+        }
+        [HttpGet]
+        public async Task<IActionResult> GetAllPostsByUserId(int userId,  int page = 1, int pageSize = 5)
+        {
+            var query = new GetAllPostByUserId
+            {
+                UserId = userId,
+                page = page,
+                pageSize = pageSize
+            };
+
+            var result = await _mediator.Send(query);
             return result;
         }
     }
