@@ -41,7 +41,7 @@ namespace CourseService.API.Feartures.WishListFearture.Querries
                 foreach (var c in querry)
                 {
                     var userInfo = await _service.SendUserId(c.UserId);
-                    if (userInfo == null)
+                    if (userInfo.Id == 0)
                     {
                         return new BadRequestObjectResult(Message.MSG01);
                     }

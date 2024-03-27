@@ -91,17 +91,15 @@ namespace ModerationService.API.Controllers
         [HttpGet]
         public async Task<IActionResult> GetModerationsPost(string? postTitle, string? status, int page = 1, int pageSize = 5)
         {
-                var query = new GetModerationPostQuerry { PostTitle = postTitle, Status = status, Page = page, PageSize = pageSize };
-                var result = await _mediator.Send(query);
+            var query = new GetModerationPostQuerry { PostTitle = postTitle, Status = status, Page = page, PageSize = pageSize };
+            var result = await _mediator.Send(query);
 
-                if (result == null)
-                {
-                    return NotFound();
-                }
+            if (result == null)
+            {
+                return NotFound();
+            }
 
-                return Ok(result);
-            
-           
+            return Ok(result);
         }
 
         [HttpPost]

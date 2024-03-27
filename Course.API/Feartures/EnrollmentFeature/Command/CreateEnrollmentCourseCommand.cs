@@ -24,7 +24,7 @@ namespace CourseService.API.Feartures.EnrollmentFeature.Command
         public async Task<IActionResult> Handle(CreateEnrollmentCourseCommand request, CancellationToken cancellationToken)
         {
             // Check if the user exists
-            var user = _service.SendUserId(request.UserId);
+            var user = await _service.SendUserId(request.UserId);
             if (user.Id == 0)
             {
                 return new NotFoundObjectResult(Message.MSG01);

@@ -1,9 +1,10 @@
 ﻿using ForumService.API.Models;
 using MediatR;
+using Microsoft.AspNetCore.Mvc;
 
 namespace ForumService.API.Fearture.Command
 {
-    public class CreatAdminPostCommand : IRequest<int>
+    public class CreatAdminPostCommand : IRequest<IActionResult>
     {
         public string? Title { get; set; }
         public string? Description { get; set; }
@@ -11,7 +12,7 @@ namespace ForumService.API.Fearture.Command
         public int CreatedBy { get; set; }
         public DateTime? LastUpdate { get; set; }
 
-        public class CreateForumCommandHandler : IRequestHandler<CreatAdminPostCommand, int>
+        public class CreateForumCommandHandler : IRequestHandler<CreatAdminPostCommand, IActionResult>
         {
             private readonly ForumContext _context;
 
@@ -19,20 +20,21 @@ namespace ForumService.API.Fearture.Command
             {
                 _context = context;
             }
-            public async Task<int> Handle(CreatAdminPostCommand request, CancellationToken cancellationToken)
+            public async Task<IActionResult> Handle(CreatAdminPostCommand request, CancellationToken cancellationToken)
             {
+
                 var post = new Post
                 {
                     Title = request.Title,
                     Description = request.Description,
                     CreatedBy = request.CreatedBy,
-                    PostContent=request.PostContent,
+                    PostContent = request.PostContent,
                     LastUpdate = DateTime.Now,
                 };
                 _context.Posts.Add(post);
                 await _context.SaveChangesAsync();
 
-                return post.Id;
+                return new OkObjectResult(post.Id);
             }
         }
 

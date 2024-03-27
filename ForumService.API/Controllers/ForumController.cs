@@ -1,4 +1,5 @@
-﻿using ForumService.API.Fearture.Command;
+﻿using Contract.Service.Message;
+using ForumService.API.Fearture.Command;
 using ForumService.API.Fearture.Queries;
 using ForumService.API.Feature.Posts.Command;
 using MediatR;
@@ -19,17 +20,11 @@ namespace ForumService.API.Controllers
 
         [HttpGet]
 
-        public async Task<IActionResult> GetAllPost(int page,int pageSize, string? PostTitle)
+        public async Task<IActionResult> GetAllPost(int page, int pageSize, string? PostTitle)
         {
-
-            return Ok(await _mediator.Send(new GetAllPostQuerry { page=page,pageSize=pageSize,PostTitle=PostTitle}));
-
+            return Ok(await _mediator.Send(new GetAllPostQuerry { page = page, pageSize = pageSize, PostTitle = PostTitle }));
         }
-        [HttpPost]
-        public async Task<IActionResult> CreateAdminPost(CreatAdminPostCommand command)
-        {
-            return Ok(await _mediator.Send(command));
-        }
+
         [HttpGet]
         public async Task<IActionResult> GetPostById(int postId)
         {
@@ -38,34 +33,37 @@ namespace ForumService.API.Controllers
                 var query = new GetPostByIdQuerry { PostId = postId };
                 var result = await _mediator.Send(query);
 
-                if (result == null)
-                {
-                    return NotFound();
-                }
-
                 return Ok(result);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                return StatusCode(500, $"Error getting post by id: {ex.Message}");
+                return BadRequest(Message.MSG30);
             }
         }
-        [HttpDelete]
-        public async Task<IActionResult> DeletePost(int postId)
-        {
-            var command = new DeletePostCommand { PostId = postId };
-            var result = await _mediator.Send(command);
 
-            return result;
+        [HttpPost]
+        public async Task<IActionResult> CreateAdminPost(CreatAdminPostCommand command)
+        {
+            return Ok(await _mediator.Send(command));
         }
+
         [HttpPut]
         public async Task<IActionResult> UpdatePost(int postId, [FromBody] UpdatePostCommand command)
         {
             if (postId != command.PostId)
             {
-                return BadRequest("PostId in request body does not match the PostId in the URL.");
+                return BadRequest(Message.MSG30);
             }
 
+            var result = await _mediator.Send(command);
+
+            return result;
+        }
+
+        [HttpDelete]
+        public async Task<IActionResult> DeletePost(int postId)
+        {
+            var command = new DeletePostCommand { PostId = postId };
             var result = await _mediator.Send(command);
 
             return result;
