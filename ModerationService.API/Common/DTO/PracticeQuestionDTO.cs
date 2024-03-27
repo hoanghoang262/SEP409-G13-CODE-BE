@@ -12,7 +12,10 @@ namespace ModerationService.API.Common.ModelDTO
         public int? ChapterId { get; set; }
         public string? CodeForm { get; set; }
         public string? TestCaseJava { get; set; }
-        public virtual ICollection<TestCaseDTO> TestCases { get; set; }
+        public string? TestCaseC { get; set; }
+        public string? TestCaseCplus { get; set; }
+
+      
      
     }
 }

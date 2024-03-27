@@ -45,25 +45,11 @@ namespace ModerationService.API.Fearture.Command.PracticeQuestion
             existingPracticeQuestion.CodeForm = request.PracticeQuestion.CodeForm;
             existingPracticeQuestion.Description = request.PracticeQuestion.Description;
             existingPracticeQuestion.TestCaseJava = request.PracticeQuestion.TestCaseJava;
+            existingPracticeQuestion.TestCaseC = request.PracticeQuestion.TestCaseC;
+            existingPracticeQuestion.TestCaseCplus = request.PracticeQuestion.TestCaseCplus;
             existingPracticeQuestion.TestCases.Clear();
 
-            foreach (var testCaseDTO in request.PracticeQuestion.TestCases)
-            {
-                var newTestCase = new TestCase
-                {
-                    CodeQuestionId = existingPracticeQuestion.Id,
-                    InputTypeInt = testCaseDTO.InputTypeInt,
-                    InputTypeString = testCaseDTO.InputTypeString,
-                    ExpectedResultInt = testCaseDTO.ExpectedResultInt,
-                    ExpectedResultString = testCaseDTO.ExpectedResultString,
-                    InputTypeBoolean = testCaseDTO.InputTypeBoolean,
-                    ExpectedResultBoolean = testCaseDTO.ExpectedResultBoolean,
-                    InputTypeArrayInt = testCaseDTO.InputTypeArrayInt,
-                    InputTypeArrayString = testCaseDTO.InputTypeArrayString
-                };
-                existingPracticeQuestion.TestCases.Add(newTestCase);
-            }
-
+          
             await _context.SaveChangesAsync();
 
             var practiceQuestionDTO = new PracticeQuestionDTO
@@ -73,19 +59,7 @@ namespace ModerationService.API.Fearture.Command.PracticeQuestion
                 CodeForm = existingPracticeQuestion.CodeForm,
                 Description = existingPracticeQuestion.Description,
                 TestCaseJava = existingPracticeQuestion.TestCaseJava,
-                TestCases = existingPracticeQuestion.TestCases.Select(tc => new TestCaseDTO
-                {
-                    Id = tc.Id,
-                    CodeQuestionId = tc.CodeQuestionId,
-                    InputTypeInt = tc.InputTypeInt,
-                    InputTypeString = tc.InputTypeString,
-                    ExpectedResultInt = tc.ExpectedResultInt,
-                    ExpectedResultString = tc.ExpectedResultString,
-                    InputTypeBoolean = tc.InputTypeBoolean,
-                    ExpectedResultBoolean = tc.ExpectedResultBoolean,
-                    InputTypeArrayInt = tc.InputTypeArrayInt,
-                    InputTypeArrayString = tc.InputTypeArrayString
-                }).ToList()
+             
             };
 
             return new OkObjectResult(practiceQuestionDTO);

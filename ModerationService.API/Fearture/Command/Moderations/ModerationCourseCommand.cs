@@ -36,7 +36,7 @@ namespace ModerationService.API.Fearture.Command.Moderations
                 await _publish.Publish(courseIdEvent);
                 var userId = _services.SendCourseId(request.CourseId);
                 var course = _context.Courses.FirstOrDefault(c => c.Id.Equals(request.CourseId));
-                if (userId == null || course == null)
+                if ( course == null)
                 {
                     return new BadRequestObjectResult(Message.MSG25);
                 }
@@ -196,7 +196,9 @@ namespace ModerationService.API.Fearture.Command.Moderations
                 }
                 else
                 {
-                    moderation.Status = "Approved";
+                    moderation.Status = "Accepted";
+                    _context.Moderations.Update(moderation);
+                    _context.SaveChanges();
                 }
 
                 if (userId != null)

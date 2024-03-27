@@ -8,7 +8,7 @@ namespace ForumService.API.Fearture.Queries
 {
     public class GetAllCommentCourseQuerry : IRequest<List<CommentDTO>>
     {
-        public int CoursesId { get; set; }
+        public int? CoursesId { get; set; }
         public class GetAllCommentCourseQuerryHandler : IRequestHandler<GetAllCommentCourseQuerry, List<CommentDTO>>
         {
             private readonly GetUserInfoGrpcService _service;
@@ -20,9 +20,15 @@ namespace ForumService.API.Fearture.Queries
             }
             public async Task<List<CommentDTO>> Handle(GetAllCommentCourseQuerry request, CancellationToken cancellationToken)
             {
-                var querry = await _context.Comments.Include(c => c.Replies).Where(c => c.CourseId != null&& c.CourseId.Equals(request.CoursesId)).ToListAsync();
-                if(querry == null)
+                if(!request.CoursesId.HasValue)
                 {
+                    return null;
+
+                }
+              
+                var querry =  _context.Comments.Include(c => c.Replies).Where(c => c.CourseId != null&& c.CourseId.Equals(request.CoursesId)).ToList();
+                if(querry == null)
+                {   
                     return null;
                 }
                 List<CommentDTO> course = new List<CommentDTO>();
@@ -56,7 +62,10 @@ namespace ForumService.API.Fearture.Queries
                         Date = c.Date,
                         Picture = userInfo.Picture,
                         Id = c.Id ,
-                        Replies = replies
+                        Replies = replies,
+                        CourseId = c.CourseId,
+                        ForumPostId=c.ForumPostId,
+                        LessonId=c.LessonId,
                     });
 
                 }
