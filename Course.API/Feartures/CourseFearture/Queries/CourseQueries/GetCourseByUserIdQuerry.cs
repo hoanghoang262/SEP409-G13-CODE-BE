@@ -27,7 +27,7 @@ namespace CourseService.API.Feartures.CourseFearture.Queries.CourseQueries
             public async Task<IActionResult> Handle(GetCourseByUserIdQuerry request, CancellationToken cancellationToken)
             {
                 var user = await service.SendUserId(request.UserId);
-                if (user == null)
+                if (user.Id == 0)
                 {
                     return new NotFoundObjectResult(Message.MSG01);
                 }

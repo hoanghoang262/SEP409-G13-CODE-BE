@@ -25,7 +25,7 @@ namespace CourseService.API.Feartures.EnrollmentFeature.Command
         {
             // Check if the user exists
             var user = _service.SendUserId(request.UserId);
-            if (user == null)
+            if (user.Id == 0)
             {
                 return new NotFoundObjectResult(Message.MSG01);
             }

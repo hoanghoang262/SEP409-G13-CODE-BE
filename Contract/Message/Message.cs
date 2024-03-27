@@ -391,5 +391,15 @@
             MsgTextVN = "Ghi chú không tồn tại",
             MsgTextEN = "Note does not exist"
         };
+
+        /// <summary>
+        /// MSG40: Wishlist không tồn tại
+        /// </summary>
+        public static readonly MessageModel MSG40 = new MessageModel
+        {
+            MsgCode = "MSG40",
+            MsgTextVN = "Wishlist không tồn tại",
+            MsgTextEN = "Wishlist does not exist"
+        };
     }
 }

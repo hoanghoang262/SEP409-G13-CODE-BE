@@ -42,7 +42,7 @@ namespace CourseService.API.Feartures.CourseFearture.Command.CreateCourse
 
                 // Check if user exists
                 var user = await service.SendUserId(request.CreatedBy);
-                if (user == null)
+                if (user.Id == 0)
                 {
                     return new BadRequestObjectResult(Message.MSG24);
                 }

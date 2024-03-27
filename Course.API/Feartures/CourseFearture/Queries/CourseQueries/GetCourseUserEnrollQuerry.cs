@@ -31,7 +31,7 @@ namespace CourseService.API.Feartures.CourseFearture.Queries.CourseQueries
                                   .FirstOrDefaultAsync();
 
             var user = await service.SendUserId(courses.Course.CreatedBy);
-            if (courses == null || user == null)
+            if (courses == null || user.Id == 0)
             {
                 return new NotFoundObjectResult(Message.MSG22);
             }

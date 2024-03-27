@@ -27,7 +27,7 @@ namespace ModerationService.API.Fearture.Querries.Moderations
 
                 var post = await _context.Posts.FirstOrDefaultAsync(p => p.Id == request.PostId);
                 var user = await service.SendUserId((int)post.CreatedBy);
-                if (user == null)
+                if (user.Id == 0)
                 {
                     return new BadRequestObjectResult(Message.MSG01);
                 }
