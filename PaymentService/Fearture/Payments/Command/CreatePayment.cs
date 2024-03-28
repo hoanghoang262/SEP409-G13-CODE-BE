@@ -16,8 +16,7 @@ namespace PaymentService.Fearture.Payments.Command
         public decimal? RequiredAmount { get; set; }
         public int UserCreateCourseId { get; set; }
         public int CourseId { get; set; }
-
-
+        public int UserBuyId { get; set; }
         public class CreatePaymentHandler : IRequestHandler<CreatePayment, IActionResult>
         {
             private readonly PaymentContext _context;

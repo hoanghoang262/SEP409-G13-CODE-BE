@@ -103,5 +103,16 @@ namespace CourseService.Controllers
             await context.SaveChangesAsync();
             return Ok(completed);
         }
+        [HttpGet]
+        public async Task<IActionResult> GetExamQuestionDetail(int lastExamId)
+        {
+            var query = new GetExamQuestionDetailQuerry
+            {
+                LastExamId = lastExamId
+            };
+
+            var result = await _mediator.Send(query);
+            return result;
+        }
     }
 }
