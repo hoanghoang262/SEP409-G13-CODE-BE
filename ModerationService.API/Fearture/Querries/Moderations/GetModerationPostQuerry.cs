@@ -1,4 +1,5 @@
 ﻿using Contract.SeedWork;
+using Contract.Service.Message;
 using GrpcServices;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -15,7 +16,7 @@ namespace ModerationService.API.Feature.Queries
         public string? Tag { get; set; }
         public int Page { get; set; }
         public int PageSize { get; set; }
-     
+
 
         public class GetModerationPostQuerryHandler : IRequestHandler<GetModerationPostQuerry, IActionResult>
         {
@@ -33,7 +34,7 @@ namespace ModerationService.API.Feature.Queries
                 List<Moderation> moderations = new List<Moderation>();
                 if (string.IsNullOrEmpty(request.PostTitle) && string.IsNullOrEmpty(request.Tag))
                 {
-                    moderations =  _context.Moderations.Where(x => !x.CourseId.HasValue).ToList();
+                    moderations = _context.Moderations.Where(x => !x.CourseId.HasValue).ToList();
                 }
                 if (string.IsNullOrEmpty(request.PostTitle) && !string.IsNullOrEmpty(request.Tag))
                 {
@@ -48,7 +49,10 @@ namespace ModerationService.API.Feature.Queries
                     moderations = await _context.Moderations.Where(x => !x.CourseId.HasValue && x.PostTitle.Equals(request.PostTitle) && x.Status.Equals(request.Tag)).ToListAsync();
                 }
 
-
+                if (!moderations.Any())
+                {
+                    return new BadRequestObjectResult(Message.MSG22);
+                }
 
                 var totalItems = moderations.Count;
                 var items = moderations
@@ -56,11 +60,9 @@ namespace ModerationService.API.Feature.Queries
                     .Take(request.PageSize)
                     .ToList();
 
-              
                 var moderationDTOs = new List<ModerationDTO>();
                 foreach (var moderation in items)
                 {
-                   
                     var userName = await _service.SendUserId(moderation.CreatedBy);
                     var postDes = await _context.Posts.FirstOrDefaultAsync(x => x.Id.Equals(moderation.PostId));
                     var moderationDTO = new ModerationDTO

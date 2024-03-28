@@ -1,7 +1,7 @@
 ﻿using Contract.Service.Message;
 using ForumService.API.Common.DTO;
+using ForumService.API.GrpcServices;
 using ForumService.API.Models;
-using GrpcServices;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -15,8 +15,8 @@ namespace ForumService.API.Fearture.Queries
         public class GetPostIdQuerryHandler : IRequestHandler<GetPostByIdQuerry, IActionResult>
         {
             private readonly ForumContext _context;
-            private readonly GetUserPostGrpcService _service;
-            public GetPostIdQuerryHandler(ForumContext context, GetUserPostGrpcService service)
+            private readonly GetUserInfoService _service;
+            public GetPostIdQuerryHandler(ForumContext context, GetUserInfoService service)
             {
                 _context = context;
                 _service = service;

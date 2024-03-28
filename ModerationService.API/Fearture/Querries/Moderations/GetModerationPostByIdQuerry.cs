@@ -8,10 +8,10 @@ using ModerationService.API.Models;
 
 namespace ModerationService.API.Fearture.Querries.Moderations
 {
-    public class GetModerationPostByIdQuerry : IRequest<ActionResult<PostDTO>>
+    public class GetModerationPostByIdQuerry : IRequest<IActionResult>
     {
         public int PostId { get; set; }
-        public class GetModerationPostByIdQuerryHandler : IRequestHandler<GetModerationPostByIdQuerry, ActionResult<PostDTO>>
+        public class GetModerationPostByIdQuerryHandler : IRequestHandler<GetModerationPostByIdQuerry, IActionResult>
         {
             private readonly Content_ModerationContext _context;
             private readonly GetUserInfoService service;
@@ -22,19 +22,19 @@ namespace ModerationService.API.Fearture.Querries.Moderations
                 service = _service;
             }
 
-            public async Task<ActionResult<PostDTO>> Handle(GetModerationPostByIdQuerry request, CancellationToken cancellationToken)
+            public async Task<IActionResult> Handle(GetModerationPostByIdQuerry request, CancellationToken cancellationToken)
             {
-
+                // Check if post exists
                 var post = await _context.Posts.FirstOrDefaultAsync(p => p.Id == request.PostId);
+                if (post == null)
+                {
+                    return new NotFoundObjectResult(Message.MSG22);
+                }
+
                 var user = await service.SendUserId((int)post.CreatedBy);
                 if (user.Id == 0)
                 {
                     return new BadRequestObjectResult(Message.MSG01);
-                }
-
-                if (post == null)
-                {
-                    return new NotFoundObjectResult(Message.MSG22);
                 }
 
                 var postDTO = new PostDTO
@@ -47,10 +47,9 @@ namespace ModerationService.API.Fearture.Querries.Moderations
                     Title = post.Title,
                     UserName = user.Name,
                     UserPicture = user.Picture
-
                 };
 
-                return postDTO;
+                return new OkObjectResult(postDTO);
             }
         }
     }

@@ -1,8 +1,8 @@
 ﻿using Contract.SeedWork;
 using Contract.Service.Message;
 using ForumService.API.Common.DTO;
+using ForumService.API.GrpcServices;
 using ForumService.API.Models;
-using GrpcServices;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -16,9 +16,9 @@ namespace ForumService.API.Fearture.Queries
         public string? PostTitle { get; set; }
         public class GetAllPostQuerryHandler : IRequestHandler<GetAllPostQuerry, IActionResult>
         {
-            private readonly GetUserPostGrpcService _service;
+            private readonly GetUserInfoService _service;
             private readonly ForumContext _context;
-            public GetAllPostQuerryHandler(GetUserPostGrpcService service, ForumContext context)
+            public GetAllPostQuerryHandler(GetUserInfoService service, ForumContext context)
             {
                 _service = service;
                 _context = context;

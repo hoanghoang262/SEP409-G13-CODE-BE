@@ -59,10 +59,10 @@ namespace ModerationService.API.Controllers
         {
             if (id != command.Id)
             {
-                return BadRequest("Mismatched Id in request URL and command body");
+                return BadRequest(Message.MSG30);
             }
-            return Ok(await _mediator.Send(command));
 
+            return Ok(await _mediator.Send(command));
         }
 
         [HttpPost]
@@ -77,7 +77,7 @@ namespace ModerationService.API.Controllers
         {
             try
             {
-                var query = new GetModerationCourseQuerry { Page = page, PageSize = pageSize, CourseName = courseName, Tag=Tag };
+                var query = new GetModerationCourseQuerry { Page = page, PageSize = pageSize, CourseName = courseName, Tag = Tag };
                 var result = await _mediator.Send(query);
 
                 return Ok(result);
@@ -91,13 +91,8 @@ namespace ModerationService.API.Controllers
         [HttpGet]
         public async Task<IActionResult> GetModerationsPost(string? postTitle, string? Tag, int page = 1, int pageSize = 5)
         {
-                var query = new GetModerationPostQuerry { PostTitle = postTitle, Tag = Tag, Page = page, PageSize = pageSize };
-                var result = await _mediator.Send(query);
-
-            if (result == null)
-            {
-                return NotFound();
-            }
+            var query = new GetModerationPostQuerry { PostTitle = postTitle, Tag = Tag, Page = page, PageSize = pageSize };
+            var result = await _mediator.Send(query);
 
             return Ok(result);
         }

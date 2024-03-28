@@ -1,8 +1,6 @@
-using ForumService.API.Fearture.Command;
 using ForumService.API.GrpcServices;
 using ForumService.API.MessageBroker;
 using ForumService.API.Models;
-using GrpcServices;
 using MassTransit;
 using Microsoft.EntityFrameworkCore;
 using System.Reflection;

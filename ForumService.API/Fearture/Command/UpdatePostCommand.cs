@@ -1,8 +1,7 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using ForumService.API.Models;
-using System.Threading;
-using System.Threading.Tasks;
+using Contract.Service.Message;
 
 namespace ForumService.API.Feature.Posts.Command
 {
@@ -27,9 +26,24 @@ namespace ForumService.API.Feature.Posts.Command
         {
             var post = await _context.Posts.FindAsync(request.PostId);
 
+            // Validate request
+            if (string.IsNullOrEmpty(request.Title)
+                || string.IsNullOrEmpty(request.Description)
+                || string.IsNullOrEmpty(request.PostContent))
+            {
+                return new BadRequestObjectResult(Message.MSG11);
+            }
+
+            // Validate length
+            if (request.Title.Length > 256)
+            {
+                return new BadRequestObjectResult(Message.MSG27);
+            }
+
+            // Check if post exists
             if (post == null)
             {
-                return new NotFoundResult();
+                return new NotFoundObjectResult(Message.MSG34);
             }
 
             post.Title = request.Title ?? post.Title;

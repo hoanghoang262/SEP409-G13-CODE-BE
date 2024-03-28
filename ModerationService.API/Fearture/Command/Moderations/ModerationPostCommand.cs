@@ -1,9 +1,8 @@
-﻿using CourseService.API.Common.Mapping;
+﻿using Contract.Service.Message;
 using EventBus.Message.Event;
 using MassTransit;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using ModerationService.API.Models;
 
 namespace ModerationService.API.Fearture.Command.Moderations
@@ -16,30 +15,36 @@ namespace ModerationService.API.Fearture.Command.Moderations
         {
             private readonly IPublishEndpoint _publish;
             private readonly Content_ModerationContext _context;
-            public ModerationPostCommandHandler(IPublishEndpoint publish,Content_ModerationContext context)
+            public ModerationPostCommandHandler(IPublishEndpoint publish, Content_ModerationContext context)
             {
                 _publish = publish;
                 _context = context;
             }
-            public async  Task<IActionResult> Handle(ModerationPostCommand request, CancellationToken cancellationToken)
+            public async Task<IActionResult> Handle(ModerationPostCommand request, CancellationToken cancellationToken)
             {
-               var post = _context.Posts.FirstOrDefault(c=>c.Id.Equals(request.PostId));
+                // Check if post exists
+                var post = _context.Posts.FirstOrDefault(c => c.Id.Equals(request.PostId));
+                if (post == null)
+                {
+                    return new NotFoundObjectResult(Message.MSG34);
+                }
+
                 var postEvent = new PostEvent
                 {
                     Id = post.Id,
                     CreatedBy = (int)post.CreatedBy,
                     Description = post.Description,
                     LastUpdate = post.LastUpdate,
-                    PostContent= post.PostContent,
-                    Title = post.Title  
+                    PostContent = post.PostContent,
+                    Title = post.Title
                 };
+
                 var moderation = _context.Moderations.FirstOrDefault(c => c.PostId.Equals(request.PostId));
                 moderation.Status = "Approve";
                 await _context.SaveChangesAsync();
-
                 await _publish.Publish(postEvent);
-                return  new OkObjectResult (postEvent);
 
+                return new OkObjectResult(postEvent);
             }
         }
     }

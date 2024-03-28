@@ -3,7 +3,6 @@ using ForumService.API.Fearture.Command;
 using ForumService.API.Fearture.Queries;
 using ForumService.API.Feature.Posts.Command;
 using MediatR;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ForumService.API.Controllers
