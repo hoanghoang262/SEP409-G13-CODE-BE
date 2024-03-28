@@ -41,9 +41,23 @@ namespace CourseService.API.Feartures.CourseFearture.Queries.CourseQueries
                 {
                     query = query.Where(c => c.Name.Contains(request.CourseName));
                 }
+                if (!string.IsNullOrEmpty(request.Tag))
+                {
+                    query = query.Where(c => c.Tag.Equals(request.Tag));
+                }
+                var totalItems = await query.CountAsync();
+                if (totalItems <= 0)
+                {
+                    return new NotFoundObjectResult(Message.MSG22);
+                }
+
+                var courseList = await query
+                    .Skip((request.Page - 1) * request.PageSize)
+                    .Take(request.PageSize)
+                    .ToListAsync();
 
                 List<CourseDTO> courseDTOList = new List<CourseDTO>();
-                foreach (var item in query)
+                foreach (var item in courseList)
                 {
 
                     var userInfo = await _service.SendUserId(item.CreatedBy);
@@ -64,16 +78,7 @@ namespace CourseService.API.Feartures.CourseFearture.Queries.CourseQueries
                     courseDTOList.Add(dto);
                 }
 
-                var totalItems = await query.CountAsync();
-                if (totalItems <= 0)
-                {
-                    return new NotFoundObjectResult(Message.MSG22);
-                }
-
-                //var courseList = await query
-                //    .Skip((request.Page - 1) * request.PageSize)
-                //    .Take(request.PageSize)
-                //    .ToListAsync();
+             
 
                 var result = new PageList<CourseDTO>(courseDTOList, totalItems, request.Page, request.PageSize);
                 return new OkObjectResult(result);

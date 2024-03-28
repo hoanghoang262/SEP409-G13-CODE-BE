@@ -117,7 +117,8 @@ namespace ModerationService.API.Fearture.Command.Moderations
                             ChapterId = last.ChapterId,
                             Name = last.Name,
                             PercentageCompleted = last.PercentageCompleted,
-                            Time = last.Time
+                            Time = last.Time,
+                            
                         };
                         await _publish.Publish(lastEvent);
                         var exam = _context.QuestionExams.Where(e => e.LastExamId.Equals(last.Id)).ToList();
@@ -160,7 +161,8 @@ namespace ModerationService.API.Fearture.Command.Moderations
                             VideoUrl = less.VideoUrl,
                             Title = less.Title,
                             Duration = less.Duration,
-                            IsCompleted = false
+                            IsCompleted = false,
+                            ContentLesson=less.ContentLesson,
 
                         };
                         await _publish.Publish(lessonEvent);
