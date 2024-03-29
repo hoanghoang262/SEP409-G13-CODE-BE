@@ -47,7 +47,7 @@ namespace ModerationService.API.Feature.Queries
                 {
                     moderations = await _context.Moderations
                         .Include(c => c.Course)
-                        .Where(x => x.Status
+                        .Where(x => x.Course.Tag
                         .Equals(request.Tag) && x.CourseId != null).ToListAsync();
                 }
                 if (!string.IsNullOrEmpty(request.CourseName) && !string.IsNullOrEmpty(request.Tag))
@@ -55,8 +55,8 @@ namespace ModerationService.API.Feature.Queries
 
                     moderations = await _context.Moderations
                         .Include(c => c.Course)
-                        .Where(x => x.Status
-                        .Contains(request.Tag) && x.CourseName.Contains(request.CourseName) && x.CourseId != null).ToListAsync();
+                        .Where(x => x.Course.Tag
+                        .Contains(request.Tag) && x.CourseName.Contains(request.CourseName) && x.CourseId!=null).ToListAsync();
 
                 }
 

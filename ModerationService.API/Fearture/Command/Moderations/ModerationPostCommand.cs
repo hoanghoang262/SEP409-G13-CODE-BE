@@ -41,6 +41,7 @@ namespace ModerationService.API.Fearture.Command.Moderations
 
                 var moderation = _context.Moderations.FirstOrDefault(c => c.PostId.Equals(request.PostId));
                 moderation.Status = "Approve";
+                _context.Moderations.Remove(moderation);
                 await _context.SaveChangesAsync();
                 await _publish.Publish(postEvent);
 
