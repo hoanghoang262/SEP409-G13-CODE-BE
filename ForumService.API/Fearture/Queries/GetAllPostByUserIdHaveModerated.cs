@@ -1,4 +1,5 @@
 ﻿using Contract.SeedWork;
+using Contract.Service.Message;
 using ForumService.API.Common.DTO;
 using ForumService.API.GrpcServices;
 using ForumService.API.Models;
@@ -29,13 +30,15 @@ namespace ForumService.API.Fearture.Queries
                 var user = await _service.SendUserId(request.UserId);
                 if (user.Id == 0)
                 {
-                    return new BadRequestObjectResult("Not found");
+                    return new BadRequestObjectResult(Message.MSG01);
                 }
-                var querry = await _context.Posts.Where(c=>c.CreatedBy == user.Id).ToListAsync();
+
+                var querry = await _context.Posts.Where(c => c.CreatedBy == user.Id).ToListAsync();
                 if (querry == null)
                 {
-                    return null;
+                    return new NotFoundObjectResult(Message.MSG22);
                 }
+
                 List<PostDTO> post = new List<PostDTO>();
                 foreach (var c in querry)
                 {
@@ -55,11 +58,9 @@ namespace ForumService.API.Fearture.Queries
 
                 }
                 var total = post.Count;
-
                 var result = new PageList<PostDTO>(post, total, request.page, request.pageSize);
+
                 return new OkObjectResult(result);
-
-
             }
         }
     }

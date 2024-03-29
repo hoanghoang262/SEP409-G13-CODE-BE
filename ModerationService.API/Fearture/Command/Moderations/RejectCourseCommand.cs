@@ -33,10 +33,9 @@ namespace ModerationService.API.Fearture.Command.Moderations
                 var moder = await _moderationContext.Moderations.FirstOrDefaultAsync(c => c.Id.Equals(request.ModerationId));
                 if (moder == null)
                 {
-                    return new BadRequestObjectResult(Message.MSG25);
+                    return new BadRequestObjectResult(Message.MSG30);
                 }
 
-               
                 _moderationContext.Moderations.Remove(moder);
                 await _moderationContext.SaveChangesAsync();
 
