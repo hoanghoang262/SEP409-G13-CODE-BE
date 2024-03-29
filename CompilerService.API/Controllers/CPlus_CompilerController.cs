@@ -20,7 +20,7 @@ namespace CourseService.API.Controllers
             _hostingEnvironment = env;
             _cCompiler = cCompiler;
             _context = context;
-        }   
+        }
 
         [HttpPost]
         public IActionResult CompileCodeC([FromBody] CodeRequestModel request)

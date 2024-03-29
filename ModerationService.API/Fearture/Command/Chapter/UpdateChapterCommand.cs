@@ -25,7 +25,7 @@ namespace ModerationService.API.Fearture.Command
         public async Task<IActionResult> Handle(UpdateChapterCommand request, CancellationToken cancellationToken)
         {
             // validate input
-            if (request.Name == null || request.Part == null)
+            if (string.IsNullOrEmpty(request.Name) || request.Part == 0)
             {
                 return new BadRequestObjectResult(Message.MSG11);
             }

@@ -27,7 +27,7 @@ namespace CourseService.API.Controllers
 
             string rootPath = _hostingEnvironment.ContentRootPath;
             string filePath = Path.Combine(rootPath, "main");
-            string compilationResult = _cCompiler.CompileCCode(request.UserCode,filePath);
+            string compilationResult = _cCompiler.CompileCCode(request.UserCode, filePath);
             var userAnswerCode = new UserAnswerCode
             {
                 CodeQuestionId = request.PracticeQuestionId,
@@ -40,78 +40,77 @@ namespace CourseService.API.Controllers
             return Ok(compilationResult);
         }
     }
-}
-public class CCompiler
-{
-    public string CompileCCode(string cCode, string filePath)
+    public class CCompiler
     {
-        try
+        public string CompileCCode(string cCode, string filePath)
         {
-            string cFilePath = Path.ChangeExtension(filePath, ".c");
-
-            WriteCCodeToFile(cCode, cFilePath);
-
-            // Compile the C code
-            ProcessStartInfo psiCompile = new ProcessStartInfo
+            try
             {
-                FileName = "gcc",
-                Arguments = $"{cFilePath} -o {filePath}.exe",
-                RedirectStandardError = true,
-                UseShellExecute = false,
-                CreateNoWindow = true
-            };
+                string cFilePath = Path.ChangeExtension(filePath, ".c");
 
-            using (Process compileProcess = Process.Start(psiCompile))
-            {
-                compileProcess.WaitForExit();
-                if (compileProcess.ExitCode != 0)
+                WriteCCodeToFile(cCode, cFilePath);
+
+                // Compile the C code
+                ProcessStartInfo psiCompile = new ProcessStartInfo
                 {
-                    // Compilation failed
-                    string errorOutput = compileProcess.StandardError.ReadToEnd();
-                    return $"Compilation failed: {errorOutput}";
+                    FileName = "gcc",
+                    Arguments = $"{cFilePath} -o {filePath}.exe",
+                    RedirectStandardError = true,
+                    UseShellExecute = false,
+                    CreateNoWindow = true
+                };
+
+                using (Process compileProcess = Process.Start(psiCompile))
+                {
+                    compileProcess.WaitForExit();
+                    if (compileProcess.ExitCode != 0)
+                    {
+                        // Compilation failed
+                        string errorOutput = compileProcess.StandardError.ReadToEnd();
+                        return $"Compilation failed: {errorOutput}";
+                    }
+                }
+
+
+                ProcessStartInfo psiExecute = new ProcessStartInfo
+                {
+                    FileName = $"{filePath}.exe",
+                    RedirectStandardOutput = true,
+                    UseShellExecute = false,
+                    CreateNoWindow = true
+
+                };
+
+                using (Process executeProcess = Process.Start(psiExecute))
+                {
+                    executeProcess.WaitForExit();
+                    if (executeProcess.ExitCode == 0)
+                    {
+
+                        string output = executeProcess.StandardOutput.ReadToEnd();
+                        return output;
+                    }
+                    else
+                    {
+                        return $"Execution failed!";
+                    }
                 }
             }
-
-           
-            ProcessStartInfo psiExecute = new ProcessStartInfo
+            catch (Exception ex)
             {
-                FileName = $"{filePath}.exe",
-                RedirectStandardOutput = true,
-                UseShellExecute = false,
-                CreateNoWindow = true
-                
-            };
-
-            using (Process executeProcess = Process.Start(psiExecute))
-            {
-                executeProcess.WaitForExit();
-                if (executeProcess.ExitCode == 0)
-                {
-                   
-                    string output = executeProcess.StandardOutput.ReadToEnd();
-                    return  output;
-                }
-                else
-                {
-                   
-                    return $"Execution failed!";
-                }
+                return $"An error occurred: {ex.Message}";
             }
         }
-        catch (Exception ex)
+        private void WriteCCodeToFile(string cCode, string cFilePath)
         {
-            return $"An error occurred: {ex.Message}";
-        }
-    }
-    private void WriteCCodeToFile(string cCode, string cFilePath)
-    {
-        try
-        {
-            File.WriteAllText(cFilePath, cCode);
-        }
-        catch (Exception ex)
-        {
-            throw new Exception($"Error writing C code to file: {ex.Message}");
+            try
+            {
+                File.WriteAllText(cFilePath, cCode);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"Error writing C code to file: {ex.Message}");
+            }
         }
     }
 }
