@@ -1,4 +1,5 @@
-﻿using CourseService.API.Models;
+﻿using Contract.Service.Message;
+using CourseService.API.Models;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -22,12 +23,14 @@ namespace CourseService.API.Feartures.WishListFearture.Command
                 var wishlistItem = await _context.Wishlists.FindAsync(request.WishlistId);
 
                 if (wishlistItem == null)
-                    return new OkObjectResult("null");
+                {
+                    return new BadRequestObjectResult(Message.MSG40);
+                }
 
                 _context.Wishlists.Remove(wishlistItem);
                 await _context.SaveChangesAsync();
 
-                return new OkObjectResult("delete ok");
+                return new OkObjectResult(Message.MSG16);
             }
         }
     }

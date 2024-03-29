@@ -42,7 +42,7 @@ namespace AuthenticateService.API.Controllers
         }
 
         [HttpDelete]
-        public async Task<IActionResult> DeleteUser(string email)
+        public async Task<IActionResult> DeleteUser(string? email)
         {
             // Validate input
             if (string.IsNullOrEmpty(email))

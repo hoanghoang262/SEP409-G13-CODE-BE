@@ -30,7 +30,7 @@ namespace ModerationService.API.Controllers
         {
             if (id != command.LessonId)
             {
-                return BadRequest();
+                return BadRequest(Message.MSG30);
             }
 
             var result = await _mediator.Send(command);

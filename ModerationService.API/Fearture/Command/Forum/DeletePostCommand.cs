@@ -9,7 +9,7 @@ namespace ModerationService.API.Fearture.Command.Forum
 {
     public class DeletePostCommand : IRequest<IActionResult>
     {
-        public int postId { get; set; }
+        public int PostId { get; set; }
 
         public class DeletePostCommandHandler : IRequestHandler<DeletePostCommand, IActionResult>
         {
@@ -22,7 +22,7 @@ namespace ModerationService.API.Fearture.Command.Forum
             }
             public async Task<IActionResult> Handle(DeletePostCommand request, CancellationToken cancellationToken)
             {
-                var post = await _context.Posts.FirstOrDefaultAsync(x => x.Id.Equals(request.postId));
+                var post = await _context.Posts.FirstOrDefaultAsync(x => x.Id.Equals(request.PostId));
                 if (post == null)
                 {
                     return new NotFoundObjectResult(Message.MSG34);

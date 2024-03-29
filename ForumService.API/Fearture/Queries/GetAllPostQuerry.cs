@@ -1,4 +1,5 @@
 ﻿using Contract.SeedWork;
+using Contract.Service.Message;
 using ForumService.API.Common.DTO;
 using ForumService.API.GrpcServices;
 using ForumService.API.Models;
@@ -14,8 +15,6 @@ namespace ForumService.API.Fearture.Queries
         public int Page { get; set; } 
         public int PageSize { get; set; } 
         public string? PostTitle { get; set; }
-
-
         public class GetAllPostQuerryHandler : IRequestHandler<GetAllPostQuerry, IActionResult>
         {
             private readonly GetUserInfoService _service;
@@ -27,19 +26,16 @@ namespace ForumService.API.Fearture.Queries
             }
             public async Task<IActionResult> Handle(GetAllPostQuerry request, CancellationToken cancellationToken)
             {
+                var querry = await _context.Posts.ToListAsync();
 
-               
-                 var querry = await _context.Posts.ToListAsync();
-                
-                if(!string.IsNullOrEmpty(request.PostTitle))
+                if (!string.IsNullOrEmpty(request.PostTitle))
                 {
                     querry = await _context.Posts.Where(c => c.Title.Contains(request.PostTitle)).ToListAsync();
-
                 }
-                
+
                 if (querry == null)
                 {
-                    return null;
+                    return new NotFoundObjectResult(Message.MSG22);
                 }
                 var total = querry.Count();
 
@@ -56,15 +52,14 @@ namespace ForumService.API.Fearture.Queries
                     post.Add(new PostDTO
                     {
                         CreatedBy = c.CreatedBy,
-                        UserName=userInfo.Name,
-                        Description=c.Description,
-                        LastUpdate=c.LastUpdate,
-                        PostContent=c.PostContent,
-                        Id=c.Id,
-                        Title=c.Title,
-                        Picture=userInfo.Picture,
+                        UserName = userInfo.Name,
+                        Description = c.Description,
+                        LastUpdate = c.LastUpdate,
+                        PostContent = c.PostContent,
+                        Id = c.Id,
+                        Title = c.Title,
+                        Picture = userInfo.Picture,
                     });
-                    
                 }
                
 

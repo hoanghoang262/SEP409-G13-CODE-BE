@@ -1,6 +1,5 @@
 ﻿using JavaScriptEngineSwitcher.Core;
 using JavaScriptEngineSwitcher.V8;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CompilerService.API.Controllers
@@ -14,7 +13,6 @@ namespace CompilerService.API.Controllers
         {
             try
             {
-                
                 using (IJsEngine engine = new V8JsEngine())
                 {
                     // Biên dịch mã JavaScript thành chuỗi

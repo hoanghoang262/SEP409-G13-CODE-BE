@@ -28,7 +28,7 @@ namespace ModerationService.API.Controllers
         [HttpDelete]
         public async Task<IActionResult> DeletePost(int postId)
         {
-            var command = new DeletePostCommand { postId = postId };
+            var command = new DeletePostCommand { PostId = postId };
             var result = await _mediator.Send(command);
 
             return Ok(result);

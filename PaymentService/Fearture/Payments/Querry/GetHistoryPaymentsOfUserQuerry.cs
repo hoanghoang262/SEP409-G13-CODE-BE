@@ -1,4 +1,5 @@
-﻿using MediatR;
+﻿using Contract.Service.Message;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
@@ -8,41 +9,41 @@ using PaymentService.Models;
 
 namespace PaymentService.Fearture.Payments.Querry
 {
-    public class GetHistoryPaymentsOfUserQuerry : IRequest<ActionResult<List<PaymentDtos>>>
+    public class GetHistoryPaymentsOfUserQuerry : IRequest<IActionResult>
     {
-        public int Id { get; set; } 
+        public int Id { get; set; }
     }
-    public class GetPaymentHandler : IRequestHandler<GetHistoryPaymentsOfUserQuerry, ActionResult<List<PaymentDtos>>>
+    public class GetPaymentHandler : IRequestHandler<GetHistoryPaymentsOfUserQuerry, IActionResult>
     {
         private readonly ICurrentUserService currentUserService;
         private readonly PaymentContext context;
-        public GetPaymentHandler(ICurrentUserService currentUserService,PaymentContext _context)
+        public GetPaymentHandler(ICurrentUserService currentUserService, PaymentContext _context)
         {
             this.currentUserService = currentUserService;
-            context=_context;
+            context = _context;
 
         }
 
-        public async Task<ActionResult<List<PaymentDtos>>> Handle(GetHistoryPaymentsOfUserQuerry request, CancellationToken cancellationToken)
+        public async Task<IActionResult> Handle(GetHistoryPaymentsOfUserQuerry request, CancellationToken cancellationToken)
         {
             var pay = await context.Payments.Where(x => x.UserCreateCourseId.Equals(request.Id)).ToListAsync();
-            if(pay == null) 
+            if (pay == null)
             {
-                return new NoContentResult();
+                return new NotFoundObjectResult(Message.MSG22);
             }
             List<PaymentDtos> payDto = new List<PaymentDtos>();
-            foreach(var p in pay)
+            foreach (var p in pay)
             {
                 var payDtos = new PaymentDtos
                 {
-                    CourseId=p.CourseId,
-                    Money=p.RequriedAmount,
-                    PaymentId=p.PaymentId,
-                    TransactionDate=p.PaymentDate
+                    CourseId = p.CourseId,
+                    Money = p.RequriedAmount,
+                    PaymentId = p.PaymentId,
+                    TransactionDate = p.PaymentDate
                 };
                 payDto.Add(payDtos);
             }
-            
+
             //var result = new PaymentDTO();
 
             //try

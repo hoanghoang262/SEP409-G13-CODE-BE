@@ -26,9 +26,7 @@ namespace ModerationService.API.Fearture.Command
         {
             // validate input
 
-            if (request.Name == null || request.CourseId == null || request.Part == null )
-
-           
+            if (string.IsNullOrEmpty(request.Name) || request.CourseId == 0 || request.Part == 0)
             {
                 return new BadRequestObjectResult(Message.MSG11);
             }
