@@ -34,7 +34,8 @@ namespace CourseService.API.Feartures.CourseFearture.Command.SyncCourse
                        
                         ContentQuestion=request.ContentQuestion,
                         Score=request.Score,
-                        Status=request.Status
+                        Status=request.Status,
+                        LastExamId=request.LastExamId
                         
                     
 

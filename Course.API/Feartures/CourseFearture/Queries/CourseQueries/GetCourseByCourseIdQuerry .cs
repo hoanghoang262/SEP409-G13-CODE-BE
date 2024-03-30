@@ -34,6 +34,10 @@ namespace CourseService.API.Feartures.CourseFearture.Queries.CourseQueries
                         .ThenInclude(ch => ch.Lessons)
                             .ThenInclude(l => l.TheoryQuestions)
                                 .ThenInclude(ans => ans.AnswerOptions)
+                     .Include(c => c.Chapters)
+                        .ThenInclude(ch => ch.LastExams)
+                            .ThenInclude(l => l.QuestionExams)
+                                .ThenInclude(ans => ans.AnswerExams)
                     .Include(c => c.Chapters)
                         .ThenInclude(ch => ch.PracticeQuestions)
                             .ThenInclude(cq => cq.TestCases)
@@ -80,7 +84,33 @@ namespace CourseService.API.Feartures.CourseFearture.Queries.CourseQueries
                         chapter.Part,
                         chapter.IsNew,
                         IsCompleted = AreAllLessonsCompleted(chapter, request.UserId),
-                         CodeQuestions = chapter.PracticeQuestions.Select(codeQuestion => new
+                        LastExam = chapter.LastExams.Select(lastex => new
+                        {
+                            lastex.Id,
+                            lastex.Name,
+                            lastex.PercentageCompleted,
+                            lastex.IsPass,
+                            lastex.ChapterId,
+                            QuestionExams = lastex.QuestionExams.Select(qe => new
+                            {
+                                qe.Id,
+                                qe.LastExamId,
+                                qe.ContentQuestion,
+                                qe.Score,
+                                qe.Status,
+                                AnswerExams = qe.AnswerExams.Select(ans => new
+                                {
+                                    ans.Id,
+                                    ans.ExamId,
+                                    ans.CorrectAnswer,
+                                    ans.OptionsText
+
+                                }).ToList(),
+
+                            }).ToList(),
+
+                        }).ToList(),
+                        CodeQuestions = chapter.PracticeQuestions.Select(codeQuestion => new
                          {
                              codeQuestion.Id,
                              codeQuestion.Description,

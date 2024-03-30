@@ -3,6 +3,7 @@ using CourseService.API.Models;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using ModerationService.API.Common.DTO;
 
 namespace CourseService.API.Feartures.CourseFearture.Queries.CourseQueries
 {
@@ -19,16 +20,33 @@ namespace CourseService.API.Feartures.CourseFearture.Queries.CourseQueries
             }
             public async Task<IActionResult> Handle(GetExamQuestionDetailQuerry request, CancellationToken cancellationToken)
             {
-                var query = await _context.LastExams
-                    .Include(c => c.QuestionExams)
-                    .ThenInclude(c => c.AnswerExams)
-                    .Where(c => c.Id.Equals(request.LastExamId)).ToListAsync();
-                if (!query.Any())
-                {
-                    return new NotFoundObjectResult(Message.MSG22);
-                }
+                var lastExam = await _context.LastExams.Include(c => c.QuestionExams).ThenInclude(c => c.AnswerExams).FirstOrDefaultAsync(c => c.Id.Equals(request.LastExamId));
 
-                return new OkObjectResult(query);
+                var result = new LastExamDTO
+                {
+                    Id = lastExam.Id,
+                    ChapterId = lastExam.ChapterId,
+                    PercentageCompleted = lastExam.PercentageCompleted,
+                    Name = lastExam.Name,
+                    Time = lastExam.Time,
+                    QuestionExams = lastExam.QuestionExams.Select(q => new QuestionExamDTO
+                    {
+                        Id = q.Id,
+                        ContentQuestion = q.ContentQuestion,
+                        LastExamId = (int)q.LastExamId,
+                        Score = q.Score,
+                        Status = q.Status,
+                        AnswerExams = q.AnswerExams.Select(q => new AnswerExamDTO
+                        {
+                            ExamId = q.ExamId,
+                            CorrectAnswer = q.CorrectAnswer,
+                            Id = q.Id,
+                            OptionsText = q.OptionsText
+
+                        }).ToList(),
+                    }).ToList(),
+                };
+                return new OkObjectResult(result);
             }
         }
     }

@@ -4,11 +4,14 @@ using CourseGRPC.Services;
 using EventBus.Message.Event;
 using GrpcServices;
 using MassTransit;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using ModerationService.API.GrpcServices;
 using ModerationService.API.Models;
 using Serilog;
 using System.Reflection;
+using System.Text;
 using UserGrpc;
 
 namespace ModerationService.API
@@ -21,6 +24,7 @@ namespace ModerationService.API
            
             var builder = WebApplication.CreateBuilder(args);
             // Add services to the container.
+            builder.Services.AddControllers();
             builder.Services.AddDbContext<Content_ModerationContext>(
             options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
             //rabbitMQ
@@ -34,6 +38,26 @@ namespace ModerationService.API
                 });
                 config.AddRequestClient<CourseEvent>();
             });
+            builder.Services.AddAuthentication(options =>
+            {
+                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+            }).AddJwtBearer(options =>
+            {
+                options.SaveToken = true;
+                options.RequireHttpsMetadata = false;
+                options.TokenValidationParameters = new TokenValidationParameters()
+                {
+                    ValidateIssuer = true,
+                    ValidateAudience = true,
+                    ValidAudience = builder.Configuration["JWT:ValidAudience"],
+                    ValidIssuer = builder.Configuration["JWT:ValidIssuer"],
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["JWT:Secret"]))
+                };
+            });
+
+            builder.Services.AddAuthorization();
 
             //cors
             builder.Services.AddCors(options =>
@@ -66,20 +90,22 @@ namespace ModerationService.API
             //mediatR
             builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly()));
 
-            builder.Services.AddControllers();
+          
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
 
             var app = builder.Build();
 
-            // Configure the HTTP request pipeline.
+
            
                 app.UseSwagger();
                 app.UseSwaggerUI();
             app.UseCors("AllowSpecificOrigin");
+           
 
             app.UseAuthorization();
+            app.UseAuthentication();
             app.MapControllerRoute(
               name: "default",
               pattern: "{controller=Home}/{action=Index}/{id?}");

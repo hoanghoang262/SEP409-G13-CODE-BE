@@ -29,7 +29,7 @@ namespace CourseService.API.Feartures.CourseFearture.Queries.CourseQueries
 
                 foreach (var questionWithAnswers in request.Questions)
                 {
-                    // Tìm câu hỏi tương ứng trong cơ sở dữ liệu
+                   
                     var dbQuestion = await _context.QuestionExams
                         .Include(q => q.AnswerExams)
                         .FirstOrDefaultAsync(q => q.Id == questionWithAnswers.ExamId);

@@ -23,9 +23,9 @@ namespace ModerationService.API.Fearture.Command.LastExams
             public async Task<IActionResult> Handle(CreateLastExamCommand request, CancellationToken cancellationToken)
             {
                 var chapter = await _context.Chapters
-                .Include(c => c.Lessons)
-                    .ThenInclude(l => l.TheoryQuestions)
-                    .ThenInclude(tq => tq.AnswerOptions)
+                .Include(c => c.LastExams)
+                    .ThenInclude(l => l.QuestionExams)
+                    .ThenInclude(tq => tq.AnswerExams)
                 .FirstOrDefaultAsync(c => c.Id == request.ChapterId);
 
                 // Validate input
@@ -68,9 +68,7 @@ namespace ModerationService.API.Fearture.Command.LastExams
                 foreach (var qeDTO in request.LastExam.QuestionExams)
                 {
                     // Validate input
-                    if (string.IsNullOrEmpty(qeDTO.ContentQuestion)
-                        || qeDTO.Score == null
-                        || qeDTO.Status == null)
+                    if (string.IsNullOrEmpty(qeDTO.ContentQuestion))
                     {
                         return new BadRequestObjectResult(Message.MSG11);
                     }
@@ -81,12 +79,6 @@ namespace ModerationService.API.Fearture.Command.LastExams
                         return new BadRequestObjectResult(Message.MSG27);
                     }
 
-                    // Invalid number
-                    if (qeDTO.Score < 0)
-                    {
-                        return new BadRequestObjectResult(Message.MSG26);
-                    }
-
                     var qe = new QuestionExam
                     {
                         ContentQuestion = qeDTO.ContentQuestion,
@@ -95,7 +87,7 @@ namespace ModerationService.API.Fearture.Command.LastExams
                         LastExamId = qeDTO.LastExamId
                     };
 
-                    foreach (var answerOptionDTO in qe.AnswerExams)
+                    foreach (var answerOptionDTO in qeDTO.AnswerExams)
                     {
                         // Validate input
                         if (answerOptionDTO.CorrectAnswer == null
@@ -114,8 +106,10 @@ namespace ModerationService.API.Fearture.Command.LastExams
                         var newAnswerOption = new AnswerExam
                         {
                             CorrectAnswer = answerOptionDTO.CorrectAnswer,
-                            Exam = answerOptionDTO.Exam,
+                           
                             OptionsText = answerOptionDTO.OptionsText,
+                            Id = answerOptionDTO.Id,
+                            ExamId= answerOptionDTO.Id
                         };
 
                         qe.AnswerExams.Add(newAnswerOption);

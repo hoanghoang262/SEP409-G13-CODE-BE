@@ -10,6 +10,7 @@ using System.Reflection;
 using System.Text;
 using Contract.Service.Configuration;
 using Contract.Service;
+using Microsoft.OpenApi.Models;
 
 
 
@@ -22,7 +23,8 @@ namespace Authenticated
         {
             var builder = WebApplication.CreateBuilder(args);
             builder.Services.AddControllersWithViews();
-           
+            builder.Services.AddControllers();
+
             //config RabbitMQ
             var configuration = builder.Configuration.GetSection("EventBusSetting:HostAddress").Value;
 
@@ -51,13 +53,13 @@ namespace Authenticated
                                       .AllowAnyOrigin());
             });
             //Config email
-            var email=builder.Configuration.GetSection(nameof(SmtpEmailSetting)).Get<SmtpEmailSetting>();
+            var email = builder.Configuration.GetSection(nameof(SmtpEmailSetting)).Get<SmtpEmailSetting>();
             builder.Services.AddSingleton(email);
             builder.Services.AddScoped<IEmailService<MailRequest>, SMTPEmailService>();
             //Config autoMapper
-            builder.Services.AddAutoMapper(cfg=>cfg.AddProfile(new MappingProfile()));
+            builder.Services.AddAutoMapper(cfg => cfg.AddProfile(new MappingProfile()));
             //Config MediatR
-            builder.Services.AddMediatR(cfg=>cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly()));
+            builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly()));
 
             builder.Services.AddRazorPages();
             //Config context
@@ -71,45 +73,66 @@ namespace Authenticated
                 options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
                 options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
                 options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
-            }).AddJwtBearer(options =>
+            }).AddJwtBearer(o =>
             {
-                options.SaveToken = true;
-                options.RequireHttpsMetadata = false;
-                options.TokenValidationParameters = new TokenValidationParameters()
+                o.TokenValidationParameters = new TokenValidationParameters
                 {
+                    ValidIssuer = builder.Configuration["Jwt:Issuer"],
+                    ValidAudience = builder.Configuration["Jwt:Audience"],
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"])),
                     ValidateIssuer = true,
                     ValidateAudience = true,
-                    ValidAudience = builder.Configuration["JWT:ValidAudience"],
-                    ValidIssuer = builder.Configuration["JWT:ValidIssuer"],
-                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["JWT:Secret"]))
+                    ValidateLifetime = false,
+                    ValidateIssuerSigningKey = true
                 };
             });
-            //Config FireBase
-            FirebaseApp.Create(new AppOptions()
+
+            builder.Configuration.AddJsonFile("appsettings.json", optional: false, reloadOnChange: true).AddEnvironmentVariables();
+
+            builder.Services.AddEndpointsApiExplorer();
+            builder.Services.AddSwaggerGen(opt =>
             {
-                Credential = GoogleCredential.FromFile("firebase.json"),
+                var securityScheme = new OpenApiSecurityScheme
+                {
+                    Name = "Authorization",
+                    Type = SecuritySchemeType.Http,
+                    Scheme = "bearer",
+                    BearerFormat = "JWT",
+                    In = ParameterLocation.Header,
+                    Description = "Bearer token for JWT Authorization",
+                    Reference = new OpenApiReference
+                    {
+                        Type = ReferenceType.SecurityScheme,
+                        Id = JwtBearerDefaults.AuthenticationScheme
+                    }
+                };
+                opt.AddSecurityDefinition(JwtBearerDefaults.AuthenticationScheme, securityScheme);
+                var securityRequirement = new OpenApiSecurityRequirement
+                {
+                    {
+                        securityScheme,
+                        new string[] {}
+                    }
+                };
+                opt.AddSecurityRequirement(securityRequirement);
             });
 
-            builder.Services.AddControllers();
-            builder.Services.AddEndpointsApiExplorer();
-            builder.Services.AddSwaggerGen();
-            builder.Services.AddHttpContextAccessor();
+            //builder.Services.AddHttpContextAccessor();
 
             var app = builder.Build();
 
-            // Configure the HTTP request pipeline.
-            //if (app.Environment.IsDevelopment())
-            //{
-               
-            //}
+
             app.UseSwagger();
             app.UseSwaggerUI();
 
             app.UseHttpsRedirection();
-
-            app.UseAuthorization();
             app.UseAuthentication();
-            app.UseRouting();
+            app.UseAuthorization();
+
+
+            IConfiguration configuration1 = app.Configuration;
+            IWebHostEnvironment environment = app.Environment;
+
             app.UseCors("AllowSpecificOrigin");
             app.MapRazorPages();
 
@@ -117,6 +140,7 @@ namespace Authenticated
               name: "default",
               pattern: "{controller=Home}/{action=Index}/{id?}");
             app.MapControllers();
+
 
             app.Run();
         }

@@ -30,6 +30,10 @@ namespace ModerationService.API.Fearture.Querries.Moderations
                             .ThenInclude(l => l.TheoryQuestions)
                                 .ThenInclude(ans => ans.AnswerOptions)
                     .Include(c => c.Chapters)
+                        .ThenInclude(ch => ch.LastExams)
+                            .ThenInclude(l => l.QuestionExams)
+                                .ThenInclude(ans => ans.AnswerExams)
+                    .Include(c => c.Chapters)
                         .ThenInclude(ch => ch.PracticeQuestions)
                             .ThenInclude(cq => cq.TestCases)
                     .Include(c => c.Chapters)
@@ -70,6 +74,32 @@ namespace ModerationService.API.Fearture.Querries.Moderations
                         chapter.CourseId,
                         chapter.Part,
                         chapter.IsNew,
+                        LastExam = chapter.LastExams.Select(lastex => new
+                        {
+                            lastex.Id,
+                            lastex.Name,
+                            lastex.PercentageCompleted,
+                            lastex.IsPass,
+                            lastex.ChapterId,
+                            QuestionExams = lastex.QuestionExams.Select(qe => new
+                            {
+                                qe.Id,
+                                qe.LastExamId,
+                                qe.ContentQuestion,
+                                qe.Score,
+                                qe.Status,
+                                AnswerExams = qe.AnswerExams.Select(ans => new
+                                {
+                                    ans.Id,
+                                    ans.ExamId,
+                                    ans.CorrectAnswer,
+                                    ans.OptionsText
+
+                                }).ToList(),
+
+                            }).ToList(),
+
+                        }).ToList(),
                         CodeQuestions = chapter.PracticeQuestions.Select(codeQuestion => new
                         {
                             codeQuestion.Id,

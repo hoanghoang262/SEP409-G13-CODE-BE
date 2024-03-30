@@ -42,12 +42,8 @@ namespace Authenticate_Service.Feature.AuthenticateFearture.Command.Login
                     }
                     var user = _context.Users.FirstOrDefault(x => x.Email.Equals(request.Email));
 
-                    if (user != null && user.Password != null)
-                    {
-                        return new BadRequestObjectResult("A user is already registered with this e-mail address.");
-                    }
-
-                    if (user == null)
+                
+                    if(user==null)
                     {
                         var userLoginGoogle = new User
                         {

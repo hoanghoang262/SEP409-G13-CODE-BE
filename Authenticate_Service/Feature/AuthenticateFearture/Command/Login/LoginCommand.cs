@@ -4,7 +4,11 @@ using Contract.Service.Message;
 using Google;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using System.Text;
 
 namespace Authenticate_Service.Feature.AuthenticateFearture.Command.Login
 {
@@ -51,17 +55,54 @@ namespace Authenticate_Service.Feature.AuthenticateFearture.Command.Login
                         }
 
                         var userId = user.Id;
-                        var userRoles = (from u in _context.Users
-                                         join role in _context.Roles on u.RoleId equals role.Id
-                                         where u.UserName == request.UserName
-                                         select role.Name).ToList();
+                        var userRoles = _context.Users.Include(c=>c.Role).FirstOrDefault(c=>c.UserName.Equals(request.UserName)).Role.Name;
 
-                        var tokenGenerator = new GenerateJwtToken(_configuration);
-                        var token = tokenGenerator.GenerateToken(userId, request.UserName,user.ProfilePict, userRoles);
+
+                        var authClaims = new List<Claim>
+                        {
+                             new Claim("UserID", user.Id.ToString()),
+                             new Claim("UserName", user.UserName)
+
+                        };
+
+
+                      
+
+                       // var authSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["JWT:Secret"]));
+
+
+                        var issuer = _configuration["Jwt:Issuer"];
+                        var audience = _configuration["Jwt:Audience"];
+                        var key = Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]);
+                        var signingCredentials = new SigningCredentials(
+                        new SymmetricSecurityKey(key),
+                        SecurityAlgorithms.HmacSha512Signature
+                    );
+                        var subject = new ClaimsIdentity(new[]
+                         {
+                             new Claim("UserID", user.Id.ToString()),
+                             new Claim("UserName", user.UserName),
+                             new Claim("Roles", userRoles),
+                             new Claim(ClaimTypes.Role, userRoles)
+                          });
+
+
+                        var tokenDescriptor = new SecurityTokenDescriptor
+                        {
+                            Subject = subject,
+                            Expires = DateTime.UtcNow.AddMinutes(10),
+                            Issuer = issuer,
+                            Audience = audience,
+                            SigningCredentials = signingCredentials
+                        };
+                        var tokenHandler = new JwtSecurityTokenHandler();
+                        var token = tokenHandler.CreateToken(tokenDescriptor);
+                        var jwtToken = tokenHandler.WriteToken(token);
+
 
                         return new OkObjectResult(new
                         {
-                            token = new JwtSecurityTokenHandler().WriteToken(token),
+                            token = jwtToken,
                             expiration = token.ValidTo
                         });
                     }
