@@ -37,7 +37,7 @@ namespace Authenticate_Service.Feature.AuthenticateFearture.Command.Login
 
                     if (String.IsNullOrEmpty(request.Email))
                     {
-                        return new  BadRequestObjectResult("Not found email");
+                        return new BadRequestObjectResult("Not found email");
 
                     }
                     var user = _context.Users.FirstOrDefault(x => x.Email.Equals(request.Email));
@@ -51,20 +51,21 @@ namespace Authenticate_Service.Feature.AuthenticateFearture.Command.Login
                             UserName = request.UserName,
                             RoleId = 1,
                             EmailConfirmed = true,
-                            ProfilePict=request.PhotoURL
+                            ProfilePict = request.PhotoURL
                         };
                         _context.Users.Add(userLoginGoogle);
                         await _context.SaveChangesAsync();
                     }
+
                     var getUserId = _context.Users.FirstOrDefault(x => x.Email.Equals(request.Email)).Id;
 
                     var tokenGenerator = new GenerateJwtToken(_configuration);
                     var roles = (from u in _context.Users
-                                     join role in _context.Roles on u.RoleId equals role.Id
-                                     where u.Email == request.Email
-                                     select role.Name).ToList();
+                                 join role in _context.Roles on u.RoleId equals role.Id
+                                 where u.Email == request.Email
+                                 select role.Name).ToList();
 
-                    var token = tokenGenerator.GenerateToken(getUserId, user.UserName,user.ProfilePict, roles);
+                    var token = tokenGenerator.GenerateToken(getUserId, user.UserName, user.ProfilePict, roles);
 
                     return new OkObjectResult(new
                     {
@@ -74,7 +75,6 @@ namespace Authenticate_Service.Feature.AuthenticateFearture.Command.Login
                 }
                 catch (GoogleApiException)
                 {
-
                     return new StatusCodeResult(StatusCodes.Status503ServiceUnavailable);
                 }
             }

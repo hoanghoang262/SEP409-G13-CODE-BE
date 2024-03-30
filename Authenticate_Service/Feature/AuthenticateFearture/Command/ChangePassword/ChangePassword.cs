@@ -10,11 +10,8 @@ namespace Authenticate_Service.Feature.AuthenticateFearture.Command.ChangePasswo
     public class ChangePasswordCommand : IRequest<IActionResult>
     {
         public string Email { get; set; }
-
-        public string OldPassword { get; set; }
-
+        public string? OldPassword { get; set; }
         public string? NewPassword { get; set; }
-
         public class ChangePasswordHandler : IRequestHandler<ChangePasswordCommand, IActionResult>
         {
             private readonly AuthenticationContext _context;
@@ -33,13 +30,6 @@ namespace Authenticate_Service.Feature.AuthenticateFearture.Command.ChangePasswo
                     return new BadRequestObjectResult(Message.MSG11);
                 }
 
-                // Check user old password
-                var user = _context.Users.FirstOrDefault(u => u.Email == request.Email && u.Password == request.OldPassword);
-                if (user == null)
-                {
-                    return new BadRequestObjectResult(Message.MSG13);
-                }
-
                 // Validate password
                 string pattern = "^(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*()-_+=])[A-Za-z0-9!@#$%^&*()-_+=]{8,32}$";
                 Regex regex = new Regex(pattern);
@@ -48,14 +38,15 @@ namespace Authenticate_Service.Feature.AuthenticateFearture.Command.ChangePasswo
                     return new BadRequestObjectResult(Message.MSG17);
                 }
 
-                // Check password is the same as old password
-                if (request.OldPassword.Equals(request.NewPassword))
+                // Check user old password
+                var user = _context.Users
+                    .FirstOrDefault(u => u.Email == request.Email && u.Password == request.OldPassword);
+                if (user == null)
                 {
-                    return new BadRequestObjectResult(Message.MSG18);
+                    return new BadRequestObjectResult(Message.MSG13);
                 }
 
                 user.Password = request.NewPassword;
-
                 await _context.SaveChangesAsync();
 
                 return new OkObjectResult(Message.MSG12);

@@ -18,7 +18,6 @@ namespace CourseService.API.Feartures.CourseFearture.Queries.CourseQueries
         public int PageSize { get; set; } = 5;
         public string? CourseName { get; set; }
         public string? Tag { get; set; }
-
         public int? UserId { get; set; }
         public class GetAllCoursesHandler : IRequestHandler<GetAllCourseQuerry, IActionResult>
         {

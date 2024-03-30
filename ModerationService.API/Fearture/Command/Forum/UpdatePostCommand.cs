@@ -1,11 +1,12 @@
-﻿using MediatR;
+﻿using Contract.Service.Message;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ModerationService.API.Models;
 
 namespace ModerationService.API.Fearture.Command.Forum
 {
-    public class UpdatePostCommand : IRequest<ActionResult<Post>>
+    public class UpdatePostCommand : IRequest<IActionResult>
     {
 
         public int Id { get; set; }
@@ -15,27 +16,40 @@ namespace ModerationService.API.Fearture.Command.Forum
         public int CreatedBy { get; set; }
         public DateTime? LastUpdate { get; set; }
 
-        public class UpdatePostCommandHandler : IRequestHandler<UpdatePostCommand, ActionResult<Post>>
+        public class UpdatePostCommandHandler : IRequestHandler<UpdatePostCommand, IActionResult>
         {
             private readonly Content_ModerationContext _context;
             public UpdatePostCommandHandler(Content_ModerationContext context)
             {
-                _context=context;
+                _context = context;
             }
-            public async Task<ActionResult<Post>> Handle(UpdatePostCommand request, CancellationToken cancellationToken)
+            public async Task<IActionResult> Handle(UpdatePostCommand request, CancellationToken cancellationToken)
             {
-                var post =await _context.Posts.FirstOrDefaultAsync(x=>x.Id.Equals(request.Id));
+                // Validate request
+                if (string.IsNullOrEmpty(request.Title)
+                    || string.IsNullOrEmpty(request.Description)
+                    || string.IsNullOrEmpty(request.PostContent))
+                {
+                    return new BadRequestObjectResult(Message.MSG11);
+                }
+
+                // Validate length
+                if (request.Title.Length > 256)
+                {
+                    return new BadRequestObjectResult(Message.MSG27);
+                }
+
+                var post = await _context.Posts.FirstOrDefaultAsync(x => x.Id.Equals(request.Id));
 
                 if (post == null)
                 {
-                    return new BadRequestObjectResult("Not found");
+                    return new BadRequestObjectResult(Message.MSG34);
                 }
 
                 post.Title = request.Title;
                 post.PostContent = request.PostContent;
                 post.Description = request.Description;
                 post.LastUpdate = DateTime.Now;
-                post.CreatedBy = request.CreatedBy;
 
                 return new OkObjectResult(post);
 

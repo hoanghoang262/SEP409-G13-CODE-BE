@@ -1,4 +1,5 @@
-﻿using CourseService.API.Models;
+﻿using Contract.Service.Message;
+using CourseService.API.Models;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;

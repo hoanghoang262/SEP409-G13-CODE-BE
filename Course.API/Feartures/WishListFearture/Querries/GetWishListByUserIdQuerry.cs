@@ -1,4 +1,5 @@
-﻿using CourseService.API.Common.DTO;
+﻿using Contract.Service.Message;
+using CourseService.API.Common.DTO;
 using CourseService.API.GrpcServices;
 using CourseService.API.Models;
 using MediatR;
@@ -10,7 +11,6 @@ namespace CourseService.API.Feartures.WishListFearture.Querries
     public class GetWishListByUserIdQuerry : IRequest<IActionResult>
     {
         public int UserId { get; set; }
-
         public class GetWishListByUserIdQuerryHandler : IRequestHandler<GetWishListByUserIdQuerry, IActionResult>
         {
             private readonly CourseContext _context;
@@ -41,6 +41,11 @@ namespace CourseService.API.Feartures.WishListFearture.Querries
                 foreach (var c in querry)
                 {
                     var userInfo = await _service.SendUserId(c.UserId);
+                    if (userInfo.Id == 0)
+                    {
+                        return new BadRequestObjectResult(Message.MSG01);
+                    }
+
                     var dto = new WishListDTO()
                     {
                         Id = c.Id,

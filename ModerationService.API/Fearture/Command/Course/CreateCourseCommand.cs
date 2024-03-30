@@ -2,6 +2,7 @@
 using GrpcServices;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using ModerationService.API.GrpcServices;
 using ModerationService.API.Models;
 
 namespace CourseService.API.Feartures.CourseFearture.Command.CreateCourse
@@ -18,12 +19,12 @@ namespace CourseService.API.Feartures.CourseFearture.Command.CreateCourse
         public class CreateCourseHandler : IRequestHandler<CreateCourseCommand, IActionResult>
         {
             private readonly Content_ModerationContext _context;
-            private readonly UserIdCourseGrpcService service;
+            private readonly GetUserInfoService _service;
 
             public CreateCourseHandler(Content_ModerationContext context, UserIdCourseGrpcService _service)
             {
                 _context = context;
-                service = _service;
+                _service = _service;
             }
 
             public async Task<IActionResult> Handle(CreateCourseCommand request, CancellationToken cancellationToken)
@@ -41,8 +42,8 @@ namespace CourseService.API.Feartures.CourseFearture.Command.CreateCourse
                 }
 
                 // Check if user exists
-                var user = await service.SendUserId(request.CreatedBy);
-                if (user == null)
+                var user = await _service.SendUserId(request.CreatedBy);
+                if (user.Id == 0)
                 {
                     return new BadRequestObjectResult(Message.MSG24);
                 }

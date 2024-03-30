@@ -229,7 +229,6 @@ namespace Authenticated.Controllers
                 query = query.Where(u => u.UserName.Contains(Search) || u.Email.Contains(Search));
             }
 
-          
             if (Status.HasValue)
             {
                 query = query.Where(u => u.Status == Status.Value);

@@ -1,4 +1,5 @@
-﻿using EventBus.Message.Event;
+﻿using Contract.Service.Message;
+using EventBus.Message.Event;
 using ForumService.API.Models;
 using MassTransit;
 using MediatR;
@@ -10,7 +11,6 @@ namespace ForumService.API.Fearture.Command
     public class DeletePostCommand : IRequest<IActionResult>
     {
         public int PostId { get; set; }
-
 
         public class DeletePostCommandHandler : IRequestHandler<DeletePostCommand, IActionResult>
         {
@@ -27,13 +27,14 @@ namespace ForumService.API.Fearture.Command
                 var postIdEvent = new PostIdEvent { postId = request.PostId };
                 if (post == null)
                 {
-                    return new BadRequestObjectResult("Not found");
+                    return new BadRequestObjectResult(Message.MSG34);
                 }
+
                 _context.Posts.Remove(post);
                 await _context.SaveChangesAsync();
                 await publish.Publish(postIdEvent);
 
-                return new OkObjectResult("Delete succesfully");
+                return new OkObjectResult(Message.MSG16);
             }
         }
     }

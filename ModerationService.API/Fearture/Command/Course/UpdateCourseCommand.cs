@@ -38,7 +38,10 @@ namespace CourseService.API.Feartures.CourseFearture.Command.CreateCourse
             public async Task<IActionResult> Handle(UpdateCourseCommand request, CancellationToken cancellationToken)
             {
                 // validate input
-                if (string.IsNullOrEmpty(request.Name) || string.IsNullOrEmpty(request.Description) || string.IsNullOrEmpty(request.Picture) || string.IsNullOrEmpty(request.Tag))
+                if (string.IsNullOrEmpty(request.Name)
+                    || string.IsNullOrEmpty(request.Description)
+                    || string.IsNullOrEmpty(request.Picture)
+                    || string.IsNullOrEmpty(request.Tag))
                 {
                     return new BadRequestObjectResult(Message.MSG11);
                 }

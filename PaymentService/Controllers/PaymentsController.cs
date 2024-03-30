@@ -84,12 +84,7 @@ namespace PaymentService.Controllers
             var query = new GetHistoryPaymentsOfUserQuerry { Id = userId };
             var result = await mediator.Send(query);
 
-            if (result.Result is NoContentResult)
-            {
-                return NoContent();
-            }
-
-            return Ok(result.Value);
+            return Ok(result);
         }
     }
 }

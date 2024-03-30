@@ -37,17 +37,17 @@ namespace CourseService.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetCourseByCourseId(int Id,int userId)
+        public async Task<IActionResult> GetCourseByCourseId(int Id, int userId)
         {
-            return Ok(await _mediator.Send(new GetCourseByCourseIdQuerry { CourseId = Id,UserId=userId }));
+            return Ok(await _mediator.Send(new GetCourseByCourseIdQuerry { CourseId = Id, UserId = userId }));
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetChapterById(int chapterId,int userId)
+        public async Task<IActionResult> GetChapterById(int chapterId, int userId)
         {
             try
             {
-                var query = new GetChapterByIdQuerry { ChapterId = chapterId, UserId=userId };
+                var query = new GetChapterByIdQuerry { ChapterId = chapterId, UserId = userId };
                 var result = await _mediator.Send(query);
 
                 return Ok(result);
@@ -75,11 +75,11 @@ namespace CourseService.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetPracticeQuestionById(int practiceQuestionId,int userId)
+        public async Task<IActionResult> GetPracticeQuestionById(int practiceQuestionId, int userId)
         {
             try
             {
-                var query = new GetPracticeQuestionByIdQuerry { PracticeQuestionId = practiceQuestionId, UserId=userId };
+                var query = new GetPracticeQuestionByIdQuerry { PracticeQuestionId = practiceQuestionId, UserId = userId };
                 var result = await _mediator.Send(query);
 
                 return Ok(result);
@@ -110,8 +110,8 @@ namespace CourseService.Controllers
             {
                 LastExamId = lastExamId
             };
-
             var result = await _mediator.Send(query);
+
             return result;
         }
     }

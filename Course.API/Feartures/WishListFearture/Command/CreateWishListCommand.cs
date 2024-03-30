@@ -1,4 +1,6 @@
-﻿using CourseService.API.Models;
+﻿using Contract.Service.Message;
+using CourseService.API.GrpcServices;
+using CourseService.API.Models;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -12,14 +14,23 @@ namespace CourseService.API.Feartures.WishListFearture.Command
         public class CreateWishListCommandHandler : IRequestHandler<CreateWishListCommand, IActionResult>
         {
             private readonly CourseContext _context;
+            private readonly GetUserInfoService _service;
 
-            public CreateWishListCommandHandler(CourseContext context)
+            public CreateWishListCommandHandler(CourseContext context, GetUserInfoService service)
             {
                 _context = context;
+                _service = service;
             }
 
             public async Task<IActionResult> Handle(CreateWishListCommand request, CancellationToken cancellationToken)
             {
+                // Check if the user exists
+                var user = await _service.SendUserId(request.UserId);
+                if (user.Id == 0)
+                {
+                    return new BadRequestObjectResult(Message.MSG01);
+                }
+
                 var wishlistItem = new Wishlist
                 {
                     CourseId = request.CourseId,

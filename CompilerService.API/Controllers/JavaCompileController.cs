@@ -1,8 +1,6 @@
-﻿
-using CompilerService.API.Models;
+﻿using CompilerService.API.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
-
 
 namespace CourseService.API.Controllers
 {
@@ -13,7 +11,6 @@ namespace CourseService.API.Controllers
         private readonly DynamicCodeCompilerJava _compile;
         private readonly IWebHostEnvironment _hostingEnvironment;
         private readonly CourseContext _context;
-
 
         public JavaCompileController(DynamicCodeCompilerJava compile, IWebHostEnvironment env, CourseContext context)
         {
@@ -148,7 +145,7 @@ namespace CourseService.API.Controllers
             var startInfo = new ProcessStartInfo
             {
                 FileName = "java",
-                Arguments = "Solution", 
+                Arguments = "Solution",
                 UseShellExecute = false,
                 RedirectStandardOutput = true,
                 RedirectStandardError = true,
@@ -177,6 +174,5 @@ namespace CourseService.API.Controllers
 
             return result;
         }
-
     }
 }
