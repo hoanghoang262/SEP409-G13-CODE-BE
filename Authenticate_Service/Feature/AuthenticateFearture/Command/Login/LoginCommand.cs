@@ -62,8 +62,7 @@ namespace Authenticate_Service.Feature.AuthenticateFearture.Command.Login
                         return new OkObjectResult(new
                         {
                             token = new JwtSecurityTokenHandler().WriteToken(token),
-                            expiration = token.ValidTo,
-                            Message.MSG02
+                            expiration = token.ValidTo
                         });
                     }
                     else if (user == null)
