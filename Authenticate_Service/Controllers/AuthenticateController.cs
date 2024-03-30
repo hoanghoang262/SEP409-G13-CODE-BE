@@ -8,14 +8,17 @@ using Contract.Service.Configuration;
 using Contract.Service.Message;
 using MassTransit.Initializers;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Text.RegularExpressions;
 
 namespace Authenticated.Controllers
-{
-    [Route("api/[controller]/[action]")]
+{  
     [ApiController]
+   
+    [Route("api/[controller]/[action]")]
+  
     public class AuthenticateController : ControllerBase
     {
 
@@ -85,6 +88,7 @@ namespace Authenticated.Controllers
             }
             else
             {
+
                 var newUser = new User { Email = request.Email, UserName = request.UserName, Password = request.Password, RoleId = 1, EmailConfirmed = false };
                 context.Users.Add(newUser);
                 await context.SaveChangesAsync();
@@ -124,7 +128,7 @@ namespace Authenticated.Controllers
         {
             // Validate input
             if (String.IsNullOrEmpty(request.UserName)
-                || String.IsNullOrEmpty(request.Password)
+               
                 || String.IsNullOrEmpty(request.Email))
             {
                 return new BadRequestObjectResult(Message.MSG11);
@@ -162,37 +166,24 @@ namespace Authenticated.Controllers
             }
             else
             {
-                var newUser = new User { Email = request.Email, UserName = request.UserName, Password = request.Password,ProfilePict=request.Picture, RoleId = 2, EmailConfirmed = true };
-                context.Users.Add(newUser);
-                await context.SaveChangesAsync();
+                if (!string.IsNullOrEmpty(request.Password))
+                {
+                    var newUser = new User { Email = request.Email, UserName = request.UserName, Password = request.Password, ProfilePict = request.Picture, RoleId = 2, EmailConfirmed = true };
+                    context.Users.Add(newUser);
+                    await context.SaveChangesAsync();
 
-                //var callbackUrl = Url.Action(
-                //                "ConfirmEmail",
-                //                 "Authenticate",
-                //                 new { userId = newUser.Id },
-                //                 Request.Scheme);
+                    return new OkObjectResult(Message.MSG08);
 
-                //var message = new MailRequest
-                //{
-                //    Body = @$"
-                //                <html>
-                //                    <body>
-                //                        <div style='font-family: Arial, sans-serif; color: #333;'>
-                //                            <h2 style='color: #0056b3;'>Welcome to Happy Learning, {request.UserName}!</h2>
-                //                            <p>Thank you for signing up. Please confirm your email address to activate your account.</p>
-                //                            <p style='margin: 20px 0;'>
-                //                                <a href='{callbackUrl}' style='background-color: #0056b3; color: #ffffff; padding: 10px 20px; text-decoration: none; border-radius: 5px;'>Confirm Email</a>
-                //                            </p>
-                //                            <p>If you did not create an account using this email address, please ignore this email.</p>
-                //                        </div>
-                //                    </body>
-                //                </html>",
-                //    ToAddress = request.Email,
-                //    Subject = "Confirm Your Email "
-                //};
-                //await _emailService.SendEmailasync(message);
+                }
+                else
+                {
+                    var newUser = new User { Email = request.Email, UserName = request.UserName, Password = "123456", ProfilePict = request.Picture, RoleId = 2, EmailConfirmed = true };
+                    context.Users.Add(newUser);
+                    await context.SaveChangesAsync();
 
-                return new OkObjectResult(Message.MSG08);
+                    return new OkObjectResult(Message.MSG08);
+                }
+             
 
             }
         }
@@ -226,7 +217,10 @@ namespace Authenticated.Controllers
             return Ok(userDto);
         }
 
+      
         [HttpGet]
+        [Authorize(Roles = "AdminSystem")]
+
         public async Task<IActionResult> GetAllStudent(string? Search, bool? Status, int Page = 1, int PageSize = 5)
         {
             IQueryable<User> query = context.Users.Include(u => u.Role).Where(u => u.Role.Id == 1);

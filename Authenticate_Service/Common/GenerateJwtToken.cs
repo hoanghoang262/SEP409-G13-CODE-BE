@@ -22,12 +22,11 @@ namespace Authenticate_Service.Common
                   new Claim("UserName", userName)
 
             };
-
            
 
             foreach (var userRole in userRoles)
             {
-                authClaims.Add(new Claim("Role", userRole));
+                authClaims.Add(new Claim("Roles", userRole));
             }
 
             var authSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["JWT:Secret"]));

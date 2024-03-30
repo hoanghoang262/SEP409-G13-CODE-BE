@@ -1,6 +1,7 @@
 ﻿using Contract.Service.Message;
 using CourseGRPC.Services;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using ModerationService.API.Fearture.Command;
 using ModerationService.API.Fearture.Command.Forum;
@@ -71,8 +72,9 @@ namespace ModerationService.API.Controllers
             var result = await _mediator.Send(command);
             return result;
         }
-
+       // [Authorize(Roles = "AdminSystem")]
         [HttpGet]
+       
         public async Task<IActionResult> GetModerationsCourse(string? courseName, string? Tag, int page = 1, int pageSize = 5)
         {
             try
@@ -89,6 +91,7 @@ namespace ModerationService.API.Controllers
         }
 
         [HttpGet]
+        
         public async Task<IActionResult> GetModerationsPost(string? postTitle, string? Tag, int page = 1, int pageSize = 5)
         {
                 var query = new GetModerationPostQuerry { PostTitle = postTitle, Tag = Tag, Page = page, PageSize = pageSize };

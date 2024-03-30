@@ -22,7 +22,8 @@ namespace Authenticated
         {
             var builder = WebApplication.CreateBuilder(args);
             builder.Services.AddControllersWithViews();
-           
+            builder.Services.AddControllers();
+
             //config RabbitMQ
             var configuration = builder.Configuration.GetSection("EventBusSetting:HostAddress").Value;
 
@@ -71,45 +72,43 @@ namespace Authenticated
                 options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
                 options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
                 options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
-            }).AddJwtBearer(options =>
+            }).AddJwtBearer(o =>
             {
-                options.SaveToken = true;
-                options.RequireHttpsMetadata = false;
-                options.TokenValidationParameters = new TokenValidationParameters()
+                o.TokenValidationParameters = new TokenValidationParameters
                 {
+                    ValidIssuer = builder.Configuration["Jwt:Issuer"],
+                    ValidAudience = builder.Configuration["Jwt:Audience"],
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"])),
                     ValidateIssuer = true,
                     ValidateAudience = true,
-                    ValidAudience = builder.Configuration["JWT:ValidAudience"],
-                    ValidIssuer = builder.Configuration["JWT:ValidIssuer"],
-                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["JWT:Secret"]))
+                    ValidateLifetime = false,
+                    ValidateIssuerSigningKey = true
                 };
             });
-            //Config FireBase
-            FirebaseApp.Create(new AppOptions()
-            {
-                Credential = GoogleCredential.FromFile("firebase.json"),
-            });
+            builder.Services.AddAuthorization();
 
-            builder.Services.AddControllers();
+            builder.Configuration.AddJsonFile("appsettings.json", optional: false, reloadOnChange: true).AddEnvironmentVariables();
+
+
+
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
-            builder.Services.AddHttpContextAccessor();
+            //builder.Services.AddHttpContextAccessor();
 
             var app = builder.Build();
 
-            // Configure the HTTP request pipeline.
-            //if (app.Environment.IsDevelopment())
-            //{
-               
-            //}
+     
             app.UseSwagger();
             app.UseSwaggerUI();
 
-            app.UseHttpsRedirection();
+            app.UseHttpsRedirection(); 
+            app.UseAuthentication(); 
+            app.UseAuthorization(); 
 
-            app.UseAuthorization();
-            app.UseAuthentication();
-            app.UseRouting();
+
+            IConfiguration configuration1 = app.Configuration;
+            IWebHostEnvironment environment = app.Environment;
+
             app.UseCors("AllowSpecificOrigin");
             app.MapRazorPages();
 
@@ -117,6 +116,7 @@ namespace Authenticated
               name: "default",
               pattern: "{controller=Home}/{action=Index}/{id?}");
             app.MapControllers();
+          
 
             app.Run();
         }

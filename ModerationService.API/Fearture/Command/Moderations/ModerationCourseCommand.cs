@@ -41,10 +41,10 @@ namespace ModerationService.API.Fearture.Command.Moderations
                 }
 
                 var course = _context.Courses.FirstOrDefault(c => c.Id.Equals(request.CourseId));
-                if (course == null)
-                {
-                    return new BadRequestObjectResult(Message.MSG25);
-                }
+                //if (course == null)
+                //{
+                //    return new BadRequestObjectResult(Message.MSG25);
+                //}
 
                 var courseEvent = new CourseEvent
                 {
@@ -133,8 +133,8 @@ namespace ModerationService.API.Fearture.Command.Moderations
                                 Status = ex.Status
 
                             };
-                            await _publish.Publish(examEvent);
-                            var exAns = _context.AnswerExams.Where(ex => ex.ExamId.Equals(ex.Id)).ToList();
+                          await _publish.Publish(examEvent);
+                            var exAns = _context.AnswerExams.Where(exs => exs.ExamId.Equals(ex.Id)).ToList();
                             foreach (var ans in exAns)
                             {
                                 var exAnswer = new AnswerExamEvent
