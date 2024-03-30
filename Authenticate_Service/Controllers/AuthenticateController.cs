@@ -217,10 +217,9 @@ namespace Authenticated.Controllers
             return Ok(userDto);
         }
 
-      
-        [HttpGet]
-        [Authorize(Roles = "AdminSystem")]
 
+        [Authorize(Roles = "AdminSystem")]
+        [HttpGet]
         public async Task<IActionResult> GetAllStudent(string? Search, bool? Status, int Page = 1, int PageSize = 5)
         {
             IQueryable<User> query = context.Users.Include(u => u.Role).Where(u => u.Role.Id == 1);
