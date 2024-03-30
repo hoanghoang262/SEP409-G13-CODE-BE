@@ -10,6 +10,7 @@ using System.Reflection;
 using System.Text;
 using Contract.Service.Configuration;
 using Contract.Service;
+using Microsoft.OpenApi.Models;
 
 
 
@@ -52,13 +53,13 @@ namespace Authenticated
                                       .AllowAnyOrigin());
             });
             //Config email
-            var email=builder.Configuration.GetSection(nameof(SmtpEmailSetting)).Get<SmtpEmailSetting>();
+            var email = builder.Configuration.GetSection(nameof(SmtpEmailSetting)).Get<SmtpEmailSetting>();
             builder.Services.AddSingleton(email);
             builder.Services.AddScoped<IEmailService<MailRequest>, SMTPEmailService>();
             //Config autoMapper
-            builder.Services.AddAutoMapper(cfg=>cfg.AddProfile(new MappingProfile()));
+            builder.Services.AddAutoMapper(cfg => cfg.AddProfile(new MappingProfile()));
             //Config MediatR
-            builder.Services.AddMediatR(cfg=>cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly()));
+            builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly()));
 
             builder.Services.AddRazorPages();
             //Config context
@@ -85,25 +86,48 @@ namespace Authenticated
                     ValidateIssuerSigningKey = true
                 };
             });
-            builder.Services.AddAuthorization();
 
             builder.Configuration.AddJsonFile("appsettings.json", optional: false, reloadOnChange: true).AddEnvironmentVariables();
 
-
-
             builder.Services.AddEndpointsApiExplorer();
-            builder.Services.AddSwaggerGen();
+            builder.Services.AddSwaggerGen(opt =>
+            {
+                var securityScheme = new OpenApiSecurityScheme
+                {
+                    Name = "Authorization",
+                    Type = SecuritySchemeType.Http,
+                    Scheme = "bearer",
+                    BearerFormat = "JWT",
+                    In = ParameterLocation.Header,
+                    Description = "Bearer token for JWT Authorization",
+                    Reference = new OpenApiReference
+                    {
+                        Type = ReferenceType.SecurityScheme,
+                        Id = JwtBearerDefaults.AuthenticationScheme
+                    }
+                };
+                opt.AddSecurityDefinition(JwtBearerDefaults.AuthenticationScheme, securityScheme);
+                var securityRequirement = new OpenApiSecurityRequirement
+                {
+                    {
+                        securityScheme,
+                        new string[] {}
+                    }
+                };
+                opt.AddSecurityRequirement(securityRequirement);
+            });
+
             //builder.Services.AddHttpContextAccessor();
 
             var app = builder.Build();
 
-     
+
             app.UseSwagger();
             app.UseSwaggerUI();
 
-            app.UseHttpsRedirection(); 
-            app.UseAuthentication(); 
-            app.UseAuthorization(); 
+            app.UseHttpsRedirection();
+            app.UseAuthentication();
+            app.UseAuthorization();
 
 
             IConfiguration configuration1 = app.Configuration;
@@ -116,7 +140,7 @@ namespace Authenticated
               name: "default",
               pattern: "{controller=Home}/{action=Index}/{id?}");
             app.MapControllers();
-          
+
 
             app.Run();
         }

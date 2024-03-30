@@ -82,13 +82,9 @@ namespace Authenticate_Service.Feature.AuthenticateFearture.Command.Login
                          {
                              new Claim("UserID", user.Id.ToString()),
                              new Claim("UserName", user.UserName),
-                             new Claim("Roles", userRoles)
-
+                             new Claim("Roles", userRoles),
+                             new Claim(ClaimTypes.Role, userRoles)
                           });
-                        //foreach (var userRole in userRoles)
-                        //{
-                        //    subject.Add(new Claim("Roles", userRole));
-                        //}
 
 
                         var tokenDescriptor = new SecurityTokenDescriptor
@@ -107,8 +103,7 @@ namespace Authenticate_Service.Feature.AuthenticateFearture.Command.Login
                         return new OkObjectResult(new
                         {
                             token = jwtToken,
-                            expiration = token.ValidTo,
-                            Message.MSG02
+                            expiration = token.ValidTo
                         });
                     }
                     else if (user == null)
