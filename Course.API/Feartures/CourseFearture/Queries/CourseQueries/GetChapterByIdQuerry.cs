@@ -29,7 +29,7 @@ namespace CourseService.API.Feartures.CourseFearture.Queries.CourseQueries
 
                 if (chapter == null)
                 {
-                    return new NotFoundObjectResult(Message.MSG22);
+                    return new NotFoundObjectResult(chapter);
                 }
 
                 var chapterDTO = new ChapterDTO

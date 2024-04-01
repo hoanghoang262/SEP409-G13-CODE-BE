@@ -24,7 +24,7 @@ namespace CourseService.API.Feartures.CourseFearture.Queries.Notes
                     .Where(x => x.UserId.Equals(request.UserId) && x.LessonId.Equals(request.LessonId)).ToListAsync();
                 if (note == null)
                 {
-                    return new NotFoundObjectResult(Message.MSG22);
+                    return new NotFoundObjectResult(note);
                 }
 
                 return new OkObjectResult(note);

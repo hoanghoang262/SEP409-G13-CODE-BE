@@ -35,7 +35,7 @@ namespace ForumService.API.Fearture.Queries
 
                 if (querry == null)
                 {
-                    return new NotFoundObjectResult(Message.MSG22);
+                    return new NotFoundObjectResult(querry);
                 }
                 var total = querry.Count();
 

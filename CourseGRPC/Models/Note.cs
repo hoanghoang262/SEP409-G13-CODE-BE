@@ -10,7 +10,5 @@ namespace CourseGRPC.Models
         public int UserId { get; set; }
         public string? ContentNote { get; set; }
         public int? VideoLink { get; set; }
-
-        public virtual Lesson Lesson { get; set; } = null!;
     }
 }

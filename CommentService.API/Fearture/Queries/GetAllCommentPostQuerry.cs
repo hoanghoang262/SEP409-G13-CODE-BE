@@ -26,7 +26,7 @@ namespace ForumService.API.Fearture.Queries
                 var querry = await _context.Comments.Include(c => c.Replies).Where(c => c.ForumPostId != null && c.ForumPostId.Equals(request.PostId)).ToListAsync();
                 if (querry == null)
                 {
-                    return new NotFoundObjectResult(Message.MSG22);
+                    return new NotFoundObjectResult(querry);
                 }
                 List<CommentDTO> post = new List<CommentDTO>();
                 foreach (var c in querry)

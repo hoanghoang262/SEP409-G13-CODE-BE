@@ -50,7 +50,7 @@ namespace CourseService.API.Feartures.CourseFearture.Command.SyncCourse
                     };
 
                     _context.Lessons.Add(newLesson);
-                    await _context.SaveChangesAsync(cancellationToken);
+                    await _context.SaveChangesAsync();
 
                 }
                 else
@@ -64,7 +64,7 @@ namespace CourseService.API.Feartures.CourseFearture.Command.SyncCourse
                     lesson.ContentLesson = request.ContentLesson;
                    
 
-                    await _context.SaveChangesAsync(cancellationToken);
+                    await _context.SaveChangesAsync();
                 }
 
 

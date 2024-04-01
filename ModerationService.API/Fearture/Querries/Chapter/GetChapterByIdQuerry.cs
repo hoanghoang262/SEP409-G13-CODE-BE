@@ -26,7 +26,7 @@ namespace ModerationService.API.Fearture.Querries.Chapter
 
             if (chapter == null)
             {
-                return new NotFoundObjectResult(Message.MSG22);
+                return new NotFoundObjectResult(chapter);
             }
 
             var chapterDTO = new ChapterDTO

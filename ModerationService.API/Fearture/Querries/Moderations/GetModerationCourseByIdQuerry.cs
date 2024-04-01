@@ -50,7 +50,7 @@ namespace ModerationService.API.Fearture.Querries.Moderations
 
                 if (courses == null)
                 {
-                    return new NotFoundObjectResult(Message.MSG22);
+                    return new NotFoundObjectResult(courses);
                 }
 
                 courses.Chapters.OrderBy(c => c.Part);
@@ -79,7 +79,7 @@ namespace ModerationService.API.Fearture.Querries.Moderations
                             lastex.Id,
                             lastex.Name,
                             lastex.PercentageCompleted,
-                            lastex.IsPass,
+                            
                             lastex.ChapterId,
                             QuestionExams = lastex.QuestionExams.Select(qe => new
                             {

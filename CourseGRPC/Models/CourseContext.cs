@@ -7,7 +7,6 @@ namespace CourseGRPC.Models
 {
     public partial class CourseContext : DbContext
     {
-
         public CourseContext()
         {
         }
@@ -17,29 +16,53 @@ namespace CourseGRPC.Models
         {
         }
 
+        public virtual DbSet<AnswerExam> AnswerExams { get; set; } = null!;
         public virtual DbSet<AnswerOption> AnswerOptions { get; set; } = null!;
         public virtual DbSet<Chapter> Chapters { get; set; } = null!;
         public virtual DbSet<CompleteLesson> CompleteLessons { get; set; } = null!;
+        public virtual DbSet<CompletedExam> CompletedExams { get; set; } = null!;
         public virtual DbSet<Course> Courses { get; set; } = null!;
         public virtual DbSet<Enrollment> Enrollments { get; set; } = null!;
+        public virtual DbSet<LastExam> LastExams { get; set; } = null!;
         public virtual DbSet<Lesson> Lessons { get; set; } = null!;
         public virtual DbSet<Note> Notes { get; set; } = null!;
         public virtual DbSet<PracticeQuestion> PracticeQuestions { get; set; } = null!;
+        public virtual DbSet<QuestionExam> QuestionExams { get; set; } = null!;
         public virtual DbSet<TestCase> TestCases { get; set; } = null!;
         public virtual DbSet<TheoryQuestion> TheoryQuestions { get; set; } = null!;
         public virtual DbSet<UserAnswerCode> UserAnswerCodes { get; set; } = null!;
         public virtual DbSet<UserCourseProgress> UserCourseProgresses { get; set; } = null!;
+        public virtual DbSet<Wishlist> Wishlists { get; set; } = null!;
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)
             {
-                optionsBuilder.UseSqlServer("Server=tcp:fptulearnserver.database.windows.net,1433;Initial Catalog=Course;Persist Security Info=False;User ID=fptu;Password=24082002aA;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;");
+#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
+                optionsBuilder.UseSqlServer("Server=tcp:sep490g13.database.windows.net,1433;Initial Catalog=Course;Persist Security Info=False;User ID=fptu;Password=24082002aA;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;");
             }
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<AnswerExam>(entity =>
+            {
+                entity.ToTable("AnswerExam");
+
+                entity.Property(e => e.Id).ValueGeneratedNever();
+
+                entity.Property(e => e.CorrectAnswer).HasColumnName("Correct_Answer");
+
+                entity.Property(e => e.ExamId).HasColumnName("exam_id");
+
+                entity.Property(e => e.OptionsText).HasColumnName("options_text");
+
+                entity.HasOne(d => d.Exam)
+                    .WithMany(p => p.AnswerExams)
+                    .HasForeignKey(d => d.ExamId)
+                    .HasConstraintName("FK_AnswerExam_Exam");
+            });
+
             modelBuilder.Entity<AnswerOption>(entity =>
             {
                 entity.Property(e => e.Id).ValueGeneratedNever();
@@ -81,11 +104,22 @@ namespace CourseGRPC.Models
                 entity.Property(e => e.LessonId).HasColumnName("Lesson_Id");
 
                 entity.Property(e => e.UserId).HasColumnName("User_id");
+            });
 
-                entity.HasOne(d => d.Lesson)
-                    .WithMany(p => p.CompleteLessons)
-                    .HasForeignKey(d => d.LessonId)
-                    .HasConstraintName("FK_Complete_Lesson_Lesson");
+            modelBuilder.Entity<CompletedExam>(entity =>
+            {
+                entity.HasNoKey();
+
+                entity.ToTable("CompletedExam");
+
+                entity.Property(e => e.LastExamId).HasColumnName("LastExam_Id");
+
+                entity.Property(e => e.UserId).HasColumnName("User_Id");
+
+                entity.HasOne(d => d.LastExam)
+                    .WithMany()
+                    .HasForeignKey(d => d.LastExamId)
+                    .HasConstraintName("FK_CompletedExam_LastExam");
             });
 
             modelBuilder.Entity<Course>(entity =>
@@ -115,6 +149,24 @@ namespace CourseGRPC.Models
                     .WithMany(p => p.Enrollments)
                     .HasForeignKey(d => d.CourseId)
                     .HasConstraintName("FK_Enrollment_Course");
+            });
+
+            modelBuilder.Entity<LastExam>(entity =>
+            {
+                entity.ToTable("LastExam");
+
+                entity.Property(e => e.Id).ValueGeneratedNever();
+
+                entity.Property(e => e.ChapterId).HasColumnName("Chapter_Id");
+
+                entity.Property(e => e.Name).HasMaxLength(50);
+
+                entity.Property(e => e.PercentageCompleted).HasColumnName("Percentage_Completed");
+
+                entity.HasOne(d => d.Chapter)
+                    .WithMany(p => p.LastExams)
+                    .HasForeignKey(d => d.ChapterId)
+                    .HasConstraintName("FK_LastExam_Chapter");
             });
 
             modelBuilder.Entity<Lesson>(entity =>
@@ -148,12 +200,6 @@ namespace CourseGRPC.Models
                 entity.Property(e => e.UserId).HasColumnName("User_Id");
 
                 entity.Property(e => e.VideoLink).HasColumnName("Video_Link");
-
-                entity.HasOne(d => d.Lesson)
-                    .WithMany(p => p.Notes)
-                    .HasForeignKey(d => d.LessonId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_Note_Lesson");
             });
 
             modelBuilder.Entity<PracticeQuestion>(entity =>
@@ -164,12 +210,32 @@ namespace CourseGRPC.Models
 
                 entity.Property(e => e.CodeForm).HasColumnName("Code_Form");
 
+                entity.Property(e => e.TestCaseC).HasColumnName("TestCase_C");
+
+                entity.Property(e => e.TestCaseCplus).HasColumnName("TestCase_CPlus");
+
                 entity.Property(e => e.TestCaseJava).HasColumnName("TestCase_Java");
 
                 entity.HasOne(d => d.Chapter)
                     .WithMany(p => p.PracticeQuestions)
                     .HasForeignKey(d => d.ChapterId)
                     .HasConstraintName("FK_Code_Question_Chapter");
+            });
+
+            modelBuilder.Entity<QuestionExam>(entity =>
+            {
+                entity.ToTable("Question_Exam");
+
+                entity.Property(e => e.Id).ValueGeneratedNever();
+
+                entity.Property(e => e.ContentQuestion).HasColumnName("Content_Question");
+
+                entity.Property(e => e.LastExamId).HasColumnName("LastExam_Id");
+
+                entity.HasOne(d => d.LastExam)
+                    .WithMany(p => p.QuestionExams)
+                    .HasForeignKey(d => d.LastExamId)
+                    .HasConstraintName("FK_Exam_LastExam");
             });
 
             modelBuilder.Entity<TestCase>(entity =>
@@ -215,11 +281,6 @@ namespace CourseGRPC.Models
                 entity.Property(e => e.CodeQuestionId).HasColumnName("Code_Question_Id");
 
                 entity.Property(e => e.UserId).HasColumnName("User_Id");
-
-                entity.HasOne(d => d.CodeQuestion)
-                    .WithMany(p => p.UserAnswerCodes)
-                    .HasForeignKey(d => d.CodeQuestionId)
-                    .HasConstraintName("FK_User_Answer_Code_Code_Question");
             });
 
             modelBuilder.Entity<UserCourseProgress>(entity =>
@@ -233,6 +294,11 @@ namespace CourseGRPC.Models
                 entity.Property(e => e.CurrentLessonId).HasColumnName("Current_Lesson_Id");
 
                 entity.Property(e => e.UserId).HasColumnName("User_Id");
+            });
+
+            modelBuilder.Entity<Wishlist>(entity =>
+            {
+                entity.ToTable("Wishlist");
             });
 
             OnModelCreatingPartial(modelBuilder);

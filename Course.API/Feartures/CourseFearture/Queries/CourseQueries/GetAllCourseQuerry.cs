@@ -47,7 +47,7 @@ namespace CourseService.API.Feartures.CourseFearture.Queries.CourseQueries
                 var totalItems = await query.CountAsync();
                 if (totalItems <= 0)
                 {
-                    return new NotFoundObjectResult(Message.MSG22);
+                    return new NotFoundObjectResult(totalItems);
                 }
 
                 var courseList = await query

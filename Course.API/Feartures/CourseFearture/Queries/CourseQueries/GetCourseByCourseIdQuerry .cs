@@ -58,7 +58,7 @@ namespace CourseService.API.Feartures.CourseFearture.Queries.CourseQueries
 
                 if (courses == null)
                 {
-                    return new NotFoundObjectResult(Message.MSG22);
+                    return new NotFoundObjectResult(courses);
                 }
 
                 courses.Chapters.OrderBy(c => c.Part);
@@ -89,7 +89,7 @@ namespace CourseService.API.Feartures.CourseFearture.Queries.CourseQueries
                             lastex.Id,
                             lastex.Name,
                             lastex.PercentageCompleted,
-                            lastex.IsPass,
+                          
                             lastex.ChapterId,
                             QuestionExams = lastex.QuestionExams.Select(qe => new
                             {

@@ -3,6 +3,7 @@ using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
+using PaymentService.API.GrpcServices;
 using PaymentService.Common;
 using PaymentService.Interface;
 using PaymentService.Models;
@@ -17,10 +18,12 @@ namespace PaymentService.Fearture.Payments.Querry
     {
         private readonly ICurrentUserService currentUserService;
         private readonly PaymentContext context;
-        public GetPaymentHandler(ICurrentUserService currentUserService, PaymentContext _context)
+        private readonly GetCourseInfoService serviceCourse;
+        public GetPaymentHandler(ICurrentUserService currentUserService, PaymentContext _context, GetCourseInfoService _serviceCourse)
         {
             this.currentUserService = currentUserService;
             context = _context;
+            serviceCourse = _serviceCourse;
 
         }
 
@@ -29,18 +32,21 @@ namespace PaymentService.Fearture.Payments.Querry
             var pay = await context.Payments.Where(x => x.UserCreateCourseId.Equals(request.Id)).ToListAsync();
             if (pay == null)
             {
-                return new NotFoundObjectResult(Message.MSG22);
+                return new NotFoundObjectResult(pay);
             }
             List<PaymentDtos> payDto = new List<PaymentDtos>();
             foreach (var p in pay)
             {
+                var course = await serviceCourse.SendCourseId((int)p.CourseId);
                 var payDtos = new PaymentDtos
                 {
 
                     CourseId = p.CourseId,
                     Money = p.RequriedAmount,
                     PaymentId = p.PaymentId,
-                    TransactionDate = p.PaymentDate
+                    TransactionDate = p.PaymentDate,
+                    CourseName=course.Name,
+                    
                 };
                 payDto.Add(payDtos);
             }

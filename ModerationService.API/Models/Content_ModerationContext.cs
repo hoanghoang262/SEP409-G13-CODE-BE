@@ -54,7 +54,7 @@ namespace ModerationService.API.Models
                 entity.HasOne(d => d.Exam)
                     .WithMany(p => p.AnswerExams)
                     .HasForeignKey(d => d.ExamId)
-                    .HasConstraintName("FK_AnswerExam_Exam");
+                    .HasConstraintName("FK_AnswerExam_Question_Exam");
             });
 
             modelBuilder.Entity<AnswerOption>(entity =>
@@ -107,8 +107,6 @@ namespace ModerationService.API.Models
                 entity.ToTable("LastExam");
 
                 entity.Property(e => e.ChapterId).HasColumnName("Chapter_Id");
-
-                entity.Property(e => e.IsPass).HasMaxLength(50);
 
                 entity.Property(e => e.Name).HasMaxLength(50);
 

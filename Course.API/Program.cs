@@ -34,13 +34,11 @@ namespace CourseService
                 config.AddConsumersFromNamespaceContaining<EventLessonHandler>();
                 config.AddConsumersFromNamespaceContaining<EventTheoryQuestionHandler>();
                 config.AddConsumersFromNamespaceContaining<EventPracticeQuestionHandler>();
-                config.AddConsumersFromNamespaceContaining<EventTestCaseHandler>();
                 config.AddConsumersFromNamespaceContaining<EventAnswerOptionsHandler>();
+                config.AddConsumersFromNamespaceContaining<EventLastExamHandler>();
                 config.AddConsumersFromNamespaceContaining<EventExamHandler>();
                 config.AddConsumersFromNamespaceContaining<EventExamAnswerHandler>();
-                config.AddConsumersFromNamespaceContaining<EventLastExamHandler>();
-            
-
+              
 
                 config.UsingRabbitMq((ctx, cfg) =>
                 {

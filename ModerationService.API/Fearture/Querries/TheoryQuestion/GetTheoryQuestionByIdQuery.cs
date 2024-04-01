@@ -29,7 +29,7 @@ namespace ModerationService.API.Fearture.Querries.TheoryQuestion
             // Check if question is exist
             if (theoryQuestion == null)
             {
-                return new NotFoundObjectResult(Message.MSG22);
+                return new NotFoundObjectResult(theoryQuestion);
             }
 
             // Mapping TheoryQuestion entity to TheoryQuestionDTO
