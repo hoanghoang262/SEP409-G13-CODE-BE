@@ -1,0 +1,18 @@
+syntax = "proto3";
+
+option csharp_namespace = "CourseGRPC";
+
+package course;
+
+service GetCourseByIdService {
+  rpc GetCourseId (GetCourseIdRequest) returns (GetCourseIdResponse);
+}
+
+message GetCourseIdRequest {
+   int32 CourseId = 1;
+}
+
+message GetCourseIdResponse {
+    int32 Id = 1;
+   string Name=2; 
+}

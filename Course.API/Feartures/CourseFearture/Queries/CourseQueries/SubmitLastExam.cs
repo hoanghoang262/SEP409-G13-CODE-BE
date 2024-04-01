@@ -11,7 +11,7 @@ namespace CourseService.API.Feartures.CourseFearture.Queries.CourseQueries
     {
         public int LastExamId { get; set; }
         public int UserId { get; set; }
-        public List<ExamAnswerDto> Questions { get; set; }
+        public List<ExamAnswerDto> QuestionExam { get; set; }
 
         public class SubmitLastExamHandler : IRequestHandler<SubmitLastExam, IActionResult>
         {
@@ -27,12 +27,12 @@ namespace CourseService.API.Feartures.CourseFearture.Queries.CourseQueries
                 int correctAnswersCount = 0;
                 int totalCorrectAnswers = 0;
 
-                foreach (var questionWithAnswers in request.Questions)
+                foreach (var questionWithAnswers in request.QuestionExam)
                 {
                    
                     var dbQuestion = await _context.QuestionExams
                         .Include(q => q.AnswerExams)
-                        .FirstOrDefaultAsync(q => q.Id == questionWithAnswers.ExamId);
+                        .FirstOrDefaultAsync(q => q.Id == questionWithAnswers.Id);
 
                     if (dbQuestion == null)
                     {

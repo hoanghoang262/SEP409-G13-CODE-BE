@@ -5,6 +5,7 @@ using Google;
 using Google.Apis.Auth;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
@@ -59,17 +60,54 @@ namespace Authenticate_Service.Feature.AuthenticateFearture.Command.Login
 
                     var getUserId = _context.Users.FirstOrDefault(x => x.Email.Equals(request.Email)).Id;
 
-                    var tokenGenerator = new GenerateJwtToken(_configuration);
-                    var roles = (from u in _context.Users
-                                 join role in _context.Roles on u.RoleId equals role.Id
-                                 where u.Email == request.Email
-                                 select role.Name).ToList();
+                    var userRoles = _context.Users.Include(c => c.Role).FirstOrDefault(c => c.Email.Equals(request.Email)).Role.Name;
 
-                    var token = tokenGenerator.GenerateToken(getUserId, user.UserName, user.ProfilePict, roles);
+
+                    var authClaims = new List<Claim>
+                        {
+                             new Claim("UserID", user.Id.ToString()),
+                             new Claim("UserName", user.UserName)
+
+                        };
+
+
+
+
+                   
+
+
+                    var issuer = _configuration["Jwt:Issuer"];
+                    var audience = _configuration["Jwt:Audience"];
+                    var key = Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]);
+                    var signingCredentials = new SigningCredentials(
+                    new SymmetricSecurityKey(key),
+                    SecurityAlgorithms.HmacSha512Signature
+                );
+                    var subject = new ClaimsIdentity(new[]
+                     {
+                             new Claim("UserID", user.Id.ToString()),
+                             new Claim("UserName", user.UserName),
+                             new Claim("Roles", userRoles),
+                             new Claim(ClaimTypes.Role, userRoles)
+                          });
+
+
+                    var tokenDescriptor = new SecurityTokenDescriptor
+                    {
+                        Subject = subject,
+                        Expires = DateTime.UtcNow.AddMinutes(10),
+                        Issuer = issuer,
+                        Audience = audience,
+                        SigningCredentials = signingCredentials
+                    };
+                    var tokenHandler = new JwtSecurityTokenHandler();
+                    var token = tokenHandler.CreateToken(tokenDescriptor);
+                    var jwtToken = tokenHandler.WriteToken(token);
+
 
                     return new OkObjectResult(new
                     {
-                        token = new JwtSecurityTokenHandler().WriteToken(token),
+                        token = jwtToken,
                         expiration = token.ValidTo
                     });
                 }

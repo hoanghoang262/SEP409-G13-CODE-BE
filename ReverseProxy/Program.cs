@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using Ocelot.DependencyInjection;
 using Ocelot.Middleware;
@@ -34,46 +35,43 @@ namespace ReverseProxy
                 options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
                 options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
                 options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
-            }).AddJwtBearer(options =>
+            }).AddJwtBearer(o =>
+
             {
-                options.SaveToken = true;
-                options.RequireHttpsMetadata = false;
-                options.TokenValidationParameters = new TokenValidationParameters()
+                o.SaveToken = true;
+                o.RequireHttpsMetadata = false;
+                o.TokenValidationParameters = new TokenValidationParameters
                 {
+                    ValidIssuer = builder.Configuration["Jwt:Issuer"],
+                    ValidAudience = builder.Configuration["Jwt:Audience"],
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"])),
                     ValidateIssuer = true,
                     ValidateAudience = true,
-                    ValidAudience = builder.Configuration["JWT:ValidAudience"],
-                    ValidIssuer = builder.Configuration["JWT:ValidIssuer"],
-                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["JWT:Secret"]))
+                    ValidateLifetime = false,
+                    ValidateIssuerSigningKey = true
                 };
             });
-
-            builder.Services.AddSwaggerForOcelot(builder.Configuration, x =>
-            {
-                x.GenerateDocsForGatewayItSelf = false;
-
-            });
-            IConfiguration configuration = new ConfigurationBuilder().AddJsonFile("ocelot.json").Build();
-            builder.Configuration.AddJsonFile("ocelot.json").Build();
-            builder.Services.AddOcelot(configuration).AddPolly();
+            builder.Configuration.AddJsonFile("appsettings.json", optional: false, reloadOnChange: true).AddEnvironmentVariables();
+            builder.Configuration.SetBasePath(builder.Environment.ContentRootPath).AddJsonFile("ocelot.json",optional:false,reloadOnChange:true).AddEnvironmentVariables();
+            builder.Services.AddOcelot(builder.Configuration);
 
             var app = builder.Build();
-            app.UseHttpsRedirection();
+          //  app.UseHttpsRedirection();
 
 
-            app.UseHttpsRedirection();
+     
           
             app.UseAuthorization();
 
-
+            app.UseAuthentication();
            
             app.MapControllers();
-            app.UseAuthentication();
+         
 
-            app.UseSwaggerForOcelotUI(opt =>
-            {
-                opt.PathToSwaggerGenerator = "/swagger/docs";
-            });
+            //app.UseSwaggerForOcelotUI(opt =>
+            //{
+            //    opt.PathToSwaggerGenerator = "/swagger/docs";
+            //});
             app.UseOcelot();
 
             // app.MapReverseProxy();

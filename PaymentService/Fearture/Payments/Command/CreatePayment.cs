@@ -1,7 +1,9 @@
 ﻿using Contract.Service.Message;
+using CourseService.API.GrpcServices;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
+using PaymentService.API.GrpcServices;
 using PaymentService.Common;
 using PaymentService.Interface;
 using PaymentService.Models;
@@ -23,15 +25,36 @@ namespace PaymentService.Fearture.Payments.Command
             private readonly VnpayConfig vnpayConfig;
             private readonly MomoConfig momoConfig;
             private readonly ICurrentUserService currentUserService;
-            public CreatePaymentHandler(PaymentContext context, IOptions<VnpayConfig> vnpayConfigOptions, IOptions<MomoConfig> _momo, ICurrentUserService _currentUserService)
+            private readonly GetUserInfoService service;
+            private readonly GetCourseInfoService serviceCourse;
+            public CreatePaymentHandler(PaymentContext context, 
+                IOptions<VnpayConfig> vnpayConfigOptions, 
+                IOptions<MomoConfig> _momo, 
+                ICurrentUserService _currentUserService,
+                GetUserInfoService _service,
+                GetCourseInfoService _serviceCourse)
             {
                 _context = context;
                 vnpayConfig = vnpayConfigOptions.Value;
                 currentUserService = _currentUserService;
                 momoConfig = _momo.Value;
+                service=_service;
+                serviceCourse = _serviceCourse;
             }
             public async Task<IActionResult> Handle(CreatePayment request, CancellationToken cancellationToken)
             {
+                var userCreate = await service.SendUserId(request.UserCreateCourseId);
+                var userId = await service.SendUserId(request.UserBuyId);
+                var course= await serviceCourse.SendCourseId(request.CourseId);
+                if (course.Id == 0)
+                {
+                    return new BadRequestObjectResult(Message.MSG25);
+                }
+
+                if(userCreate.Id ==0 || userId.Id==0) 
+                {
+                    return new BadRequestObjectResult(Message.MSG24);
+                }
                 if (request.RequiredAmount != null && request.RequiredAmount < 0)
                 {
                     return new BadRequestObjectResult(Message.MSG26);

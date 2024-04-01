@@ -36,6 +36,7 @@ namespace PaymentService.Fearture.Payments.Querry
             {
                 var payDtos = new PaymentDtos
                 {
+
                     CourseId = p.CourseId,
                     Money = p.RequriedAmount,
                     PaymentId = p.PaymentId,

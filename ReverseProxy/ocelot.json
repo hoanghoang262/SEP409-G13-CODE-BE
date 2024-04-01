@@ -1,20 +1,62 @@
 {
   "Routes": [
     //course api
+    //{
+    //  "DownstreamPathTemplate": "/api/{controller}/{action}",
+    //  "DownstreamScheme": "http",
+    //  "DownstreamHostAndPorts": [
+    //    {
+    //      // "Host": "coursesservices.azurewebsites.net"
+    //      "Host": "localhost",
+    //      "Port": 5230
+
+    //    }
+    //  ],
+    //  "UpstreamPathTemplate": "/course-gateway/{controller}/{action}",
+    //  "UpstreamHttpMethod": [ "POST", "PUT", "Get" ]
+      
+    //},
+
     {
-      "DownstreamPathTemplate": "/api/{controller}/{action}",
-      "DownstreamScheme": "https",
+      "DownstreamPathTemplate": "/api/Course/GetAllCourses",
+      "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "coursesservices.azurewebsites.net"
+          // "Host": "coursesservices.azurewebsites.net"
+          "Host": "localhost",
+          "Port": 5230
 
         }
       ],
-      "UpstreamPathTemplate": "/course-gateway/{controller}/{action}",
+      "UpstreamPathTemplate": "/course-gateway/Course/AllCourse",
       "UpstreamHttpMethod": [ "POST", "PUT", "Get" ],
-      "SwaggerKey": "course"
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer",
+        "AllowedScopes": []
+      },
+      "RouteClaimsRequirement": {
+        "Roles": "AdminSystem"
+
+      }
     },
-    // "authen",
+    // "authen api",
+    {
+      "DownstreamPathTemplate": "/api/{controller}/{action}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          //"Host": "authenticateservice.azurewebsites.net"
+          "Host": "localhost",
+          "Port": 5000
+
+        }
+      ],
+      "UpstreamPathTemplate": "/authen-gateway/{controller}/{action}",
+      "UpstreamHttpMethod": [ "POST", "PUT", "GET" ],
+      "SwaggerKey": "authen"
+    },
+
+    //"moderation api"
     {
       "DownstreamPathTemplate": "/api/{controller}/{action}",
       "DownstreamScheme": "https",
@@ -24,9 +66,9 @@
 
         }
       ],
-      "UpstreamPathTemplate": "/authen-gateway/{controller}/{action}",
-      "UpstreamHttpMethod": [ "POST", "PUT", "Get" ],
-      "SwaggerKey": "authen"
+      "UpstreamPathTemplate": "/moder-gateway/{controller}/{action}",
+      "UpstreamHttpMethod": [ "POST", "PUT", "Get" ]
+
     }
   ],
   "SwaggerEndPoints": [

@@ -72,7 +72,7 @@ namespace ModerationService.API.Controllers
             var result = await _mediator.Send(command);
             return result;
         }
-       // [Authorize(Roles = "AdminSystem")]
+        //[Authorize(Roles = "AdminSystem")]
         [HttpGet]
        
         public async Task<IActionResult> GetModerationsCourse(string? courseName, string? Tag, int page = 1, int pageSize = 5)

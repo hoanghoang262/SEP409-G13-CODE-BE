@@ -3,6 +3,7 @@ using Contract.Service.Message;
 using CourseService.API.Feartures.CourseFearture.Queries.CourseQueries;
 using CourseService.API.Models;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CourseService.Controllers
@@ -22,6 +23,7 @@ namespace CourseService.Controllers
             context = _context;
         }
 
+        //[Authorize(Roles = "AdminSystem")]
         [HttpGet]
         public async Task<IActionResult> GetAllCourses([FromQuery] GetAllCourseQuerry query)
         {

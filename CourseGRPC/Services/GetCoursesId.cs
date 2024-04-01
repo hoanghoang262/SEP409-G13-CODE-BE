@@ -19,7 +19,12 @@ namespace CourseGRPC.Services
 
             if (course == null)
             {
-                return Task.FromResult<GetCourseIdResponse>(null);
+                return Task.FromResult(new GetCourseIdResponse
+                {
+                    Id = 0,
+                    Name = "null"
+                  
+                });
             }
            
                 var response = new GetCourseIdResponse()

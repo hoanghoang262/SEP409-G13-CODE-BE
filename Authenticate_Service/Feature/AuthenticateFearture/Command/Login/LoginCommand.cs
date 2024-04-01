@@ -14,7 +14,7 @@ namespace Authenticate_Service.Feature.AuthenticateFearture.Command.Login
 {
     public class LoginCommand : IRequest<IActionResult>
     {
-        public string? UserName { get; set; }
+        public string? Email { get; set; }
         public string? Password { get; set; }
 
         public class LoginCommandHandler : IRequestHandler<LoginCommand, IActionResult>
@@ -34,12 +34,12 @@ namespace Authenticate_Service.Feature.AuthenticateFearture.Command.Login
                 try
                 {
                     // Validate input
-                    if (String.IsNullOrEmpty(request.UserName) || String.IsNullOrEmpty(request.Password))
+                    if (String.IsNullOrEmpty(request.Email) || String.IsNullOrEmpty(request.Password))
                     {
                         return new BadRequestObjectResult(Message.MSG11);
                     }
 
-                    var user = _context.Users.FirstOrDefault(u => u.UserName == request.UserName && u.Password == request.Password);
+                    var user = _context.Users.FirstOrDefault(u => u.Email == request.Email && u.Password == request.Password);
                     if (user != null)
                     {
                         // Check account status
@@ -55,7 +55,7 @@ namespace Authenticate_Service.Feature.AuthenticateFearture.Command.Login
                         }
 
                         var userId = user.Id;
-                        var userRoles = _context.Users.Include(c=>c.Role).FirstOrDefault(c=>c.UserName.Equals(request.UserName)).Role.Name;
+                        var userRoles = _context.Users.Include(c=>c.Role).FirstOrDefault(c=>c.Email.Equals(request.Email)).Role.Name;
 
 
                         var authClaims = new List<Claim>
