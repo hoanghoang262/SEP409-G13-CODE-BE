@@ -64,15 +64,24 @@ namespace ModerationService.API.Fearture.Command.LastExams
 
 
 
-            // Clear existing questions and options
-            existingLastExam.QuestionExams.Clear();
+            if (existingLastExam != null)
+            {
+                foreach (var questionExam in existingLastExam.QuestionExams)
+                {
+                    _context.AnswerExams.RemoveRange(questionExam.AnswerExams);
+                }
+
+                _context.QuestionExams.RemoveRange(existingLastExam.QuestionExams);
+          
+
+                await _context.SaveChangesAsync();
+            }
+
 
             foreach (var qeDTO in request.LastExam.QuestionExams)
             {
-                // Validate input
-                if (string.IsNullOrEmpty(qeDTO.ContentQuestion)
-                    || qeDTO.Score == null
-                    || qeDTO.Status == null)
+               
+                if (string.IsNullOrEmpty(qeDTO.ContentQuestion))
                 {
                     return new BadRequestObjectResult(Message.MSG11);
                 }
@@ -97,7 +106,7 @@ namespace ModerationService.API.Fearture.Command.LastExams
                     LastExamId = qeDTO.LastExamId
                 };
 
-                foreach (var answerOptionDTO in qe.AnswerExams)
+                foreach (var answerOptionDTO in qeDTO.AnswerExams)
                 {
                     // Validate input
                     if (answerOptionDTO.CorrectAnswer == null
@@ -116,8 +125,8 @@ namespace ModerationService.API.Fearture.Command.LastExams
                     var newAnswerOption = new AnswerExam
                     {
                         CorrectAnswer = answerOptionDTO.CorrectAnswer,
-                        Exam = answerOptionDTO.Exam,
                         OptionsText = answerOptionDTO.OptionsText,
+                        ExamId= answerOptionDTO.ExamId
                     };
 
                     qe.AnswerExams.Add(newAnswerOption);

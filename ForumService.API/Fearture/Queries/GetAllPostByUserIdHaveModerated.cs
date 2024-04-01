@@ -36,7 +36,7 @@ namespace ForumService.API.Fearture.Queries
                 var querry = await _context.Posts.Where(c => c.CreatedBy == user.Id).ToListAsync();
                 if (querry == null)
                 {
-                    return new NotFoundObjectResult(Message.MSG22);
+                    return new NotFoundObjectResult(querry);
                 }
 
                 List<PostDTO> post = new List<PostDTO>();

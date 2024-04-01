@@ -38,7 +38,7 @@ namespace CourseService.API.Feartures.CourseFearture.Queries.CourseQueries
 
                 if (practiceQuestion == null)
                 {
-                    return new NotFoundObjectResult(Message.MSG22);
+                    return new NotFoundObjectResult(practiceQuestion);
                 }
 
                 var practiceQuestionDTO = new PracticeQuestionDTO

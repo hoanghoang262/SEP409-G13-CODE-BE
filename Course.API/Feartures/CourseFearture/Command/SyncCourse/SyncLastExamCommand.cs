@@ -44,7 +44,7 @@ namespace CourseService.API.Feartures.CourseFearture.Command.SyncCourse
                     };
 
                     _context.LastExams.Add(newExAns);
-                    await _context.SaveChangesAsync(cancellationToken);
+                    await _context.SaveChangesAsync();
 
                 }
                 else
@@ -58,7 +58,7 @@ namespace CourseService.API.Feartures.CourseFearture.Command.SyncCourse
 
 
 
-                    await _context.SaveChangesAsync(cancellationToken);
+                    await _context.SaveChangesAsync();
                 }
                 return new OkObjectResult("done");
             }

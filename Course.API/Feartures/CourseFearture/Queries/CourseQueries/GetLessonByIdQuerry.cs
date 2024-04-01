@@ -31,7 +31,7 @@ namespace CourseService.API.Feartures.CourseFearture.Queries.CourseQueries
 
                 if (lesson == null)
                 {
-                    return new NotFoundObjectResult(Message.MSG22);
+                    return new NotFoundObjectResult(lesson);
                 }
 
                 var lessonDTO = new LessonDTO

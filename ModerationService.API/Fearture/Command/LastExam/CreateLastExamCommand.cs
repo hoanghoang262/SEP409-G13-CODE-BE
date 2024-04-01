@@ -106,7 +106,6 @@ namespace ModerationService.API.Fearture.Command.LastExams
                         var newAnswerOption = new AnswerExam
                         {
                             CorrectAnswer = answerOptionDTO.CorrectAnswer,
-                           
                             OptionsText = answerOptionDTO.OptionsText,
                             Id = answerOptionDTO.Id,
                             ExamId= answerOptionDTO.Id

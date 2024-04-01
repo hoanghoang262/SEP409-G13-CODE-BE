@@ -24,7 +24,7 @@ namespace ModerationService.API.Fearture.Querries.Moderations
                 var course = await _context.Courses.Where(x => x.CreatedBy.Equals(request.UserId)).ToListAsync();
                 if (course == null)
                 {
-                    return new NotFoundObjectResult(Message.MSG22);
+                    return new NotFoundObjectResult(course);
                 }
 
                 return new OkObjectResult(course);

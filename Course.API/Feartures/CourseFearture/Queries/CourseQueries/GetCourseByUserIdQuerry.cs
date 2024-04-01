@@ -36,7 +36,7 @@ namespace CourseService.API.Feartures.CourseFearture.Queries.CourseQueries
 
                 if (courses == null)
                 {
-                    return new NotFoundObjectResult(Message.MSG22);
+                    return new NotFoundObjectResult(courses);
                 }
 
 

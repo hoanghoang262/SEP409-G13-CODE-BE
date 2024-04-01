@@ -1,5 +1,6 @@
 ﻿using CloudinaryDotNet;
 using Contract.Service.Message;
+using CourseService.API.Feartures.CourseFearture.Command.SyncCourse;
 using CourseService.API.Feartures.CourseFearture.Queries.CourseQueries;
 using CourseService.API.Models;
 using MediatR;
@@ -22,6 +23,12 @@ namespace CourseService.Controllers
             _cloudinary = cloudinary;
             context = _context;
         }
+        //[HttpPost]
+        //public async Task<IActionResult> SyncCourse([FromBody] SyncCourseCommand command)
+        //{
+        //    var result = await _mediator.Send(command);
+        //    return result;
+        //}
 
         //[Authorize(Roles = "AdminSystem")]
         [HttpGet]

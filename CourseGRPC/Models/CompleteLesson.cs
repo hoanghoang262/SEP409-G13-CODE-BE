@@ -8,7 +8,5 @@ namespace CourseGRPC.Models
         public int Id { get; set; }
         public int? UserId { get; set; }
         public int? LessonId { get; set; }
-
-        public virtual Lesson? Lesson { get; set; }
     }
 }

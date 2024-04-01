@@ -51,7 +51,7 @@ namespace ModerationService.API.Feature.Queries
 
                 if (!moderations.Any())
                 {
-                    return new BadRequestObjectResult(Message.MSG22);
+                    return new NotFoundObjectResult(moderations);
                 }
 
                 var totalItems = moderations.Count;

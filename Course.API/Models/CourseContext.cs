@@ -159,8 +159,6 @@ namespace CourseService.API.Models
 
                 entity.Property(e => e.ChapterId).HasColumnName("Chapter_Id");
 
-                entity.Property(e => e.IsPass).HasMaxLength(50);
-
                 entity.Property(e => e.Name).HasMaxLength(50);
 
                 entity.Property(e => e.PercentageCompleted).HasColumnName("Percentage_Completed");
@@ -168,7 +166,6 @@ namespace CourseService.API.Models
                 entity.HasOne(d => d.Chapter)
                     .WithMany(p => p.LastExams)
                     .HasForeignKey(d => d.ChapterId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_LastExam_Chapter");
             });
 

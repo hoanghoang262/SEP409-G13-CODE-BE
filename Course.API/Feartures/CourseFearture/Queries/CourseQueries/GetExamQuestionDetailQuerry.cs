@@ -25,7 +25,7 @@ namespace CourseService.API.Feartures.CourseFearture.Queries.CourseQueries
                 var result = new LastExamDTO
                 {
                     Id = lastExam.Id,
-                    ChapterId = lastExam.ChapterId,
+                    ChapterId = (int)lastExam.ChapterId,
                     PercentageCompleted = lastExam.PercentageCompleted,
                     Name = lastExam.Name,
                     Time = lastExam.Time,

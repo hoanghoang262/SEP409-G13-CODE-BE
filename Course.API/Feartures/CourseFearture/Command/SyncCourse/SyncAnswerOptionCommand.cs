@@ -36,13 +36,15 @@ namespace CourseService.API.Feartures.CourseFearture.Command.SyncCourse
                         CorrectAnswer=request.CorrectAnswer
                     };
                     _context.AnswerOptions.Add(answerOption);
-                    await _context.SaveChangesAsync(cancellationToken);
+                    await _context.SaveChangesAsync();
                 }
                 else
                 {
                     ans.OptionsText = request.OptionsText;
                     ans.QuestionId = request.QuestionId;
-                    await _context.SaveChangesAsync(cancellationToken);
+                    ans.CorrectAnswer = request.CorrectAnswer;
+
+                    await _context.SaveChangesAsync();
                 }
 
 

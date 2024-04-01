@@ -27,7 +27,7 @@ namespace ForumService.API.Fearture.Queries
                 var post = await _context.Posts.FirstOrDefaultAsync(c => c.Id.Equals(request.PostId));
                 if (post == null)
                 {
-                    return new NotFoundObjectResult(Message.MSG22);
+                    return new NotFoundObjectResult(post);
                 }
 
                 var userInfo = await _service.SendUserId(post.CreatedBy);

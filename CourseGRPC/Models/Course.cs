@@ -16,8 +16,9 @@ namespace CourseGRPC.Models
         public string? Description { get; set; }
         public string? Picture { get; set; }
         public string? Tag { get; set; }
-        public int? CreatedBy { get; set; }
+        public int CreatedBy { get; set; }
         public DateTime? CreatedAt { get; set; }
+        public int? Price { get; set; }
 
         public virtual ICollection<Chapter> Chapters { get; set; }
         public virtual ICollection<Enrollment> Enrollments { get; set; }

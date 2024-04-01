@@ -51,7 +51,7 @@ namespace CourseService.API.Feartures.CourseFearture.Command.SyncCourse
                     existingQuestion.ContentQuestion = request.ContentQuestion;
                     existingQuestion.Id = request.Id;
                     existingQuestion.TimeQuestion = request.TimeQuestion;
-                    await _context.SaveChangesAsync(cancellationToken);
+                    await _context.SaveChangesAsync();
 
                 }
 

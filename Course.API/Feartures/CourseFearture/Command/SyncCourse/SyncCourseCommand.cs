@@ -32,7 +32,7 @@ namespace CourseService.API.Feartures.CourseFearture.Command.SyncCourse
             }
             public async Task<IActionResult> Handle(SyncCourseCommand request, CancellationToken cancellationToken)
             {
-                
+
                 var courseDelete = await _context.Courses
                       .Include(c => c.Chapters)
                           .ThenInclude(ch => ch.Lessons)
@@ -50,7 +50,7 @@ namespace CourseService.API.Feartures.CourseFearture.Command.SyncCourse
                               .ThenInclude(cq => cq.TestCases)
                       .Include(c => c.Chapters)
                           .ThenInclude(ch => ch.PracticeQuestions)
-                            
+
                       .FirstOrDefaultAsync(course => course.Id == request.Id);
 
                 if (courseDelete != null)
@@ -62,35 +62,36 @@ namespace CourseService.API.Feartures.CourseFearture.Command.SyncCourse
                         {
                             foreach (var question in lesson.TheoryQuestions)
                             {
-                                _context.RemoveRange(question.AnswerOptions);
-                                _context.Remove(question);
+                                _context.AnswerOptions.RemoveRange(question.AnswerOptions);
+                                _context.TheoryQuestions.Remove(question);
                             }
-                            _context.Remove(lesson);
+                            _context.Lessons.Remove(lesson);
                         }
 
                         foreach (var practiceQuestion in chapter.PracticeQuestions)
                         {
-                            _context.RemoveRange(practiceQuestion.TestCases);
-                          
-                            _context.Remove(practiceQuestion);
+                            _context.TestCases.RemoveRange(practiceQuestion.TestCases);
+
+                            _context.PracticeQuestions.Remove(practiceQuestion);
                         }
 
                         foreach (var lastExam in chapter.LastExams)
                         {
                             foreach (var questionExam in lastExam.QuestionExams)
                             {
-                                _context.Remove(questionExam.AnswerExams);
-                                _context.Remove(questionExam);
+                                _context.AnswerExams.RemoveRange(questionExam.AnswerExams);
+                                _context.QuestionExams.Remove(questionExam);
                             }
-                            _context.Remove(lastExam);
+                            _context.LastExams.Remove(lastExam);
                         }
 
-                        _context.Remove(chapter);
+                        _context.Chapters.Remove(chapter);
                     }
 
-                    _context.Remove(courseDelete);
-                 
+                    _context.Courses.Remove(courseDelete);
+
                 }
+
 
 
                 var course = await _context.Courses.FindAsync(request.Id);
@@ -110,6 +111,7 @@ namespace CourseService.API.Feartures.CourseFearture.Command.SyncCourse
                     };
 
                     _context.Courses.Add(newCourse);
+                    await _context.SaveChangesAsync();
 
                 }
                 else
@@ -122,10 +124,10 @@ namespace CourseService.API.Feartures.CourseFearture.Command.SyncCourse
                     course.CreatedBy = request.CreatedBy;
                     course.Price = request.Price;
 
-
-                  
+                    _context.Courses.Update(course);
+                    await _context.SaveChangesAsync();
                 }
-                await _context.SaveChangesAsync(cancellationToken);
+               
 
 
 
