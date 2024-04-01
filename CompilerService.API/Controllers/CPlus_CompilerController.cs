@@ -30,6 +30,11 @@ namespace CourseService.API.Controllers
                 string rootPath = _hostingEnvironment.ContentRootPath;
                 string filePath = Path.Combine(rootPath, "main.cpp");
                 string compilationResult = _cCompiler.CompileCCode(request.UserCode, filePath);
+
+                if(compilationResult.Contains("Failed"))
+                {
+
+                }
                 var userAnswerCode = new UserAnswerCode
                 {
                     CodeQuestionId = request.PracticeQuestionId,

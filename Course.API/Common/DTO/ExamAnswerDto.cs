@@ -2,7 +2,7 @@
 {
     public class ExamAnswerDto
     {
-        public int ExamId { get; set; }
+        public int Id { get; set; }
         public List<int> SelectedAnswerIds { get; set; }
     }
 }

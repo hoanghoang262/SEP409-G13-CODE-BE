@@ -56,12 +56,7 @@ namespace Authenticated.Controllers
                 return new BadRequestObjectResult(Message.MSG11);
             }
 
-            // Validate username
-            string userNamePattern = @"^[^\s]{8,32}$";
-            if (!Regex.IsMatch(request.UserName, userNamePattern))
-            {
-                return new BadRequestObjectResult(Message.MSG21);
-            }
+            
 
             // Validate email
             string emailPattern = @"^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$";
@@ -218,7 +213,7 @@ namespace Authenticated.Controllers
         }
 
 
-        [Authorize(Roles = "AdminSystem")]
+        //[Authorize(Roles = "AdminSystem")]
         [HttpGet]
         public async Task<IActionResult> GetAllStudent(string? Search, bool? Status, int Page = 1, int PageSize = 5)
         {

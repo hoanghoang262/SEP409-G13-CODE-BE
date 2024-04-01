@@ -1,9 +1,14 @@
+using CourseGRPC;
+using CourseService.API.GrpcServices;
+using GrpcServices;
 using MassTransit;
 using Microsoft.EntityFrameworkCore;
+using PaymentService.API.GrpcServices;
 using PaymentService.Interface;
 using PaymentService.Models;
 using PaymentService.ServicePayment.VnPay;
 using System.Reflection;
+using UserGrpc;
 
 namespace PaymentService
 {
@@ -33,11 +38,24 @@ namespace PaymentService
                
             });
 
+            var config = builder.Configuration.GetSection("GrpcSetting:UserUrl").Value;
+            builder.Services.AddSingleton(config);
+            builder.Services.AddGrpcClient<UserCourseService.UserCourseServiceClient>(x => x.Address = new Uri(config));
+            builder.Services.AddScoped<UserIdCourseGrpcService>();
+
+            builder.Services.AddGrpcClient<GetUserService.GetUserServiceClient>(x => x.Address = new Uri(config));
+            builder.Services.AddScoped<GetUserInfoService>();
+
+            var config2 = builder.Configuration.GetSection("GrpcSetting2:CourseUrl").Value;
+            builder.Services.AddGrpcClient<GetCourseByIdService.GetCourseByIdServiceClient>(x => x.Address = new Uri(config2));
+            builder.Services.AddScoped<GetCourseInfoService>();
+
+
 
             builder.Services.AddHttpContextAccessor();
             builder.Services.AddScoped<ICurrentUserService, CurrentUserService>();
             builder.Services.Configure<VnpayConfig>(
-             builder.Configuration.GetSection(VnpayConfig.ConfigName));
+            builder.Configuration.GetSection(VnpayConfig.ConfigName));
 
             builder.Services.Configure<MomoConfig>(
              builder.Configuration.GetSection(MomoConfig.ConfigName));
