@@ -24,13 +24,7 @@ namespace ModerationService.API.Fearture.Command.PracticeQuestion
 
         public async Task<IActionResult> Handle(UpdatePracticeQuestionCommand request, CancellationToken cancellationToken)
         {
-            // Validate input
-            if (string.IsNullOrEmpty(request.PracticeQuestion.CodeForm)
-                || string.IsNullOrEmpty(request.PracticeQuestion.Description)
-                || string.IsNullOrEmpty(request.PracticeQuestion.TestCaseJava))
-            {
-                return new BadRequestObjectResult(Message.MSG11);
-            }
+       
 
             var existingPracticeQuestion = await _context.PracticeQuestions
                 .Include(pq => pq.TestCases)

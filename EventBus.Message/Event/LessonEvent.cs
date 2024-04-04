@@ -16,5 +16,6 @@ namespace EventBus.Message.Event
         public bool? IsCompleted { get; set; }
         public long? Duration { get; set; }
         public string? ContentLesson { get; set; }
+        public string? CodeForm { get; set; }
     }
 }

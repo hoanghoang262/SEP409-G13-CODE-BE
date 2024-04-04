@@ -34,7 +34,7 @@ namespace CourseService.API.Feartures.CourseFearture.Queries.CourseQueries
             }
             public async Task<IActionResult> Handle(GetAllCourseQuerry request, CancellationToken cancellation)
             {
-                IQueryable<Course> query = _context.Courses.Include(c => c.Enrollments);
+                IQueryable<Course> query = _context.Courses;
 
                 if (!string.IsNullOrEmpty(request.CourseName))
                 {
@@ -60,7 +60,7 @@ namespace CourseService.API.Feartures.CourseFearture.Queries.CourseQueries
                 {
 
                     var userInfo = await _service.SendUserId(item.CreatedBy);
-                    bool isUserEnrolled = item.Enrollments.Any(e => e.UserId == request.UserId);
+                    bool isUserEnrolled = _context.Enrollments.Any(e => e.UserId == request.UserId && e.CourseId == item.Id); ;
 
                     var dto = new CourseDTO
                     {

@@ -39,7 +39,7 @@ namespace CompilerService.API.Models
             if (!optionsBuilder.IsConfigured)
             {
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-                optionsBuilder.UseSqlServer("Server=tcp:fptulearnserver.database.windows.net,1433;Initial Catalog=Course;Persist Security Info=False;User ID=fptu;Password=24082002aA;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;");
+                optionsBuilder.UseSqlServer("Server=tcp:sep490g13.database.windows.net,1433;Initial Catalog=Course;Persist Security Info=False;User ID=fptu;Password=24082002aA;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;");
             }
         }
 
@@ -104,27 +104,15 @@ namespace CompilerService.API.Models
                 entity.Property(e => e.LessonId).HasColumnName("Lesson_Id");
 
                 entity.Property(e => e.UserId).HasColumnName("User_id");
-
-                entity.HasOne(d => d.Lesson)
-                    .WithMany(p => p.CompleteLessons)
-                    .HasForeignKey(d => d.LessonId)
-                    .HasConstraintName("FK_Complete_Lesson_Lesson");
             });
 
             modelBuilder.Entity<CompletedExam>(entity =>
             {
-                entity.HasNoKey();
-
                 entity.ToTable("CompletedExam");
 
                 entity.Property(e => e.LastExamId).HasColumnName("LastExam_Id");
 
                 entity.Property(e => e.UserId).HasColumnName("User_Id");
-
-                entity.HasOne(d => d.LastExam)
-                    .WithMany()
-                    .HasForeignKey(d => d.LastExamId)
-                    .HasConstraintName("FK_CompletedExam_LastExam");
             });
 
             modelBuilder.Entity<Course>(entity =>
@@ -164,8 +152,6 @@ namespace CompilerService.API.Models
 
                 entity.Property(e => e.ChapterId).HasColumnName("Chapter_Id");
 
-                entity.Property(e => e.IsPass).HasMaxLength(50);
-
                 entity.Property(e => e.Name).HasMaxLength(50);
 
                 entity.Property(e => e.PercentageCompleted).HasColumnName("Percentage_Completed");
@@ -173,7 +159,6 @@ namespace CompilerService.API.Models
                 entity.HasOne(d => d.Chapter)
                     .WithMany(p => p.LastExams)
                     .HasForeignKey(d => d.ChapterId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_LastExam_Chapter");
             });
 
@@ -208,12 +193,6 @@ namespace CompilerService.API.Models
                 entity.Property(e => e.UserId).HasColumnName("User_Id");
 
                 entity.Property(e => e.VideoLink).HasColumnName("Video_Link");
-
-                entity.HasOne(d => d.Lesson)
-                    .WithMany(p => p.Notes)
-                    .HasForeignKey(d => d.LessonId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_Note_Lesson");
             });
 
             modelBuilder.Entity<PracticeQuestion>(entity =>
@@ -223,6 +202,10 @@ namespace CompilerService.API.Models
                 entity.Property(e => e.Id).ValueGeneratedNever();
 
                 entity.Property(e => e.CodeForm).HasColumnName("Code_Form");
+
+                entity.Property(e => e.TestCaseC).HasColumnName("TestCase_C");
+
+                entity.Property(e => e.TestCaseCplus).HasColumnName("TestCase_CPlus");
 
                 entity.Property(e => e.TestCaseJava).HasColumnName("TestCase_Java");
 
@@ -291,11 +274,6 @@ namespace CompilerService.API.Models
                 entity.Property(e => e.CodeQuestionId).HasColumnName("Code_Question_Id");
 
                 entity.Property(e => e.UserId).HasColumnName("User_Id");
-
-                entity.HasOne(d => d.CodeQuestion)
-                    .WithMany(p => p.UserAnswerCodes)
-                    .HasForeignKey(d => d.CodeQuestionId)
-                    .HasConstraintName("FK_User_Answer_Code_Code_Question");
             });
 
             modelBuilder.Entity<UserCourseProgress>(entity =>

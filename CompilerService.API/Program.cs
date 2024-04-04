@@ -1,3 +1,4 @@
+using CompilerService.API.Controllers;
 using CompilerService.API.Models;
 using CourseService.API.Controllers;
 using Microsoft.EntityFrameworkCore;
@@ -24,10 +25,19 @@ namespace CompilerService.API
             builder.Services.AddDbContext<CourseContext>(
   oprions => oprions.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"))
   );
+            builder.Services.AddCors(options =>
+            {
+                options.AddPolicy("AllowSpecificOrigin",
+                    builder => builder.WithOrigins("http://localhost:5173")
+                                      .AllowAnyHeader()
+                                      .AllowAnyMethod()
+                                      .AllowAnyOrigin());
+            });
+
 
             var app = builder.Build();
 
-            // Configure the HTTP request pipeline.
+           
           
                 app.UseSwagger();
                 app.UseSwaggerUI();
@@ -36,6 +46,7 @@ namespace CompilerService.API
             app.UseHttpsRedirection();
 
             app.UseAuthorization();
+            app.UseCors("AllowSpecificOrigin");
 
 
             app.MapControllerRoute(

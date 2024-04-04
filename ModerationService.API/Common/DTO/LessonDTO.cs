@@ -15,6 +15,7 @@ namespace ModerationService.API.Common.ModelDTO
         public long? Duration { get; set; }
         public string? ContentLesson { get; set; }
         public bool? IsCompleted { get; set; }
+        public string? CodeForm { get; set; }
 
 
         public virtual ICollection<TheoryQuestionDTO> Questions { get; set; }

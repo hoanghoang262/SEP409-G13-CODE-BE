@@ -11,6 +11,7 @@
         public decimal? PaidAmount { get; set; }
         public string? Signature { get; set; }
         public int? UserCreateCourseId { get; set; }
+        public int? BuyerId { get; set; }
         public int? CourseId { get; set; }
 
     }

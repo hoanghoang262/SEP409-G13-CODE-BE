@@ -6,6 +6,7 @@ using CourseService.API.Models;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace CourseService.Controllers
 {
@@ -23,12 +24,98 @@ namespace CourseService.Controllers
             _cloudinary = cloudinary;
             context = _context;
         }
-        //[HttpPost]
-        //public async Task<IActionResult> SyncCourse([FromBody] SyncCourseCommand command)
-        //{
-        //    var result = await _mediator.Send(command);
-        //    return result;
-        //}
+        [HttpDelete]
+
+        public IActionResult Delete1Course(int CourseId)
+        {
+            var courseToRemove =  context.Courses
+                    .Include(c => c.Chapters)
+                        .ThenInclude(ch => ch.Lessons)
+                            .ThenInclude(l => l.TheoryQuestions)
+                                .ThenInclude(ans => ans.AnswerOptions)
+                     .Include(c => c.Chapters)
+                        .ThenInclude(ch => ch.LastExams)
+                            .ThenInclude(l => l.QuestionExams)
+                                .ThenInclude(ans => ans.AnswerExams)
+                    .Include(c => c.Chapters)
+                        .ThenInclude(ch => ch.PracticeQuestions)
+                            .ThenInclude(cq => cq.TestCases)
+                    .Include(c => c.Chapters)
+                        .ThenInclude(ch => ch.Lessons)
+                            .ThenInclude(l => l.TheoryQuestions)
+                                .ThenInclude(ans => ans.AnswerOptions)
+                    .Include(c => c.Chapters)
+                        .ThenInclude(ch => ch.PracticeQuestions)
+                            .ThenInclude(cq => cq.TestCases)
+                    .Include(c => c.Chapters)
+                        .ThenInclude(ch => ch.PracticeQuestions)
+                         .ThenInclude(ch=>ch.TestCases)
+                      .Include(c => c.Chapters)
+                        .ThenInclude(ch => ch.LastExams)
+                         .ThenInclude(ch => ch.QuestionExams)
+                          .ThenInclude(ch=>ch.AnswerExams)
+                    .FirstOrDefault(course => course.Id == CourseId);
+            // Remove all related TheoryQuestions
+            foreach (var chapter in courseToRemove.Chapters)
+            {
+                foreach (var lesson in chapter.Lessons)
+                {
+                    foreach (var theoryQuestion in lesson.TheoryQuestions)
+                    {
+                        // Remove related AnswerOptions of each TheoryQuestion
+                        context.RemoveRange(theoryQuestion.AnswerOptions);
+                    }
+                    // Remove TheoryQuestions of each Lesson
+                    context.RemoveRange(lesson.TheoryQuestions);
+                }
+            }
+
+            // Remove all related PracticeQuestions and their TestCases
+            foreach (var chapter in courseToRemove.Chapters)
+            {
+                foreach (var practiceQuestion in chapter.PracticeQuestions)
+                {
+                    // Remove related TestCases of each PracticeQuestion
+                    context.RemoveRange(practiceQuestion.TestCases);
+                }
+                // Remove PracticeQuestions of each Chapter
+                context.RemoveRange(chapter.PracticeQuestions);
+            }
+
+            // Remove all related LastExams and their QuestionExams and AnswerExams
+            foreach (var chapter in courseToRemove.Chapters)
+            {
+                foreach (var lastExam in chapter.LastExams)
+                {
+                    foreach (var questionExam in lastExam.QuestionExams)
+                    {
+                        // Remove related AnswerExams of each QuestionExam
+                        context.RemoveRange(questionExam.AnswerExams);
+                    }
+                    // Remove QuestionExams of each LastExam
+                    context.RemoveRange(lastExam.QuestionExams);
+                }
+                // Remove LastExams of each Chapter
+                context.RemoveRange(chapter.LastExams);
+            }
+
+            // Remove all Chapters
+            context.RemoveRange(courseToRemove.Chapters);
+
+            // Remove the course itself
+            context.Remove(courseToRemove);
+
+            // Save changes
+            context.SaveChanges();
+
+            return Ok("Check xem da xoa trong db chua");
+        }
+        [HttpGet]
+        public async Task<IActionResult> GetCourseQuantity()
+        {
+            var result = await _mediator.Send(new GetCourseQuantityQuerry { });
+            return Ok(result);
+        }
 
         //[Authorize(Roles = "AdminSystem")]
         [HttpGet]

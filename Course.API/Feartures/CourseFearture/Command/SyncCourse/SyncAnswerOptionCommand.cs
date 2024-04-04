@@ -36,7 +36,7 @@ namespace CourseService.API.Feartures.CourseFearture.Command.SyncCourse
                         CorrectAnswer=request.CorrectAnswer
                     };
                     _context.AnswerOptions.Add(answerOption);
-                    await _context.SaveChangesAsync();
+                    _context.SaveChanges();
                 }
                 else
                 {

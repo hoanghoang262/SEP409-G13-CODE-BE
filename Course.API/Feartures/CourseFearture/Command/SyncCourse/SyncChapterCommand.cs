@@ -29,7 +29,62 @@ namespace CourseService.API.Feartures.CourseFearture.Command.SyncCourse
             }
             public async Task<IActionResult> Handle(SyncChapterCommand request, CancellationToken cancellationToken)
             {
-              
+                var c = _context.Chapters.FirstOrDefault(c => c.Id.Equals(request.Id));
+                if (c != null)
+                {
+                    var chapterDelete = _context.Chapters
+
+                      .Include(ch => ch.Lessons)
+                          .ThenInclude(l => l.TheoryQuestions)
+                              .ThenInclude(ans => ans.AnswerOptions)
+
+                      .Include(ch => ch.PracticeQuestions)
+                          .ThenInclude(cq => cq.TestCases)
+
+                      .Include(ch => ch.LastExams)
+                          .ThenInclude(l => l.QuestionExams)
+                              .ThenInclude(ans => ans.AnswerExams)
+
+                      .Include(ch => ch.PracticeQuestions)
+                          .ThenInclude(cq => cq.TestCases)
+                  .FirstOrDefault(course => course.Id == request.Id);
+
+
+
+                    foreach (var lesson in chapterDelete.Lessons)
+                    {
+                        foreach (var question in lesson.TheoryQuestions)
+                        {
+                            _context.AnswerOptions.RemoveRange(question.AnswerOptions);
+                            _context.TheoryQuestions.Remove(question);
+                        }
+                        _context.Lessons.Remove(lesson);
+                    }
+
+                    foreach (var practiceQuestion in chapterDelete.PracticeQuestions)
+                    {
+                        _context.TestCases.RemoveRange(practiceQuestion.TestCases);
+
+                        _context.PracticeQuestions.Remove(practiceQuestion);
+                    }
+
+                    foreach (var lastExam in chapterDelete.LastExams)
+                    {
+                        foreach (var questionExam in lastExam.QuestionExams)
+                        {
+                            _context.AnswerExams.RemoveRange(questionExam.AnswerExams);
+                            _context.QuestionExams.Remove(questionExam);
+                        }
+                        _context.LastExams.Remove(lastExam);
+                    }
+
+                    _context.Chapters.Remove(chapterDelete);
+
+                     _context.SaveChanges();
+
+                }
+             
+
                 var chapter = await _context.Chapters.FindAsync(request.Id);
                 if (chapter == null)
                 {
@@ -44,7 +99,7 @@ namespace CourseService.API.Feartures.CourseFearture.Command.SyncCourse
                     };
 
                     _context.Chapters.Add(newChapter);
-                    await _context.SaveChangesAsync(cancellationToken);
+                     _context.SaveChanges();
 
                 }
                 else

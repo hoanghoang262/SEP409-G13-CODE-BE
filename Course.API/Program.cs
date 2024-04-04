@@ -29,6 +29,7 @@ namespace CourseService
 
             builder.Services.AddMassTransit(config =>
             {
+                //config.AddConsumersFromNamespaceContaining<EventCourseIdHandler>();
                 config.AddConsumersFromNamespaceContaining<EventCourseHandler>();
                 config.AddConsumersFromNamespaceContaining<EventChapterHandler>();
                 config.AddConsumersFromNamespaceContaining<EventLessonHandler>();
@@ -38,7 +39,9 @@ namespace CourseService
                 config.AddConsumersFromNamespaceContaining<EventLastExamHandler>();
                 config.AddConsumersFromNamespaceContaining<EventExamHandler>();
                 config.AddConsumersFromNamespaceContaining<EventExamAnswerHandler>();
-              
+                config.AddConsumersFromNamespaceContaining<EventUserEnrollHandler>();
+
+
 
                 config.UsingRabbitMq((ctx, cfg) =>
                 {

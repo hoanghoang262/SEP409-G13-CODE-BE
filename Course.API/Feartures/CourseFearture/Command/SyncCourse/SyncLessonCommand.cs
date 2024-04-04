@@ -20,6 +20,7 @@ namespace CourseService.API.Feartures.CourseFearture.Command.SyncCourse
         public long? Duration { get; set; }
         public bool? IsCompleted { get; set; }
         public string? ContentLesson { get; set; }
+        public string? CodeForm { get; set; }
         public class asyncLessonHandler : IRequestHandler<SyncLessonCommand, IActionResult>
         {
             private readonly CourseContext _context;
@@ -45,12 +46,14 @@ namespace CourseService.API.Feartures.CourseFearture.Command.SyncCourse
                         Description = request.Description,
                         Duration = request.Duration,
                         ContentLesson=request.ContentLesson,
+                        CodeForm=request.CodeForm,
+                        
                       
 
                     };
 
                     _context.Lessons.Add(newLesson);
-                    await _context.SaveChangesAsync();
+                    _context.SaveChanges();
 
                 }
                 else

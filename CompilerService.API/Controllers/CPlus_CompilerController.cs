@@ -7,7 +7,7 @@ using System.IO;
 
 namespace CourseService.API.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/[controller]/[action]")]
     [ApiController]
     public class CPlus_CompilerController : ControllerBase
     {
@@ -23,7 +23,7 @@ namespace CourseService.API.Controllers
         }
 
         [HttpPost]
-        public IActionResult CompileCodeC([FromBody] CodeRequestModel request)
+        public IActionResult CompileCodeCPlusCodeEditor([FromBody] CodeRequestModel request)
         {
             try
             {
@@ -35,6 +35,31 @@ namespace CourseService.API.Controllers
                 {
 
                 }
+                var userAnswerCode = new UserAnswerCode
+                {
+                    CodeQuestionId = request.PracticeQuestionId,
+                    AnswerCode = request.UserCode,
+                    UserId = request.UserId
+                };
+                _context.UserAnswerCodes.Add(userAnswerCode);
+                _context.SaveChangesAsync();
+                return Ok(compilationResult);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"An error occurred: {ex.Message}");
+            }
+        }
+        [HttpPost]
+        public IActionResult CompileCodeCPlusCodeQuestion([FromBody] CodeRequestModel request)
+        {
+            try
+            {
+                string rootPath = _hostingEnvironment.ContentRootPath;
+                string filePath = Path.Combine(rootPath, "main.cpp");
+                string compilationResult = _cCompiler.CompileCCode(request.UserCode, filePath);
+
+
                 var userAnswerCode = new UserAnswerCode
                 {
                     CodeQuestionId = request.PracticeQuestionId,

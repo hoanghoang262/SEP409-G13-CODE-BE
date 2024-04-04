@@ -8,8 +8,8 @@
         "ASPNETCORE_ENVIRONMENT": "Development"
       },
       "dotnetRunMessages": true,
-      //"applicationUrl": "https://apigatewayocelot.azurewebsites.net"
-      "applicationUrl": "http://localhost:4230"
+      "applicationUrl": "https://ocelotapigateway.azurewebsites.net"
+      //"applicationUrl": "http://localhost:4230"
     },
     "IIS Express": {
       "commandName": "IISExpress",

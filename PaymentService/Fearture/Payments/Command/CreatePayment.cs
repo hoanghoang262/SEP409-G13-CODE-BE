@@ -67,7 +67,8 @@ namespace PaymentService.Fearture.Payments.Command
                     Id = outputIdParam.ToString(),
                     UserCreateCourseId = request.UserCreateCourseId,
                     CourseId = request.CourseId,
-                    TransAmount = request.RequiredAmount
+                    TransAmount = request.RequiredAmount,
+                    BuyerId=request.UserBuyId,
                 };
                 _context.PaymentTransactions.Add(paymenttrans);
                 await _context.SaveChangesAsync();

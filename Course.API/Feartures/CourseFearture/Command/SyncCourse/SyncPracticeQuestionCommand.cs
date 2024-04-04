@@ -44,7 +44,7 @@ namespace CourseService.API.Feartures.CourseFearture.Command.SyncCourse
 
                     };
                     _context.PracticeQuestions.Add(newCodeQuestion);
-                    await _context.SaveChangesAsync();
+                    _context.SaveChanges();
                 }
                 else
                 {

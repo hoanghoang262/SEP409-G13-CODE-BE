@@ -51,9 +51,9 @@ namespace ReverseProxy
                     ValidateIssuerSigningKey = true
                 };
             });
-            builder.Configuration.AddJsonFile("appsettings.json", optional: false, reloadOnChange: true).AddEnvironmentVariables();
+           // builder.Configuration.AddJsonFile("appsettings.json", optional: false, reloadOnChange: true).AddEnvironmentVariables();
             builder.Configuration.SetBasePath(builder.Environment.ContentRootPath).AddJsonFile("ocelot.json",optional:false,reloadOnChange:true).AddEnvironmentVariables();
-            builder.Services.AddOcelot(builder.Configuration);
+            builder.Services.AddOcelot().AddPolly();
 
             var app = builder.Build();
           //  app.UseHttpsRedirection();

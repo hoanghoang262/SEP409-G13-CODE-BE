@@ -53,7 +53,8 @@ namespace ModerationService.API.Fearture.Command
                 VideoUrl = request.Lesson.VideoUrl,
                 Description = request.Lesson.Description,
                 Duration = request.Lesson.Duration,
-                ContentLesson = request.Lesson.ContentLesson
+                ContentLesson = request.Lesson.ContentLesson,
+                CodeForm=request.Lesson.CodeForm,
             };
 
             chapter.Lessons.Add(newLesson);
@@ -92,6 +93,7 @@ namespace ModerationService.API.Fearture.Command
                 Description = newLesson.Description,
                 Duration = newLesson.Duration,
                 ContentLesson = newLesson.ContentLesson,
+                CodeForm=newLesson.CodeForm,
                 Questions = newLesson.TheoryQuestions.Select(tq => new TheoryQuestionDTO
                 {
                     Id = tq.Id,
