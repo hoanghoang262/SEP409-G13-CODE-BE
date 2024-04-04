@@ -48,6 +48,7 @@ namespace CourseService.API.Feartures.CourseFearture.Queries.CourseQueries
                         Description = lesson.Description,
                         Duration = lesson.Duration,
                         ContentLesson = lesson.ContentLesson,
+                        CodeForm=lesson.CodeForm,
                         IsCompleted =  IsLessonCompleted(lesson.Id, request.UserId)
                     }).ToList(),
                     PracticeQuestions = chapter.PracticeQuestions.Select(practiceQuestion => new PracticeQuestionDTO

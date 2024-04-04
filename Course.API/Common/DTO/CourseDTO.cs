@@ -51,6 +51,7 @@ namespace CourseService.API.Common.ModelDTO
         public string? CourseName { get; set; }
 
         public bool? IsCompleted { get; set; }
+        public string? CodeForm { get; set; }
 
 
 

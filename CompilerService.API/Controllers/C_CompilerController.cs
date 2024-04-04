@@ -4,9 +4,9 @@ using Microsoft.AspNetCore.Mvc;
 
 using System.Diagnostics;
 
-namespace CourseService.API.Controllers
+namespace CompilerService.API.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/[controller]/[action]")]
     [ApiController]
     public class C_CompilerController : ControllerBase
     {
@@ -22,7 +22,26 @@ namespace CourseService.API.Controllers
         }
 
         [HttpPost]
-        public IActionResult CompileCodeC(CodeRequestModel request)
+        public IActionResult CompileCodeCCodeEditor(CodeRequestModel request)
+        {
+
+            string rootPath = _hostingEnvironment.ContentRootPath;
+            string filePath = Path.Combine(rootPath, "main");
+            string compilationResult = _cCompiler.CompileCCode(request.UserCode, filePath);
+            var userAnswerCode = new UserAnswerCode
+            {
+                CodeQuestionId = request.PracticeQuestionId,
+                AnswerCode = request.UserCode,
+                UserId = request.UserId
+            };
+            _context.UserAnswerCodes.Add(userAnswerCode);
+            _context.SaveChangesAsync();
+
+            return Ok(compilationResult);
+        }
+
+        [HttpPost]
+        public IActionResult CompileCodeCCodeQuestion(CodeRequestModel request)
         {
 
             string rootPath = _hostingEnvironment.ContentRootPath;

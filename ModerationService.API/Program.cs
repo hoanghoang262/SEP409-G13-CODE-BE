@@ -65,7 +65,8 @@ namespace ModerationService.API
                 options.AddPolicy("AllowSpecificOrigin",
                     builder => builder.WithOrigins("http://localhost:5173")
                                       .AllowAnyHeader()
-                                      .AllowAnyMethod());
+                                      .AllowAnyMethod()
+                                      .AllowAnyOrigin());
             });
             //gRPC
             var config = builder.Configuration.GetSection("GrpcSetting:UserUrl").Value;

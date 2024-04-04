@@ -20,7 +20,44 @@ namespace CourseService.API.Controllers
         }
 
         [HttpPost]
-        public IActionResult JavaCompileCode([FromBody] CodeRequestModel javaCode)
+        public IActionResult CompileCodeJavaCodeEditor([FromBody] CodeRequestModel javaCode)
+        {
+            string rootPath = _hostingEnvironment.ContentRootPath;
+            string javaFilePath = Path.Combine(rootPath, "Solution.java");
+
+            if (string.IsNullOrWhiteSpace(javaCode.UserCode))
+            {
+                return BadRequest("Java code is missing.");
+            }
+
+            try
+            {
+                _compile.WriteJavaCodeToFile(javaCode.UserCode, javaFilePath);
+
+                string compilationResult = _compile.CompileAndRun(javaFilePath);
+
+                var userAnswerCode = new UserAnswerCode
+                {
+                    CodeQuestionId = javaCode.PracticeQuestionId,
+                    AnswerCode = javaCode.UserCode,
+                    UserId = javaCode.UserId
+                };
+                _context.UserAnswerCodes.Add(userAnswerCode);
+                _context.SaveChangesAsync();
+
+
+                // Return compilation result
+                return Ok(compilationResult);
+            }
+            catch (Exception ex)
+            {
+                // Return error message
+                return StatusCode(500, $"Error compiling Java code: {ex.Message}");
+            }
+        }
+
+        [HttpPost]
+        public IActionResult CompileCodeJavaCodeQuestion([FromBody] CodeRequestModel javaCode)
         {
             string rootPath = _hostingEnvironment.ContentRootPath;
             string javaFilePath = Path.Combine(rootPath, "Solution.java");

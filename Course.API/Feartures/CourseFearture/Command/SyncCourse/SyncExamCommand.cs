@@ -41,7 +41,7 @@ namespace CourseService.API.Feartures.CourseFearture.Command.SyncCourse
                     };
 
                     _context.QuestionExams.Add(newEx);
-                    await _context.SaveChangesAsync(cancellationToken);
+                    _context.SaveChanges();
 
                 }
                 else

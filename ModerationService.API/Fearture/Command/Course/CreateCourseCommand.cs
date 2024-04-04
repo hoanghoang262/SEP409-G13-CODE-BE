@@ -21,10 +21,10 @@ namespace CourseService.API.Feartures.CourseFearture.Command.CreateCourse
             private readonly Content_ModerationContext _context;
             private readonly GetUserInfoService _service;
 
-            public CreateCourseHandler(Content_ModerationContext context, UserIdCourseGrpcService _service)
+            public CreateCourseHandler(Content_ModerationContext context, GetUserInfoService service)
             {
                 _context = context;
-                _service = _service;
+                _service = service;
             }
 
             public async Task<IActionResult> Handle(CreateCourseCommand request, CancellationToken cancellationToken)

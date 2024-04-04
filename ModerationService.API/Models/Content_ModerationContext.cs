@@ -125,6 +125,8 @@ namespace ModerationService.API.Models
 
                 entity.Property(e => e.ChapterId).HasColumnName("Chapter_Id");
 
+                entity.Property(e => e.CodeForm).HasColumnName("Code_Form");
+
                 entity.Property(e => e.ContentLesson).HasColumnName("Content_Lesson");
 
                 entity.Property(e => e.Title).HasMaxLength(50);

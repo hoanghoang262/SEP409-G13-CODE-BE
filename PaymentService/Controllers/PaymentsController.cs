@@ -58,22 +58,20 @@ namespace PaymentService.Controllers
                 PaymentCurrency = "VND",
                 UserCreateCourseId = returnModel.UserCreateCourseId,
                 CourseId = returnModel.CourseId,
-                RequriedAmount = returnModel.PaidAmount
+                RequriedAmount = returnModel.PaidAmount,
+                BuyerId=returnModel.BuyerId
             };
             _context.Payments.Add(payment);
             _context.SaveChanges();
             var Enroll = new UserEnrollEvent
             {
-                UserId = returnModel.UserCreateCourseId,
+                UserId = returnModel.BuyerId,
                 CourseId = returnModel.CourseId,
 
             };
             await publish.Publish(Enroll);
 
-            if (returnUrl.EndsWith("/"))
-            {
-                returnUrl = returnUrl.Remove(returnUrl.Length - 1, 1);
-            }
+         
 
             return Ok(returnModel);
         }

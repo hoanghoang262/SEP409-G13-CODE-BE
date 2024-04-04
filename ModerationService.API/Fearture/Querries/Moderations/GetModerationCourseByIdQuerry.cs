@@ -134,6 +134,7 @@ namespace ModerationService.API.Fearture.Querries.Moderations
                             lesson.Description,
                             lesson.Duration,
                             lesson.ContentLesson,
+                            lesson.CodeForm,
                             Questions = lesson.TheoryQuestions.Select(question => new
                             {
                                 question.Id,

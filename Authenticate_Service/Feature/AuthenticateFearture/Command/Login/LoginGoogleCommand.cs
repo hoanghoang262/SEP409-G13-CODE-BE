@@ -35,67 +35,53 @@ namespace Authenticate_Service.Feature.AuthenticateFearture.Command.Login
             {
                 try
                 {
-
-                    if (String.IsNullOrEmpty(request.Email))
+                    if (string.IsNullOrEmpty(request.Email))
                     {
-                        return new BadRequestObjectResult("Not found email");
-
+                        return new BadRequestObjectResult("Email is required");
                     }
-                    var user = _context.Users.FirstOrDefault(x => x.Email.Equals(request.Email));
 
-                
-                    if(user==null)
+                    var user = await _context.Users.FirstOrDefaultAsync(x => x.Email.Equals(request.Email));
+
+                    if (user == null)
                     {
+                        // Create a new user if not found in the database
                         var userLoginGoogle = new User
                         {
                             Email = request.Email,
                             UserName = request.UserName,
-                            RoleId = 1,
+                            RoleId = 1, // Assign a default role ID or handle roles as needed
                             EmailConfirmed = true,
-                            ProfilePict = request.PhotoURL
+                            ProfilePict = request.PhotoURL,
+                            Status=true
                         };
                         _context.Users.Add(userLoginGoogle);
                         await _context.SaveChangesAsync();
+                        user = userLoginGoogle; // Assign the new user to 'user'
                     }
 
-                    var getUserId = _context.Users.FirstOrDefault(x => x.Email.Equals(request.Email)).Id;
-
-                    var userRoles = _context.Users.Include(c => c.Role).FirstOrDefault(c => c.Email.Equals(request.Email)).Role.Name;
-
+                    // Retrieve user roles
+                    var userRoles = _context.Users.Include(c => c.Role).FirstOrDefault(c => c.Email.Equals(user.Email)).Role.Name;
 
                     var authClaims = new List<Claim>
-                        {
-                             new Claim("UserID", user.Id.ToString()),
-                             new Claim("UserName", user.UserName)
-
-                        };
-
-
-
-
-                   
-
+                {
+                new Claim("UserID", user.Id.ToString()),
+                new Claim("UserName", user.UserName),
+                new Claim("Roles", userRoles),
+                new Claim(ClaimTypes.Role, userRoles)
+                  };
 
                     var issuer = _configuration["Jwt:Issuer"];
                     var audience = _configuration["Jwt:Audience"];
                     var key = Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]);
                     var signingCredentials = new SigningCredentials(
-                    new SymmetricSecurityKey(key),
-                    SecurityAlgorithms.HmacSha512Signature
-                );
-                    var subject = new ClaimsIdentity(new[]
-                     {
-                             new Claim("UserID", user.Id.ToString()),
-                             new Claim("UserName", user.UserName),
-                             new Claim("Roles", userRoles),
-                             new Claim(ClaimTypes.Role, userRoles)
-                          });
-
-
+                        new SymmetricSecurityKey(key),
+                        SecurityAlgorithms.HmacSha512Signature
+                    );
+                    var subject = new ClaimsIdentity(authClaims);
                     var tokenDescriptor = new SecurityTokenDescriptor
                     {
                         Subject = subject,
-                        Expires = DateTime.UtcNow.AddMinutes(10),
+                        Expires = DateTime.UtcNow.AddMinutes(10), 
                         Issuer = issuer,
                         Audience = audience,
                         SigningCredentials = signingCredentials
@@ -103,7 +89,6 @@ namespace Authenticate_Service.Feature.AuthenticateFearture.Command.Login
                     var tokenHandler = new JwtSecurityTokenHandler();
                     var token = tokenHandler.CreateToken(tokenDescriptor);
                     var jwtToken = tokenHandler.WriteToken(token);
-
 
                     return new OkObjectResult(new
                     {
@@ -116,6 +101,7 @@ namespace Authenticate_Service.Feature.AuthenticateFearture.Command.Login
                     return new StatusCodeResult(StatusCodes.Status503ServiceUnavailable);
                 }
             }
+
         }
     }
 }

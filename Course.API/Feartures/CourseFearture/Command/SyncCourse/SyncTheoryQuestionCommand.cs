@@ -41,7 +41,7 @@ namespace CourseService.API.Feartures.CourseFearture.Command.SyncCourse
 
                     };
                     _context.TheoryQuestions.Add(newQuestion);
-                    await _context.SaveChangesAsync();
+                    _context.SaveChanges();
                 }
                 else
                 {

@@ -46,29 +46,26 @@ namespace ModerationService.API.Fearture.Command.Moderations
                 //{
                 //    return new BadRequestObjectResult(Message.MSG25);
                 //}
-                var courses = await _context.Courses.Include(c => c.Moderations)
-                  .Include(c => c.Chapters)
-                      .ThenInclude(ch => ch.Lessons)
-                          .ThenInclude(l => l.TheoryQuestions)
-                              .ThenInclude(ans => ans.AnswerOptions)
-                  .Include(c => c.Chapters)
-                      .ThenInclude(ch => ch.LastExams)
-                          .ThenInclude(l => l.QuestionExams)
-                              .ThenInclude(ans => ans.AnswerExams)
-                  .Include(c => c.Chapters)
-                      .ThenInclude(ch => ch.PracticeQuestions)
-                          .ThenInclude(cq => cq.TestCases)
-                  .Include(c => c.Chapters)
-                      .ThenInclude(ch => ch.Lessons)
-                          .ThenInclude(l => l.TheoryQuestions)
-                              .ThenInclude(ans => ans.AnswerOptions)
-                  .Include(c => c.Chapters)
-                      .ThenInclude(ch => ch.PracticeQuestions)
-                          .ThenInclude(cq => cq.TestCases)
-                  .Include(c => c.Chapters)
-                      .ThenInclude(ch => ch.PracticeQuestions)
-                          .ThenInclude(cq => cq.UserAnswerCodes)
-                  .FirstOrDefaultAsync(course => course.Id == request.CourseId);
+                //var courses = await _context.Courses.Include(c => c.Moderations)
+                //  .Include(c => c.Chapters)
+                //      .ThenInclude(ch => ch.Lessons)
+                //          .ThenInclude(l => l.TheoryQuestions)
+                //              .ThenInclude(ans => ans.AnswerOptions)
+                //  .Include(c => c.Chapters)
+                //      .ThenInclude(ch => ch.LastExams)
+                //          .ThenInclude(l => l.QuestionExams)
+                //              .ThenInclude(ans => ans.AnswerExams)
+                //  .Include(c => c.Chapters)
+                //      .ThenInclude(ch => ch.PracticeQuestions)
+                //          .ThenInclude(cq => cq.TestCases)
+                //  .Include(c => c.Chapters)
+                //      .ThenInclude(ch => ch.Lessons)
+                //          .ThenInclude(l => l.TheoryQuestions)
+                //              .ThenInclude(ans => ans.AnswerOptions)
+                //  .Include(c => c.Chapters)
+                //      .ThenInclude(ch => ch.PracticeQuestions)
+                //          .ThenInclude(cq => cq.UserAnswerCodes)
+                //  .FirstOrDefaultAsync(course => course.Id == request.CourseId);
 
                 var courseEvent = new CourseEvent
                 {
@@ -85,7 +82,8 @@ namespace ModerationService.API.Fearture.Command.Moderations
 
 
                 var chapter = _context.Chapters.Where(c => c.CourseId.Equals(request.CourseId)).ToList();
-                foreach(var chap in chapter)
+
+                foreach (var chap in chapter)
                 {
                     var chapterEvent = new ChapterEvent
                     {
@@ -96,8 +94,10 @@ namespace ModerationService.API.Fearture.Command.Moderations
                         Part = chap.Part
                     };
                     await _publish.Publish(chapterEvent);
-
                 }
+
+               
+              
 
                 foreach (var chap in chapter)
                 {
@@ -114,9 +114,10 @@ namespace ModerationService.API.Fearture.Command.Moderations
                             TestCaseJava = code.TestCaseJava,
                         };
                         await _publish.Publish(codequestionEvent);
-
+                        await Task.Delay(2500);
                     }
                 }
+
                 foreach (var chap in chapter)
                 {
                     var lastEx = _context.LastExams.Where(l => l.ChapterId.Equals(chap.Id)).ToList();
@@ -129,9 +130,9 @@ namespace ModerationService.API.Fearture.Command.Moderations
                             Name = last.Name,
                             PercentageCompleted = last.PercentageCompleted,
                             Time = last.Time,
-
                         };
                         await _publish.Publish(lastEvent);
+                        await Task.Delay(3500);
                         var exam = _context.QuestionExams.Where(e => e.LastExamId.Equals(last.Id)).ToList();
                         foreach (var ex in exam)
                         {
@@ -142,9 +143,9 @@ namespace ModerationService.API.Fearture.Command.Moderations
                                 ContentQuestion = ex.ContentQuestion,
                                 Score = ex.Score,
                                 Status = ex.Status
-
                             };
                             await _publish.Publish(examEvent);
+                            await Task.Delay(3500);
                             var exAns = _context.AnswerExams.Where(exs => exs.ExamId.Equals(ex.Id)).ToList();
                             foreach (var ans in exAns)
                             {
@@ -156,11 +157,15 @@ namespace ModerationService.API.Fearture.Command.Moderations
                                     OptionsText = ans.OptionsText
                                 };
                                 await _publish.Publish(exAnswer);
+                                await Task.Delay(3500);
                             }
                         }
-                    }
 
+                       
+                       
+                    }
                 }
+
                 foreach (var chap in chapter)
                 {
                     var lesson = _context.Lessons.Where(l => l.ChapterId.Equals(chap.Id)).ToList();
@@ -177,7 +182,7 @@ namespace ModerationService.API.Fearture.Command.Moderations
                             Duration = less.Duration,
                             IsCompleted = false,
                             ContentLesson = less.ContentLesson,
-
+                            CodeForm=less.CodeForm
                         };
                         await _publish.Publish(lessonEvent);
                         var question = _context.TheoryQuestions.Where(q => q.VideoId.Equals(less.Id)).ToList();
@@ -203,13 +208,14 @@ namespace ModerationService.API.Fearture.Command.Moderations
                                     CorrectAnswer = ansOptio.CorrectAnswer
                                 };
                                 await _publish.Publish(ansOpEvent);
-
                             }
-
                         }
-                    }
 
+                       
+                        await Task.Delay(2000); 
+                    }
                 }
+
 
                 //
                 //foreach (var chap in chapter)

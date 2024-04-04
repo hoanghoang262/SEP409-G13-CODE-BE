@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using CourseService.API.Feartures.CourseFearture.Command.SyncCourse;
+using CourseService.API.Feartures.EnrollmentFeature.Command;
 using EventBus.Message.Event;
 using MassTransit;
 using MediatR;
@@ -20,7 +21,7 @@ namespace CourseService.API.MessageBroker
         }
         public async Task Consume(ConsumeContext<UserEnrollEvent> context)
         {
-            var command = _mapper.Map<SyncTestCaseCommand>(context.Message);
+            var command = _mapper.Map<SyncEnrollCourseAfterPaymentCommand>(context.Message);
             var result = await mediator.Send(command);
         }
     }

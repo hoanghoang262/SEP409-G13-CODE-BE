@@ -45,6 +45,7 @@ namespace CourseService.API.Feartures.CourseFearture.Queries.CourseQueries
                     VideoUrl = lesson.VideoUrl,
                     CourseName = lesson.Chapter.Course.Name,
                     ContentLesson= lesson.ContentLesson,
+                    CodeForm=lesson.CodeForm,
                     TheoryQuestions = lesson.TheoryQuestions.Select(l => new TheoryQuestionDTO
                     {
                         Id = l.Id,

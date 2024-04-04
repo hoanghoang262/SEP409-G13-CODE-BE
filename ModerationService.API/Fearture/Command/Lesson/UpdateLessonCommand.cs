@@ -50,6 +50,7 @@ namespace ModerationService.API.Fearture.Command
             existingLesson.Description = request.Lesson.Description;
             existingLesson.Duration = request.Lesson.Duration;
             existingLesson.ContentLesson = request.Lesson.ContentLesson;
+            existingLesson.CodeForm = request.Lesson.CodeForm;
 
             // Clear existing questions and options
             existingLesson.TheoryQuestions.Clear();
@@ -90,6 +91,7 @@ namespace ModerationService.API.Fearture.Command
                 Description = existingLesson.Description,
                 Duration = existingLesson.Duration,
                 ContentLesson = existingLesson.ContentLesson,
+                CodeForm=existingLesson.CodeForm,
                 Questions = existingLesson.TheoryQuestions.Select(tq => new TheoryQuestionDTO
                 {
                     Id = tq.Id,

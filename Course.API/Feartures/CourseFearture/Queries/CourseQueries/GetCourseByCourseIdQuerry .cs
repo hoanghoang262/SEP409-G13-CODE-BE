@@ -28,8 +28,8 @@ namespace CourseService.API.Feartures.CourseFearture.Queries.CourseQueries
             }
             public async Task<IActionResult> Handle(GetCourseByCourseIdQuerry request, CancellationToken cancellationToken)
             {
-                var courses = await _context.Courses.
-                    Include(c => c.Enrollments)
+                var courses = await _context.Courses
+                   
                     .Include(c => c.Chapters)
                         .ThenInclude(ch => ch.Lessons)
                             .ThenInclude(l => l.TheoryQuestions)
@@ -64,6 +64,7 @@ namespace CourseService.API.Feartures.CourseFearture.Queries.CourseQueries
                 courses.Chapters.OrderBy(c => c.Part);
 
                 var user = await service.SendUserId(courses.CreatedBy);
+                bool isUserEnrolled = _context.Enrollments.Any(e => e.UserId == request.UserId && e.CourseId == request.CourseId);
 
                 var result = new
                 {
@@ -76,6 +77,8 @@ namespace CourseService.API.Feartures.CourseFearture.Queries.CourseQueries
                     courses.CreatedAt,
                     Created_Name = user.Name,
                     Avatar = user.Picture,
+                    IsEnrolled= isUserEnrolled ,
+
                     Chapters = courses.Chapters.Select(chapter => new
                     {
                         chapter.Id,
@@ -89,8 +92,8 @@ namespace CourseService.API.Feartures.CourseFearture.Queries.CourseQueries
                             lastex.Id,
                             lastex.Name,
                             lastex.PercentageCompleted,
-                          
                             lastex.ChapterId,
+                            IsCompleted = AreLastExamCompleted(lastex, request.UserId),
                             QuestionExams = lastex.QuestionExams.Select(qe => new
                             {
                                 qe.Id,
@@ -142,6 +145,9 @@ namespace CourseService.API.Feartures.CourseFearture.Queries.CourseQueries
                             lesson.Description,
                             lesson.Duration,
                             lesson.ContentLesson,
+                            lesson.CodeForm,
+                            IsCompleted = AreLessonCompleted(lesson, request.UserId),
+
                             Questions = lesson.TheoryQuestions.Select(question => new
                             {
                                 question.Id,
@@ -171,6 +177,14 @@ namespace CourseService.API.Feartures.CourseFearture.Queries.CourseQueries
                 return lessons.All(lesson =>
                     _context.CompleteLessons.Any(cl => cl.UserId == userId && cl.LessonId == lesson.Id)
                 );
+            }
+            private bool AreLessonCompleted(Lesson lesson, int userId)
+            {
+                return _context.CompleteLessons.Any(cl => cl.UserId == userId && cl.LessonId == lesson.Id);
+            }
+            private bool AreLastExamCompleted(LastExam last, int userId)
+            {
+                return _context.CompletedExams.Any(cl => cl.UserId == userId && cl.LastExamId == last.Id);
             }
 
         }

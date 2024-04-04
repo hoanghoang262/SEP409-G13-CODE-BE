@@ -18,6 +18,7 @@ namespace ModerationService.API.Models
         public bool? IsCompleted { get; set; }
         public long? Duration { get; set; }
         public string? ContentLesson { get; set; }
+        public string? CodeForm { get; set; }
 
         public virtual Chapter? Chapter { get; set; }
         public virtual ICollection<TheoryQuestion> TheoryQuestions { get; set; }
