@@ -67,6 +67,7 @@ namespace Authenticate_Service.Feature.AuthenticateFearture.Command.Login
                 new Claim("UserID", user.Id.ToString()),
                 new Claim("UserName", user.UserName),
                 new Claim("Roles", userRoles),
+                new Claim("PhotoUrl",user.ProfilePict),
                 new Claim(ClaimTypes.Role, userRoles)
                   };
 

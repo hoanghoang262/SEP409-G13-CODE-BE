@@ -1,4 +1,5 @@
 ﻿
+
 using AutoMapper;
 using Contract.SeedWork;
 using Contract.Service.Message;
@@ -60,7 +61,8 @@ namespace CourseService.API.Feartures.CourseFearture.Queries.CourseQueries
                 {
 
                     var userInfo = await _service.SendUserId(item.CreatedBy);
-                    bool isUserEnrolled = _context.Enrollments.Any(e => e.UserId == request.UserId && e.CourseId == item.Id); ;
+                    bool isUserEnrolled = _context.Enrollments.Any(e => e.UserId == request.UserId && e.CourseId == item.Id);
+                    bool isInWishList= _context.Wishlists.Any(e=>e.UserId==request.UserId && e.CourseId==item.Id);
 
                     var dto = new CourseDTO
                     {
@@ -72,7 +74,8 @@ namespace CourseService.API.Feartures.CourseFearture.Queries.CourseQueries
                         Tag = item.Tag,
                         UserId = item.CreatedBy,
                         UserName = userInfo.Name,
-                        Enrolled = isUserEnrolled ? "Continue Studying" : "Enroll"
+                        Enrolled = isUserEnrolled ? "Continue Studying" : "Enroll",
+                        IsInWishList=isInWishList
                     };
                     courseDTOList.Add(dto);
                 }

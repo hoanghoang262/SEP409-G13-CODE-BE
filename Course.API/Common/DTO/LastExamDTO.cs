@@ -7,6 +7,8 @@
         public int? PercentageCompleted { get; set; }
         public string? Name { get; set; }
         public int? Time { get; set; }
+        public bool? IsPass { get; set; }
+
         public virtual ICollection<QuestionExamDTO> QuestionExams { get; set; }
     }
     public class QuestionExamDTO

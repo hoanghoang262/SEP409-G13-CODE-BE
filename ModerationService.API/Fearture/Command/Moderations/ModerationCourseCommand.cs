@@ -114,7 +114,7 @@ namespace ModerationService.API.Fearture.Command.Moderations
                             TestCaseJava = code.TestCaseJava,
                         };
                         await _publish.Publish(codequestionEvent);
-                        await Task.Delay(2500);
+                        await Task.Delay(500);
                     }
                 }
 
@@ -132,7 +132,7 @@ namespace ModerationService.API.Fearture.Command.Moderations
                             Time = last.Time,
                         };
                         await _publish.Publish(lastEvent);
-                        await Task.Delay(3500);
+                        await Task.Delay(500);
                         var exam = _context.QuestionExams.Where(e => e.LastExamId.Equals(last.Id)).ToList();
                         foreach (var ex in exam)
                         {
@@ -145,7 +145,7 @@ namespace ModerationService.API.Fearture.Command.Moderations
                                 Status = ex.Status
                             };
                             await _publish.Publish(examEvent);
-                            await Task.Delay(3500);
+                            await Task.Delay(500);
                             var exAns = _context.AnswerExams.Where(exs => exs.ExamId.Equals(ex.Id)).ToList();
                             foreach (var ans in exAns)
                             {
@@ -157,7 +157,7 @@ namespace ModerationService.API.Fearture.Command.Moderations
                                     OptionsText = ans.OptionsText
                                 };
                                 await _publish.Publish(exAnswer);
-                                await Task.Delay(3500);
+                                await Task.Delay(500);
                             }
                         }
 
@@ -212,7 +212,7 @@ namespace ModerationService.API.Fearture.Command.Moderations
                         }
 
                        
-                        await Task.Delay(2000); 
+                        //await Task.Delay(1000); 
                     }
                 }
 

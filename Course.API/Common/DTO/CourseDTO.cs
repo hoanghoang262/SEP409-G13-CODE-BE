@@ -19,6 +19,7 @@ namespace CourseService.API.Common.ModelDTO
         public string? UserName { get; set; }
         public DateTime? CreatedAt { get; set; }
         public string? Enrolled { get; set; }
+        public bool? IsInWishList { get; set; }
 
         public virtual ICollection<ChapterDTO> Chapters { get; set; }
     }

@@ -59,11 +59,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "PaymentService", "PaymentSe
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PaymentService.API", "PaymentService\PaymentService.API.csproj", "{C03FC0A0-45E9-4E3C-BF03-19B35B8E3A39}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UnitTest", "UnitTest\UnitTest.csproj", "{082E0709-1193-49BF-A177-25CF78282793}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "CompilerService", "CompilerService", "{4EFE750D-3772-4D85-B7D3-C53C68FF231F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CompilerService.API", "CompilerService.API\CompilerService.API.csproj", "{23EF16F1-D63A-409F-9AEF-85F22796822A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CompilerService.API", "CompilerService.API\CompilerService.API.csproj", "{23EF16F1-D63A-409F-9AEF-85F22796822A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -201,14 +199,6 @@ Global
 		{C03FC0A0-45E9-4E3C-BF03-19B35B8E3A39}.Release|Any CPU.Build.0 = Release|Any CPU
 		{C03FC0A0-45E9-4E3C-BF03-19B35B8E3A39}.Release|x64.ActiveCfg = Release|Any CPU
 		{C03FC0A0-45E9-4E3C-BF03-19B35B8E3A39}.Release|x64.Build.0 = Release|Any CPU
-		{082E0709-1193-49BF-A177-25CF78282793}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{082E0709-1193-49BF-A177-25CF78282793}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{082E0709-1193-49BF-A177-25CF78282793}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{082E0709-1193-49BF-A177-25CF78282793}.Debug|x64.Build.0 = Debug|Any CPU
-		{082E0709-1193-49BF-A177-25CF78282793}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{082E0709-1193-49BF-A177-25CF78282793}.Release|Any CPU.Build.0 = Release|Any CPU
-		{082E0709-1193-49BF-A177-25CF78282793}.Release|x64.ActiveCfg = Release|Any CPU
-		{082E0709-1193-49BF-A177-25CF78282793}.Release|x64.Build.0 = Release|Any CPU
 		{23EF16F1-D63A-409F-9AEF-85F22796822A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{23EF16F1-D63A-409F-9AEF-85F22796822A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{23EF16F1-D63A-409F-9AEF-85F22796822A}.Debug|x64.ActiveCfg = Debug|Any CPU
