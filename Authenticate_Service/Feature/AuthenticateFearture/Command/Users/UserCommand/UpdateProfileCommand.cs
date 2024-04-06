@@ -39,7 +39,7 @@ namespace AuthenticateService.API.Feature.AuthenticateFearture.Command.Users.Use
             }
 
             // Validate username
-            string userNamePattern = @"^[^\s]{8,32}$";
+            string userNamePattern = @"^.{8,32}$";
             if (!String.IsNullOrEmpty(request.UserName) && !Regex.IsMatch(request.UserName, userNamePattern))
             {
                 return new BadRequestObjectResult(Message.MSG21);
