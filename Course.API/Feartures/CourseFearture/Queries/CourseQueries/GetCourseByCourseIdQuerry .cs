@@ -65,6 +65,7 @@ namespace CourseService.API.Feartures.CourseFearture.Queries.CourseQueries
 
                 var user = await service.SendUserId(courses.CreatedBy);
                 bool isUserEnrolled = _context.Enrollments.Any(e => e.UserId == request.UserId && e.CourseId == request.CourseId);
+                bool isInWishList = _context.Wishlists.Any(e => e.UserId == request.UserId && e.CourseId == request.CourseId);
 
                 var result = new
                 {
@@ -78,6 +79,7 @@ namespace CourseService.API.Feartures.CourseFearture.Queries.CourseQueries
                     Created_Name = user.Name,
                     Avatar = user.Picture,
                     IsEnrolled= isUserEnrolled ,
+                    InWishList= isInWishList,
 
                     Chapters = courses.Chapters.Select(chapter => new
                     {
@@ -186,6 +188,7 @@ namespace CourseService.API.Feartures.CourseFearture.Queries.CourseQueries
             {
                 return _context.CompletedExams.Any(cl => cl.UserId == userId && cl.LastExamId == last.Id);
             }
+          
 
         }
     }

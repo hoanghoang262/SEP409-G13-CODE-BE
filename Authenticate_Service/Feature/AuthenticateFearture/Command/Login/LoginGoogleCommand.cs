@@ -16,7 +16,7 @@ namespace Authenticate_Service.Feature.AuthenticateFearture.Command.Login
     public class LoginGoogleCommand : IRequest<IActionResult>
     {
         public string Email { get; set; }
-        public string? PhotoURL { get; set; }
+        //public string? PhotoURL { get; set; }
         public string UserName { get; set; }
 
 
@@ -51,7 +51,7 @@ namespace Authenticate_Service.Feature.AuthenticateFearture.Command.Login
                             UserName = request.UserName,
                             RoleId = 1, // Assign a default role ID or handle roles as needed
                             EmailConfirmed = true,
-                            ProfilePict = request.PhotoURL,
+                         //   ProfilePict = request.PhotoURL,
                             Status=true
                         };
                         _context.Users.Add(userLoginGoogle);
@@ -67,7 +67,7 @@ namespace Authenticate_Service.Feature.AuthenticateFearture.Command.Login
                 new Claim("UserID", user.Id.ToString()),
                 new Claim("UserName", user.UserName),
                 new Claim("Roles", userRoles),
-                new Claim("PhotoUrl",user.ProfilePict),
+               // new Claim("PhotoUrl",user.ProfilePict),
                 new Claim(ClaimTypes.Role, userRoles)
                   };
 

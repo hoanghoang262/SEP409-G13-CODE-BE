@@ -21,6 +21,8 @@ namespace CourseService.API.Common.ModelDTO
         public string? Enrolled { get; set; }
         public bool? IsInWishList { get; set; }
 
+        public int? Price { get; set; }
+
         public virtual ICollection<ChapterDTO> Chapters { get; set; }
     }
     public class ChapterDTO: IMapFrom<Chapter> {
@@ -79,7 +81,10 @@ namespace CourseService.API.Common.ModelDTO
         public int CourseId { get; set; }
         public string CourseName { get; set; }
         public string CoursePicture { get; set; }
+
         public double CompletionPercentage { get; set; }
+
+        public bool IsDone { get; set; }
     }
     public class PracticeQuestionDTO :IMapFrom<PracticeQuestion>
     {
