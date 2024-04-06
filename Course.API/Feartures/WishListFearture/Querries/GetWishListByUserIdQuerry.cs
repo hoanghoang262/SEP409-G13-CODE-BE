@@ -32,7 +32,8 @@ namespace CourseService.API.Feartures.WishListFearture.Querries
             {
                 var querry = (from w in _context.Wishlists
                               join c in _context.Courses on w.CourseId equals c.Id
-                              where( (string.IsNullOrEmpty(request.CourseName)||c.Name.Contains(request.CourseName))&&
+                              where( (w.UserId == request.UserId)&&
+                              (string.IsNullOrEmpty(request.CourseName)||c.Name.Contains(request.CourseName))&&
                                     (string.IsNullOrEmpty(request.Tag) || c.Tag.Contains(request.Tag)))
                                
                               select new

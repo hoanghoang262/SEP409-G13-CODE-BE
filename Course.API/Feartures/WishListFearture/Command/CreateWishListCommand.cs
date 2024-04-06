@@ -30,6 +30,14 @@ namespace CourseService.API.Feartures.WishListFearture.Command
                 {
                     return new BadRequestObjectResult(Message.MSG01);
                 }
+                var wishlist = _context.Wishlists.FirstOrDefault(e => e.CourseId == request.CourseId && e.UserId == request.UserId);
+                if(wishlist != null)
+                {
+                    _context.Wishlists.Remove(wishlist);
+                    _context.SaveChanges();
+
+                }
+               
 
                 var wishlistItem = new Wishlist
                 {

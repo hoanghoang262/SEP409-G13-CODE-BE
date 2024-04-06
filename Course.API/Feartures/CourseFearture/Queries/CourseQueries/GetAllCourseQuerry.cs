@@ -63,7 +63,6 @@ namespace CourseService.API.Feartures.CourseFearture.Queries.CourseQueries
                     var userInfo = await _service.SendUserId(item.CreatedBy);
                     bool isUserEnrolled = _context.Enrollments.Any(e => e.UserId == request.UserId && e.CourseId == item.Id);
                     bool isInWishList= _context.Wishlists.Any(e=>e.UserId==request.UserId && e.CourseId==item.Id);
-
                     var dto = new CourseDTO
                     {
                         CreatedAt = item.CreatedAt,
@@ -75,7 +74,8 @@ namespace CourseService.API.Feartures.CourseFearture.Queries.CourseQueries
                         UserId = item.CreatedBy,
                         UserName = userInfo.Name,
                         Enrolled = isUserEnrolled ? "Continue Studying" : "Enroll",
-                        IsInWishList=isInWishList
+                        IsInWishList=isInWishList,
+                        Price=item.Price
                     };
                     courseDTOList.Add(dto);
                 }
