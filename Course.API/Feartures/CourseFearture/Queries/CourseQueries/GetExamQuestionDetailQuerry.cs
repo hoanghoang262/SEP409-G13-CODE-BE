@@ -7,9 +7,10 @@ using ModerationService.API.Common.DTO;
 
 namespace CourseService.API.Feartures.CourseFearture.Queries.CourseQueries
 {
-    public class GetExamQuestionDetailQuerry :IRequest<IActionResult>
+    public class GetExamQuestionDetailQuerry : IRequest<IActionResult>
     {
         public int LastExamId { get; set; }
+        public int UserId { get; set; }
 
         public class GetExamQuestionDetailQuerryHandler : IRequestHandler<GetExamQuestionDetailQuerry, IActionResult>
         {
@@ -29,6 +30,7 @@ namespace CourseService.API.Feartures.CourseFearture.Queries.CourseQueries
                     PercentageCompleted = lastExam.PercentageCompleted,
                     Name = lastExam.Name,
                     Time = lastExam.Time,
+                    IsPass=IsPassExam(request.UserId,request.LastExamId),
                     QuestionExams = lastExam.QuestionExams.Select(q => new QuestionExamDTO
                     {
                         Id = q.Id,
@@ -48,6 +50,15 @@ namespace CourseService.API.Feartures.CourseFearture.Queries.CourseQueries
                 };
                 return new OkObjectResult(result);
             }
+            public bool IsPassExam(int UserId, int LastExamId)
+            {
+                var ispass = _context.LastExams.FirstOrDefault(e => e.Id.Equals(LastExamId));
+
+                return _context.CompletedExams.Any(cl=>cl.UserId== UserId && cl.LastExamId==LastExamId);
+            }
         }
+
+
+
     }
 }

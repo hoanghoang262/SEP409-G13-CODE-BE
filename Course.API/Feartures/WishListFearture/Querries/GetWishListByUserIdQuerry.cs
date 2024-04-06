@@ -1,16 +1,22 @@
-﻿using Contract.Service.Message;
+﻿using Contract.SeedWork;
+using Contract.Service.Message;
 using CourseService.API.Common.DTO;
 using CourseService.API.GrpcServices;
 using CourseService.API.Models;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace CourseService.API.Feartures.WishListFearture.Querries
 {
     public class GetWishListByUserIdQuerry : IRequest<IActionResult>
     {
         public int UserId { get; set; }
+        public int Page { get; set; } = 1;
+        public int PageSize { get; set; } = 5;
+        public string? CourseName { get; set; }
+        public string? Tag { get; set; }
         public class GetWishListByUserIdQuerryHandler : IRequestHandler<GetWishListByUserIdQuerry, IActionResult>
         {
             private readonly CourseContext _context;
@@ -26,6 +32,9 @@ namespace CourseService.API.Feartures.WishListFearture.Querries
             {
                 var querry = (from w in _context.Wishlists
                               join c in _context.Courses on w.CourseId equals c.Id
+                              where( (string.IsNullOrEmpty(request.CourseName)||c.Name.Contains(request.CourseName))&&
+                                    (string.IsNullOrEmpty(request.Tag) || c.Tag.Contains(request.Tag)))
+                               
                               select new
                               {
                                   CourseId = w.CourseId,
@@ -37,14 +46,22 @@ namespace CourseService.API.Feartures.WishListFearture.Querries
                                   Tag = c.Tag,
                                   UserId = c.CreatedBy
                               }).ToList();
-                List<WishListDTO> result = new List<WishListDTO>();
-                foreach (var c in querry)
+                var totalItems =  querry.Count();
+
+                var resultList = querry
+                    .Skip((request.Page - 1) * request.PageSize)
+                    .Take(request.PageSize)
+                    .ToList();
+
+                List<WishListDTO> wishList = new List<WishListDTO>();
+                foreach (var c in resultList)
                 {
                     var userInfo = await _service.SendUserId(c.UserId);
                     if (userInfo.Id == 0)
                     {
-                        return new BadRequestObjectResult(Message.MSG01);
+                        return new BadRequestObjectResult(Message.MSG24);
                     }
+                   
 
                     var dto = new WishListDTO()
                     {
@@ -58,8 +75,9 @@ namespace CourseService.API.Feartures.WishListFearture.Querries
                         Description = c.Description,
                         CourseId = c.CourseId
                     };
-                    result.Add(dto);
+                    wishList.Add(dto);
                 }
+                var result = new PageList<WishListDTO>(wishList, totalItems, request.Page, request.PageSize);
 
                 return new OkObjectResult(result);
             }

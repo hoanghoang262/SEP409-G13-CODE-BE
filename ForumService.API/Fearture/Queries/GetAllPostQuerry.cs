@@ -42,6 +42,7 @@ namespace ForumService.API.Fearture.Queries
                 var items = querry
                 .Skip((request.Page - 1) * request.PageSize)
                 .Take(request.PageSize)
+                .OrderByDescending(c=>c.Id)
                 .ToList();
 
                 List<PostDTO> post=new List<PostDTO>();  

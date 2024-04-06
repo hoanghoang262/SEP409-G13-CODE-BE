@@ -18,9 +18,9 @@ namespace CourseService.API.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetWishListByUserId(int userId)
+        public async Task<IActionResult> GetWishListByUserId([FromQuery] GetWishListByUserIdQuerry query)
         {
-            return Ok(await _mediator.Send(new GetWishListByUserIdQuerry { UserId = userId }));
+            return Ok(await _mediator.Send(query));
         }
 
         [HttpPost]
