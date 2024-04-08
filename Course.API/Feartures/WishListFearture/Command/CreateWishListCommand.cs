@@ -1,4 +1,5 @@
 ﻿using Contract.Service.Message;
+using CourseGRPC.Services;
 using CourseService.API.GrpcServices;
 using CourseService.API.Models;
 using MediatR;
@@ -15,11 +16,13 @@ namespace CourseService.API.Feartures.WishListFearture.Command
         {
             private readonly CourseContext _context;
             private readonly GetUserInfoService _service;
+            private readonly CheckCourseIdServicesGrpc _checkCourseIdServicesGrpc;
 
-            public CreateWishListCommandHandler(CourseContext context, GetUserInfoService service)
+            public CreateWishListCommandHandler(CourseContext context, GetUserInfoService service, CheckCourseIdServicesGrpc checkCourseIdServicesGrpc)
             {
                 _context = context;
                 _service = service;
+                _checkCourseIdServicesGrpc = checkCourseIdServicesGrpc;
             }
 
             public async Task<IActionResult> Handle(CreateWishListCommand request, CancellationToken cancellationToken)
@@ -29,6 +32,12 @@ namespace CourseService.API.Feartures.WishListFearture.Command
                 if (user.Id == 0)
                 {
                     return new BadRequestObjectResult(Message.MSG01);
+                }
+                var courseId = await _checkCourseIdServicesGrpc.SendCourseId(request.CourseId);
+                if(courseId.IsCourseExist==0)
+                {
+                    return new BadRequestObjectResult(Message.MSG25);
+
                 }
                 var wishlist = _context.Wishlists.FirstOrDefault(e => e.CourseId == request.CourseId && e.UserId == request.UserId);
                 if(wishlist != null)

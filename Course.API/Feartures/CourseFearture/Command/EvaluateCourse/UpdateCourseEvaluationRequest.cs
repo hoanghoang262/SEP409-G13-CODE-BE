@@ -6,8 +6,7 @@ namespace CourseService.API.Feartures.CourseFearture.Command.EvaluateCourse
     public class UpdateCourseEvaluationRequest : IRequest<int>
     {
         public int Id { get; set; }
-        public int? UserId { get; set; }
-        public int? CourseId { get; set; }
+
         public double? Star { get; set; }
         public class UpdateCourseEvaluationHandler : IRequestHandler<UpdateCourseEvaluationRequest, int>
         {
@@ -22,10 +21,6 @@ namespace CourseService.API.Feartures.CourseFearture.Command.EvaluateCourse
             {
                 var evaluation = await _context.CourseEvaluations.FindAsync(request.Id);
 
-              
-
-                evaluation.UserId = request.UserId ?? evaluation.UserId;
-                evaluation.CourseId = request.CourseId ?? evaluation.CourseId;
                 evaluation.Star = request.Star ?? evaluation.Star;
 
                 await _context.SaveChangesAsync(cancellationToken);
