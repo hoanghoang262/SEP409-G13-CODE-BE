@@ -42,7 +42,7 @@ namespace CourseService.API.Feartures.WishListFearture.Querries
                                   Name = c.Name,
                                   Id = w.Id,
                                   Description = c.Description,
-                                  Picture = c.Description,
+                                  Picture = c.Picture,
                                   CreatedAt = c.CreatedAt,
                                   Tag = c.Tag,
                                   UserId = c.CreatedBy
@@ -71,7 +71,7 @@ namespace CourseService.API.Feartures.WishListFearture.Querries
                         UserId = c.UserId,
                         CreatedAt = c.CreatedAt,
                         Tag = c.Tag,
-                        Picture = userInfo.Picture,
+                        Picture = c.Picture,
                         UserName = userInfo.Name,
                         Description = c.Description,
                         CourseId = c.CourseId

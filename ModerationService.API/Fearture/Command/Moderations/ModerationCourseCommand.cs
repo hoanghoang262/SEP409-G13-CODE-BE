@@ -112,6 +112,9 @@ namespace ModerationService.API.Fearture.Command.Moderations
                             Id = code.Id,
                             CodeForm = code.CodeForm,
                             TestCaseJava = code.TestCaseJava,
+                            TestCaseC=code.TestCaseC,
+                            TestCaseCplus=code.TestCaseCplus,
+                            Title=code.Title,
                         };
                         await _publish.Publish(codequestionEvent);
                         await Task.Delay(500);
@@ -381,8 +384,6 @@ namespace ModerationService.API.Fearture.Command.Moderations
                         await _publish.Publish(notification);
                     }
                 }
-                else
-                {
                     var notificationForAdminBussiness = new NotificationEvent
                     {
                         RecipientId = course.CreatedBy,
@@ -393,7 +394,7 @@ namespace ModerationService.API.Fearture.Command.Moderations
                     };
                     await _publish.Publish(notificationForAdminBussiness);
 
-                }
+                
 
                 return new OkObjectResult(Message.MSG16);
             }

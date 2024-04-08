@@ -104,6 +104,7 @@ namespace ModerationService.API.Fearture.Querries.Moderations
                         {
                             codeQuestion.Id,
                             codeQuestion.Description,
+                            codeQuestion.Title,
                             TestCases = codeQuestion.TestCases.Select(testCase => new
                             {
                                 testCase.Id,
@@ -115,7 +116,8 @@ namespace ModerationService.API.Fearture.Querries.Moderations
                                 testCase.InputTypeBoolean,
                                 testCase.ExpectedResultBoolean,
                                 testCase.InputTypeArrayInt,
-                                testCase.InputTypeArrayString
+                                testCase.InputTypeArrayString,
+                                
                             }).ToList(),
                             UserAnswerCodes = codeQuestion.UserAnswerCodes.Select(userAnswerCode => new
                             {

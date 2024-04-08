@@ -44,7 +44,7 @@ namespace ForumService.API
             builder.Services.AddCors(options =>
             {
                 options.AddPolicy("AllowSpecificOrigin",
-                    builder => builder.WithOrigins("http://localhost:5173")
+                    builder => builder.WithOrigins("http://localhost:5173","http://14.225.218.205:8080")
                                       .AllowAnyHeader()
                                       .AllowAnyMethod());
             });

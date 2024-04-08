@@ -75,7 +75,8 @@ namespace ModerationService.API.Feature.Command
                 Description = newPractice.Description,
                 TestCaseJava = newPractice.TestCaseJava,
                 TestCaseC=newPractice.TestCaseC,
-                TestCaseCplus=newPractice.TestCaseCplus
+                TestCaseCplus=newPractice.TestCaseCplus,
+                Title=newPractice.Title,
               
             };
 
