@@ -41,6 +41,7 @@ namespace ModerationService.API.Fearture.Command.PracticeQuestion
             existingPracticeQuestion.TestCaseJava = request.PracticeQuestion.TestCaseJava;
             existingPracticeQuestion.TestCaseC = request.PracticeQuestion.TestCaseC;
             existingPracticeQuestion.TestCaseCplus = request.PracticeQuestion.TestCaseCplus;
+            existingPracticeQuestion.Title = request.PracticeQuestion.Title;
             existingPracticeQuestion.TestCases.Clear();
 
           

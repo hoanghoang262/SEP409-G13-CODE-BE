@@ -31,9 +31,9 @@ namespace CourseService.API.Controllers
         }
 
         [HttpDelete]
-        public async Task<IActionResult> RemoveFromWishlist([FromBody] DeleteWishListCommand command)
+        public async Task<IActionResult> RemoveFromWishlist(int wishListId)
         {
-            var success = await _mediator.Send(command);
+            var success = await _mediator.Send(new DeleteWishListCommand { WishlistId=wishListId});
             return Ok(success);
         }
     }

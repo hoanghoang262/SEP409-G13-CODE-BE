@@ -16,6 +16,7 @@ namespace CourseService.API.Feartures.CourseFearture.Command.SyncCourse
         public string? TestCaseJava { get; set; }
         public string? TestCaseC { get; set; }
         public string? TestCaseCplus { get; set; }
+        public string? Title { get; set; }
         public class SyncCodeQuestionCommandHandler : IRequestHandler<SyncPracticeQuestionCommand, IActionResult>
         {
             private readonly CourseContext _context;
@@ -41,6 +42,7 @@ namespace CourseService.API.Feartures.CourseFearture.Command.SyncCourse
                         TestCaseJava=request.TestCaseJava,
                         TestCaseC=request.TestCaseC,
                         TestCaseCplus=request.TestCaseCplus,
+                        Title=request.Title,
 
                     };
                     _context.PracticeQuestions.Add(newCodeQuestion);

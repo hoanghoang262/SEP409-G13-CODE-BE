@@ -15,5 +15,6 @@ namespace EventBus.Message.Event
         public string? TestCaseJava { get; set; }
         public string? TestCaseC { get; set; }
         public string? TestCaseCplus { get; set; }
+        public string? Title { get; set; }
     }
 }

@@ -33,8 +33,7 @@ namespace CourseService.API.Feartures.WishListFearture.Command
                 var wishlist = _context.Wishlists.FirstOrDefault(e => e.CourseId == request.CourseId && e.UserId == request.UserId);
                 if(wishlist != null)
                 {
-                    _context.Wishlists.Remove(wishlist);
-                    _context.SaveChanges();
+                    return new OkObjectResult("Đã có trong wishlist ");
 
                 }
                

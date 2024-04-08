@@ -76,6 +76,7 @@ namespace CourseService.API.Feartures.CourseFearture.Queries.CourseQueries
                     courses.Tag,
                     courses.CreatedBy,
                     courses.CreatedAt,
+                    courses.Price,
                     Created_Name = user.Name,
                     Avatar = user.Picture,
                     IsEnrolled= isUserEnrolled ,
@@ -123,6 +124,7 @@ namespace CourseService.API.Feartures.CourseFearture.Queries.CourseQueries
                              codeQuestion.TestCaseC,
                              codeQuestion.TestCaseJava,
                              codeQuestion.TestCaseCplus,
+                             codeQuestion.Title,
                              TestCases = codeQuestion.TestCases.Select(testCase => new
                              {
                                  testCase.Id,
