@@ -41,6 +41,7 @@ namespace Authenticate_Service.Feature.AuthenticateFearture.Command.Login
                     }
 
                     var user = await _context.Users.FirstOrDefaultAsync(x => x.Email.Equals(request.Email));
+                    
 
                     if (user == null)
                     {
@@ -51,7 +52,7 @@ namespace Authenticate_Service.Feature.AuthenticateFearture.Command.Login
                             UserName = request.UserName,
                             RoleId = 1, // Assign a default role ID or handle roles as needed
                             EmailConfirmed = true,
-                         //   ProfilePict = request.PhotoURL,
+                            //ProfilePict = request.PhotoURL,
                             Status=true
                         };
                         _context.Users.Add(userLoginGoogle);

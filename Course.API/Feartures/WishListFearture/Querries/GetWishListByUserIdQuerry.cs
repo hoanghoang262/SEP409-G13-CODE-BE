@@ -1,5 +1,6 @@
 ﻿using Contract.SeedWork;
 using Contract.Service.Message;
+using CourseGRPC.Services;
 using CourseService.API.Common.DTO;
 using CourseService.API.GrpcServices;
 using CourseService.API.Models;
@@ -21,11 +22,13 @@ namespace CourseService.API.Feartures.WishListFearture.Querries
         {
             private readonly CourseContext _context;
             private readonly GetUserInfoService _service;
+          
 
             public GetWishListByUserIdQuerryHandler(CourseContext context, GetUserInfoService service)
             {
                 _context = context;
                 _service = service;
+            
             }
 
             public async Task<IActionResult> Handle(GetWishListByUserIdQuerry request, CancellationToken cancellationToken)
