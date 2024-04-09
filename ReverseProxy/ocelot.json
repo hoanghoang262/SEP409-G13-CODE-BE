@@ -1,44 +1,27 @@
 {
-  
+  "GlobalConfiguration": {
+    "BaseUrl": "https://ocelotapigateway.azurewebsites.net"
+  },
   "Routes": [
     //course api
-    //{
-    //  "DownstreamPathTemplate": "/api/{controller}/{action}",
-    //  "DownstreamScheme": "http",
-    //  "DownstreamHostAndPorts": [
-    //    {
-    //      // "Host": "coursesservices.azurewebsites.net"
-    //      "Host": "localhost",
-    //      "Port": 5230
-
-    //    }
-    //  ],
-    //  "UpstreamPathTemplate": "/course-gateway/{controller}/{action}",
-    //  "UpstreamHttpMethod": [ "POST", "PUT", "Get" ]
-
-    //},
-
     {
-      "DownstreamPathTemplate": "/api/Course/GetAllCourses",
+      "DownstreamPathTemplate": "/api/{controller}/{action}",
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
           "Host": "coursesservices.azurewebsites.net"
-          //"Host": "localhost",
-          //"Port": 5230
-
         }
       ],
-      "UpstreamPathTemplate": "/api/Course/GetAllCourses",
-      "UpstreamHttpMethod": [ "POST", "PUT", "GET" ],
-      "AuthenticationOptions": {
-        "AuthenticationProviderKey": "Bearer",
-        "AllowedScopes": []
-      },
-      "RouteClaimsRequirement": {
-        "Roles": "AdminSystem"
+      "UpstreamPathTemplate": "/apigateway-course/{controller}/{action}",
+      "UpstreamHttpMethod": [ "POST", "PUT", "GET" ]
+      //"AuthenticationOptions": {
+      //  "AuthenticationProviderKey": "Bearer",
+      //  "AllowedScopes": []
+      //},
+      //"RouteClaimsRequirement": {
+      //  "Roles": "AdminSystem"
 
-      }
+      //}
     },
     // "authen api",
     {
@@ -47,60 +30,85 @@
       "DownstreamHostAndPorts": [
         {
           "Host": "authenticateservice.azurewebsites.net"
-          //"Host": "localhost",
-          //"Port": 5000
 
         }
       ],
-      "UpstreamPathTemplate": "/authen-gateway/{controller}/{action}",
-      "UpstreamHttpMethod": [ "POST", "PUT", "GET" ],
-      "SwaggerKey": "authen"
-    }
+      "UpstreamPathTemplate": "/apigateway-authen/{controller}/{action}",
+      "UpstreamHttpMethod": [ "POST", "PUT", "GET" ]
+    },
 
-    //"moderation api"
-    //{
-    //  "DownstreamPathTemplate": "/api/{controller}/{action}",
-    //  "DownstreamScheme": "https",
-    //  "DownstreamHostAndPorts": [
-    //    {
-    //      "Host": "authenticateservice.azurewebsites.net"
-
-    //    }
-    //  ],
-    //  "UpstreamPathTemplate": "/moder-gateway/{controller}/{action}",
-    //  "UpstreamHttpMethod": [ "POST", "PUT", "Get" ]
-
-    //}
-  ],
-  "SwaggerEndPoints": [
     {
-      "Key": "course",
-      "TransformByOcelotConfig": false,
-      "Config": [
+      "DownstreamPathTemplate": "/api/{controller}/{action}",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
         {
-          "Name": "CourseService.API",
-          "Version": "v1",
-          "Url": "https://coursesservices.azurewebsites.net/swagger/v1/swagger.json"
+          "Host": "moderationservice.azurewebsites.net"
         }
-      ]
-    }
-    //,
-    //{
-    //  "Key": "authen",
-    //  "TransformByOcelotConfig": false,
-    //  "Config": [
-    //    {
-    //      "Name": "AuthenticateService.API",
-    //      "Version": "v1",
-    //      "Url": "https://authenticateservice.azurewebsites.net/swagger/v1/swagger.json"
-    //    }
-    //  ]
-    //}
-  ],
+      ],
+      "UpstreamHttpMethod": [ "POST", "PUT", "GET" ],
+      "UpstreamPathTemplate": "/apigateway-moderation/{controller}/{action}"
+    },
 
-  "GlobalConfiguration": {
-    "BaseUrl": "https://apigatewayocelot.azurewebsites.net"
-  }
+    {
+      "DownstreamPathTemplate": "/api/{controller}/{action}",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "forumservices.azurewebsites.net"
+        }
+      ],
+      "UpstreamHttpMethod": [ "POST", "PUT", "GET" ],
+      "UpstreamPathTemplate": "/apigateway-forum/{controller}/{action}"
+    },
+    //forum
+    {
+      "DownstreamPathTemplate": "/api/{controller}/{action}",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "forumservices.azurewebsites.net"
+        }
+      ],
+      "UpstreamHttpMethod": [ "POST", "PUT", "GET" ],
+      "UpstreamPathTemplate": "/apigateway-forum/{controller}/{action}"
+    },
+    //comment
+    {
+      "DownstreamPathTemplate": "/api/{controller}/{action}",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "commentapi.azurewebsites.net"
+        }
+      ],
+      "UpstreamHttpMethod": [ "POST", "PUT", "GET" ],
+      "UpstreamPathTemplate": "/apigateway-comment/{controller}/{action}"
+    },
+    //compile
+    {
+      "DownstreamPathTemplate": "/api/{controller}/{action}",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "compilerservice.azurewebsites.net"
+        }
+      ],
+      "UpstreamHttpMethod": [ "POST", "PUT", "GET" ],
+      "UpstreamPathTemplate": "/apigateway-compiler/{controller}/{action}"
+    },
+    //payment
+    {
+      "DownstreamPathTemplate": "/api/{controller}/{action}",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "paymentapiservice.azurewebsites.net"
+        }
+      ],
+      "UpstreamHttpMethod": [ "POST", "PUT", "GET" ],
+      "UpstreamPathTemplate": "/apigateway-payment/{controller}/{action}"
+    }
+  ]
 }
 
 

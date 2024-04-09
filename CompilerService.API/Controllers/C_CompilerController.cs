@@ -22,12 +22,14 @@ namespace CompilerService.API.Controllers
         }
 
         [HttpPost]
-        public IActionResult CompileCodeCCodeEditor(CodeRequestModel request)
+        public  IActionResult CompileCodeCCodeEditor(CodeRequestModel request)
         {
 
             string rootPath = _hostingEnvironment.ContentRootPath;
             string filePath = Path.Combine(rootPath, "main");
             string compilationResult = _cCompiler.CompileCCode(request.UserCode, filePath);
+
+           
             var userAnswerCode = new UserAnswerCode
             {
                 CodeQuestionId = request.PracticeQuestionId,
@@ -47,6 +49,17 @@ namespace CompilerService.API.Controllers
             string rootPath = _hostingEnvironment.ContentRootPath;
             string filePath = Path.Combine(rootPath, "main");
             string compilationResult = _cCompiler.CompileCCode(request.UserCode, filePath);
+            if (compilationResult == "\n")
+            {
+                var completed = new CompletedPracticeQuestion
+                {
+                    PracticeQuestionId = request.PracticeQuestionId,
+                    UserId = request.UserId
+                };
+                _context.CompletedPracticeQuestions.Add(completed);
+                _context.SaveChanges();
+                compilationResult = "All Test Passed";
+            }
             var userAnswerCode = new UserAnswerCode
             {
                 CodeQuestionId = request.PracticeQuestionId,

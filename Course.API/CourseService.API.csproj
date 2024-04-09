@@ -50,10 +50,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Feartures\EnrollmentFeature\Queries\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <Protobuf Include="Protos\checkcourseid.proto" GrpcServices="Client" />
     <Protobuf Include="Protos\getuserinfo.proto" GrpcServices="Client" />
     <Protobuf Include="Protos\user.proto">

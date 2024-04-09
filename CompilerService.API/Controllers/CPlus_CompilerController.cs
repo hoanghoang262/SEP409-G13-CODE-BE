@@ -58,8 +58,17 @@ namespace CourseService.API.Controllers
                 string rootPath = _hostingEnvironment.ContentRootPath;
                 string filePath = Path.Combine(rootPath, "main.cpp");
                 string compilationResult = _cCompiler.CompileCCode(request.UserCode, filePath);
-
-
+                if (compilationResult.Contains("All Test Pass"))
+                {
+                    var completed = new CompletedPracticeQuestion
+                    {
+                        PracticeQuestionId = request.PracticeQuestionId,
+                        UserId = request.UserId
+                    };
+                    _context.CompletedPracticeQuestions.Add(completed);
+                    _context.SaveChanges();
+                    compilationResult = "All Test Passed";
+                }
                 var userAnswerCode = new UserAnswerCode
                 {
                     CodeQuestionId = request.PracticeQuestionId,

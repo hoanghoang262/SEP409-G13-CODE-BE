@@ -57,7 +57,7 @@ namespace CourseService.API.Controllers
         }
 
         [HttpPost]
-        public IActionResult CompileCodeJavaCodeQuestion([FromBody] CodeRequestModel javaCode)
+        public async Task<IActionResult> CompileCodeJavaCodeQuestion([FromBody] CodeRequestModel javaCode)
         {
             string rootPath = _hostingEnvironment.ContentRootPath;
             string javaFilePath = Path.Combine(rootPath, "Solution.java");
@@ -72,7 +72,17 @@ namespace CourseService.API.Controllers
                 _compile.WriteJavaCodeToFile(javaCode.UserCode, javaFilePath);
 
                 string compilationResult = _compile.CompileAndRun(javaFilePath);
-
+                if (compilationResult=="\n")
+                {
+                    var completed = new CompletedPracticeQuestion
+                    {
+                        PracticeQuestionId = javaCode.PracticeQuestionId,
+                        UserId = javaCode.UserId
+                    };
+                    _context.CompletedPracticeQuestions.Add(completed);
+                    await _context.SaveChangesAsync();
+                    compilationResult = "All Test Passed";  
+                }
                 var userAnswerCode = new UserAnswerCode
                 {
                     CodeQuestionId = javaCode.PracticeQuestionId,
@@ -80,15 +90,15 @@ namespace CourseService.API.Controllers
                     UserId = javaCode.UserId
                 };
                 _context.UserAnswerCodes.Add(userAnswerCode);
-                _context.SaveChangesAsync();
+                await _context.SaveChangesAsync();
 
 
-                // Return compilation result
+                
                 return Ok(compilationResult);
             }
             catch (Exception ex)
             {
-                // Return error message
+               
                 return StatusCode(500, $"Error compiling Java code: {ex.Message}");
             }
         }

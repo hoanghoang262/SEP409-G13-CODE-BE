@@ -49,7 +49,14 @@ namespace PaymentService
             var config2 = builder.Configuration.GetSection("GrpcSetting2:CourseUrl").Value;
             builder.Services.AddGrpcClient<GetCourseByIdService.GetCourseByIdServiceClient>(x => x.Address = new Uri(config2));
             builder.Services.AddScoped<GetCourseInfoService>();
-
+            builder.Services.AddCors(options =>
+            {
+                options.AddPolicy("AllowSpecificOrigin",
+                    builder => builder.WithOrigins("http://localhost:5173")
+                                      .AllowAnyHeader()
+                                      .AllowAnyMethod()
+                                      .AllowAnyOrigin());
+            });
 
 
             builder.Services.AddHttpContextAccessor();
@@ -72,7 +79,7 @@ namespace PaymentService
             app.UseHttpsRedirection();
 
             app.UseAuthorization();
-
+            app.UseCors("AllowSpecificOrigin");
 
             app.MapControllerRoute(
                name: "default",

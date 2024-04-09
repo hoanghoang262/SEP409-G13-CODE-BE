@@ -9,7 +9,7 @@
       },
       "dotnetRunMessages": true,
       "applicationUrl": "https://ocelotapigateway.azurewebsites.net"
-      //"applicationUrl": "http://localhost:4230"
+     // "applicationUrl": "http://localhost:4230"
     },
     "IIS Express": {
       "commandName": "IISExpress",

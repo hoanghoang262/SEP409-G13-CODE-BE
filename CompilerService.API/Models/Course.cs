@@ -8,7 +8,6 @@ namespace CompilerService.API.Models
         public Course()
         {
             Chapters = new HashSet<Chapter>();
-            Enrollments = new HashSet<Enrollment>();
         }
 
         public int Id { get; set; }
@@ -21,6 +20,5 @@ namespace CompilerService.API.Models
         public int? Price { get; set; }
 
         public virtual ICollection<Chapter> Chapters { get; set; }
-        public virtual ICollection<Enrollment> Enrollments { get; set; }
     }
 }

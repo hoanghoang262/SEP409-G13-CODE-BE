@@ -125,6 +125,7 @@ namespace CourseService.API.Feartures.CourseFearture.Queries.CourseQueries
                              codeQuestion.TestCaseJava,
                              codeQuestion.TestCaseCplus,
                              codeQuestion.Title,
+                             codeQuestion.ChapterId,
                              TestCases = codeQuestion.TestCases.Select(testCase => new
                              {
                                  testCase.Id,
@@ -172,16 +173,13 @@ namespace CourseService.API.Feartures.CourseFearture.Queries.CourseQueries
 
                 return new OkObjectResult(result);
             }
-            private bool AreAllLessonsCompleted(Chapter chapter, int userId)
-            {
-                
-                var lessons =  _context.Lessons.Where(lesson => lesson.ChapterId == chapter.Id).ToList();
-
-              
-                return lessons.All(lesson =>
-                    _context.CompleteLessons.Any(cl => cl.UserId == userId && cl.LessonId == lesson.Id)
-                );
-            }
+            //private bool AreAllLessonsCompleted(Chapter chapter, int userId)
+            //{
+            //    var lessons =  _context.Lessons.Where(lesson => lesson.ChapterId == chapter.Id).ToList();
+            //    return lessons.All(lesson =>
+            //        _context.CompleteLessons.Any(cl => cl.UserId == userId && cl.LessonId == lesson.Id)
+            //    );
+            //}
             private bool AreLessonCompleted(Lesson lesson, int userId)
             {
                 return _context.CompleteLessons.Any(cl => cl.UserId == userId && cl.LessonId == lesson.Id);
@@ -190,7 +188,43 @@ namespace CourseService.API.Feartures.CourseFearture.Queries.CourseQueries
             {
                 return _context.CompletedExams.Any(cl => cl.UserId == userId && cl.LastExamId == last.Id);
             }
-          
+            private bool AreAllLessonsCompleted(Chapter chapter, int userId)
+            {
+
+                var isComplete = true;
+                var lesson = _context.Lessons.Where(c => c.ChapterId == chapter.Id).ToList();
+                var lastexam = _context.LastExams.Where(c => c.ChapterId == chapter.Id).ToList();
+                var practicequestion = _context.PracticeQuestions.Where(c => c.ChapterId == chapter.Id).ToList();
+
+                List<bool> isCompleted = new List<bool>();
+
+                foreach (var le in lesson)
+                {
+                    var arelessoncompleted = _context.CompleteLessons.Any(cl => cl.UserId == userId && cl.LessonId == le.Id);
+                    isCompleted.Add(arelessoncompleted);
+
+                }
+                foreach(var last in lastexam)
+                {
+                    var arelastExamCompleted = _context.CompletedExams.Any(cl => cl.UserId == userId && cl.LastExamId == last.Id);
+                    isCompleted.Add(arelastExamCompleted);
+                }
+                foreach (var prac in practicequestion)
+                {
+                    var arePracticeCompleted = _context.CompletedPracticeQuestions.Any(cl => cl.UserId == userId && cl.PracticeQuestionId == prac.Id);
+                    isCompleted.Add(arePracticeCompleted);
+                }
+                foreach(var isTrue in isCompleted)
+                {
+                    if(isTrue == false)
+                    {
+                        isComplete = false;
+                        break;
+                    }
+                }
+                return isComplete;
+            }
+
 
         }
     }
