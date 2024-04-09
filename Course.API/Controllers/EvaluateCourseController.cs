@@ -45,6 +45,7 @@ namespace CourseService.API.Controllers
 
             return Ok(averageRating);
         }
+
         [HttpGet]
         public async Task<ActionResult<double>> GetRateOfUser(int courseId, int userId)
         {
@@ -52,6 +53,5 @@ namespace CourseService.API.Controllers
             var averageRating = await _mediator.Send(request);
             return Ok(averageRating);
         }
-
     }
 }

@@ -18,8 +18,6 @@ namespace CourseService.API.Feartures.CourseFearture.Queries.EvaluateCourse
             private readonly CheckCourseIdServicesGrpc _services;
             private readonly GetUserInfoService _service;
 
-
-
             public GetRatingOfUserQuerryHandler(CourseContext context, CheckCourseIdServicesGrpc services,GetUserInfoService service)
             {
                 _context = context;
@@ -33,17 +31,19 @@ namespace CourseService.API.Feartures.CourseFearture.Queries.EvaluateCourse
                 {
                     return new BadRequestObjectResult(Message.MSG01);
                 }
-                var course = _context.Courses.Find(request.CourseId);
 
+                var course = _context.Courses.Find(request.CourseId);
                 if(course == null)
                 {
-                    return new BadRequestObjectResult("Not Found");
+                    return new BadRequestObjectResult(Message.MSG25);
                 }
+
                 var rate = _context.CourseEvaluations.FirstOrDefault(e => e.UserId == request.UserId && e.CourseId == request.CourseId);
                 if (rate == null)
                 {
-                    return new OkObjectResult("not found");
+                    return new NotFoundObjectResult(Message.MSG43);
                 }
+
                 return new OkObjectResult(rate.Star);
             }
         }

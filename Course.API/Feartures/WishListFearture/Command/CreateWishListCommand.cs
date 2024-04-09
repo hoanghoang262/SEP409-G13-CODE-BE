@@ -34,18 +34,16 @@ namespace CourseService.API.Feartures.WishListFearture.Command
                     return new BadRequestObjectResult(Message.MSG01);
                 }
                 var courseId = await _checkCourseIdServicesGrpc.SendCourseId(request.CourseId);
-                if(courseId.IsCourseExist==0)
+                if (courseId.IsCourseExist == 0)
                 {
                     return new BadRequestObjectResult(Message.MSG25);
 
                 }
                 var wishlist = _context.Wishlists.FirstOrDefault(e => e.CourseId == request.CourseId && e.UserId == request.UserId);
-                if(wishlist != null)
+                if (wishlist != null)
                 {
-                    return new OkObjectResult("Đã có trong wishlist ");
-
+                    return new OkObjectResult(Message.MSG42);
                 }
-               
 
                 var wishlistItem = new Wishlist
                 {
