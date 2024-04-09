@@ -9,9 +9,8 @@ namespace CourseService.API.Feartures.CourseFearture.Command.EvaluateCourse
 {
     public class CreateEvaluateCourseCommand : IRequest<IActionResult>
     {
-        public int CourseId {  get; set; }
+        public int CourseId { get; set; }
         public int UserId { get; set; }
-
         public double Star { get; set; }
         public class CreateCourseEvaluationHandler : IRequestHandler<CreateEvaluateCourseCommand, IActionResult>
         {
@@ -20,11 +19,11 @@ namespace CourseService.API.Feartures.CourseFearture.Command.EvaluateCourse
             private readonly CheckCourseIdServicesGrpc _checkCourseIdServicesGrpc;
 
 
-            public CreateCourseEvaluationHandler(CourseContext context,GetUserInfoService service,CheckCourseIdServicesGrpc check)
+            public CreateCourseEvaluationHandler(CourseContext context, GetUserInfoService service, CheckCourseIdServicesGrpc check)
             {
                 _context = context;
-                _service=service;
-                _checkCourseIdServicesGrpc=check;
+                _service = service;
+                _checkCourseIdServicesGrpc = check;
             }
 
             public async Task<IActionResult> Handle(CreateEvaluateCourseCommand request, CancellationToken cancellationToken)
@@ -34,12 +33,19 @@ namespace CourseService.API.Feartures.CourseFearture.Command.EvaluateCourse
                 {
                     return new BadRequestObjectResult(Message.MSG01);
                 }
+
                 var courseId = await _checkCourseIdServicesGrpc.SendCourseId(request.CourseId);
                 if (courseId.IsCourseExist == 0)
                 {
                     return new BadRequestObjectResult(Message.MSG25);
 
                 }
+
+                if (request.Star < 0)
+                {
+                    return new BadRequestObjectResult(Message.MSG26);
+                }
+
                 var evaluation = new CourseEvaluation
                 {
                     UserId = request.UserId,
@@ -50,7 +56,7 @@ namespace CourseService.API.Feartures.CourseFearture.Command.EvaluateCourse
                 _context.CourseEvaluations.Add(evaluation);
                 await _context.SaveChangesAsync(cancellationToken);
 
-                return new OkObjectResult( evaluation.Id);
+                return new OkObjectResult(evaluation.Id);
             }
         }
 

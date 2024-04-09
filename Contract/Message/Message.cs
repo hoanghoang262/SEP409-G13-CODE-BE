@@ -401,5 +401,15 @@
             MsgTextVN = "Wishlist không tồn tại",
             MsgTextEN = "Wishlist does not exist"
         };
+
+        /// <summary>
+        /// MSG41: Đánh giá không tồn tại
+        /// </summary>
+        public static readonly MessageModel MSG41 = new MessageModel
+        {
+            MsgCode = "MSG41",
+            MsgTextVN = "Đánh giá không tồn tại",
+            MsgTextEN = "Evaluation does not exist"
+        };
     }
 }

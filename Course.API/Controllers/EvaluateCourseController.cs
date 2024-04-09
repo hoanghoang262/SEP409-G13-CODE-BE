@@ -17,28 +17,32 @@ namespace CourseService.API.Controllers
             _mediator = mediator;
         }
 
-       
         [HttpPost]
         public async Task<ActionResult<int>> AddCourseEvaluation([FromBody] CreateEvaluateCourseCommand request)
         {
             var id = await _mediator.Send(request);
+
             return Ok(id);
         }
 
-        
         [HttpPut]
         public async Task<ActionResult> UpdateCourseEvaluation(int id, [FromBody] UpdateCourseEvaluationRequest request)
         {
             if (id != request.Id)
+            {
                 return BadRequest();
+            }
+
             await _mediator.Send(request);
             return NoContent();
         }
+
         [HttpGet]
         public async Task<ActionResult<double>> GetCourseAverageRating(int courseId)
         {
             var request = new CalculateCourseAverageRatingQuerry { CourseId = courseId };
             var averageRating = await _mediator.Send(request);
+
             return Ok(averageRating);
         }
         [HttpGet]
