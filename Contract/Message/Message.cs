@@ -421,5 +421,15 @@
             MsgTextVN = "Wishlist đã tồn tại",
             MsgTextEN = "Wishlist already exists"
         };
+
+        /// <summary>
+        /// MSG43: Người dùng chưa có đánh giá
+        /// </summary>
+        public static readonly MessageModel MSG43 = new MessageModel
+        {
+            MsgCode = "MSG43",
+            MsgTextVN = "Người dùng chưa có đánh giá",
+            MsgTextEN = "User has not evaluated"
+        };
     }
 }

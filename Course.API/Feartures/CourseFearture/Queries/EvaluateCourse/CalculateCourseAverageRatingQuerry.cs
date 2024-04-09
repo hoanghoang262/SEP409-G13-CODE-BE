@@ -24,15 +24,12 @@ namespace CourseService.API.Feartures.CourseFearture.Queries.EvaluateCourse
 
             public async Task<IActionResult> Handle(CalculateCourseAverageRatingQuerry request, CancellationToken cancellationToken)
             {
-                if (request.CourseId <= 0)
-                {
-                    return new BadRequestObjectResult("CourseId phải lớn hơn 0 ");
-                }
-                var course = await _services.SendCourseId(request.CourseId);
-                if (course.IsCourseExist == 0)
+                var course = await _context.Courses.FindAsync(request.CourseId);
+                if (course == null)
                 {
                     return new BadRequestObjectResult(Message.MSG25);
                 }
+
                 var averageRating = await _context.CourseEvaluations
                     .Where(e => e.CourseId == request.CourseId && e.Star != null)
                     .AverageAsync(e => e.Star.Value, cancellationToken);
