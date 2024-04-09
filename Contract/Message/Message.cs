@@ -411,5 +411,15 @@
             MsgTextVN = "Đánh giá không tồn tại",
             MsgTextEN = "Evaluation does not exist"
         };
+
+        /// <summary>
+        /// MSG42: Wishlist đã tồn tại
+        /// </summary>
+        public static readonly MessageModel MSG42 = new MessageModel
+        {
+            MsgCode = "MSG42",
+            MsgTextVN = "Wishlist đã tồn tại",
+            MsgTextEN = "Wishlist already exists"
+        };
     }
 }
