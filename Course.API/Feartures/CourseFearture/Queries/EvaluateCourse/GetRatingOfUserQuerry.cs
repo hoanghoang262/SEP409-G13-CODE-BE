@@ -1,4 +1,7 @@
-﻿using CourseService.API.Models;
+﻿using Contract.Service.Message;
+using CourseGRPC.Services;
+using CourseService.API.GrpcServices;
+using CourseService.API.Models;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -12,13 +15,30 @@ namespace CourseService.API.Feartures.CourseFearture.Queries.EvaluateCourse
         public class GetRatingOfUserQuerryHandler : IRequestHandler<GetRatingOfUserQuerry, IActionResult>
         {
             private readonly CourseContext _context;
+            private readonly CheckCourseIdServicesGrpc _services;
+            private readonly GetUserInfoService _service;
 
-            public GetRatingOfUserQuerryHandler(CourseContext context)
+
+
+            public GetRatingOfUserQuerryHandler(CourseContext context, CheckCourseIdServicesGrpc services,GetUserInfoService service)
             {
                 _context = context;
+                _services = services;
+                _service=service;
             }
             public async Task<IActionResult> Handle(GetRatingOfUserQuerry request, CancellationToken cancellationToken)
             {
+                var user = await _service.SendUserId(request.UserId);
+                if(user.Id == 0) 
+                {
+                    return new BadRequestObjectResult(Message.MSG01);
+                }
+                var course = _context.Courses.Find(request.CourseId);
+
+                if(course == null)
+                {
+                    return new BadRequestObjectResult("Not Found");
+                }
                 var rate = _context.CourseEvaluations.FirstOrDefault(e => e.UserId == request.UserId && e.CourseId == request.CourseId);
                 if (rate == null)
                 {
