@@ -29,6 +29,8 @@ namespace NotificationService.API
             builder.Services.AddMassTransit(config =>
             {
                 config.AddConsumersFromNamespaceContaining<EventNotificationHandler>();
+                config.AddConsumersFromNamespaceContaining<EventNotificationPostHandler>();
+
 
 
                 config.UsingRabbitMq((ctx, cfg) =>

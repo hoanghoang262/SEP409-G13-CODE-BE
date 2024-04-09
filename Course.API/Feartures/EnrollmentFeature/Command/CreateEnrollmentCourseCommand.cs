@@ -36,6 +36,11 @@ namespace CourseService.API.Feartures.EnrollmentFeature.Command
             {
                 return new NotFoundObjectResult(Message.MSG25);
             }
+            var courseEnrolled = _context.Enrollments.FirstOrDefault(c => c.CourseId == request.CourseId && c.UserId == request.UserId);
+             if(courseEnrolled !=null){
+                return new NotFoundObjectResult("Bạn đã vào khóa học");
+            }
+           
 
             var enroll = new Enrollment
             {

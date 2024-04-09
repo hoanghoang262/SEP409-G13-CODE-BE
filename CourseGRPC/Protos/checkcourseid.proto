@@ -14,5 +14,6 @@ message CheckCourseIdRequest {
 
 message CheckCourseIdResponse {
     int32 isCourseExist = 1;
+    string CourseName=2;
 }
 

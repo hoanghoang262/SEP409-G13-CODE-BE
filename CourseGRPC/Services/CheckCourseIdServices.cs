@@ -21,6 +21,7 @@ namespace CourseGRPC.Services
                  response = new CheckCourseIdResponse()
                 {
                     IsCourseExist = 0,
+                    CourseName=""
                 };
             }
             else
@@ -28,6 +29,7 @@ namespace CourseGRPC.Services
                 response = new CheckCourseIdResponse()
                 {
                     IsCourseExist = request.CourseId,
+                    CourseName=course.Name,
                 };
 
             }

@@ -11,10 +11,10 @@ namespace AuthenticateService.API.Feature.AuthenticateFearture.Command.Users.Use
 {
     public class UpdateProfileCommand : IRequest<IActionResult>
     {
-        public int? UserId { get; set; }
+        public int UserId { get; set; }
         public string? FullName { get; set; }
         public string? Address { get; set; }
-        public string? BirthDate { get; set; }
+        public DateTime? BirthDate { get; set; }
         public string? FacebookLink { get; set; }
         public string? ProfilePict { get; set; }
         public string? UserName { get; set; }
@@ -68,7 +68,7 @@ namespace AuthenticateService.API.Feature.AuthenticateFearture.Command.Users.Use
 
             user.FullName = request.FullName ?? user.FullName;
             user.Address = request.Address ?? user.Address;
-            user.BirthDate = !String.IsNullOrEmpty(request.BirthDate) ? DateTime.ParseExact(request.BirthDate, "dd-MM-yyyy", CultureInfo.InvariantCulture) : user.BirthDate;
+            user.BirthDate = request.BirthDate??user.BirthDate;
             user.FacebookLink = request.FacebookLink ?? user.FacebookLink;
             user.ProfilePict = request.ProfilePict ?? user.ProfilePict;
             user.UserName = request.UserName ?? user.UserName;

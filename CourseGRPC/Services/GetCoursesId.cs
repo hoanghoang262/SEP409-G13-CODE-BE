@@ -22,7 +22,8 @@ namespace CourseGRPC.Services
                 return Task.FromResult(new GetCourseIdResponse
                 {
                     Id = 0,
-                    Name = "null"
+                    Name = "null",
+                    Picture="null"
                   
                 });
             }
@@ -31,6 +32,7 @@ namespace CourseGRPC.Services
                 {
                     Id = course.Id,
                     Name = course.Name,
+                    Picture = course.Picture,
                 };
 
 

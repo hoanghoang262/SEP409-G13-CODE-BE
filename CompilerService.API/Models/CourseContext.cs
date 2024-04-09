@@ -21,7 +21,9 @@ namespace CompilerService.API.Models
         public virtual DbSet<Chapter> Chapters { get; set; } = null!;
         public virtual DbSet<CompleteLesson> CompleteLessons { get; set; } = null!;
         public virtual DbSet<CompletedExam> CompletedExams { get; set; } = null!;
+        public virtual DbSet<CompletedPracticeQuestion> CompletedPracticeQuestions { get; set; } = null!;
         public virtual DbSet<Course> Courses { get; set; } = null!;
+        public virtual DbSet<CourseEvaluation> CourseEvaluations { get; set; } = null!;
         public virtual DbSet<Enrollment> Enrollments { get; set; } = null!;
         public virtual DbSet<LastExam> LastExams { get; set; } = null!;
         public virtual DbSet<Lesson> Lessons { get; set; } = null!;
@@ -39,7 +41,7 @@ namespace CompilerService.API.Models
             if (!optionsBuilder.IsConfigured)
             {
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-                optionsBuilder.UseSqlServer("Server=tcp:sep490g13.database.windows.net,1433;Initial Catalog=Course;Persist Security Info=False;User ID=fptu;Password=24082002aA;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;");
+                optionsBuilder.UseSqlServer("Server=tcp:sep490g132.database.windows.net,1433;Initial Catalog=Course;Persist Security Info=False;User ID=fptu;Password=24082002aA;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;");
             }
         }
 
@@ -115,6 +117,13 @@ namespace CompilerService.API.Models
                 entity.Property(e => e.UserId).HasColumnName("User_Id");
             });
 
+            modelBuilder.Entity<CompletedPracticeQuestion>(entity =>
+            {
+                entity.ToTable("CompletedPracticeQuestion");
+
+                entity.Property(e => e.PracticeQuestionId).HasColumnName("Practice_QuestionId");
+            });
+
             modelBuilder.Entity<Course>(entity =>
             {
                 entity.ToTable("Course");
@@ -130,6 +139,11 @@ namespace CompilerService.API.Models
                 entity.Property(e => e.Tag).HasMaxLength(50);
             });
 
+            modelBuilder.Entity<CourseEvaluation>(entity =>
+            {
+                entity.ToTable("Course_Evaluation");
+            });
+
             modelBuilder.Entity<Enrollment>(entity =>
             {
                 entity.ToTable("Enrollment");
@@ -137,11 +151,6 @@ namespace CompilerService.API.Models
                 entity.Property(e => e.CourseId).HasColumnName("Course_Id");
 
                 entity.Property(e => e.UserId).HasColumnName("User_Id");
-
-                entity.HasOne(d => d.Course)
-                    .WithMany(p => p.Enrollments)
-                    .HasForeignKey(d => d.CourseId)
-                    .HasConstraintName("FK_Enrollment_Course");
             });
 
             modelBuilder.Entity<LastExam>(entity =>
@@ -169,6 +178,8 @@ namespace CompilerService.API.Models
                 entity.Property(e => e.Id).ValueGeneratedNever();
 
                 entity.Property(e => e.ChapterId).HasColumnName("Chapter_Id");
+
+                entity.Property(e => e.CodeForm).HasColumnName("Code_Form");
 
                 entity.Property(e => e.ContentLesson).HasColumnName("Content_Lesson");
 

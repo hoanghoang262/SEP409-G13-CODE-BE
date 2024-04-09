@@ -59,7 +59,8 @@ namespace PaymentService.Controllers
                 UserCreateCourseId = returnModel.UserCreateCourseId,
                 CourseId = returnModel.CourseId,
                 RequriedAmount = returnModel.PaidAmount,
-                BuyerId=returnModel.BuyerId
+                BuyerId=returnModel.BuyerId,
+                PaymentDate=DateTime.Now
             };
             _context.Payments.Add(payment);
             _context.SaveChanges();
@@ -73,13 +74,21 @@ namespace PaymentService.Controllers
 
          
 
-            return Ok(returnModel);
+            return Ok("Thanh toán thành công");
         }
 
         [HttpGet]
-        public async Task<ActionResult<List<PaymentDtos>>> GetHistoryPaymentsOfUser(int userId)
+        public async Task<ActionResult<List<PaymentDtos>>> GetHistoryPaymentsOfUserCreated(int userId)
         {
-            var query = new GetHistoryPaymentsOfUserQuerry { Id = userId };
+            var query = new GetHistoryPaymentsOfUserCreatedQuerry { Id = userId };
+            var result = await mediator.Send(query);
+
+            return Ok(result);
+        }
+        [HttpGet]
+        public async Task<ActionResult<List<PaymentDtos>>> GetHistoryPaymentsOfUserBuy(int userId)
+        {
+            var query = new GetHistoryPaymentsOfUserBuyQuerry { Id = userId };
             var result = await mediator.Send(query);
 
             return Ok(result);

@@ -21,12 +21,18 @@ namespace ModerationService.API.Fearture.Command.Moderations
             private readonly Content_ModerationContext _context;
             private readonly IMapper _mapper;
             private readonly UserEnrollCourseGrpcServices _services;
-            public ModerationCourseCommandHandler(IPublishEndpoint publish, Content_ModerationContext context, IMapper mapper, UserEnrollCourseGrpcServices service)
+            private readonly CheckCourseIdServicesGrpc _service;
+            public ModerationCourseCommandHandler(IPublishEndpoint publish, 
+                Content_ModerationContext context, 
+                IMapper mapper, 
+                UserEnrollCourseGrpcServices service,
+                CheckCourseIdServicesGrpc checkCourseIdServicesGrpc)
             {
                 _context = context;
                 _publish = publish;
                 _mapper = mapper;
                 _services = service;
+                _service = checkCourseIdServicesGrpc;
             }
             public async Task<IActionResult> Handle(ModerationCourseCommand request, CancellationToken cancellationToken)
             {
@@ -94,6 +100,7 @@ namespace ModerationService.API.Fearture.Command.Moderations
                         Part = chap.Part
                     };
                     await _publish.Publish(chapterEvent);
+                    await Task.Delay(2500);
                 }
 
                
@@ -117,7 +124,7 @@ namespace ModerationService.API.Fearture.Command.Moderations
                             Title=code.Title,
                         };
                         await _publish.Publish(codequestionEvent);
-                        await Task.Delay(500);
+                        await Task.Delay(2500);
                     }
                 }
 
@@ -368,6 +375,7 @@ namespace ModerationService.API.Fearture.Command.Moderations
                     _context.Moderations.Remove(moderation);
                     _context.SaveChanges();
                 }
+                var courses = await _service.SendCourseId(request.CourseId);
 
                 if (userId != null)
                 {
@@ -377,7 +385,7 @@ namespace ModerationService.API.Fearture.Command.Moderations
                         {
                             RecipientId = id,
                             IsSeen = false,
-                            NotificationContent = "Your course have been change. Please check the new content",
+                            NotificationContent = courses.CourseName+" have been change. Please check the new content",
                             SendDate = DateTime.Now,
                             Course_Id = course.Id,
                         };
@@ -388,7 +396,7 @@ namespace ModerationService.API.Fearture.Command.Moderations
                     {
                         RecipientId = course.CreatedBy,
                         IsSeen = false,
-                        NotificationContent = "Your course has been approved",
+                        NotificationContent = "Your course " +course.Name+" has been approved",
                         SendDate = DateTime.Now,
                         Course_Id = course.Id,
                     };

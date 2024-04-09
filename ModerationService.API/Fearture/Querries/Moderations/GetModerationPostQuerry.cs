@@ -42,11 +42,11 @@ namespace ModerationService.API.Feature.Queries
                 }
                 if (string.IsNullOrEmpty(request.Tag) && !string.IsNullOrEmpty(request.PostTitle))
                 {
-                    moderations = await _context.Moderations.Where(x => !x.CourseId.HasValue && x.PostTitle.Equals(request.PostTitle)).ToListAsync();
+                    moderations = await _context.Moderations.Where(x => !x.CourseId.HasValue && x.PostTitle.Contains(request.PostTitle)).ToListAsync();
                 }
                 if (!string.IsNullOrEmpty(request.Tag) && !string.IsNullOrEmpty(request.PostTitle))
                 {
-                    moderations = await _context.Moderations.Where(x => !x.CourseId.HasValue && x.PostTitle.Equals(request.PostTitle) && x.Status.Equals(request.Tag)).ToListAsync();
+                    moderations = await _context.Moderations.Where(x => !x.CourseId.HasValue && x.PostTitle.Contains(request.PostTitle) && x.Status.Equals(request.Tag)).ToListAsync();
                 }
 
                 if (!moderations.Any())
