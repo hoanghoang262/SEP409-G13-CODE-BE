@@ -13,6 +13,7 @@ namespace NotificationService.API.Fearture.NotificationFearture.Command
         public string? NotificationContent { get; set; }
 
         public DateTime SendDate { get; set; }
+        public int Post_Id { get; set; }
 
         public bool IsSeen { get; set; }
         public int Course_Id { get; set; }

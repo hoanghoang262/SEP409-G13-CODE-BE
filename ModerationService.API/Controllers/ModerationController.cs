@@ -49,25 +49,16 @@ namespace ModerationService.API.Controllers
             return Ok(await _mediator.Send(new ModerationPostCommand { PostId = postId }));
         }
 
-        [HttpPost]
-        public async Task<IActionResult> CreatePost(CreatePostCommand command)
-        {
-            return Ok(await _mediator.Send(command));
-        }
-
-        [HttpPut]
-        public async Task<IActionResult> UpdatePost(int id, [FromBody] UpdatePostCommand command)
-        {
-            if (id != command.Id)
-            {
-                return BadRequest(Message.MSG30);
-            }
-
-            return Ok(await _mediator.Send(command));
-        }
+ 
 
         [HttpPost]
         public async Task<IActionResult> Reject([FromBody] RejectCourseCommand command)
+        {
+            var result = await _mediator.Send(command);
+            return result;
+        }
+        [HttpPost]
+        public async Task<IActionResult> RejectPost([FromBody] RejectPostCommand command)
         {
             var result = await _mediator.Send(command);
             return result;
@@ -156,6 +147,39 @@ namespace ModerationService.API.Controllers
                 await _context.SaveChangesAsync();
             }
 
+            return Ok(Message.MSG16);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> SendPostToModeration(int PostId)
+        {
+            var post = _context.Posts.FirstOrDefault(x => x.Id.Equals(PostId));
+
+            if (post == null)
+            {
+                return NotFound(Message.MSG25);
+            }
+            var moderationcourse = _context.Moderations.FirstOrDefault(x => x.CourseId.Equals(PostId));
+           
+            if (moderationcourse == null)
+            {
+                var moderation = new Moderation
+                {
+                    PostId = post.Id,
+                    ChangeType = "Add",
+                    CreatedBy = (int)post.CreatedBy,
+                    ApprovedContent = "Add a new course",
+                    Status = "Pending",
+                    CreatedAt = post.LastUpdate,
+                    PostTitle = post.Title,
+                    
+
+                };
+                await _context.Moderations.AddAsync(moderation);
+                await _context.SaveChangesAsync();
+            }
+          
+          
             return Ok(Message.MSG16);
         }
     }

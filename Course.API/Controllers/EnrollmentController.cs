@@ -1,6 +1,7 @@
 ﻿using Contract.Service.Message;
 using CourseService.API.Feartures.CourseFearture.Queries.CourseQueries;
 using CourseService.API.Feartures.EnrollmentFeature.Command;
+using CourseService.API.Feartures.EnrollmentFeature.Queries;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -38,6 +39,14 @@ namespace CourseService.API.Controllers
             var result = await _mediator.Send(query);
 
             return Ok(result);
+        }
+        [HttpGet]
+        public async Task<IActionResult> GetQuantityOfUserEnrollCourse([FromQuery] int courseId)
+        {
+            var query = new QuantityOfUserEnrollCourseQuerry { CourseId = courseId };
+            var result = await _mediator.Send(query);
+
+            return result;
         }
     }
 }

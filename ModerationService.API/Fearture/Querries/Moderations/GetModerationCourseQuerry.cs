@@ -88,6 +88,7 @@ namespace ModerationService.API.Feature.Queries
                         Tag = moderation.Course.Tag,
 
 
+
                     };
                     moderationDTOs.Add(moderationDTO);
                 }

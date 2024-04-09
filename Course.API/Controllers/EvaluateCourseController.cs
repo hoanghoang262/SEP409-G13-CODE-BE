@@ -31,7 +31,6 @@ namespace CourseService.API.Controllers
         {
             if (id != request.Id)
                 return BadRequest();
-
             await _mediator.Send(request);
             return NoContent();
         }
@@ -39,6 +38,13 @@ namespace CourseService.API.Controllers
         public async Task<ActionResult<double>> GetCourseAverageRating(int courseId)
         {
             var request = new CalculateCourseAverageRatingQuerry { CourseId = courseId };
+            var averageRating = await _mediator.Send(request);
+            return Ok(averageRating);
+        }
+        [HttpGet]
+        public async Task<ActionResult<double>> GetRateOfUser(int courseId, int userId)
+        {
+            var request = new GetRatingOfUserQuerry { CourseId = courseId,UserId=userId };
             var averageRating = await _mediator.Send(request);
             return Ok(averageRating);
         }

@@ -1,9 +1,8 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using Ocelot.DependencyInjection;
 using Ocelot.Middleware;
-using Ocelot.Provider.Polly;
+
 using System.Text;
 
 namespace ReverseProxy
@@ -51,28 +50,28 @@ namespace ReverseProxy
                     ValidateIssuerSigningKey = true
                 };
             });
-           // builder.Configuration.AddJsonFile("appsettings.json", optional: false, reloadOnChange: true).AddEnvironmentVariables();
-            builder.Configuration.SetBasePath(builder.Environment.ContentRootPath).AddJsonFile("ocelot.json",optional:false,reloadOnChange:true).AddEnvironmentVariables();
-            builder.Services.AddOcelot().AddPolly();
+
+            builder.Configuration.AddJsonFile("ocelot.json", optional: false, reloadOnChange: true);
+            builder.Services.AddOcelot(builder.Configuration);
 
             var app = builder.Build();
-          //  app.UseHttpsRedirection();
+            //  app.UseHttpsRedirection();
+            app.UseOcelot();
 
 
-     
-          
+
             app.UseAuthorization();
 
             app.UseAuthentication();
            
             app.MapControllers();
-         
+
 
             //app.UseSwaggerForOcelotUI(opt =>
             //{
             //    opt.PathToSwaggerGenerator = "/swagger/docs";
             //});
-            app.UseOcelot();
+           
 
             // app.MapReverseProxy();
 

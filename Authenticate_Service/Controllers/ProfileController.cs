@@ -15,30 +15,24 @@ namespace AuthenticateService.API.Controllers
     {
         private readonly IMediator mediator;
         private readonly AuthenticationContext _context;
-        
         public ProfileController(IMediator _mediator,AuthenticationContext context)
         {
             mediator= _mediator;
             _context= context;
         }
-
         [HttpPut]
         public async Task<IActionResult> UpdateProfile(int id, UpdateProfileCommand updateUserCommand)
         {
-            if (id != updateUserCommand.UserId)
-            {
-                return BadRequest(Message.MSG30);
-            }
-
-            try
-            {
+           
+            
+                if (id != updateUserCommand.UserId)
+                {
+                    return BadRequest(Message.MSG30);
+                }
                 var result = await mediator.Send(updateUserCommand);
                 return Ok(result);
-            }
-            catch (Exception)
-            {
-                return BadRequest(Message.MSG30);
-            }
+     
+         
         }
 
         [HttpDelete]
