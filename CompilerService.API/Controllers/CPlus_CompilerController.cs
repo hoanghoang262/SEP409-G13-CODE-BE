@@ -58,7 +58,7 @@ namespace CourseService.API.Controllers
                 string rootPath = _hostingEnvironment.ContentRootPath;
                 string filePath = Path.Combine(rootPath, "main.cpp");
                 string compilationResult = _cCompiler.CompileCCode(request.UserCode, filePath);
-                if (compilationResult.Contains("All Test Pass"))
+                if (!compilationResult.Contains("Test Failed"))
                 {
                     var completed = new CompletedPracticeQuestion
                     {

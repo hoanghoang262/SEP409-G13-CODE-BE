@@ -30,13 +30,13 @@ namespace ModerationService.API.Fearture.Querries.Post
 
                 if (!string.IsNullOrEmpty(request.PostTitle))
                 {
-                    querry = await _context.Posts.Where(c => c.Title.Contains(request.PostTitle)).ToListAsync();
+                    querry = await _context.Posts.Where(c => c.Title.Contains(request.PostTitle) && c.CreatedBy.Equals(request.UserId)).ToListAsync();
+                }
+                if (string.IsNullOrEmpty(request.PostTitle))
+                {
+                    querry = await _context.Posts.Where(c => c.CreatedBy.Equals(request.UserId)).ToListAsync();
                 }
 
-                if (querry == null)
-                {
-                    return new NotFoundObjectResult(querry);
-                }
                 var total = querry.Count();
 
                 var items = querry

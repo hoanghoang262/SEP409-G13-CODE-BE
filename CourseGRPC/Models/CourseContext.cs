@@ -25,6 +25,7 @@ namespace CourseGRPC.Models
         public virtual DbSet<Course> Courses { get; set; } = null!;
         public virtual DbSet<CourseEvaluation> CourseEvaluations { get; set; } = null!;
         public virtual DbSet<Enrollment> Enrollments { get; set; } = null!;
+        public virtual DbSet<ExamResult> ExamResults { get; set; } = null!;
         public virtual DbSet<LastExam> LastExams { get; set; } = null!;
         public virtual DbSet<Lesson> Lessons { get; set; } = null!;
         public virtual DbSet<Note> Notes { get; set; } = null!;
@@ -149,6 +150,19 @@ namespace CourseGRPC.Models
                 entity.ToTable("Enrollment");
 
                 entity.Property(e => e.CourseId).HasColumnName("Course_Id");
+
+                entity.Property(e => e.UserId).HasColumnName("User_Id");
+            });
+
+            modelBuilder.Entity<ExamResult>(entity =>
+            {
+                entity.ToTable("ExamResult");
+
+                entity.Property(e => e.ExamResult1)
+                    .HasColumnType("decimal(19, 2)")
+                    .HasColumnName("ExamResult");
+
+                entity.Property(e => e.LastExamId).HasColumnName("LastExam_Id");
 
                 entity.Property(e => e.UserId).HasColumnName("User_Id");
             });

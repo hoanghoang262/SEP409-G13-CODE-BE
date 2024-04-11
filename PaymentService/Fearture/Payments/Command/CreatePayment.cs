@@ -19,6 +19,8 @@ namespace PaymentService.Fearture.Payments.Command
         public int UserCreateCourseId { get; set; }
         public int CourseId { get; set; }
         public int UserBuyId { get; set; }
+        public string TypePayment { get; set; }
+   
         public class CreatePaymentHandler : IRequestHandler<CreatePayment, IActionResult>
         {
             private readonly PaymentContext _context;
@@ -73,14 +75,14 @@ namespace PaymentService.Fearture.Payments.Command
                 _context.PaymentTransactions.Add(paymenttrans);
                 await _context.SaveChangesAsync();
 
-                switch ("MOMO")
+                switch (request.TypePayment)
                 {
-                    //case "VNPAY":
-                    //    var vnpayPayRequest = new VnpayPayRequest(vnpayConfig.Version,
-                    //        vnpayConfig.TmnCode, DateTime.Now, currentUserService.IpAddress ?? string.Empty, request.RequiredAmount ?? 0, request.PaymentCurrency ?? string.Empty,
-                    //        "other", request.PaymentContent ?? string.Empty, vnpayConfig.ReturnUrl, outputIdParam.ToString() ?? string.Empty);
-                    //    paymentUrl = vnpayPayRequest.GetLink(vnpayConfig.PaymentUrl, vnpayConfig.HashSecret);
-                    //    break;
+                    case "VNPAY":
+                        var vnpayPayRequest = new VnpayPayRequest(vnpayConfig.Version,
+                            vnpayConfig.TmnCode, DateTime.Now, currentUserService.IpAddress ?? string.Empty, request.RequiredAmount ?? 0, "VND",
+                            "other", request.PaymentContent ?? string.Empty, vnpayConfig.ReturnUrl, outputIdParam.ToString() ?? string.Empty);
+                        paymentUrl = vnpayPayRequest.GetLink(vnpayConfig.PaymentUrl, vnpayConfig.HashSecret);
+                        break;
                     case "MOMO":
                         var momoOneTimePayRequest = new MomoOneTimePaymentRequest(momoConfig.PartnerCode,
                             outputIdParam.ToString() ?? string.Empty, (long)request.RequiredAmount!, outputIdParam.ToString() ?? string.Empty,

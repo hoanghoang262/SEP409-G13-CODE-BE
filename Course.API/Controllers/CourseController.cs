@@ -210,5 +210,12 @@ namespace CourseService.Controllers
 
             return result;
         }
+        [HttpGet]
+        public async Task<IActionResult> GetQuantityOfCourses()
+        {
+            var query = new GetQuantityOfCourseQuerry();
+            var result = await _mediator.Send(query);
+            return result;
+        }
     }
 }

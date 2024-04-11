@@ -15,6 +15,8 @@ namespace ForumService.API.Fearture.Queries
         public int pageSize { get; set; } = 5;
         public int UserId { get; set; }
 
+        public string? Title { get; set; }
+
         public class GetAllPostByUserIdHandler : IRequestHandler<GetAllPostByUserId, IActionResult>
         {
             private readonly ForumContext _context;
@@ -33,7 +35,18 @@ namespace ForumService.API.Fearture.Queries
                     return new BadRequestObjectResult(Message.MSG01);
                 }
 
-                var querry = await _context.Posts.Where(c => c.CreatedBy == user.Id).ToListAsync();
+                var querry = await _context.Posts.ToListAsync();
+
+                if (!string.IsNullOrEmpty(request.Title))
+                {
+                    querry = await _context.Posts.Where(c => c.Title.Contains(request.Title) && c.CreatedBy.Equals(request.UserId)).ToListAsync();
+                }
+                if (string.IsNullOrEmpty(request.Title))
+                {
+                    querry = await _context.Posts.Where(c => c.CreatedBy.Equals(request.UserId)).ToListAsync();
+                }
+
+
                 if (querry == null)
                 {
                     return new NotFoundObjectResult(querry);

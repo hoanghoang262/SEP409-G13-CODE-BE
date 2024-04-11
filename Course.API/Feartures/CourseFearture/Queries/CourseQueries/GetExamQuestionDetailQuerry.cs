@@ -23,6 +23,7 @@ namespace CourseService.API.Feartures.CourseFearture.Queries.CourseQueries
             {
                 var lastExam = await _context.LastExams.Include(c => c.QuestionExams).ThenInclude(c => c.AnswerExams).FirstOrDefaultAsync(c => c.Id.Equals(request.LastExamId));
 
+
                 var result = new LastExamDTO
                 {
                     Id = lastExam.Id,
@@ -31,6 +32,7 @@ namespace CourseService.API.Feartures.CourseFearture.Queries.CourseQueries
                     Name = lastExam.Name,
                     Time = lastExam.Time,
                     IsPass=IsPassExam(request.UserId,request.LastExamId),
+
                     QuestionExams = lastExam.QuestionExams.Select(q => new QuestionExamDTO
                     {
                         Id = q.Id,

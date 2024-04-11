@@ -70,15 +70,24 @@ namespace ForumService.API.Controllers
             return result;
         }
         [HttpGet]
-        public async Task<IActionResult> GetAllPostsByUserId(int userId,  int page = 1, int pageSize = 5)
+        public async Task<IActionResult> GetAllPostsByUserId(int userId, string? Title, int page = 1, int pageSize = 5)
         {
             var query = new GetAllPostByUserId
             {
                 UserId = userId,
                 page = page,
-                pageSize = pageSize
+                pageSize = pageSize,
+                Title=Title
             };
 
+            var result = await _mediator.Send(query);
+            return result;
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetQuantityOfPosts()
+        {
+            var query = new GetQuantityOfPostQuerry();
             var result = await _mediator.Send(query);
             return result;
         }
