@@ -20,6 +20,7 @@ namespace CourseService.API.Common.ModelDTO
         public DateTime? CreatedAt { get; set; }
         public string? Enrolled { get; set; }
         public bool? IsInWishList { get; set; }
+       
 
         public int? Price { get; set; }
 
@@ -78,9 +79,14 @@ namespace CourseService.API.Common.ModelDTO
 
     public class CourseCompletionDto
     {
-        public int CourseId { get; set; }
-        public string CourseName { get; set; }
-        public string CoursePicture { get; set; }
+        public int Id { get; set; }
+        public string Name { get; set; }
+        public string Picture { get; set; }
+        public string? UserName { get; set; }
+
+        public string? Description { get; set; }
+     
+        public string? Tag { get; set; }
 
         public double CompletionPercentage { get; set; }
 

@@ -126,6 +126,7 @@ namespace CourseService.API.Feartures.CourseFearture.Queries.CourseQueries
                              codeQuestion.TestCaseCplus,
                              codeQuestion.Title,
                              codeQuestion.ChapterId,
+                             IsCompleted= ArePracticeQuestionCompleted(codeQuestion, request.UserId),
                              TestCases = codeQuestion.TestCases.Select(testCase => new
                              {
                                  testCase.Id,
@@ -187,6 +188,10 @@ namespace CourseService.API.Feartures.CourseFearture.Queries.CourseQueries
             private bool AreLastExamCompleted(LastExam last, int userId)
             {
                 return _context.CompletedExams.Any(cl => cl.UserId == userId && cl.LastExamId == last.Id);
+            }
+            private bool ArePracticeQuestionCompleted(PracticeQuestion prac, int userId)
+            {
+                return _context.CompletedPracticeQuestions.Any(cl => cl.UserId == userId && cl.PracticeQuestionId == prac.Id);
             }
             private bool AreAllLessonsCompleted(Chapter chapter, int userId)
             {

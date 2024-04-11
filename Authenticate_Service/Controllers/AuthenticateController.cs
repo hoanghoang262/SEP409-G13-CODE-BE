@@ -2,6 +2,7 @@
 using Authenticate_Service.Feature.AuthenticateFearture.Command.Login;
 using Authenticate_Service.Models;
 using AuthenticateService.API.Common.DTO;
+using AuthenticateService.API.Feature.AuthenticateFearture.Command.Users.Querry;
 using Contract.SeedWork;
 using Contract.Service;
 using Contract.Service.Configuration;
@@ -332,6 +333,14 @@ namespace Authenticated.Controllers
                 return Ok(Message.MSG06);
             }
             return Ok(Message.MSG10);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetQuantityOfStudents()
+        {
+            var query = new QuantityOfStudentQuerry();
+            var result = await _mediator.Send(query);
+            return result;
         }
     }
 }

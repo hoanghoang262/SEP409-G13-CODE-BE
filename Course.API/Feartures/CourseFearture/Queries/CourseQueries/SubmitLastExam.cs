@@ -50,6 +50,29 @@ namespace CourseService.API.Feartures.CourseFearture.Queries.CourseQueries
                 }
 
                 double percentage = (double)totalCorrectAnswers / totalQuestions * 100;
+
+                var resultExist= _context.ExamResults.FirstOrDefault(c=>c.UserId== request.UserId && c.LastExamId==request.LastExamId);
+
+                if (resultExist == null)
+                {
+                    var result = new ExamResult
+                    {
+                        ExamResult1 = (decimal?)percentage,
+                        LastExamId = request.LastExamId,
+                        UserId = request.UserId
+                    };
+                    _context.ExamResults.Add(result);
+                    _context.SaveChanges();
+
+                }
+                else
+                {
+                    resultExist.ExamResult1 = (decimal?)percentage;
+                    _context.ExamResults.Update(resultExist);
+                    _context.SaveChanges();
+                }
+               
+               
                 var percentagePass = _context.LastExams.FirstOrDefault(c => c.Id.Equals(request.LastExamId)).PercentageCompleted;
                 if (percentage > percentagePass)
                 {

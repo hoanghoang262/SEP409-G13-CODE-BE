@@ -6,6 +6,7 @@ using Contract.Service.Message;
 using CourseService.API.Common.ModelDTO;
 using CourseService.API.GrpcServices;
 using CourseService.API.Models;
+using MassTransit;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -35,6 +36,30 @@ namespace CourseService.API.Feartures.CourseFearture.Queries.CourseQueries
             }
             public async Task<IActionResult> Handle(GetAllCourseQuerry request, CancellationToken cancellation)
             {
+                //var enrolledCourses = (from e in _context.Enrollments
+                //                       join c in _context.Courses on e.CourseId equals c.Id
+                //                       where e.UserId == request.UserId
+                //                       select new
+                //                       {
+                //                           Course = c,
+                //                           TotalLessons = _context.Chapters
+                //                           .Where(ch => ch.CourseId == e.CourseId)
+                //                           .SelectMany(ch => ch.Lessons)
+                //                           .Count(),
+                //                           TotalPracticeQuestion = _context.Chapters
+                //                           .Where(ch => ch.CourseId == e.CourseId)
+                //                           .SelectMany(ch => ch.PracticeQuestions)
+                //                           .Count(),
+                //                           TotalLastExam = _context.Chapters
+                //                             .Where(ch => ch.CourseId == e.CourseId)
+                //                             .SelectMany(ch => ch.LastExams)
+                //                           .Count(),
+                //                           CompletedPracticeQuestion = _context.CompletedPracticeQuestions.Where(cl => cl.UserId == request.UserId).Count(),
+                //                           CompletedLastExam = _context.CompletedExams.Where(cl => cl.UserId == request.UserId).Count(),
+                //                           CompletedLessons = _context.CompleteLessons.Where(cl => cl.UserId == request.UserId).Count(),
+                //                       }).ToList();
+
+
                 IQueryable<Course> query = _context.Courses;
                 if (!string.IsNullOrEmpty(request.CourseName))
                 {
@@ -78,6 +103,17 @@ namespace CourseService.API.Feartures.CourseFearture.Queries.CourseQueries
                 }
                 var result = new PageList<CourseDTO>(courseDTOList, totalItems, request.Page, request.PageSize);
                 return new OkObjectResult(result);
+            }
+            private double CalculateCompletionPercentage(int totalLessons, int totalPractice, int TotalLastExam,
+             int completedLessons, int completedPractice, int completedLastExam)
+            {
+
+                int total = totalLessons + totalPractice + TotalLastExam;
+                int completed = completedLessons + completedPractice + completedLastExam;
+                if (total == 0)
+                    return 0;
+
+                return ((double)completed / total) * 100;
             }
         }
     }
