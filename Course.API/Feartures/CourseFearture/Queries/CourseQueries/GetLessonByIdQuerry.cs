@@ -10,8 +10,6 @@ namespace CourseService.API.Feartures.CourseFearture.Queries.CourseQueries
     public class GetLessonByIdQuerry : IRequest<IActionResult>
     {
         public int LessonId { get; set; }
-
-        
         public class GetLessonByIdQuerryHandler : IRequestHandler<GetLessonByIdQuerry, IActionResult>
         {
             private readonly CourseContext _context;
