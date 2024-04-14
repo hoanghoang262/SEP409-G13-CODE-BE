@@ -51,6 +51,9 @@ namespace ModerationService.API.Fearture.Command.Forum
                 post.Description = request.Description;
                 post.LastUpdate = DateTime.Now;
 
+                _context.Posts.Update(post);
+                await _context.SaveChangesAsync();
+
                 return new OkObjectResult(post);
 
             }

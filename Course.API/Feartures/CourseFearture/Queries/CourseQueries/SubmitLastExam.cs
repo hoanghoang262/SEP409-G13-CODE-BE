@@ -39,8 +39,10 @@ namespace CourseService.API.Feartures.CourseFearture.Queries.CourseQueries
                         return new NotFoundObjectResult(Message.MSG31);
                     }
 
-                    var correctAnswers = dbQuestion.AnswerExams.Where(a => a.CorrectAnswer == true).Select(a => a.Id).ToList();
-                    var selectedAnswers = questionWithAnswers.SelectedAnswerIds;
+                    var correctAnswers = dbQuestion.AnswerExams.Where(a => a.CorrectAnswer == true).Select(a => a.Id).ToList().ToArray();
+                    var selectedAnswers = questionWithAnswers.SelectedAnswerIds.ToArray();
+                    Array.Sort(selectedAnswers);
+                    Array.Sort(correctAnswers);
                     bool isAllCorrectSelected = correctAnswers.SequenceEqual(selectedAnswers);
 
                     if (isAllCorrectSelected)
@@ -74,7 +76,7 @@ namespace CourseService.API.Feartures.CourseFearture.Queries.CourseQueries
                
                
                 var percentagePass = _context.LastExams.FirstOrDefault(c => c.Id.Equals(request.LastExamId)).PercentageCompleted;
-                if (percentage > percentagePass)
+                if (percentage >= percentagePass)
                 {
                     var comp = new CompletedExam
                     {

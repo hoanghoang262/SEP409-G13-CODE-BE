@@ -14,7 +14,8 @@ namespace CompilerService.API
             // Add services to the container.
           
             builder.Services.AddScoped<DynamicCodeCompilerJava>();
-         
+            builder.Services.AddScoped<DynamicCodeCompilerJavaTest>();
+
             builder.Services.AddScoped<CCompiler>();
             builder.Services.AddScoped<CPlushCompiler>();
 

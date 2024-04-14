@@ -385,7 +385,7 @@ namespace ModerationService.API.Fearture.Command.Moderations
                         {
                             RecipientId = id,
                             IsSeen = false,
-                            NotificationContent = courses.CourseName+" have been change. Please check the new content",
+                            NotificationContent = "Khóa học " + courses.CourseName+" đã có sự cập nhật mới. Hãy vào khám phá ngay nào!",
                             SendDate = DateTime.Now,
                             Course_Id = course.Id,
                         };
@@ -396,7 +396,7 @@ namespace ModerationService.API.Fearture.Command.Moderations
                     {
                         RecipientId = course.CreatedBy,
                         IsSeen = false,
-                        NotificationContent = "Your course " +course.Name+" has been approved",
+                        NotificationContent = "Khóa học " +course.Name+" của bạn đã được phê duyệt",
                         SendDate = DateTime.Now,
                         Course_Id = course.Id,
                     };

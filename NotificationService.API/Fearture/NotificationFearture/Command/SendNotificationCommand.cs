@@ -37,7 +37,7 @@ namespace NotificationService.API.Fearture.NotificationFearture.Command
                    CourseId=request.Course_Id,
                 };
                  _context.Notifications.Add(notification);    
-                await _context.SaveChangesAsync();
+                 _context.SaveChanges();
                 return new OkObjectResult(notification);
             }
         }

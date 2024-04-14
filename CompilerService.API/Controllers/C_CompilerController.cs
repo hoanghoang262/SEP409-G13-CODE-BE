@@ -22,7 +22,7 @@ namespace CompilerService.API.Controllers
         }
 
         [HttpPost]
-        public  IActionResult CompileCodeCCodeEditor(CodeRequestModel request)
+        public  IActionResult CompileCodeCCodeEditor(CodeLessonModel request)
         {
 
             string rootPath = _hostingEnvironment.ContentRootPath;
@@ -30,13 +30,13 @@ namespace CompilerService.API.Controllers
             string compilationResult = _cCompiler.CompileCCode(request.UserCode, filePath);
 
            
-            var userAnswerCode = new UserAnswerCode
+            var userAnswerCode = new CodeUserInLesson
             {
-                CodeQuestionId = request.PracticeQuestionId,
-                AnswerCode = request.UserCode,
+                LessonId = request.LessonId,
+                UserCode = request.UserCode,
                 UserId = request.UserId
             };
-            _context.UserAnswerCodes.Add(userAnswerCode);
+            _context.CodeUserInLessons.Add(userAnswerCode);
             _context.SaveChangesAsync();
 
             return Ok(compilationResult);

@@ -22,7 +22,14 @@ namespace CourseService.API.Feartures.CourseFearture.Queries.CourseQueries
             public async Task<IActionResult> Handle(GetExamQuestionDetailQuerry request, CancellationToken cancellationToken)
             {
                 var lastExam = await _context.LastExams.Include(c => c.QuestionExams).ThenInclude(c => c.AnswerExams).FirstOrDefaultAsync(c => c.Id.Equals(request.LastExamId));
-
+                var resultExam = (from l in _context.LastExams
+                                  join ex in _context.ExamResults on l.Id equals ex.LastExamId
+                                  where (ex.LastExamId.Equals(request.LastExamId) && ex.UserId.Equals(request.UserId))
+                                  select new
+                                  {
+                                      Result = ex.ExamResult1
+                                  }
+                                 ).Select(c => c.Result).FirstOrDefault(); ;
 
                 var result = new LastExamDTO
                 {
@@ -32,7 +39,7 @@ namespace CourseService.API.Feartures.CourseFearture.Queries.CourseQueries
                     Name = lastExam.Name,
                     Time = lastExam.Time,
                     IsPass=IsPassExam(request.UserId,request.LastExamId),
-
+                    ExamResultUser=resultExam.ToString(),
                     QuestionExams = lastExam.QuestionExams.Select(q => new QuestionExamDTO
                     {
                         Id = q.Id,
@@ -46,7 +53,6 @@ namespace CourseService.API.Feartures.CourseFearture.Queries.CourseQueries
                             CorrectAnswer = q.CorrectAnswer,
                             Id = q.Id,
                             OptionsText = q.OptionsText
-
                         }).ToList(),
                     }).ToList(),
                 };

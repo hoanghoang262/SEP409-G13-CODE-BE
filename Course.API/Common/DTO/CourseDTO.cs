@@ -40,7 +40,7 @@ namespace CourseService.API.Common.ModelDTO
         public virtual ICollection<PracticeQuestionDTO> PracticeQuestions { get; set; }
 
     }
-    public class LessonDTO: IMapFrom<Lesson> 
+    public class LessonDTO
     {
        
 
@@ -53,9 +53,9 @@ namespace CourseService.API.Common.ModelDTO
         public string? ContentLesson { get; set; }
         public string? ChapterName { get; set; }
         public string? CourseName { get; set; }
-
         public bool? IsCompleted { get; set; }
         public string? CodeForm { get; set; }
+        public string? CodeOfUser { get; set; }
 
 
 
@@ -103,6 +103,7 @@ namespace CourseService.API.Common.ModelDTO
         public string? ChapterName  { get; set; }
         public string? CourseName  { get; set; }
 
+        public string? UserAnswer { get; set; }
         public virtual ICollection<TestCase> TestCases { get; set; }
         public virtual ICollection<UserAnswerCode> UserAnswerCodes { get; set; }
 
