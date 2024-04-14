@@ -20,38 +20,35 @@ namespace CourseService.API.Controllers
         }
 
         [HttpPost]
-        public IActionResult CompileCodeJavaCodeEditor([FromBody] CodeRequestModel javaCode)
+        public IActionResult CompileCodeJavaCodeEditor([FromBody] CodeLessonModel request)
         {
             string rootPath = _hostingEnvironment.ContentRootPath;
             string javaFilePath = Path.Combine(rootPath, "Solution.java");
 
-            if (string.IsNullOrWhiteSpace(javaCode.UserCode))
+            if (string.IsNullOrWhiteSpace(request.UserCode))
             {
                 return BadRequest("Java code is missing.");
             }
 
             try
             {
-                _compile.WriteJavaCodeToFile(javaCode.UserCode, javaFilePath);
+                _compile.WriteJavaCodeToFile(request.UserCode, javaFilePath);
 
                 string compilationResult = _compile.CompileAndRun(javaFilePath);
 
-                var userAnswerCode = new UserAnswerCode
+                var userAnswerCode = new CodeUserInLesson
                 {
-                    CodeQuestionId = javaCode.PracticeQuestionId,
-                    AnswerCode = javaCode.UserCode,
-                    UserId = javaCode.UserId
+                    LessonId = request.LessonId,
+                    UserCode = request.UserCode,
+                    UserId = request.UserId
                 };
-                _context.UserAnswerCodes.Add(userAnswerCode);
+                _context.CodeUserInLessons.Add(userAnswerCode);
                 _context.SaveChangesAsync();
 
-
-                // Return compilation result
                 return Ok(compilationResult);
             }
             catch (Exception ex)
             {
-                // Return error message
                 return StatusCode(500, $"Error compiling Java code: {ex.Message}");
             }
         }
@@ -189,10 +186,13 @@ namespace CourseService.API.Controllers
         {
             string result = "";
 
+            // Extract class name from the Java file
+            string className = GetJavaClassName(javaFilePath);
+
             var startInfo = new ProcessStartInfo
             {
                 FileName = "java",
-                Arguments = "Solution",
+                Arguments = className, // Use the extracted class name here
                 UseShellExecute = false,
                 RedirectStandardOutput = true,
                 RedirectStandardError = true,
@@ -203,13 +203,10 @@ namespace CourseService.API.Controllers
             {
                 using (var process = Process.Start(startInfo))
                 {
-
                     var outputTask = process.StandardOutput.ReadToEndAsync();
                     var errorTask = process.StandardError.ReadToEndAsync();
 
-
                     Task.WaitAll(outputTask, errorTask);
-
 
                     result = outputTask.Result + "\n" + errorTask.Result;
                 }
@@ -220,6 +217,24 @@ namespace CourseService.API.Controllers
             }
 
             return result;
+        }
+
+        private string GetJavaClassName(string javaFilePath)
+        {
+            string[] lines = File.ReadAllLines(javaFilePath);
+            foreach (string line in lines)
+            {
+                
+                string trimmedLine = line.Trim();
+                if (trimmedLine.Contains("class "))
+                {
+                  
+                    int startIndex = line.IndexOf("class ") + "class ".Length;
+                    int endIndex = line.IndexOf("{");
+                    return line.Substring(startIndex, endIndex - startIndex).Trim();
+                }
+            }
+            throw new InvalidOperationException("Class name not found in Java file.");
         }
     }
 }

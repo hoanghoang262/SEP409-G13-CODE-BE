@@ -13,6 +13,8 @@ namespace EventBus.Message.Event
         public string? Description { get; set; }
         public string? PostContent { get; set; }
         public int CreatedBy { get; set; }
+
+       // public int PostId { get; set; }
         public DateTime? LastUpdate { get; set; }
     }
 }

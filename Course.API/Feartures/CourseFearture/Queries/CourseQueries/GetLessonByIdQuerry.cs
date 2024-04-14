@@ -11,6 +11,8 @@ namespace CourseService.API.Feartures.CourseFearture.Queries.CourseQueries
     {
         public int LessonId { get; set; }
 
+        public int UserId { get;set; }
+
         
         public class GetLessonByIdQuerryHandler : IRequestHandler<GetLessonByIdQuerry, IActionResult>
         {
@@ -46,6 +48,11 @@ namespace CourseService.API.Feartures.CourseFearture.Queries.CourseQueries
                     CourseName = lesson.Chapter.Course.Name,
                     ContentLesson= lesson.ContentLesson,
                     CodeForm=lesson.CodeForm,
+                   CodeOfUser= _context.CodeUserInLessons
+                      .Where(uac => uac.UserId == request.UserId && uac.LessonId == request.LessonId)
+                     .OrderByDescending(uac => uac.Id)
+                      .Select(uac => uac.UserCode)
+                       .FirstOrDefault(),
                     TheoryQuestions = lesson.TheoryQuestions.Select(l => new TheoryQuestionDTO
                     {
                         Id = l.Id,

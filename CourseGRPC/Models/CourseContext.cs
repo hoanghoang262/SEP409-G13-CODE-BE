@@ -19,6 +19,7 @@ namespace CourseGRPC.Models
         public virtual DbSet<AnswerExam> AnswerExams { get; set; } = null!;
         public virtual DbSet<AnswerOption> AnswerOptions { get; set; } = null!;
         public virtual DbSet<Chapter> Chapters { get; set; } = null!;
+        public virtual DbSet<CodeUserInLesson> CodeUserInLessons { get; set; } = null!;
         public virtual DbSet<CompleteLesson> CompleteLessons { get; set; } = null!;
         public virtual DbSet<CompletedExam> CompletedExams { get; set; } = null!;
         public virtual DbSet<CompletedPracticeQuestion> CompletedPracticeQuestions { get; set; } = null!;
@@ -98,6 +99,17 @@ namespace CourseGRPC.Models
                     .WithMany(p => p.Chapters)
                     .HasForeignKey(d => d.CourseId)
                     .HasConstraintName("FK_Chapter_Course");
+            });
+
+            modelBuilder.Entity<CodeUserInLesson>(entity =>
+            {
+                entity.ToTable("CodeUserInLesson");
+
+                entity.Property(e => e.LessonId).HasColumnName("Lesson_Id");
+
+                entity.Property(e => e.UserCode).HasColumnName("User_Code");
+
+                entity.Property(e => e.UserId).HasColumnName("User_Id");
             });
 
             modelBuilder.Entity<CompleteLesson>(entity =>

@@ -39,15 +39,16 @@ namespace ModerationService.API.Fearture.Command.Moderations
                 _moderationContext.Moderations.Remove(moder);
                 await _moderationContext.SaveChangesAsync();
 
-                var notificationForAdminBussiness = new NotificationEvent
+                var notification = new NotificationPostEvent
                 {
                     RecipientId = moder.CreatedBy,
                     IsSeen = false,
                     NotificationContent = request.ReasonWhyReject,
                     SendDate = DateTime.Now,
-                   Post_Id = (int)moder.PostId,
+                    Post_Id = request.PostId,
                 };
-                await _publish.Publish(notificationForAdminBussiness);
+                await _publish.Publish(notification);
+                await Task.Delay(3500);
 
                 return new OkObjectResult(Message.MSG16);
             }
