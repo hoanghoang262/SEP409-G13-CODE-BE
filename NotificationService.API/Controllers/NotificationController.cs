@@ -17,9 +17,9 @@ namespace NotificationService.API.Controllers
             _mediator = mediator;
         }
         [HttpGet]
-        public async Task<IActionResult> GetNotifications(int userId)
+        public async Task<IActionResult> GetNotifications(int userId, int Page =1, int PageSize=5)
         {
-            return Ok(await _mediator.Send(new GetNotificationByUserIdQuerry { UserId=userId }));
+            return Ok(await _mediator.Send(new GetNotificationByUserIdQuerry { UserId=userId,Page=Page,PageSize=PageSize }));
         }
       
     }

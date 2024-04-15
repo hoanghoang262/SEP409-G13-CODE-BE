@@ -53,7 +53,7 @@ namespace ModerationService.API.Controllers
             return Ok(await _mediator.Send(command));
         }
         [HttpGet]
-        public async Task<IActionResult> GetPostsByUserId(int userId, [FromQuery] int page = 1, [FromQuery] int pageSize = 10, [FromQuery] string postTitle = null)
+        public async Task<IActionResult> GetPostsByUserId(int userId, string? postTitle, [FromQuery] int page = 1, [FromQuery] int pageSize = 10)
         {
             var query = new GetPostByUserIdQuerry
             {

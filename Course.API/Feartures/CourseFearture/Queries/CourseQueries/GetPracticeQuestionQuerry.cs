@@ -50,17 +50,11 @@ namespace CourseService.API.Feartures.CourseFearture.Queries.CourseQueries
                     TestCaseJava = practiceQuestion.PracticeQuestion.TestCaseJava,
                     ChapterName = practiceQuestion.Chapter.Name,
                     CourseName = practiceQuestion.Course.Name,
-                    UserAnswerCodes = _context.UserAnswerCodes
-                      .Where(uac => uac.UserId == request.UserId) 
-                     
-                      .Take(1)
-                      .Select(uac => new UserAnswerCode
-                      {
-                          Id = uac.Id,
-                          AnswerCode = uac.AnswerCode,
-                          CodeQuestionId = uac.CodeQuestionId,
-                          UserId = uac.UserId
-                      }).ToList()
+                    UserAnswer = _context.UserAnswerCodes
+                      .Where(uac => uac.UserId == request.UserId && uac.CodeQuestionId == request.PracticeQuestionId)
+                     .OrderByDescending(uac => uac.Id)
+                      .Select(uac => uac.AnswerCode) 
+                       .FirstOrDefault()
                 };
 
 

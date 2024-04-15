@@ -13,14 +13,13 @@
         }
       ],
       "UpstreamPathTemplate": "/apigateway-course/{controller}/{action}",
-      "UpstreamHttpMethod": [ "POST", "PUT", "GET" ]
+      "UpstreamHttpMethod": [ "POST", "PUT", "GET","DELETE" ]
       //"AuthenticationOptions": {
       //  "AuthenticationProviderKey": "Bearer",
       //  "AllowedScopes": []
       //},
       //"RouteClaimsRequirement": {
       //  "Roles": "AdminSystem"
-
       //}
     },
     // "authen api",
@@ -34,9 +33,9 @@
         }
       ],
       "UpstreamPathTemplate": "/apigateway-authen/{controller}/{action}",
-      "UpstreamHttpMethod": [ "POST", "PUT", "GET" ]
+      "UpstreamHttpMethod": [ "POST", "PUT", "GET", "DELETE" ]
     },
-
+    //moder
     {
       "DownstreamPathTemplate": "/api/{controller}/{action}",
       "DownstreamScheme": "https",
@@ -45,20 +44,8 @@
           "Host": "moderationservice.azurewebsites.net"
         }
       ],
-      "UpstreamHttpMethod": [ "POST", "PUT", "GET" ],
+      "UpstreamHttpMethod": [ "POST", "PUT", "GET", "DELETE" ],
       "UpstreamPathTemplate": "/apigateway-moderation/{controller}/{action}"
-    },
-
-    {
-      "DownstreamPathTemplate": "/api/{controller}/{action}",
-      "DownstreamScheme": "https",
-      "DownstreamHostAndPorts": [
-        {
-          "Host": "forumservices.azurewebsites.net"
-        }
-      ],
-      "UpstreamHttpMethod": [ "POST", "PUT", "GET" ],
-      "UpstreamPathTemplate": "/apigateway-forum/{controller}/{action}"
     },
     //forum
     {
@@ -69,7 +56,7 @@
           "Host": "forumservices.azurewebsites.net"
         }
       ],
-      "UpstreamHttpMethod": [ "POST", "PUT", "GET" ],
+      "UpstreamHttpMethod": [ "POST", "PUT", "GET", "DELETE" ],
       "UpstreamPathTemplate": "/apigateway-forum/{controller}/{action}"
     },
     //comment
@@ -81,7 +68,7 @@
           "Host": "commentapi.azurewebsites.net"
         }
       ],
-      "UpstreamHttpMethod": [ "POST", "PUT", "GET" ],
+      "UpstreamHttpMethod": [ "POST", "PUT", "GET", "DELETE" ],
       "UpstreamPathTemplate": "/apigateway-comment/{controller}/{action}"
     },
     //compile
@@ -93,7 +80,7 @@
           "Host": "compilerservice.azurewebsites.net"
         }
       ],
-      "UpstreamHttpMethod": [ "POST", "PUT", "GET" ],
+      "UpstreamHttpMethod": [ "POST", "PUT", "GET", "DELETE" ],
       "UpstreamPathTemplate": "/apigateway-compiler/{controller}/{action}"
     },
     //payment
@@ -105,8 +92,20 @@
           "Host": "paymentapiservice.azurewebsites.net"
         }
       ],
-      "UpstreamHttpMethod": [ "POST", "PUT", "GET" ],
+      "UpstreamHttpMethod": [ "POST", "PUT", "GET", "DELETE" ],
       "UpstreamPathTemplate": "/apigateway-payment/{controller}/{action}"
+    },
+    //noti
+    {
+      "DownstreamPathTemplate": "/api/{controller}/{action}",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "notificationservice.azurewebsites.net"
+        }
+      ],
+      "UpstreamHttpMethod": [ "POST", "PUT", "GET", "DELETE" ],
+      "UpstreamPathTemplate": "/apigateway-noti/{controller}/{action}"
     }
   ]
 }

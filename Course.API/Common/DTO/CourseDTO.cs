@@ -20,6 +20,7 @@ namespace CourseService.API.Common.ModelDTO
         public DateTime? CreatedAt { get; set; }
         public string? Enrolled { get; set; }
         public bool? IsInWishList { get; set; }
+       
 
         public int? Price { get; set; }
 
@@ -39,7 +40,7 @@ namespace CourseService.API.Common.ModelDTO
         public virtual ICollection<PracticeQuestionDTO> PracticeQuestions { get; set; }
 
     }
-    public class LessonDTO: IMapFrom<Lesson> 
+    public class LessonDTO
     {
        
 
@@ -52,9 +53,9 @@ namespace CourseService.API.Common.ModelDTO
         public string? ContentLesson { get; set; }
         public string? ChapterName { get; set; }
         public string? CourseName { get; set; }
-
         public bool? IsCompleted { get; set; }
         public string? CodeForm { get; set; }
+        public string? CodeOfUser { get; set; }
 
 
 
@@ -78,9 +79,14 @@ namespace CourseService.API.Common.ModelDTO
 
     public class CourseCompletionDto
     {
-        public int CourseId { get; set; }
-        public string CourseName { get; set; }
-        public string CoursePicture { get; set; }
+        public int Id { get; set; }
+        public string Name { get; set; }
+        public string Picture { get; set; }
+        public string? UserName { get; set; }
+
+        public string? Description { get; set; }
+     
+        public string? Tag { get; set; }
 
         public double CompletionPercentage { get; set; }
 
@@ -97,6 +103,7 @@ namespace CourseService.API.Common.ModelDTO
         public string? ChapterName  { get; set; }
         public string? CourseName  { get; set; }
 
+        public string? UserAnswer { get; set; }
         public virtual ICollection<TestCase> TestCases { get; set; }
         public virtual ICollection<UserAnswerCode> UserAnswerCodes { get; set; }
 

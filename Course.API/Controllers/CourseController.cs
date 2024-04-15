@@ -200,14 +200,22 @@ namespace CourseService.Controllers
             return Ok(completed);
         }
         [HttpGet]
-        public async Task<IActionResult> GetExamQuestionDetail(int lastExamId)
+        public async Task<IActionResult> GetExamQuestionDetail(int lastExamId, int userId)
         {
             var query = new GetExamQuestionDetailQuerry
             {
-                LastExamId = lastExamId
+                LastExamId = lastExamId,
+                UserId=userId
             };
             var result = await _mediator.Send(query);
 
+            return result;
+        }
+        [HttpGet]
+        public async Task<IActionResult> GetQuantityOfCourses()
+        {
+            var query = new GetQuantityOfCourseQuerry();
+            var result = await _mediator.Send(query);
             return result;
         }
     }

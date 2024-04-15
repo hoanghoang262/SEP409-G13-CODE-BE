@@ -23,7 +23,7 @@ namespace CourseService.API.Controllers
         }
 
         [HttpPost]
-        public IActionResult CompileCodeCPlusCodeEditor([FromBody] CodeRequestModel request)
+        public IActionResult CompileCodeCPlusCodeEditor([FromBody] CodeLessonModel request)
         {
             try
             {
@@ -31,18 +31,16 @@ namespace CourseService.API.Controllers
                 string filePath = Path.Combine(rootPath, "main.cpp");
                 string compilationResult = _cCompiler.CompileCCode(request.UserCode, filePath);
 
-                if(compilationResult.Contains("Failed"))
+               
+                var userAnswerCode = new CodeUserInLesson
                 {
-
-                }
-                var userAnswerCode = new UserAnswerCode
-                {
-                    CodeQuestionId = request.PracticeQuestionId,
-                    AnswerCode = request.UserCode,
+                    LessonId = request.LessonId,
+                    UserCode = request.UserCode,
                     UserId = request.UserId
                 };
-                _context.UserAnswerCodes.Add(userAnswerCode);
+                _context.CodeUserInLessons.Add(userAnswerCode);
                 _context.SaveChangesAsync();
+
                 return Ok(compilationResult);
             }
             catch (Exception ex)
@@ -58,7 +56,7 @@ namespace CourseService.API.Controllers
                 string rootPath = _hostingEnvironment.ContentRootPath;
                 string filePath = Path.Combine(rootPath, "main.cpp");
                 string compilationResult = _cCompiler.CompileCCode(request.UserCode, filePath);
-                if (compilationResult.Contains("All Test Pass"))
+                if (!compilationResult.Contains("Test Failed"))
                 {
                     var completed = new CompletedPracticeQuestion
                     {

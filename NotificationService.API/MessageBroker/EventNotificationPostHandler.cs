@@ -2,12 +2,11 @@
 using EventBus.Message.Event;
 using MassTransit;
 using MediatR;
-using Microsoft.Extensions.Logging;
 using NotificationService.API.Fearture.NotificationFearture.Command;
 
 namespace NotificationService.API.MessageBroker
 {
-    public class EventNotificationPostHandler : IConsumer<NotificationEvent>
+    public class EventNotificationPostHandler : IConsumer<NotificationPostEvent>
     {
         private readonly IMediator mediator;
         private readonly IMapper _mapper;
@@ -21,9 +20,9 @@ namespace NotificationService.API.MessageBroker
             logger = _logger;
         }
 
-        public async Task Consume(ConsumeContext<NotificationEvent> context)
+        public async Task Consume(ConsumeContext<NotificationPostEvent> context)
         {
-            var command = _mapper.Map<SendNotificationPostCommand>(context.Message);
+            var command = _mapper.Map<CreateNotificationPostCommand>(context.Message);
             var result = await mediator.Send(command);
         }
     }

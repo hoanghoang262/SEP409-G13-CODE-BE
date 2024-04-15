@@ -19,12 +19,14 @@ namespace CourseService.API.Models
         public virtual DbSet<AnswerExam> AnswerExams { get; set; } = null!;
         public virtual DbSet<AnswerOption> AnswerOptions { get; set; } = null!;
         public virtual DbSet<Chapter> Chapters { get; set; } = null!;
+        public virtual DbSet<CodeUserInLesson> CodeUserInLessons { get; set; } = null!;
         public virtual DbSet<CompleteLesson> CompleteLessons { get; set; } = null!;
         public virtual DbSet<CompletedExam> CompletedExams { get; set; } = null!;
         public virtual DbSet<CompletedPracticeQuestion> CompletedPracticeQuestions { get; set; } = null!;
         public virtual DbSet<Course> Courses { get; set; } = null!;
         public virtual DbSet<CourseEvaluation> CourseEvaluations { get; set; } = null!;
         public virtual DbSet<Enrollment> Enrollments { get; set; } = null!;
+        public virtual DbSet<ExamResult> ExamResults { get; set; } = null!;
         public virtual DbSet<LastExam> LastExams { get; set; } = null!;
         public virtual DbSet<Lesson> Lessons { get; set; } = null!;
         public virtual DbSet<Note> Notes { get; set; } = null!;
@@ -99,6 +101,17 @@ namespace CourseService.API.Models
                     .HasConstraintName("FK_Chapter_Course");
             });
 
+            modelBuilder.Entity<CodeUserInLesson>(entity =>
+            {
+                entity.ToTable("CodeUserInLesson");
+
+                entity.Property(e => e.LessonId).HasColumnName("Lesson_Id");
+
+                entity.Property(e => e.UserCode).HasColumnName("User_Code");
+
+                entity.Property(e => e.UserId).HasColumnName("User_Id");
+            });
+
             modelBuilder.Entity<CompleteLesson>(entity =>
             {
                 entity.ToTable("Complete_Lesson");
@@ -149,6 +162,19 @@ namespace CourseService.API.Models
                 entity.ToTable("Enrollment");
 
                 entity.Property(e => e.CourseId).HasColumnName("Course_Id");
+
+                entity.Property(e => e.UserId).HasColumnName("User_Id");
+            });
+
+            modelBuilder.Entity<ExamResult>(entity =>
+            {
+                entity.ToTable("ExamResult");
+
+                entity.Property(e => e.ExamResult1)
+                    .HasColumnType("decimal(19, 2)")
+                    .HasColumnName("ExamResult");
+
+                entity.Property(e => e.LastExamId).HasColumnName("LastExam_Id");
 
                 entity.Property(e => e.UserId).HasColumnName("User_Id");
             });

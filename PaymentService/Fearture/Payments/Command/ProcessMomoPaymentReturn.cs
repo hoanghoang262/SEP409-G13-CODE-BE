@@ -53,8 +53,6 @@ namespace PaymentService.Fearture.Payments.Command
                                 resultData.UserCreateCourseId=payment.UserCreateCourseId;
                                 resultData.CourseId=payment.CourseId;
                                 resultData.BuyerId = payment.BuyerId;
-                                
-    
                                 resultData.Signature = Guid.NewGuid().ToString();
                             }
                             else
