@@ -29,9 +29,13 @@ namespace CourseService.API.Feartures.CourseFearture.Queries.CourseQueries
                                  where enrollment.CourseId == request.CourseId && enrollment.UserId == request.UserId
                                  select new { Enrollment = enrollment, Course = course })
                                   .FirstOrDefaultAsync();
+            if (courses == null)
+            {
+                return new NotFoundObjectResult(courses);
+            }
 
             var user = await service.SendUserId(courses.Course.CreatedBy);
-            if (courses == null || user.Id == 0)
+            if (user.Id == 0)
             {
                 return new NotFoundObjectResult(courses);
             }
