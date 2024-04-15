@@ -56,7 +56,12 @@ namespace Authenticated.Controllers
                 return new BadRequestObjectResult(Message.MSG11);
             }
 
-            
+            // Validate username
+            string userNamePattern = @"^.{8,32}$";
+            if (!Regex.IsMatch(request.UserName, userNamePattern))
+            {
+                return new BadRequestObjectResult(Message.MSG21);
+            }
 
             // Validate email
             string emailPattern = @"^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$";
@@ -76,10 +81,6 @@ namespace Authenticated.Controllers
             if (context.Users.Any(u => u.Email == request.Email))
             {
                 return new BadRequestObjectResult(Message.MSG06);
-            }
-            else if (context.Users.Any(u => u.UserName == request.UserName))
-            {
-                return new BadRequestObjectResult(Message.MSG07);
             }
             else
             {
