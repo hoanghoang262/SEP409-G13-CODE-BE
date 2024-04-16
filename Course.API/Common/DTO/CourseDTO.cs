@@ -24,6 +24,8 @@ namespace CourseService.API.Common.ModelDTO
 
         public int? Price { get; set; }
 
+        public double? AverageEvaluate { get; set; }
+
         public virtual ICollection<ChapterDTO> Chapters { get; set; }
     }
     public class ChapterDTO: IMapFrom<Chapter> {

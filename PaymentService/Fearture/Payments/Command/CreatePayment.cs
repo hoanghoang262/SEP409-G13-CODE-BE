@@ -4,6 +4,7 @@ using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using PaymentService.API.GrpcServices;
+using PaymentService.API.Models;
 using PaymentService.Common;
 using PaymentService.Interface;
 using PaymentService.Models;

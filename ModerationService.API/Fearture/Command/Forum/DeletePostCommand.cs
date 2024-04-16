@@ -31,6 +31,13 @@ namespace ModerationService.API.Fearture.Command.Forum
                 _context.Posts.Remove(post);
                 await _context.SaveChangesAsync();
 
+                var moderation = _context.Moderations.FirstOrDefault(c => c.PostId.Equals(request.PostId));
+                if (moderation != null)
+                {
+                    _context.Moderations.Remove(moderation);
+                    await _context.SaveChangesAsync();
+                }
+              
                 return new OkObjectResult(post.Id);
             }
         }

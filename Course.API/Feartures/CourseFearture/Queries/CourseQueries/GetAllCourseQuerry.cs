@@ -1,15 +1,12 @@
-﻿
-
-using AutoMapper;
+﻿using AutoMapper;
 using Contract.SeedWork;
-using Contract.Service.Message;
 using CourseService.API.Common.ModelDTO;
 using CourseService.API.GrpcServices;
 using CourseService.API.Models;
-using MassTransit;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Threading;
 
 
 namespace CourseService.API.Feartures.CourseFearture.Queries.CourseQueries
@@ -85,6 +82,11 @@ namespace CourseService.API.Feartures.CourseFearture.Queries.CourseQueries
                     var userInfo = await _service.SendUserId(item.CreatedBy);
                     bool isUserEnrolled = _context.Enrollments.Any(e => e.UserId == request.UserId && e.CourseId == item.Id);
                     bool isInWishList= _context.Wishlists.Any(e=>e.UserId==request.UserId && e.CourseId==item.Id);
+                    var averageRating = await _context.CourseEvaluations
+                                           .Where(e => e.CourseId == item.Id && e.Star != null)
+                                           .Select(e => e.Star.Value) 
+                                           .DefaultIfEmpty() 
+                                           .AverageAsync(cancellation);
                     var dto = new CourseDTO
                     {
                         CreatedAt = item.CreatedAt,
@@ -98,6 +100,7 @@ namespace CourseService.API.Feartures.CourseFearture.Queries.CourseQueries
                         Enrolled = isUserEnrolled ? "Continue Studying" : "Enroll",
                         IsInWishList=isInWishList,
                         Price=item.Price,
+                        AverageEvaluate= Math.Round(averageRating, 2)
                     };
                     courseDTOList.Add(dto);
                 }

@@ -94,7 +94,7 @@ namespace CourseService.API.Controllers
 
                 WriteCCodeToFile(cCode, cppFilePath);
 
-                // Compile the C++ code
+              
                 ProcessStartInfo psiCompile = new ProcessStartInfo
                 {
                     FileName = "g++",

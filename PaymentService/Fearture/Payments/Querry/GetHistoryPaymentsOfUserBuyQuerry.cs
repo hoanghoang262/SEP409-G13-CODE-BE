@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using PaymentService.API.GrpcServices;
+using PaymentService.API.Models;
 using PaymentService.Common;
 using PaymentService.Interface;
 using PaymentService.Models;

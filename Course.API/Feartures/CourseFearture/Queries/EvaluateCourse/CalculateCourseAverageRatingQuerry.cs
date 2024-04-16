@@ -31,8 +31,10 @@ namespace CourseService.API.Feartures.CourseFearture.Queries.EvaluateCourse
                 }
 
                 var averageRating = await _context.CourseEvaluations
-                    .Where(e => e.CourseId == request.CourseId && e.Star != null)
-                    .AverageAsync(e => e.Star.Value, cancellationToken);
+                                           .Where(e => e.CourseId == request.CourseId && e.Star != null)
+                                           .Select(e => e.Star.Value)
+                                           .DefaultIfEmpty()
+                                           .AverageAsync(cancellationToken);
 
                 return new OkObjectResult(Math.Round(averageRating, 2));
             }

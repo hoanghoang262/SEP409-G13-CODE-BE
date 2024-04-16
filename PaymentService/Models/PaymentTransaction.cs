@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace PaymentService.Models
+namespace PaymentService.API.Models
 {
     public partial class PaymentTransaction
     {

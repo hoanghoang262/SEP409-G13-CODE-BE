@@ -4,6 +4,7 @@ using MassTransit;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using PaymentService.API.Fearture.Payments.Command;
+using PaymentService.API.Models;
 using PaymentService.Common;
 using PaymentService.Fearture.Payments.Command;
 using PaymentService.Fearture.Payments.Querry;
