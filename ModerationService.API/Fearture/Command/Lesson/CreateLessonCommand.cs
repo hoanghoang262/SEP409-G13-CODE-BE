@@ -33,6 +33,17 @@ namespace ModerationService.API.Fearture.Command
             {
                 return new BadRequestObjectResult(Message.MSG11);
             }
+            if (request.Lesson.Duration < 0)
+            {
+                return new BadRequestObjectResult(Message.MSG26);
+            }
+            foreach (var item in request.Lesson.Questions)
+            {
+                if (item.Time < 0)
+                {
+                    return new BadRequestObjectResult(Message.MSG26);
+                }
+            }
 
             var chapter = await _context.Chapters
                  .Include(c => c.Lessons)
@@ -54,7 +65,7 @@ namespace ModerationService.API.Fearture.Command
                 Description = request.Lesson.Description,
                 Duration = request.Lesson.Duration,
                 ContentLesson = request.Lesson.ContentLesson,
-                CodeForm=request.Lesson.CodeForm,
+                CodeForm = request.Lesson.CodeForm,
             };
 
             chapter.Lessons.Add(newLesson);
@@ -93,7 +104,7 @@ namespace ModerationService.API.Fearture.Command
                 Description = newLesson.Description,
                 Duration = newLesson.Duration,
                 ContentLesson = newLesson.ContentLesson,
-                CodeForm=newLesson.CodeForm,
+                CodeForm = newLesson.CodeForm,
                 Questions = newLesson.TheoryQuestions.Select(tq => new TheoryQuestionDTO
                 {
                     Id = tq.Id,

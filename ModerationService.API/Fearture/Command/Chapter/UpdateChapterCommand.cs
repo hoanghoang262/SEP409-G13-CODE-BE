@@ -29,14 +29,10 @@ namespace ModerationService.API.Fearture.Command
             {
                 return new BadRequestObjectResult(Message.MSG11);
             }
-
-            // invalid part number
             if (request.Part < 0)
             {
                 return new BadRequestObjectResult(Message.MSG26);
             }
-
-            // string length
             if (request.Name.Length > 256)
             {
                 return new BadRequestObjectResult(Message.MSG27);

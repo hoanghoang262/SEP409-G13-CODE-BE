@@ -33,18 +33,16 @@ namespace ModerationService.API.Fearture.Command
                 {
                     return new BadRequestObjectResult(Message.MSG11);
                 }
+                if (request.Title.Length > 256)
+                {
+                    return new BadRequestObjectResult(Message.MSG27);
+                }
 
                 // Check if user exists
                 var user = await _service.SendUserId(request.CreatedBy);
                 if (user.Id == 0)
                 {
                     return new BadRequestObjectResult(Message.MSG01);
-                }
-
-                // Validate length
-                if (request.Title.Length > 256)
-                {
-                    return new BadRequestObjectResult(Message.MSG27);
                 }
 
                 var post = new Post

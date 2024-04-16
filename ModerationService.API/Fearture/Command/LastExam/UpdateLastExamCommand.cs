@@ -24,32 +24,28 @@ namespace ModerationService.API.Fearture.Command.LastExams
 
         public async Task<IActionResult> Handle(UpdateLastExamCommand request, CancellationToken cancellationToken)
         {
-            var existingLastExam = await _context.LastExams
-             .Include(l => l.QuestionExams)
-                 .ThenInclude(tq => tq.AnswerExams)
-             .FirstOrDefaultAsync(l => l.Id == request.LastExamId);
-
             // Validate input
             if (string.IsNullOrEmpty(request.LastExam.Name)
-                || request.LastExam.Time == null
-                || request.LastExam.PercentageCompleted == null)
+                || request.LastExam.PercentageCompleted == null
+                || request.LastExam.Time == null)
             {
                 return new BadRequestObjectResult(Message.MSG11);
             }
-
-            // Invalid length
             if (request.LastExam.Name.Length > 256)
             {
                 return new BadRequestObjectResult(Message.MSG27);
             }
-
-            // Invalid number
             if (request.LastExam.PercentageCompleted < 0
                 || request.LastExam.PercentageCompleted > 100
                 || request.LastExam.Time < 0)
             {
                 return new BadRequestObjectResult(Message.MSG26);
             }
+
+            var existingLastExam = await _context.LastExams
+             .Include(l => l.QuestionExams)
+                 .ThenInclude(tq => tq.AnswerExams)
+             .FirstOrDefaultAsync(l => l.Id == request.LastExamId);
 
             // Check if lesson exists
             if (existingLastExam == null)
