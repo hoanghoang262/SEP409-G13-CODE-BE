@@ -4,6 +4,7 @@ using GrpcServices;
 using MassTransit;
 using Microsoft.EntityFrameworkCore;
 using PaymentService.API.GrpcServices;
+using PaymentService.API.Models;
 using PaymentService.Interface;
 using PaymentService.Models;
 using PaymentService.ServicePayment.VnPay;

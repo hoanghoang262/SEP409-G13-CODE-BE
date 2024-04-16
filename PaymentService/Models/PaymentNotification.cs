@@ -1,4 +1,5 @@
-﻿using System;
+﻿using PaymentService.API.Models;
+using System;
 using System.Collections.Generic;
 
 namespace PaymentService.Models

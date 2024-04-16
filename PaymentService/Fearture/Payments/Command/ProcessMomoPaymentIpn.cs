@@ -2,6 +2,7 @@
 using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
+using PaymentService.API.Models;
 using PaymentService.Base;
 using PaymentService.Common;
 using PaymentService.Interface;

@@ -45,6 +45,12 @@ namespace CourseService.API.Feartures.CourseFearture.Command.EvaluateCourse
                 {
                     return new BadRequestObjectResult(Message.MSG26);
                 }
+                var courseEva = _context.CourseEvaluations.FirstOrDefault(c => c.CourseId == request.CourseId && c.UserId == request.UserId);
+                if (courseEva != null)
+                {
+                    return new NotFoundObjectResult("Bạn đã đánh giá rồi");
+                }
+
 
                 var evaluation = new CourseEvaluation
                 {

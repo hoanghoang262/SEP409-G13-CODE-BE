@@ -164,7 +164,7 @@ namespace Authenticated.Controllers
             {
                 if (!string.IsNullOrEmpty(request.Password))
                 {
-                    var newUser = new User { Email = request.Email, UserName = request.UserName, Password = request.Password, ProfilePict = request.Picture, RoleId = 2, EmailConfirmed = true };
+                    var newUser = new User { Email = request.Email, UserName = request.UserName, Password = request.Password, ProfilePict = request.Picture, RoleId = 2, EmailConfirmed = true, Status =true };
                     context.Users.Add(newUser);
                     await context.SaveChangesAsync();
 
@@ -173,7 +173,7 @@ namespace Authenticated.Controllers
                 }
                 else
                 {
-                    var newUser = new User { Email = request.Email, UserName = request.UserName, Password = "123456", ProfilePict = request.Picture, RoleId = 2, EmailConfirmed = true };
+                    var newUser = new User { Email = request.Email, UserName = request.UserName, Password = "123456", ProfilePict = request.Picture, RoleId = 2, EmailConfirmed = true, Status = true };
                     context.Users.Add(newUser);
                     await context.SaveChangesAsync();
 
