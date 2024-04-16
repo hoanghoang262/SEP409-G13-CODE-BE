@@ -2,6 +2,7 @@
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
+using PaymentService.API.Models;
 using PaymentService.Base;
 using PaymentService.Common;
 using PaymentService.Models;

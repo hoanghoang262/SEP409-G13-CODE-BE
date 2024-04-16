@@ -33,52 +33,38 @@ namespace CourseService.Controllers
                         .ThenInclude(ch => ch.Lessons)
                             .ThenInclude(l => l.TheoryQuestions)
                                 .ThenInclude(ans => ans.AnswerOptions)
-                     .Include(c => c.Chapters)
-                        .ThenInclude(ch => ch.LastExams)
-                            .ThenInclude(l => l.QuestionExams)
-                                .ThenInclude(ans => ans.AnswerExams)
                     .Include(c => c.Chapters)
                         .ThenInclude(ch => ch.PracticeQuestions)
                             .ThenInclude(cq => cq.TestCases)
-                    .Include(c => c.Chapters)
-                        .ThenInclude(ch => ch.Lessons)
-                            .ThenInclude(l => l.TheoryQuestions)
-                                .ThenInclude(ans => ans.AnswerOptions)
-                    .Include(c => c.Chapters)
-                        .ThenInclude(ch => ch.PracticeQuestions)
-                            .ThenInclude(cq => cq.TestCases)
-                    .Include(c => c.Chapters)
-                        .ThenInclude(ch => ch.PracticeQuestions)
-                         .ThenInclude(ch=>ch.TestCases)
                       .Include(c => c.Chapters)
                         .ThenInclude(ch => ch.LastExams)
                          .ThenInclude(ch => ch.QuestionExams)
                           .ThenInclude(ch=>ch.AnswerExams)
                     .FirstOrDefault(course => course.Id == CourseId);
-            // Remove all related TheoryQuestions
+       
             foreach (var chapter in courseToRemove.Chapters)
             {
                 foreach (var lesson in chapter.Lessons)
                 {
                     foreach (var theoryQuestion in lesson.TheoryQuestions)
                     {
-                        // Remove related AnswerOptions of each TheoryQuestion
+                      
                         context.RemoveRange(theoryQuestion.AnswerOptions);
                     }
-                    // Remove TheoryQuestions of each Lesson
+                
                     context.RemoveRange(lesson.TheoryQuestions);
                 }
             }
 
-            // Remove all related PracticeQuestions and their TestCases
+          
             foreach (var chapter in courseToRemove.Chapters)
             {
                 foreach (var practiceQuestion in chapter.PracticeQuestions)
                 {
-                    // Remove related TestCases of each PracticeQuestion
+                 
                     context.RemoveRange(practiceQuestion.TestCases);
                 }
-                // Remove PracticeQuestions of each Chapter
+              
                 context.RemoveRange(chapter.PracticeQuestions);
             }
 
@@ -194,7 +180,12 @@ namespace CourseService.Controllers
                 LessonId = lessonId,
                 UserId = userId
             };
-
+            var lesson = await context.CompleteLessons.FirstOrDefaultAsync(x => x.LessonId == lessonId && x.UserId == userId);
+            if(lesson != null)
+            {
+                return Ok("Bạn đã hoàn thành bài học");
+            }
+            
             context.CompleteLessons.Add(completed);
             await context.SaveChangesAsync();
             return Ok(completed);

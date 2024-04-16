@@ -1,16 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace PaymentService.Models
+namespace PaymentService.API.Models
 {
     public partial class Payment
     {
-        public Payment()
-        {
-            PaymentNotifications = new HashSet<PaymentNotification>();
-            PaymentSignatures = new HashSet<PaymentSignature>();
-        }
-
         public string PaymentId { get; set; } = null!;
         public string? PaymentContent { get; set; }
         public string? PaymentCurrency { get; set; }
@@ -27,8 +21,5 @@ namespace PaymentService.Models
         public int? UserCreateCourseId { get; set; }
         public int? CourseId { get; set; }
         public int? BuyerId { get; set; }
-
-        public virtual ICollection<PaymentNotification> PaymentNotifications { get; set; }
-        public virtual ICollection<PaymentSignature> PaymentSignatures { get; set; }
     }
 }
