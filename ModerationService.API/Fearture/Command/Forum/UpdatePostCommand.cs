@@ -32,15 +32,12 @@ namespace ModerationService.API.Fearture.Command.Forum
                 {
                     return new BadRequestObjectResult(Message.MSG11);
                 }
-
-                // Validate length
                 if (request.Title.Length > 256)
                 {
                     return new BadRequestObjectResult(Message.MSG27);
                 }
 
                 var post = await _context.Posts.FirstOrDefaultAsync(x => x.Id.Equals(request.Id));
-
                 if (post == null)
                 {
                     return new BadRequestObjectResult(Message.MSG34);

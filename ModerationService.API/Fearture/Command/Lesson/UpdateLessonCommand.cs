@@ -33,6 +33,17 @@ namespace ModerationService.API.Fearture.Command
             {
                 return new BadRequestObjectResult(Message.MSG11);
             }
+            if (request.Lesson.Duration < 0)
+            {
+                return new BadRequestObjectResult(Message.MSG26);
+            }
+            foreach (var item in request.Lesson.Questions)
+            {
+                if (item.Time < 0)
+                {
+                    return new BadRequestObjectResult(Message.MSG26);
+                }
+            }
 
             var existingLesson = await _context.Lessons
                 .Include(l => l.TheoryQuestions)

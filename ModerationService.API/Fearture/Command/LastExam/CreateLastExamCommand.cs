@@ -22,12 +22,6 @@ namespace ModerationService.API.Fearture.Command.LastExams
             }
             public async Task<IActionResult> Handle(CreateLastExamCommand request, CancellationToken cancellationToken)
             {
-                var chapter = await _context.Chapters
-                .Include(c => c.LastExams)
-                    .ThenInclude(l => l.QuestionExams)
-                    .ThenInclude(tq => tq.AnswerExams)
-                .FirstOrDefaultAsync(c => c.Id == request.ChapterId);
-
                 // Validate input
                 if (string.IsNullOrEmpty(request.LastExam.Name)
                     || request.LastExam.PercentageCompleted == null
@@ -35,20 +29,22 @@ namespace ModerationService.API.Fearture.Command.LastExams
                 {
                     return new BadRequestObjectResult(Message.MSG11);
                 }
-
-                // Invalid length
                 if (request.LastExam.Name.Length > 256)
                 {
                     return new BadRequestObjectResult(Message.MSG27);
                 }
-
-                // Invalid number
                 if (request.LastExam.PercentageCompleted < 0
                     || request.LastExam.PercentageCompleted > 100
                     || request.LastExam.Time < 0)
                 {
                     return new BadRequestObjectResult(Message.MSG26);
                 }
+
+                var chapter = await _context.Chapters
+                .Include(c => c.LastExams)
+                    .ThenInclude(l => l.QuestionExams)
+                    .ThenInclude(tq => tq.AnswerExams)
+                .FirstOrDefaultAsync(c => c.Id == request.ChapterId);
 
                 // Check if chapter is exist
                 if (chapter == null)

@@ -26,9 +26,14 @@ namespace ModerationService.API.Feature.Command
         {
             // Validate input
             if (string.IsNullOrEmpty(request.PracticeQuestion.CodeForm)
-                || string.IsNullOrEmpty(request.PracticeQuestion.Description))
+                || string.IsNullOrEmpty(request.PracticeQuestion.Description)
+                || string.IsNullOrEmpty(request.PracticeQuestion.Title))
             {
                 return new BadRequestObjectResult(Message.MSG11);
+            }
+            if (request.PracticeQuestion.Title.Length > 256)
+            {
+                return new BadRequestObjectResult(Message.MSG27);
             }
 
             var chapter = await _context.Chapters
