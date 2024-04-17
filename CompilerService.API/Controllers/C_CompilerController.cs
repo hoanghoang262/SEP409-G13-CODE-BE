@@ -49,7 +49,7 @@ namespace CompilerService.API.Controllers
             string rootPath = _hostingEnvironment.ContentRootPath;
             string filePath = Path.Combine(rootPath, "main");
             string compilationResult = _cCompiler.CompileCCode(request.UserCode, filePath);
-            if (!compilationResult.Contains("Test Failed"))
+            if (!compilationResult.Contains("Test Failed") && !compilationResult.Contains("Compilation failed"))
             {
                 var completed = new CompletedPracticeQuestion
                 {
