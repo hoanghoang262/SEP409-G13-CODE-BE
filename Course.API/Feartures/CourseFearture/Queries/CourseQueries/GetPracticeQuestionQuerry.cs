@@ -48,6 +48,9 @@ namespace CourseService.API.Feartures.CourseFearture.Queries.CourseQueries
                     ChapterId = practiceQuestion.Chapter.Id,
                     CodeForm = practiceQuestion.PracticeQuestion.CodeForm,
                     TestCaseJava = practiceQuestion.PracticeQuestion.TestCaseJava,
+                    TestCaseC=practiceQuestion.PracticeQuestion.TestCaseC,
+                    TestCaseCplus=practiceQuestion.PracticeQuestion.TestCaseCplus,
+                    
                     ChapterName = practiceQuestion.Chapter.Name,
                     CourseName = practiceQuestion.Course.Name,
                     UserAnswer = _context.UserAnswerCodes

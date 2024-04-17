@@ -101,7 +101,11 @@ namespace CourseService.API.Common.ModelDTO
         public string? Description { get; set; }
         public int? ChapterId { get; set; }
         public string? CodeForm { get; set; }
+        
+        public string? TestCaseC { get; set; }
+        public string? TestCaseCplus { get; set; }
         public string? TestCaseJava { get; set; }
+
         public string? ChapterName  { get; set; }
         public string? CourseName  { get; set; }
 

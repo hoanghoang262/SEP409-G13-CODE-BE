@@ -28,11 +28,18 @@ namespace ModerationService.API.Fearture.Command.Moderations
                 {
                     return new NotFoundObjectResult(Message.MSG34);
                 }
-
-              
-
+                var postEvent = new PostEvent
+                {
+                    Id = post.Id,
+                    CreatedBy = (int)post.CreatedBy,
+                    Description = post.Description,
+                    LastUpdate = post.LastUpdate,
+                    PostContent = post.PostContent,
+                    Title = post.Title
+                };
+                await _publish.Publish(postEvent);
                 var moderation = _context.Moderations.FirstOrDefault(c => c.PostId.Equals(request.PostId));
-                moderation.Status = "Approve";
+             
                 _context.Moderations.Remove(moderation);
                 await _context.SaveChangesAsync();
                 var notification = new NotificationPostEvent
